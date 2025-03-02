@@ -32,6 +32,6 @@ flutter:
   fonts:
     - family: sans
       fonts:
-        - asset: lib/src/typo/GmarketSansBold.otf
-        - asset: lib/src/typo/GmarketSansLight.otf
-        - asset: lib/src/typo/GmarketSansMedium.otf
+        - asset: assets/typo/GmarketSansBold.otf
+        - asset: assets/typo/GmarketSansLight.otf
+        - asset: assets/typo/GmarketSansMedium.otf
