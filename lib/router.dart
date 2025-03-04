@@ -13,7 +13,7 @@ class PageRouter {
   static const String login = "login";
 
   static final router = GoRouter(
-    initialLocation: splash,
+    initialLocation: "/$splash",
     routes: [
       GoRoute(
         name: splash,
