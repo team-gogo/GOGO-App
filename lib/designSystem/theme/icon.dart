@@ -21,6 +21,15 @@ class GogoIcons {
     );
   }
 
+  static Widget googleLogo({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('google_logo.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
   static Widget x({
     Color? color,
     double width = 24,
