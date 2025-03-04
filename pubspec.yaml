@@ -15,10 +15,12 @@ dependencies:
 
   cupertino_icons: ^1.0.8
 
+  flutter_svg: ^2.0.17
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_svg: ^2.0.17
 
   flutter_lints: ^5.0.0
 

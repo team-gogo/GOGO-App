@@ -1,0 +1,199 @@
+name: Flutter Develop CI
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+
+jobs:
+  flutter_test:
+    name: Run flutter test and analyze
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout Flutter repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3.12.0
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Checking Flutter Version
+        run: flutter --version
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Analyze project source
+        run: flutter analyze
+
+      - name: Set timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+
+      - name: Notify Success for Push
+        if: github.event_name == 'push' && success()
+        env:
+          TIMESTAMP: ${{ env.TIMESTAMP }}
+          SUCCESS_FLUTTER_IMAGE: ${{ secrets.SUCCESS_FLUTTER_IMAGE }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          DATA=$(cat <<EOF
+          {
+            "content": "<@749992025985777755>, <@1042669793481871361>, <@930099449307467786>", 
+            "embeds": [
+              {
+                "title": "CI 성공 :)",
+                "description": "** COMMIT MESSAGE **\n> [${{ github.event.head_commit.message }}](${{ github.event.head_commit.url }})\n",
+                "color": 46335,
+                "timestamp": "${{ env.TIMESTAMP }}",
+                "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                "author": {
+                  "name": "${{ github.event.sender.login }}",
+                  "url": "${{ github.event.sender.html_url }}",
+                  "icon_url": "${{ github.event.sender.avatar_url }}"
+                },
+                "thumbnail": {
+                  "url": "${{ github.event.sender.avatar_url }}"
+                },
+                "image": {
+                  "url": "${{ secrets.SUCCESS_FLUTTER_IMAGE }}"
+                },
+                "fields": [
+                  {
+                    "name": "Repository",
+                    "value": "> [${{ github.repository }}](https://github.com/${{ github.repository }})\n"
+                  },
+                  {
+                    "name": "Branch",
+                    "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
+                    "inline": false
+                  },
+                  {
+                    "name": "Workflow",
+                    "value": "> [CI](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                    "inline": false
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          )
+          curl -X POST -H 'Content-type:application/json' -d "$DATA" "${{ secrets.DISCORD_WEBHOOK_URL }}"
+
+      - name: Notify Success for PR
+        if: github.event_name == 'pull_request' && success()
+        env:
+          TIMESTAMP: ${{ env.TIMESTAMP }}
+          SUCCESS_FLUTTER_IMAGE: ${{ secrets.SUCCESS_FLUTTER_IMAGE }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          DATA=$(cat <<EOF
+          {
+            "content": "<@749992025985777755>, <@1042669793481871361>, <@930099449307467786>", 
+            "embeds": [
+              {
+                "title": "CI 성공 :)",
+                "description": "** Pull Request **\n> [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})\n",
+                "color": 46335,
+                "timestamp": "${{ env.TIMESTAMP }}",
+                "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                "author": {
+                  "name": "${{ github.event.sender.login }}",
+                  "url": "${{ github.event.sender.html_url }}"
+                },
+                "thumbnail": {
+                  "url": "${{ github.event.sender.avatar_url }}"
+                },
+                "image": {
+                  "url": "${{ secrets.SUCCESS_FLUTTER_IMAGE }}"
+                },
+                "fields": [
+                  {
+                    "name": "Repository",
+                    "value": "> [${{ github.repository }}](https://github.com/${{ github.repository }})\n"
+                  },
+                  {
+                    "name": "Branch",
+                    "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
+                    "inline": false
+                  },
+                  {
+                    "name": "Workflow",
+                    "value": "> [CI](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                    "inline": false
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          )
+          curl -X POST -H 'Content-type:application/json' -d "$DATA" "${{ secrets.DISCORD_WEBHOOK_URL }}"
+
+      - name: Notify Failure
+        if: failure()
+        env:
+          TIMESTAMP: ${{ env.TIMESTAMP }}
+          FAIL_FLUTTER_IMAGE: ${{ secrets.FAIL_FLUTTER_IMAGE }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          DATA=$(cat <<EOF
+          {
+            "content": "<@749992025985777755>, <@1042669793481871361>, <@930099449307467786>", 
+            "embeds": [
+              {
+                "title": "CI 실패 :(",
+                "description": "** ${{
+                  github.event_name == 'push' 
+                  && 'COMMIT MESSAGE' || 'Pull Request' }} **\n> [${{ 
+                  github.event_name == 'push' 
+                  && github.event.head_commit.message || 
+                  github.event.pull_request.title }}](${{ 
+                  github.event_name == 'push' 
+                  && github.event.head_commit.url || 
+                  github.event.pull_request.html_url }})\n",
+                "color": 16711680,
+                "timestamp": "${{ env.TIMESTAMP }}",
+                "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                "author": {
+                  "name": "${{ github.event.sender.login }}",
+                  "url": "${{ github.event.sender.html_url }}"
+                },
+                "thumbnail": {
+                  "url": "${{ github.event.sender.avatar_url }}"
+                },
+                "image": {
+                  "url": "${{ secrets.FAIL_FLUTTER_IMAGE }}"
+                },
+                "fields": [
+                  {
+                    "name": "Repository",
+                    "value": "> [${{ github.repository }}](https://github.com/${{ github.repository }})\n"
+                  },
+                  {
+                    "name": "Branch",
+                    "value": "> [${{ github.ref }}](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }})",
+                    "inline": false
+                  },
+                  {
+                    "name": "Workflow",
+                    "value": "> [CI](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                    "inline": false
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          )
+          curl -X POST -H 'Content-type:application/json' -d "$DATA" "${{ secrets.DISCORD_WEBHOOK_URL }}"
