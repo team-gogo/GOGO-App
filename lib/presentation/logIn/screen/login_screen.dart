@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/design_system/theme/color.dart';
-import '../../../../core/design_system/theme/icon.dart';
-import '../../../login/view/widgets/google_login_button.dart';
+import '../../../core/design_system/theme/color.dart';
+import '../../../core/design_system/theme/icon.dart';
+import '../../logIn/widgets/google_login_button.dart';
 
 class LogInScreen extends StatelessWidget {
   const LogInScreen({super.key});
