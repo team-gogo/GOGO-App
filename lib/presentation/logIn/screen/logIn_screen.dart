@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gogo_app/designSystem/theme/icon.dart';
 
 import '../../../../designSystem/theme/color.dart';
 import 'component/google_login_button.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LogInScreen extends StatelessWidget {
   const LogInScreen({super.key});
@@ -25,9 +25,7 @@ class LogInScreen extends StatelessWidget {
             ),
           ),
           Center(
-            child: SvgPicture.asset(
-              'assets/drawable/logo.svg',
-            ),
+            child: GogoIcons.logo(width: double.infinity, height: 80),
           ),
         ],
       ),
