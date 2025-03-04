@@ -1,0 +1,157 @@
+name: Flutter Master CD
+
+on:
+  release:
+    types:
+      - published
+    branches:
+      - master
+
+jobs:
+  flutter_test:
+    name: Run flutter test and analyze
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout Flutter repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3.12.0
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Checking Flutter Version
+        run: flutter --version
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Analyze project source
+        run: flutter analyze
+
+      # package일 경우
+      - name: Publish
+        uses: k-paxian/dart-package-publisher@master
+        with:
+          credentialJson: ${{ secrets.CREDENTIAL_JSON }}
+          flutter: true
+          skipTests: true
+
+      # app일 경우
+      - name: Build Test IOS
+        run: flutter build ios --release --no-codesign
+
+      - name: Build Test Android
+        run : |
+          flutter build apk
+          flutter build appbundle
+
+      - name: Set timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+
+      - name: Notify Success for Release
+        if: success()
+        env:
+          TIMESTAMP: ${{ env.TIMESTAMP }}
+          SUCCESS_FLUTTER_IMAGE: ${{ secrets.SUCCESS_FLUTTER_IMAGE }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          DATA=$(cat <<EOF
+          {
+            "embeds": [
+              {
+                "title": "패키지 배포 성공 :)",
+                "description": "** Release Version **\n> \`${{ github.event.release.tag_name }}\`\n",
+                "color": 46335,
+                "timestamp": "${{ env.TIMESTAMP }}",
+                "url": "${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}",
+                "author": {
+                  "name": "${{ github.event.sender.login }}",
+                  "url": "${{ github.event.sender.html_url }}",
+                  "icon_url": "${{ github.event.sender.avatar_url }}"
+                },
+                "thumbnail": {
+                  "url": "${{ github.event.sender.avatar_url }}"
+                },
+                "image": {
+                  "url": "${{ secrets.SUCCESS_FLUTTER_IMAGE }}"
+                },
+                "fields": [
+                  {
+                    "name": "Repository",
+                    "value": "> [${{ github.repository }}](https://github.com/${{ github.repository }})\n"
+                  },
+                  {
+                    "name": "Tag",
+                    "value": "> [${{ github.event.release.tag_name }}](https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }})",
+                    "inline": false
+                  },
+                  {
+                    "name": "Workflow",
+                    "value": "> [CI](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                    "inline": false
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          )
+          curl -X POST -H 'Content-type:application/json' -d "$DATA" "${{ secrets.DISCORD_WEBHOOK_URL }}"
+
+      - name: Notify Failure
+        if: failure()
+        env:
+          TIMESTAMP: ${{ env.TIMESTAMP }}
+          FAIL_FLUTTER_IMAGE: ${{ secrets.FAIL_FLUTTER_IMAGE }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          DATA=$(cat <<EOF
+          {
+            "embeds": [
+              {
+                "title": "패키지 배포 실패 :(",
+                "description": "** Release Version **\n> \`${{ github.event.release.tag_name }}\`\n",
+                "color": 16711680,
+                "timestamp": "${{ env.TIMESTAMP }}",
+                "url": "${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}",
+                "author": {
+                  "name": "${{ github.event.sender.login }}",
+                  "url": "${{ github.event.sender.html_url }}"
+                },
+                "thumbnail": {
+                  "url": "${{ github.event.sender.avatar_url }}"
+                },
+                "image": {
+                  "url": "${{ secrets.FAIL_FLUTTER_IMAGE }}"
+                },
+                "fields": [
+                  {
+                    "name": "Repository",
+                    "value": "> [${{ github.repository }}](https://github.com/${{ github.repository }})\n"
+                  },
+                  {
+                    "name": "Tag",
+                    "value": "> [${{ github.event.release.tag_name }}](https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }})",
+                    "inline": false
+                  },
+                  {
+                    "name": "Workflow",
+                    "value": "> [CI](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                    "inline": false
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          )
+          curl -X POST -H 'Content-type:application/json' -d "$DATA" "${{ secrets.DISCORD_WEBHOOK_URL }}"
