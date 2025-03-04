@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gogo_app/designSystem/theme/icon.dart';
+import 'package:gogo_app/router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,12 +10,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: GogoIcons.alarm());
+    return MaterialApp.router(
+      routerConfig: PageRouter.router,
+    );
   }
 }
