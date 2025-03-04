@@ -1,6 +1,7 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gogo_app/presentation/login/view/screen/login_screen.dart';
+import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
 
 class PageRouter {
   static final PageRouter _pageRouter = PageRouter.init();
