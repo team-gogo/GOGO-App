@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gogo_app/designSystem/theme/icon.dart';
-
 import '../../../../designSystem/theme/color.dart';
 import 'component/google_login_button.dart';
 
