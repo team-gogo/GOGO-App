@@ -2,7 +2,7 @@ import 'dart:ui';
 
 class GogoColors {
   // GogoColors.black 형식으로 사용
-  static const Color black = Color(0xFF1E1E1E);
+  static const Color black = Color(0xFF121212);
   static const Color white = Color(0xFFFFFFFF);
 
   // system
