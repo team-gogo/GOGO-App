@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/design_system/component/button/gogo_default_button.dart';
-import '../../../../core/design_system/component/textField/gogo_text_field.dart';
+import '../../../../core/design_system/component/text_field/gogo_text_field.dart';
 import '../../../../core/design_system/theme/color.dart';
 import '../../../../core/design_system/theme/icon.dart';
 import '../../../../core/design_system/theme/typography.dart';
