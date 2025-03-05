@@ -1,7 +1,6 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
+import 'package:gogo_app/presentation/sign_up/widgets/page/sex_page.dart';
 
 class PageRouter {
   static final PageRouter _pageRouter = PageRouter.init();
@@ -19,7 +18,7 @@ class PageRouter {
       GoRoute(
         name: splash,
         path: "/$splash",
-        builder: (_, __) => /*splash screen 넣기 */ SizedBox(),
+        builder: (_, __) => /*splash screen 넣기 */ SexPage(),
       ),
       GoRoute(
         name: login,

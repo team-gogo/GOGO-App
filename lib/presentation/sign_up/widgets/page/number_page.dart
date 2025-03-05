@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gogo_app/core/design_system/component/textField/gogo_text_field.dart';
-import 'package:gogo_app/core/design_system/theme/color.dart';
-import 'package:gogo_app/core/design_system/theme/typography.dart';
 import '../../../../core/design_system/component/button/gogo_default_button.dart';
+import '../../../../core/design_system/component/textField/gogo_text_field.dart';
+import '../../../../core/design_system/theme/color.dart';
 import '../../../../core/design_system/theme/icon.dart';
+import '../../../../core/design_system/theme/typography.dart';
+
 
 class NumberPage extends StatelessWidget {
   const NumberPage({super.key});

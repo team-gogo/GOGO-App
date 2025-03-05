@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../../core/design_system/component/button/gogo_default_button.dart';
 import '../../../../core/design_system/component/textfield/gogo_text_field.dart';
 import '../../../../core/design_system/theme/color.dart';
