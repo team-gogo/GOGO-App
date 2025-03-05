@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../theme/color.dart';
 import '../../theme/icon.dart';
@@ -12,7 +13,7 @@ enum GogoTextFieldState {
 class GogoTextField extends StatefulWidget {
   final GogoTextFieldState textFieldState;
   final TextEditingController controller;
-  final String? validator;
+  final Function(String?)? validator;
   final Color backgroundColor;
   final Color textColor;
   final BorderRadius borderRadius;
@@ -31,6 +32,8 @@ class GogoTextField extends StatefulWidget {
   final Color searchIconColor;
   final EdgeInsetsGeometry passwordIconPadding;
   final double passwordIconSize;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatter;
 
   const GogoTextField({
     super.key,
@@ -39,8 +42,10 @@ class GogoTextField extends StatefulWidget {
     required this.hintText,
     this.validator,
     this.onEditingComplete,
+    this.keyboardType,
+    this.inputFormatter,
     this.textColor = GogoColors.white,
-    this.backgroundColor= GogoColors.gray700,
+    this.backgroundColor = GogoColors.gray700,
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.textStyle = GogoTypography.body3Semibold,
     this.cursorColor = GogoColors.main600,
@@ -74,11 +79,13 @@ class _GogoTextFieldState extends State<GogoTextField> {
       validator: (value) {
         if (widget.textFieldState == GogoTextFieldState.basic &&
             widget.validator != null) {
-          return widget.validator;
+          return widget.validator!(value);  // 이 부분을 수정
         } else {
           return null;
         }
       },
+      keyboardType: widget.keyboardType,
+      inputFormatters: widget.inputFormatter,
       style: widget.textStyle.copyWith(color: widget.textColor),
       cursorColor: widget.cursorColor,
       cursorErrorColor: widget.cursorErrorColor,
@@ -113,6 +120,60 @@ class _GogoTextFieldState extends State<GogoTextField> {
           borderRadius: widget.borderRadius,
           borderSide: widget.errorBorderSide,
         ),
+      ),
+    );
+  }
+}
+
+class GradeSuffixInputFormatter extends TextInputFormatter {
+  final String suffix = "학년";
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.endsWith(suffix)) {
+      return newValue;
+    }
+    return TextEditingValue(
+      text: newValue.text + suffix,
+      selection: TextSelection.fromPosition(
+        TextPosition(offset: newValue.text.length),
+      ),
+    );
+  }
+}
+
+class NumberSuffixInputFormatter extends TextInputFormatter {
+  final String suffix = "번";
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.endsWith(suffix)) {
+      return newValue;
+    }
+    return TextEditingValue(
+      text: newValue.text + suffix,
+      selection: TextSelection.fromPosition(
+        TextPosition(offset: newValue.text.length),
+      ),
+    );
+  }
+}
+
+class ClassSuffixInputFormatter extends TextInputFormatter {
+  final String suffix = "반";
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.endsWith(suffix)) {
+      return newValue;
+    }
+    return TextEditingValue(
+      text: newValue.text + suffix,
+      selection: TextSelection.fromPosition(
+        TextPosition(offset: newValue.text.length),
       ),
     );
   }
