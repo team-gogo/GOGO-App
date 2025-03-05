@@ -34,8 +34,9 @@ flutter:
   uses-material-design: true
 
   fonts:
-    - family: sans
+    - family: suit
       fonts:
-        - asset: assets/typo/GmarketSansBold.otf
-        - asset: assets/typo/GmarketSansLight.otf
-        - asset: assets/typo/GmarketSansMedium.otf
+        - asset: assets/typo/SUIT-ExtraBold.otf
+          weight: 800
+        - asset: assets/typo/SUIT-SemiBold.otf
+          weight: 600
