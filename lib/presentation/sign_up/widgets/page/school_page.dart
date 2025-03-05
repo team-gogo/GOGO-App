@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gogo_app/core/design_system/theme/color.dart';
-import 'package:gogo_app/core/design_system/theme/icon.dart';
-import 'package:gogo_app/core/design_system/theme/typography.dart';
-
 import '../../../../core/design_system/component/button/gogo_default_button.dart';
 import '../../../../core/design_system/component/textfield/gogo_text_field.dart';
+import '../../../../core/design_system/theme/color.dart';
+import '../../../../core/design_system/theme/icon.dart';
+import '../../../../core/design_system/theme/typography.dart';
 
 class SchoolPage extends StatelessWidget {
   const SchoolPage({super.key});
