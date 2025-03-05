@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gogo_app/core/design_system/theme/color.dart';
 import '../../../../core/design_system/theme/icon.dart';
 import '../../../../core/design_system/theme/typography.dart';
 
@@ -25,7 +26,11 @@ class GoogleLoginButton extends StatelessWidget {
         children: [
           GogoIcons.googleLogo(),
           SizedBox(width: 12),
-          Text("Google 계정으로 로그인", style: GogoTypography.caption1Semibold),
+          Text(
+            "Google 계정으로 로그인",
+            style: GogoTypography.caption1Semibold
+                .copyWith(color: GogoColors.black),
+          ),
         ],
       ),
     );
