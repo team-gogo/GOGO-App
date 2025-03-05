@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gogo_app/core/design_system/theme/icon.dart';
 
 class Logo extends StatelessWidget {
-  const Logo();
+  const Logo({super.key});
 
   @override
   Widget build(BuildContext context) {
