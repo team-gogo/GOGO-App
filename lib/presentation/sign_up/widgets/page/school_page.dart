@@ -12,34 +12,41 @@ class SchoolPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: GogoColors.black,
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 50, 16, 95),
-        child: Column(
-          children: [
-            GogoIcons.chevronLeft(),
-            SizedBox(height: 40),
-            Text(
-              "학교를 알려주세요.",
-              style: GogoTypography.title4Extrabold,
+        backgroundColor: GogoColors.black,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 50, 16, 95),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GogoIcons.chevronLeft(
+                  color: GogoColors.white,
+                  width: 40,
+                  height: 40,
+                  onTap: () {},
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "학교를 알려주세요.",
+                  style: GogoTypography.title3Extrabold.copyWith(color: GogoColors.white),
+                ),
+                SizedBox(height: 36,),
+                GogoTextField(
+                  textFieldState: GogoTextFieldState.search,
+                  controller: TextEditingController(),
+                  hintText: "학교를 입력해주세요.",
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  backgroundColor: GogoColors.gray700,
+                  textStyle: GogoTypography.body3Semibold,
+                  hintStyle: GogoTypography.body3Semibold
+                ),
+                Spacer(),
+                GogoDefaultButton(
+                    onTap: () => FocusScope.of(context).unfocus(), text: "다음")
+              ],
             ),
-            GogoTextField(
-              textFieldState: GogoTextFieldState.search,
-              controller: TextEditingController(),
-              hintText: "학교를 입력해주세요.",
-              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              backgroundColor: GogoColors.gray700,
-              textStyle: GogoTypography.body3Semibold,
-              hintStyle: GogoTypography.body3Semibold,
-            ),
-            Spacer(),
-            GogoDefaultButton(
-                onTap: ()=> FocusScope.of(context).unfocus(),
-                text: "다음"
-            )
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
