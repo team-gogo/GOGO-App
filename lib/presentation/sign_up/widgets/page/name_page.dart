@@ -34,7 +34,7 @@ class NamePage extends StatelessWidget {
             ),
             Spacer(),
             GogoDefaultButton(
-                onTap: (){},
+                onTap: ()=> FocusScope.of(context).unfocus(),
                 text: "다음"
             )
           ],
