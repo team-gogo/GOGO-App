@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../theme/color.dart';
 import '../../theme/typography.dart';
 
@@ -23,9 +22,9 @@ class GogoDefaultButton extends StatelessWidget {
     ),
     this.color = GogoColors.main600,
     this.borderRadius = const BorderRadius.all(
-      Radius.circular(8),
+      Radius.circular(12),
     ),
-    this.textStyle = GogoTypography.body3Medium,
+    this.textStyle = GogoTypography.body3Semibold,
     this.textColor = GogoColors.white,
   });
 

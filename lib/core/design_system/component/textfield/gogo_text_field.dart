@@ -42,22 +42,22 @@ class GogoTextField extends StatefulWidget {
     this.textColor = GogoColors.white,
     this.backgroundColor = GogoColors.black,
     this.borderRadius = const BorderRadius.all(Radius.circular(6)),
-    this.textStyle = GogoTypography.body3Medium,
+    this.textStyle = GogoTypography.body3Semibold,
     this.cursorColor = GogoColors.main600,
     this.cursorErrorColor = GogoColors.error,
     this.contentPadding = const EdgeInsets.symmetric(
       vertical: 12,
       horizontal: 16,
     ),
-    this.hintStyle = GogoTypography.body3Medium,
+    this.hintStyle = GogoTypography.body3Semibold,
     this.hintColor = GogoColors.gray500,
-    this.errorStyle = GogoTypography.caption2Medium,
+    this.errorStyle = GogoTypography.caption2Semibold,
     this.errorColor = GogoColors.error,
     this.errorBorderSide = const BorderSide(color: GogoColors.error, width: 1),
     this.searchIconSize = 24,
     this.searchIconColor = GogoColors.white,
     this.passwordIconPadding =
-        const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     this.passwordIconSize = 24,
   });
 
