@@ -1,119 +1,130 @@
 import 'package:flutter/material.dart';
 
 class GogoTypography {
-  static const _fontFamily = 'sans';
+  static const _fontFamily = 'suit';
 
   // Title
-  static const title1Medium = TextStyle(
+  static const title1Extrabold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w800,
     fontSize: 44,
-    height: 1.1,
+    height: 1.5,
+    letterSpacing: 0,
   );
-  static const title2Medium = TextStyle(
+  static const title2Extrabold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w800,
     fontSize: 40,
-    height: 1.2,
+    height: 1.5,
+    letterSpacing: 0,
   );
-  static const title3Medium = TextStyle(
+  static const title3Extrabold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w800,
     fontSize: 36,
-    height: 1.2,
+    height: 1.5,
+    letterSpacing: 0,
   );
-  static const title4Bold = TextStyle(
+  static const title4Extrabold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     fontSize: 32,
-    height: 1.2,
+    height: 1.5,
+    letterSpacing: 0,
   );
-  static const title4Medium = TextStyle(
+  static const title4Semibold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
     fontSize: 32,
-    height: 1.2,
+    height: 1.5,
+    letterSpacing: 0,
   );
 
   // Body
-  static const body1Bold = TextStyle(
+  static const body1Extrabold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     fontSize: 24,
-    height: 1.2,
+    height: 1.5,
+    letterSpacing: 0,
   );
-  static const body1Medium = TextStyle(
+  static const body1Semibold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
     fontSize: 24,
-    height: 1.2,
+    height: 1.5,
+    letterSpacing: 0,
   );
-  static const body2Bold = TextStyle(
+  static const body2Extrabold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     fontSize: 20,
     height: 1.2,
+    letterSpacing: 0,
   );
-  static const body2Medium = TextStyle(
+  static const body2Semibold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
     fontSize: 20,
     height: 1.2,
+    letterSpacing: 0,
   );
-  static const body3Bold = TextStyle(
+  static const body3Extrabold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     fontSize: 16,
-    height: 1.4,
+    height: 1.5,
+    letterSpacing: 0,
   );
-  static const body3Light = TextStyle(
+  static const body3Semibold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w600,
     fontSize: 16,
-    height: 1.6,
-  );
-  static const body3Medium = TextStyle(
-    fontFamily: _fontFamily,
-    fontWeight: FontWeight.w400,
-    fontSize: 16,
-    height: 1.6,
+    height: 2,
+    letterSpacing: 0,
   );
 
   // Caption
-  static const caption1Bold = TextStyle(
+  static const caption1Extrabold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     fontSize: 14,
-    height: 1.4,
+    height: 1.5,
+    letterSpacing: 0,
   );
-  static const caption1Medium = TextStyle(
+  static const caption1Semibold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
     fontSize: 14,
-    height: 1.4,
+    height: 1.5,
+    letterSpacing: 0,
   );
-  static const caption2Bold = TextStyle(
+  static const caption2Extrabold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     fontSize: 12,
     height: 1.5,
+    letterSpacing: 0,
   );
-  static const caption2Medium = TextStyle(
+  static const caption2Semibold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
     fontSize: 12,
     height: 1.5,
+    letterSpacing: 0,
   );
-  static const caption3Bold = TextStyle(
+  static const caption3Extrabold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     fontSize: 11,
-    height: 1.8,
+    height: 2,
+    letterSpacing: 0,
   );
-  static const caption3Medium = TextStyle(
+  static const caption3Semibold = TextStyle(
     fontFamily: _fontFamily,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
     fontSize: 11,
-    height: 1.8,
+    height: 2,
+    letterSpacing: 0,
   );
 }
