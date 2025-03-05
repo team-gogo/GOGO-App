@@ -40,12 +40,6 @@ class NumberPage extends StatelessWidget {
                   textFieldState: GogoTextFieldState.basic,
                   controller: TextEditingController(),
                   hintText: "학년",
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  backgroundColor: GogoColors.gray700,
-                  textStyle: GogoTypography.body3Semibold,
-                  hintStyle: GogoTypography.body3Semibold,
                 ),
                 SizedBox(
                   height: 12,
@@ -54,12 +48,6 @@ class NumberPage extends StatelessWidget {
                   textFieldState: GogoTextFieldState.basic,
                   controller: TextEditingController(),
                   hintText: "반",
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  backgroundColor: GogoColors.gray700,
-                  textStyle: GogoTypography.body3Semibold,
-                  hintStyle: GogoTypography.body3Semibold,
                 ),
                 SizedBox(
                   height: 12,
@@ -68,12 +56,6 @@ class NumberPage extends StatelessWidget {
                   textFieldState: GogoTextFieldState.basic,
                   controller: TextEditingController(),
                   hintText: "번호",
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  backgroundColor: GogoColors.gray700,
-                  textStyle: GogoTypography.body3Semibold,
-                  hintStyle: GogoTypography.body3Semibold,
                 ),
                 Spacer(),
                 GogoDefaultButton(onTap: () {}, text: "다음")

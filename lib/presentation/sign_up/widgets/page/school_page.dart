@@ -11,8 +11,9 @@ class SchoolPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: GogoColors.black,
+    return GestureDetector(
+      onTap: ()=> FocusScope.of(context).unfocus(),
+      child: Scaffold(
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 50, 16, 95),
@@ -28,25 +29,25 @@ class SchoolPage extends StatelessWidget {
                 SizedBox(height: 40),
                 Text(
                   "학교를 알려주세요.",
-                  style: GogoTypography.title3Extrabold.copyWith(color: GogoColors.white),
+                  style: GogoTypography.title3Extrabold
+                      .copyWith(color: GogoColors.white),
                 ),
-                SizedBox(height: 36,),
+                SizedBox(
+                  height: 36,
+                ),
                 GogoTextField(
                   textFieldState: GogoTextFieldState.search,
                   controller: TextEditingController(),
                   hintText: "학교를 입력해주세요.",
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  backgroundColor: GogoColors.gray700,
-                  textStyle: GogoTypography.body3Semibold,
-                  hintStyle: GogoTypography.body3Semibold
                 ),
                 Spacer(),
                 GogoDefaultButton(
-                    onTap: () => FocusScope.of(context).unfocus(), text: "다음")
+                    onTap: () {}, text: "다음")
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
