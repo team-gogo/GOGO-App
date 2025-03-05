@@ -27,7 +27,7 @@ class GogoTextField extends StatefulWidget {
   final Color errorColor;
   final BorderSide errorBorderSide;
   final VoidCallback? onEditingComplete;
-  final double searchIconSize;
+  final EdgeInsetsGeometry searchIconPadding;
   final Color searchIconColor;
   final EdgeInsetsGeometry passwordIconPadding;
   final double passwordIconSize;
@@ -40,8 +40,8 @@ class GogoTextField extends StatefulWidget {
     this.validator,
     this.onEditingComplete,
     this.textColor = GogoColors.white,
-    this.backgroundColor = GogoColors.black,
-    this.borderRadius = const BorderRadius.all(Radius.circular(6)),
+    this.backgroundColor= GogoColors.gray700,
+    this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.textStyle = GogoTypography.body3Semibold,
     this.cursorColor = GogoColors.main600,
     this.cursorErrorColor = GogoColors.error,
@@ -54,8 +54,8 @@ class GogoTextField extends StatefulWidget {
     this.errorStyle = GogoTypography.caption2Semibold,
     this.errorColor = GogoColors.error,
     this.errorBorderSide = const BorderSide(color: GogoColors.error, width: 1),
-    this.searchIconSize = 24,
-    this.searchIconColor = GogoColors.white,
+    this.searchIconPadding = const EdgeInsets.all(16),
+    this.searchIconColor = GogoColors.gray400,
     this.passwordIconPadding =
         const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     this.passwordIconSize = 24,
@@ -87,10 +87,11 @@ class _GogoTextFieldState extends State<GogoTextField> {
         suffixIcon: widget.textFieldState == GogoTextFieldState.search
             ? GestureDetector(
                 onTap: widget.onEditingComplete,
-                child: GogoIcons.search(
-                  color: widget.searchIconColor,
-                  height: widget.searchIconSize,
-                  width: widget.searchIconSize,
+                child: Padding(
+                  padding: widget.searchIconPadding,
+                  child: GogoIcons.search(
+                    color: widget.searchIconColor,
+                  ),
                 ),
               )
             : null,
