@@ -21,7 +21,7 @@ class NamePage extends StatelessWidget {
             SizedBox(height: 40),
             Text(
               "이름을 알려주세요.",
-              style: GogoTypography.title4Medium,
+              style: GogoTypography.title3Extrabold,
             ),
             GogoTextField(
                 textFieldState: GogoTextFieldState.search,
@@ -29,8 +29,8 @@ class NamePage extends StatelessWidget {
                 hintText: "이름를 입력해주세요.",
               contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               backgroundColor: GogoColors.gray700,
-              textStyle: GogoTypography.body3Bold,
-              hintStyle: GogoTypography.body3Bold,
+              textStyle: GogoTypography.body3Semibold,
+              hintStyle: GogoTypography.body3Semibold,
             ),
             Spacer(),
             GogoDefaultButton(

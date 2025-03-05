@@ -21,7 +21,7 @@ class SchoolPage extends StatelessWidget {
             SizedBox(height: 40),
             Text(
               "학교를 알려주세요.",
-              style: GogoTypography.title4Medium,
+              style: GogoTypography.title4Extrabold,
             ),
             GogoTextField(
               textFieldState: GogoTextFieldState.search,
@@ -29,8 +29,8 @@ class SchoolPage extends StatelessWidget {
               hintText: "학교를 입력해주세요.",
               contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               backgroundColor: GogoColors.gray700,
-              textStyle: GogoTypography.body3Bold,
-              hintStyle: GogoTypography.body3Bold,
+              textStyle: GogoTypography.body3Semibold,
+              hintStyle: GogoTypography.body3Semibold,
             ),
             Spacer(),
             GogoDefaultButton(
