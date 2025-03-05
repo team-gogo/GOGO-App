@@ -25,7 +25,7 @@ class GoogleLoginButton extends StatelessWidget {
         children: [
           GogoIcons.googleLogo(),
           SizedBox(width: 12),
-          Text("Google 계정으로 로그인", style: GogoTypography.body3Medium),
+          Text("Google 계정으로 로그인", style: GogoTypography.caption1Semibold),
         ],
       ),
     );
