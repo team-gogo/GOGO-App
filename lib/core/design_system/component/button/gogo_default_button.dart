@@ -18,7 +18,7 @@ class GogoDefaultButton extends StatelessWidget {
     required this.text,
     this.width = double.infinity,
     this.padding = const EdgeInsets.symmetric(
-      vertical: 16,
+      vertical: 12,
     ),
     this.color = GogoColors.main600,
     this.borderRadius = const BorderRadius.all(
