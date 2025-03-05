@@ -24,20 +24,18 @@ class NamePage extends StatelessWidget {
                 width: 40,
                 height: 40,
                 onTap: () {},
-              ),              SizedBox(height: 40),
+              ),
+              SizedBox(height: 40),
               Text(
                 "이름을 알려주세요.",
                 style: GogoTypography.title3Extrabold.copyWith(color: GogoColors.white),
               ),
-              SizedBox(
-                height: 36,
-              ),
+              SizedBox(height: 36,),
               GogoTextField(
                 textFieldState: GogoTextFieldState.basic,
                 controller: TextEditingController(),
                 hintText: "이름를 입력해주세요.",
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
                 backgroundColor: GogoColors.gray700,
                 textStyle: GogoTypography.body3Semibold,
