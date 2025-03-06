@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gogo_app/core/design_system/theme/color.dart';
-import '../../../../core/design_system/theme/icon.dart';
-import '../../../../core/design_system/theme/typography.dart';
+
+import '../../../design_system/theme/color.dart';
+import '../../../design_system/theme/icon.dart';
+import '../../../design_system/theme/typography.dart';
 
 class GoogleLoginButton extends StatelessWidget {
   final VoidCallback onPressed;
