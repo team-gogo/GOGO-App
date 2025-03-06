@@ -21,7 +21,7 @@ class SplashScreen extends StatelessWidget {
           body: Center(
             child: TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0.86, end: 1.0),
-                duration: const Duration(seconds: 2),
+                duration: const Duration(seconds: 1),
                 curve: Curves.easeInOut,
                 builder: (context, value, child) {
                   return Transform.scale(scale: value, child: child);
