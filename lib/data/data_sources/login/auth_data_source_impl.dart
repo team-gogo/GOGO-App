@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
-import 'package:gogo_app/data/models/login/googleOAuth/google_oAuth_login_request.dart';
-import 'package:gogo_app/data/models/login/googleOAuth/google_oAuth_login_response.dart';
+import 'package:gogo_app/data/models/login/googleOAuth/google_oauth_login_request.dart';
+import 'package:gogo_app/data/models/login/googleOAuth/google_oauth_login_response.dart';
 import 'package:gogo_app/data/util/handle_dio_error.dart';
 
 import 'auth_data_source.dart';
