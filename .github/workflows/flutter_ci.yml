@@ -39,8 +39,8 @@ jobs:
         id: timestamp
         run: echo "TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
         
-      - name: Download Firebase config file (google-services.json)
-        run: echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > android/app/google-services.json
+      - name: Download Firebase config file
+        run: echo "${{ secrets.FIREBASE_OPTIONS }}" >  lib/firebase_options.dart
 
       - name: Notify Success for Push
         if: github.event_name == 'push' && success()
