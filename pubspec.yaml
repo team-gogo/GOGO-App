@@ -22,7 +22,7 @@ dependencies:
   google_sign_in: ^6.1.0
   bloc: ^9.0.0
   flutter_bloc: ^9.1.0
-
+  get_it: ^7.6.4
 
 dev_dependencies:
   flutter_test:
