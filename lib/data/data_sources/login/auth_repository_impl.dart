@@ -4,12 +4,17 @@ import 'package:gogo_app/data/models/login/googleOAuth/google_oAuth_login_reques
 import 'package:gogo_app/data/models/login/googleOAuth/google_oAuth_login_response.dart';
 import 'package:gogo_app/data/util/handle_dio_error.dart';
 
-class AuthApi {
+import 'auth_repository.dart';
+
+class AuthRepositoryImpl implements AuthRepository {
   final Dio _dio;
 
-  AuthApi(this._dio);
+  AuthRepositoryImpl(this._dio);
 
-  Future<GoogleOAuthLoginResponse> login(GoogleOAuthLoginRequest body) async {
+  @override
+  Future<GoogleOAuthLoginResponse> googleOAuthLogin(
+    GoogleOAuthLoginRequest body,
+  ) async {
     try {
       final response = await _dio.post('auth/login', data: {body.toJson()});
 
