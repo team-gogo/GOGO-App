@@ -9,7 +9,7 @@ class GogoColors {
   static const Color error = Color(0xFFE30000);
   static const Color success = Color(0xFF01C612);
 
-  // navigationView
+  // main
   static const Color main600 = Color(0xFF2F52FE);
   static const Color main500 = Color(0xFF526FFE);
   static const Color main400 = Color(0xFF748CFE);
