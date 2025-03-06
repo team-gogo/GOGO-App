@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/number/number_state.dart';
-import '../../../../core/design_system/component/button/gogo_default_button.dart';
-import '../../../../core/design_system/component/text_field/gogo_text_field.dart';
-import '../../../../core/design_system/theme/color.dart';
-import '../../../../core/design_system/theme/icon.dart';
-import '../../../../core/design_system/theme/typography.dart';
+import '../../../../design_system/component/button/gogo_default_button.dart';
+import '../../../../design_system/component/text_field/gogo_text_field.dart';
+import '../../../../design_system/theme/color.dart';
+import '../../../../design_system/theme/icon.dart';
+import '../../../../design_system/theme/typography.dart';
 import '../../bloc/number/number_bloc.dart';
 
 class NumberPage extends StatelessWidget {

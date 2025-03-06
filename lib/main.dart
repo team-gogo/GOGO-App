@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gogo_app/core/design_system/theme/color.dart';
 import 'package:gogo_app/router.dart';
+
+import 'design_system/theme/color.dart';
 
 void main() {
   runApp(const MyApp());
