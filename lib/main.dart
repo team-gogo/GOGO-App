@@ -15,6 +15,9 @@ void main() async {
 
   // get it dataSource Module 초기화
   setupDataSourceLocator();
+
+  // get it repository Module 초기화
+  setupRepositoryLocator();
   runApp(const MyApp());
 }
 
