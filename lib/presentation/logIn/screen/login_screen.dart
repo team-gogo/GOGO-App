@@ -4,7 +4,7 @@ import 'package:gogo_app/presentation/logIn/bloc/login_bloc.dart';
 import 'package:gogo_app/presentation/logIn/bloc/login_event.dart';
 import 'package:gogo_app/presentation/logIn/bloc/login_state.dart';
 
-import '../../../core/design_system/theme/icon.dart';
+import '../../../design_system/theme/icon.dart';
 import '../../logIn/widgets/google_login_button.dart';
 
 class LogInScreen extends StatelessWidget {
