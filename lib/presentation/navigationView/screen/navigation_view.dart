@@ -17,19 +17,24 @@ class NavigationView extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => GogoBottomNavigationBarBloc(),
       child: Scaffold(
-          backgroundColor: GogoColors.black,
-          body: BlocBuilder<GogoBottomNavigationBarBloc, int>(
-            builder: (context, currentIndex) {
-              switch (currentIndex) {
-                case 0: return HomeScreen();
-                case 1: return StageScreen();
-                case 2: return NotificationScreen();
-                case 3: return ProfileScreen();
-                default: return HomeScreen();
-              }
-            },
-          ),
-          bottomNavigationBar: const GogoBottomNavigationBar(),
+        backgroundColor: GogoColors.black,
+        body: BlocBuilder<GogoBottomNavigationBarBloc, int>(
+          builder: (context, currentIndex) {
+            switch (currentIndex) {
+              case 0:
+                return HomeScreen();
+              case 1:
+                return StageScreen();
+              case 2:
+                return NotificationScreen();
+              case 3:
+                return ProfileScreen();
+              default:
+                return HomeScreen();
+            }
+          },
+        ),
+        bottomNavigationBar: const GogoBottomNavigationBar(),
       ),
     );
   }

@@ -36,7 +36,7 @@ class PageRouter {
     initialLocation: "/$splash",
     routes: [
       _customGoRoute(splash, SplashScreen()),
-      _customGoRoute(login, LogInScreen()),
+      _customGoRoute(login, NavigationView()),
       _customGoRoute(signUp, SignUpScreen()),
       _customGoRoute(navigationView, NavigationView())
     ],

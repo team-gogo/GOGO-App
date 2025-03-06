@@ -11,63 +11,65 @@ class GogoBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Divider(
-            height: 1,
-            thickness: 1,
-            color: GogoColors.gray500,
-          ),
-          BlocBuilder<GogoBottomNavigationBarBloc, int>(
-            builder: (context, currentIndex) {
-              return BottomNavigationBar(
-                backgroundColor: Colors.black,
-                currentIndex: currentIndex,
-                onTap: (index) {
-                  context
-                      .read<GogoBottomNavigationBarBloc>()
-                      .add(GogoBottomNavigationBarEvent.values[index]);
-                },
-                items: [
-                  _buildNavItem(
-                    icon: GogoIcons.home(
-                      color: currentIndex == 0 ? GogoColors.main600 : GogoColors
-                          .gray500,
-                    ),
-                    label: "홈",
-                    isSelected: currentIndex == 0,
-                  ),
-                  _buildNavItem(
-                    icon: GogoIcons.stage(
-                      color: currentIndex == 1 ? GogoColors.main600 : GogoColors
-                          .gray500,
-                    ),
-                    label: "스테이지",
-                    isSelected: currentIndex == 1,
-                  ),
-                  _buildNavItem(
-                    icon: GogoIcons.speakerPhone(
-                      color: currentIndex == 2 ? GogoColors.main600 : GogoColors
-                          .gray500,
-                    ),
-                    label: "공지",
-                    isSelected: currentIndex == 2,
-                  ),
-                  _buildNavItem(
-                    icon: GogoIcons.person(
-                      color: currentIndex == 3 ? GogoColors.main600 : GogoColors
-                          .gray500,
-                    ),
-                    label: "프로필",
-                    isSelected: currentIndex == 3,
-                  ),
-                ],
-              );
+    return Column(mainAxisSize: MainAxisSize.min, children: [
+      Divider(
+        height: 1,
+        thickness: 1,
+        color: GogoColors.gray500,
+      ),
+      BlocBuilder<GogoBottomNavigationBarBloc, int>(
+        builder: (context, currentIndex) {
+          return BottomNavigationBar(
+            backgroundColor: GogoColors.black,
+            elevation: 0,
+            currentIndex: currentIndex,
+            onTap: (index) {
+              context
+                  .read<GogoBottomNavigationBarBloc>()
+                  .add(GogoBottomNavigationBarEvent.values[index]);
             },
-          )
-        ]
-    );
+            items: [
+              _buildNavItem(
+                icon: GogoIcons.home(
+                  color: currentIndex == 0
+                      ? GogoColors.main600
+                      : GogoColors.gray500,
+                ),
+                label: "홈",
+                isSelected: currentIndex == 0,
+              ),
+              _buildNavItem(
+                icon: GogoIcons.stage(
+                  color: currentIndex == 1
+                      ? GogoColors.main600
+                      : GogoColors.gray500,
+                ),
+                label: "스테이지",
+                isSelected: currentIndex == 1,
+              ),
+              _buildNavItem(
+                icon: GogoIcons.speakerPhone(
+                  color: currentIndex == 2
+                      ? GogoColors.main600
+                      : GogoColors.gray500,
+                ),
+                label: "공지",
+                isSelected: currentIndex == 2,
+              ),
+              _buildNavItem(
+                icon: GogoIcons.person(
+                  color: currentIndex == 3
+                      ? GogoColors.main600
+                      : GogoColors.gray500,
+                ),
+                label: "프로필",
+                isSelected: currentIndex == 3,
+              ),
+            ],
+          );
+        },
+      )
+    ]);
   }
 
   BottomNavigationBarItem _buildNavItem({
@@ -76,6 +78,7 @@ class GogoBottomNavigationBar extends StatelessWidget {
     required bool isSelected,
   }) {
     return BottomNavigationBarItem(
+      backgroundColor: GogoColors.black,
       icon: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
