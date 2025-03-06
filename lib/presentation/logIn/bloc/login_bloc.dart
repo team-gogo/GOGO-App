@@ -7,13 +7,13 @@ import 'package:google_sign_in/google_sign_in.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  late final UserCredential userCredential;
 
   LoginBloc() : super(Init()) {
-    on<GoogleLogInEvent>(_loginEventHandler);
+    on<GoogleLogInEvent>(_googleSignInHandler);
   }
 
-  Stream<LoginState> _mapGoogleSignInRequestedToState() async* {
+  Stream<LoginState> _googleSignInHandler(
+      LoginEvent event, Emitter<LoginState> emit) async* {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
@@ -29,15 +29,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         idToken: googleAuth.idToken,
       );
 
-      userCredential = await _auth.signInWithCredential(credential);
+      final userCredential = await _auth.signInWithCredential(credential);
 
       yield GoogleLoginSuccess(user: userCredential.user!);
     } catch (e) {
-      yield GoogleLoginFail(message: "구글 로그인에 실패 했습니다 : $e");
+      yield GoogleLoginFail(message: "구글 로그인에 실패 했습니다: $e");
     }
-  }
-
-  void _loginEventHandler(LoginEvent event, Emitter<LoginState> emit) {
-    _mapGoogleSignInRequestedToState();
   }
 }
