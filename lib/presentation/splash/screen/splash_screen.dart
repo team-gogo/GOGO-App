@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gogo_app/core/design_system/theme/color.dart';
-import 'package:gogo_app/core/design_system/theme/icon.dart';
+import '../../../../design_system/theme/color.dart';
+import '../../../../design_system/theme/icon.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_bloc.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_event.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_state.dart';

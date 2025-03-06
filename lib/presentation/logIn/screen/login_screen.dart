@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gogo_app/presentation/sign_up/screen/sign_up_screen.dart';
-import '../../../core/design_system/theme/color.dart';
-import '../../../core/design_system/theme/icon.dart';
+import '../../../design_system/theme/color.dart';
+import '../../../design_system/theme/icon.dart';
 import '../../logIn/widgets/google_login_button.dart';
 
 class LogInScreen extends StatelessWidget {
