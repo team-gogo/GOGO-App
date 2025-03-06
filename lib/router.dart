@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
 import 'package:gogo_app/presentation/sign_up/screen/sign_up_screen.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gogo_app/presentation/splash/screen/splash_screen.dart';
 
 class PageRouter {
   static final PageRouter _pageRouter = PageRouter.init();
@@ -32,7 +33,7 @@ class PageRouter {
   static final router = GoRouter(
     initialLocation: "/$splash",
     routes: [
-      _customGoRoute(splash, LogInScreen()),
+      _customGoRoute(splash, SplashScreen()),
       _customGoRoute(login, LogInScreen()),
       _customGoRoute(signUp, SignUpScreen()),
     ],
