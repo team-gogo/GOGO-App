@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gogo_app/router.dart';
-import 'data/getItModule/get_it_module.dart';
+import 'data/get_it_module/get_it_module.dart';
 import 'design_system/theme/color.dart';
 import 'firebase_options.dart';
 
