@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gogo_app/core/design_system/theme/color.dart';
+import 'package:gogo_app/core/design_system/theme/icon.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_bloc.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_event.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_state.dart';
-import 'package:gogo_app/presentation/splash/widgets/splash_logo.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -26,7 +26,7 @@ class SplashScreen extends StatelessWidget {
                 builder: (context, value, child) {
                   return Transform.scale(scale: value, child: child);
                 },
-                child: Logo()
+              child: GogoIcons.logo(width: double.infinity, height: 80),
             ),
           ),
         ),
