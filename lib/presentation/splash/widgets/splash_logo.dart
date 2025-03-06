@@ -9,8 +9,8 @@ class Logo extends StatelessWidget {
     return Hero(
         tag: 'gogo_splash_icon',
         child: GogoIcons.logo(
-          width: 210,
-          height: 72
+          width: double.infinity,
+          height: 80
         )
     );
   }
