@@ -13,7 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      theme: ThemeData(scaffoldBackgroundColor: GogoColors.black),
+      theme: ThemeData(
+        scaffoldBackgroundColor: GogoColors.black,
+        primaryColor: GogoColors.white,
+      ),
       routerConfig: PageRouter.router,
     );
   }
