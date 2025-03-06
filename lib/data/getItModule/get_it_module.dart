@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:gogo_app/data/service/auth_api.dart';
+import 'package:gogo_app/data/data_sources/login/auth_repository_impl.dart';
+
+import '../data_sources/login/auth_repository.dart';
 
 final locator = GetIt.instance;
 
@@ -15,5 +17,5 @@ void setupLocator() {
     ),
   );
 
-  locator.registerLazySingleton<AuthApi>(() => AuthApi(locator<Dio>()));
+  locator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(locator<Dio>()));
 }
