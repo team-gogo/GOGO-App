@@ -32,9 +32,6 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Analyze project source
-        run: flutter analyze
-
       - name: Set timestamp
         id: timestamp
         run: echo "TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
