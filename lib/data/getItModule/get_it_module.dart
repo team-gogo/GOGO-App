@@ -6,7 +6,7 @@ import '../data_sources/login/auth_data_source.dart';
 
 final locator = GetIt.instance;
 
-void setupLocator() {
+void setupDataSourceLocator() {
   locator.registerLazySingleton<Dio>(
     () => Dio(
       BaseOptions(

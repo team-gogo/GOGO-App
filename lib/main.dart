@@ -13,8 +13,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // get it 초기화(의존성 주입)
-  setupLocator();
+  // get it dataSource Module 초기화
+  setupDataSourceLocator();
   runApp(const MyApp());
 }
 
