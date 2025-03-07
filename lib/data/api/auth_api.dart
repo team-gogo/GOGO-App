@@ -12,14 +12,14 @@ part 'auth_api.g.dart';
 abstract class AuthApi {
   factory AuthApi(Dio dio, {String baseUrl}) = _AuthApi;
 
-  @POST('/auth/login')
+  @POST('/user/auth/login')
   Future<GoogleOAuthLoginResponse> googleOAuthLogin(
     @Body() GoogleOAuthLoginRequest body,
   );
 
-  @POST('/auth/signup')
+  @POST('/user/auth/signup')
   Future<AdditionalSignUpResponse> additionalSignUp();
 
-  @POST('/auth/refresh')
+  @POST('/user/auth/refresh')
   Future<TokenRefreshResponse> tokenRefresh();
 }
