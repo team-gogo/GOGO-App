@@ -1,4 +1,4 @@
-import 'package:gogo_app/data/data_sources/login/auth_data_source.dart';
+import 'package:gogo_app/data/data_sources/auth/auth_data_source.dart';
 
 import 'package:gogo_app/data/models/auth/google_oauth/google_oauth_login_request.dart';
 import 'package:gogo_app/data/models/auth/google_oauth/google_oauth_login_response.dart';
