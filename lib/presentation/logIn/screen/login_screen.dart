@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gogo_app/presentation/sign_up/screen/sign_up_screen.dart';
 import 'package:gogo_app/router.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';

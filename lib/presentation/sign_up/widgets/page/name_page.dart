@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/name/name_bloc.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/name/name_state.dart';
 import '../../../../design_system/component/button/gogo_default_button.dart';

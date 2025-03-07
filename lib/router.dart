@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
-import 'package:gogo_app/presentation/navigationView/screen/navigation_view.dart';
+import 'package:gogo_app/presentation/navigation_view/screen/navigation_view.dart';
 import 'package:gogo_app/presentation/sign_up/screen/sign_up_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gogo_app/presentation/splash/screen/splash_screen.dart';
