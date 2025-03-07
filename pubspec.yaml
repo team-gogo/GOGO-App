@@ -24,12 +24,17 @@ dependencies:
   flutter_bloc: ^9.1.0
   dio: ^5.1.0
   get_it: ^7.6.4
+  retrofit: ^4.0.3
+  json_annotation: ^4.8.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  retrofit_generator: ^8.0.6
+  build_runner: ^2.4.8
   flutter_lints: ^5.0.0
+  json_serializable: ^6.7.1
 
 flutter:
   assets:
