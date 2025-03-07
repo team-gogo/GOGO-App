@@ -46,7 +46,6 @@ class PageRouter {
       ),
       _customGoRoute(name: signUp, screen: SignUpScreen()),
       _customGoRoute(name: main, screen: NavigationView())
-
     ],
   );
 }

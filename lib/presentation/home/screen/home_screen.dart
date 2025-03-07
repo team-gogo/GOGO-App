@@ -3,6 +3,8 @@ import '../../../design_system/component/tag/tag_component.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
 import '../widgets/match_card/match_card_component.dart';
+import '../../../design_system/theme/color.dart';
+import '../../../design_system/theme/typography.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
