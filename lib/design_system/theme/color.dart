@@ -17,12 +17,12 @@ class GogoColors {
   static const Color main200 = Color(0xFFBAC5FF);
   static const Color main100 = Color(0xFFDCE2FF);
 
-  // gray
-  static const Color gray700 = Color(0xFF3A3A3A);
-  static const Color gray600 = Color(0xFF565656);
-  static const Color gray500 = Color(0xFF727272);
-  static const Color gray400 = Color(0xFF8F8F8F);
-  static const Color gray300 = Color(0xFFABABAB);
-  static const Color gray200 = Color(0xFFC7C7C7);
-  static const Color gray100 = Color(0xFFE3E3E3);
+  // gray (수정된 값)
+  static const Color gray700 = Color(0xFF303030);
+  static const Color gray600 = Color(0xFF4D4D4D);
+  static const Color gray500 = Color(0xFF6B6B6B);
+  static const Color gray400 = Color(0xFF898989);
+  static const Color gray300 = Color(0xFFA6A6A6);
+  static const Color gray200 = Color(0xFFC4C4C4);
+  static const Color gray100 = Color(0xFFE1E1E1);
 }
