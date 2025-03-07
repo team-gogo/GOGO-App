@@ -18,6 +18,10 @@ void main() async {
 
   // get it repository Module 초기화
   setupRepositoryLocator();
+
+  // get it api Module 초기화
+  setupApiLocator();
+
   runApp(const MyApp());
 }
 

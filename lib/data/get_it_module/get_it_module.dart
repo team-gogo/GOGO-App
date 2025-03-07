@@ -25,3 +25,7 @@ void setupDataSourceLocator() {
 void setupRepositoryLocator() {
   locator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(locator<AuthDatasource>()));
 }
+
+void setupApiLocator() {
+  locator.registerLazySingleton<AuthApi>(() => AuthApi(locator<Dio>()));
+}
