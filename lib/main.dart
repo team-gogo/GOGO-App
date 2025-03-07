@@ -22,6 +22,9 @@ void main() async {
   // get it api Module 초기화
   setupApiLocator();
 
+  // get it api Module 초기화
+  setUpDio();
+
   runApp(const MyApp());
 }
 
