@@ -1,15 +1,13 @@
 import 'package:dio/dio.dart';
-
-import 'package:gogo_app/data/util/handle_dio_error.dart';
-
 import 'package:gogo_app/data/models/login/google_oauth/google_oauth_login_request.dart';
 import 'package:gogo_app/data/models/login/google_oauth/google_oauth_login_response.dart';
+import 'package:gogo_app/data/api/auth_api.dart';
 import 'auth_data_source.dart';
 
 class AuthDatasourceImpl implements AuthDatasource {
-  final Dio _dio;
+  final AuthApi _authApi;
 
-  AuthDatasourceImpl(this._dio);
+  AuthDatasourceImpl(Dio dio) : _authApi = AuthApi(dio);
 
   @override
   Future<GoogleOAuthLoginResponse> googleOAuthLogin(
