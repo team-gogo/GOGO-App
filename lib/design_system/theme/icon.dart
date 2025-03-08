@@ -495,6 +495,13 @@ class GogoIcons {
     double height = 24,
     VoidCallback? onTap,
   }) =>
-      _buildIcon('logo.svg',
-          color: color, width: width, height: height, onTap: onTap);
+      GestureDetector(
+        onTap: onTap,
+        child: Image.asset(
+          'assets/drawable/logo.png',
+          color: color,
+          width: width,
+          height: height,
+        ),
+      );
 }
