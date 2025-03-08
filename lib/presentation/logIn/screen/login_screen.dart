@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:go_router/go_router.dart';
-import 'package:gogo_app/router.dart';
-import '../../../design_system/theme/color.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gogo_app/presentation/logIn/bloc/login_bloc.dart';
+import 'package:gogo_app/presentation/logIn/bloc/login_event.dart';
+import 'package:gogo_app/presentation/logIn/bloc/login_state.dart';
 import '../../../design_system/theme/icon.dart';
 import '../../logIn/widgets/google_login_button.dart';
 
@@ -10,26 +11,32 @@ class LogInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: GogoColors.black),
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 111),
-            child: SizedBox(
-              width: double.infinity,
+    return BlocProvider(
+      create: (context) => LoginBloc(),
+      child: BlocListener<LoginBloc, LoginState>(
+        listener: (BuildContext context, LoginState state) {
+          // 네비게이션 세팅
+        },
+        child: Stack(
+          children: [
+            Center(
+              child: GogoIcons.logo(width: double.infinity, height: 80),
+            ),
+            Positioned(
+              bottom: 111,
+              left: 16,
+              right: 16,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: GoogleLoginButton(
-                    onPressed: () =>context.goNamed(PageRouter.signUp)),
+                  onPressed: () {
+                    BlocProvider.of<LoginBloc>(context).add(GoogleLogInEvent());
+                  },
+                ),
               ),
             ),
-          ),
-          Center(
-            child: GogoIcons.logo(width: double.infinity, height: 80),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
