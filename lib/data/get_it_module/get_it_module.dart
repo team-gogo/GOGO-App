@@ -7,6 +7,8 @@ import 'package:gogo_app/data/data_sources/auth/auth_data_source.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository_impl.dart';
 
+import '../api/stage_api.dart';
+
 final locator = GetIt.instance;
 
 void setUpDio() {
@@ -14,13 +16,16 @@ void setUpDio() {
 }
 
 void setupDataSourceLocator() {
-  locator.registerLazySingleton<AuthDatasource>(() => AuthDatasourceImpl(locator<Dio>()));
+  locator.registerLazySingleton<AuthDatasource>(
+      () => AuthDatasourceImpl(locator<Dio>()));
 }
 
 void setupRepositoryLocator() {
-  locator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(locator<AuthDatasource>()));
+  locator.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(locator<AuthDatasource>()));
 }
 
 void setupApiLocator() {
   locator.registerLazySingleton<AuthApi>(() => AuthApi(locator<Dio>()));
+  locator.registerLazySingleton<StageApi>(() => StageApi(locator<Dio>()));
 }
