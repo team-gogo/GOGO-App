@@ -11,14 +11,12 @@ import '../../bloc/number/number_bloc.dart';
 
 
 class NumberPage extends StatelessWidget {
+  final PageController pageController;
+
   const NumberPage({
     super.key,
-    required this.onBackClick,
-    required this.onNextClick,
+    required this.pageController,
   });
-
-  final VoidCallback onBackClick;
-  final VoidCallback onNextClick;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,11 @@ class NumberPage extends StatelessWidget {
             color: GogoColors.white,
             width: 40,
             height: 40,
-            onTap: onBackClick,
+            onTap: () => pageController.animateToPage(
+              1,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.ease,
+            ),
           ),
           SizedBox(
             height: 40,
@@ -87,7 +89,13 @@ class NumberPage extends StatelessWidget {
           ),
           Spacer(),
           GogoDefaultButton(
-            onTap: state is EnableNumberState ? onNextClick : () {},
+            onTap: () => state is EnableNumberState
+                ? pageController.animateToPage(
+                    3,
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.ease,
+                  )
+                : () {},
             text: "다음",
             color: state is EnableNumberState
                 ? GogoColors.main600

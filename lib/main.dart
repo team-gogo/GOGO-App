@@ -40,7 +40,9 @@ class MyApp extends StatelessWidget {
         highlightColor: Colors.transparent,
         scaffoldBackgroundColor: GogoColors.black,
       ),
-      routerConfig: PageRouter.router,
+      routerDelegate: PageRouter.router.routerDelegate,
+      routeInformationParser: PageRouter.router.routeInformationParser,
+      routeInformationProvider: PageRouter.router.routeInformationProvider,
     );
   }
 }
