@@ -1,7 +1,7 @@
 import 'package:gogo_app/data/models/stage/community/sort_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'match_board_search_query_string.dart';
+import '../game_type.dart';
 
 part 'community_search_request_query_string.g.dart';
 

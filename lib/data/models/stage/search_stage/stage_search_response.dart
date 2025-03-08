@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../stage_type.dart';
+
 part 'stage_search_response.g.dart';
 
 @JsonSerializable()
@@ -15,14 +17,6 @@ class StageSearchResponse {
   factory StageSearchResponse.fromJson(Map<String, dynamic> json) =>
       _$StageSearchResponseFromJson(json);
   Map<String, dynamic> toJson() => _$StageSearchResponseToJson(this);
-}
-
-@JsonEnum(alwaysCreate: true)
-enum StageType {
-  @JsonValue("FAST")
-  FAST,
-  @JsonValue("OFFICIAL")
-  OFFICIAL,
 }
 
 @JsonEnum(alwaysCreate: true)

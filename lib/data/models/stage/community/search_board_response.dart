@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'match_board_search_query_string.dart';
+import '../game_type.dart';
+import '../stage_type.dart';
 
 part 'search_board_response.g.dart';
 
@@ -75,12 +76,4 @@ class Author {
 
   factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
   Map<String, dynamic> toJson() => _$AuthorToJson(this);
-}
-
-@JsonEnum(alwaysCreate: true)
-enum StageType {
-  @JsonValue("FAST")
-  FAST,
-  @JsonValue("OFFICIAL")
-  OFFICIAL,
 }

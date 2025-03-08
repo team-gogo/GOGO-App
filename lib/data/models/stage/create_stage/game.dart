@@ -2,19 +2,12 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'game.g.dart';
 
-enum GameCategory {
-  SOCCER,
-  BASKET_BALL,
-  BASE_BALL,
-  VOLLEY_BALL,
-  BADMINTON,
-  LOL,
-  ETC,
-}
-
 enum GameSystem {
+  @JsonValue("TOURNAMENT")
   TOURNAMENT,
+  @JsonValue("FULL_LEAGUE")
   FULL_LEAGUE,
+  @JsonValue("SINGLE")
   SINGLE,
 }
 
