@@ -7,7 +7,7 @@ enum Sex { MALE, FEMALE }
 enum SchoolType { MiddleSchool, HighSchool }
 
 @JsonSerializable()
-class AdditionalSignUpResponse {
+class AdditionalSignUpRequest {
   final String? deviceToken;
   final String name;
   final int classNumber;
@@ -15,7 +15,7 @@ class AdditionalSignUpResponse {
   final Sex sex;
   final School school;
 
-  AdditionalSignUpResponse({
+  AdditionalSignUpRequest({
     this.deviceToken,
     required this.name,
     required this.classNumber,
@@ -24,7 +24,7 @@ class AdditionalSignUpResponse {
     required this.school,
   });
 
-  factory AdditionalSignUpResponse.fromJson(Map<String, dynamic> json) => _$AdditionalSignUpResponseFromJson(json);
+  factory AdditionalSignUpRequest.fromJson(Map<String, dynamic> json) => _$AdditionalSignUpResponseFromJson(json);
   Map<String, dynamic> toJson() => _$AdditionalSignUpResponseToJson(this);
 }
 
