@@ -24,8 +24,9 @@ class AdditionalSignUpRequest {
     required this.school,
   });
 
-  factory AdditionalSignUpRequest.fromJson(Map<String, dynamic> json) => _$AdditionalSignUpResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$AdditionalSignUpResponseToJson(this);
+  factory AdditionalSignUpRequest.fromJson(Map<String, dynamic> json) =>
+      _$AdditionalSignUpRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$AdditionalSignUpRequestToJson(this);
 }
 
 @JsonSerializable()
