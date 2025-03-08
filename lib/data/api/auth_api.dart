@@ -18,7 +18,7 @@ abstract class AuthApi {
   );
 
   @POST('/user/auth/signup')
-  Future<AdditionalSignUpResponse> additionalSignUp();
+  Future<void> additionalSignUp(@Body() AdditionalSignUpRequest body);
 
   @POST('/user/auth/refresh')
   Future<TokenRefreshResponse> tokenRefresh();
