@@ -7,10 +7,9 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   SplashBloc() : super(InitSplashState()) {
     on<LaunchSplashEvent>((event, emit) async {
       emit(LoadingSplashState());
+      /// 초기 로그인 로직
       await Future.delayed(Duration(seconds: 2));
-
       emit(DisposeSplashState());
-      PageRouter.router.goNamed(PageRouter.login);
     });
   }
 }
