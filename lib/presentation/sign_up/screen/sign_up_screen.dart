@@ -13,7 +13,7 @@ import '../bloc/sex/sex_state.dart';
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
-  static PageController pageController = PageController();
+  static final PageController _pageController = PageController();
   static final TextEditingController nameController = TextEditingController();
   static final TextEditingController schoolController = TextEditingController();
   static final TextEditingController gradeController = TextEditingController();
@@ -41,49 +41,19 @@ class SignUpScreen extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 50, 16, 95),
-              child: PageView(
-                controller: pageController,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  SchoolPage(
-                    onBackClick: () => _navigatorPage(context, -1),
-                    onNextClick: () => _navigatorPage(context, 1),
-                  ),
-                  NamePage(
-                    onBackClick: () => _navigatorPage(context, 0),
-                    onNextClick: () => _navigatorPage(context, 2),
-                  ),
-                  NumberPage(
-                    onBackClick: () => _navigatorPage(context, 1),
-                    onNextClick: () => _navigatorPage(context, 3),
-                  ),
-                  SexPage(
-                    onBackClick: () => _navigatorPage(context, 2),
-                    onNextClick: () => _navigatorPage(context, 4),
-                  ),
-                ],
-              ),
-            ),
+                padding: const EdgeInsets.fromLTRB(16, 50, 16, 95),
+                child: PageView(
+                  controller: _pageController,
+                  children: <Widget>[
+                    SchoolPage(pageController: _pageController),
+                    NamePage(pageController: _pageController),
+                    NumberPage(pageController: _pageController),
+                    SexPage(pageController: _pageController)
+                  ],
+                )),
           ),
         ),
       ),
     );
-  }
-
-  void _navigatorPage(BuildContext context, int index) {
-    FocusScope.of(context).unfocus();
-    if (index == -1) {
-      Navigator.pop(context);
-      nameController.text = "";
-      schoolController.text = "";
-      gradeController.text = "";
-      classController.text = "";
-      numberController.text = "";
-      sexController = null;
-    } else {
-      pageController.animateToPage(index,
-          duration: Duration(milliseconds: 300), curve: Curves.ease);
-    }
   }
 }

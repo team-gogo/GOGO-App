@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gogo_app/presentation/logIn/bloc/login_bloc.dart';
 import 'package:gogo_app/presentation/logIn/bloc/login_event.dart';
 import 'package:gogo_app/presentation/logIn/bloc/login_state.dart';
-
 import '../../../design_system/theme/icon.dart';
 import '../../logIn/widgets/google_login_button.dart';
 
