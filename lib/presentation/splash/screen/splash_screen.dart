@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:gogo_app/router.dart';
 import '../../../../design_system/theme/color.dart';
 import '../../../../design_system/theme/icon.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_bloc.dart';
@@ -11,21 +13,21 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) =>
-          SplashBloc()..add(LaunchSplashEvent()),
+    return BlocProvider<SplashBloc>(
+      create: (BuildContext context) => SplashBloc()..add(LaunchSplashEvent()),
       child: BlocListener<SplashBloc, SplashState>(
-        listener: (context, state) {},
+        listener: (context, state) =>
+            state is DisposeSplashState ? context.goNamed(PageRouter.login) : null,
         child: Scaffold(
           backgroundColor: GogoColors.black,
           body: Center(
             child: TweenAnimationBuilder<double>(
-                tween: Tween(begin: 0.86, end: 1.0),
-                duration: const Duration(seconds: 1),
-                curve: Curves.easeInOut,
-                builder: (context, value, child) {
-                  return Transform.scale(scale: value, child: child);
-                },
+              tween: Tween(begin: 0.86, end: 1.0),
+              duration: const Duration(seconds: 1),
+              curve: Curves.easeInOut,
+              builder: (context, value, child) {
+                return Transform.scale(scale: value, child: child);
+              },
               child: GogoIcons.logo(width: double.infinity, height: 80),
             ),
           ),
