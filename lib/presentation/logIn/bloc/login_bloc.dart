@@ -12,12 +12,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<GoogleLogInEvent>(_googleSignInHandler);
   }
 
-  Stream<LoginState> _googleSignInHandler(
-      LoginEvent event, Emitter<LoginState> emit) async* {
+  void _googleSignInHandler(LoginEvent event, Emitter<LoginState> emit) async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
-        yield GoogleLoginFail(message: "구글 로그인을 취소 했습니다.");
+        emit(GoogleLoginFail(message: "구글 로그인을 취소 했습니다."));
         return;
       }
 
@@ -31,9 +30,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       final userCredential = await _auth.signInWithCredential(credential);
 
-      yield GoogleLoginSuccess(user: userCredential.user!);
+      emit(GoogleLoginSuccess(user: userCredential.user!));
     } catch (e) {
-      yield GoogleLoginFail(message: "구글 로그인에 실패 했습니다: $e");
+      emit(GoogleLoginFail(message: "구글 로그인에 실패 했습니다: $e"));
     }
   }
 }
