@@ -41,9 +41,11 @@ dependencies:
 
   retrofit: ^4.0.3 # API 연결 도와주는 라이브러리
 
-  json_annotation: ^4.8.1 # Json 코드 제너레이팅 해주는 라이브러리
-  flutter_dotenv: ^5.2.1
-  rxdart: ^0.28.0
+
+  flutter_dotenv: ^5.2.1 # ENV 라이브러리
+  rxdart: ^0.28.0 # ReactiveX 라이브러리
+  json_annotation: ^4.9.0 # Json 코드 제너레이팅 해주는 라이브러리
+  web_socket_channel: ^2.1.0 # web socket 프로토콜을 사용하게 해주는 라이브러리
 
 dev_dependencies:
   flutter_test:

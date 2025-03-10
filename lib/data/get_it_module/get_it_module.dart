@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/api/search_school/search_school_api.dart';
 import 'package:gogo_app/data/data_sources/auth/auth_data_source_impl.dart';
@@ -14,8 +13,6 @@ import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository_impl.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository_impl.dart';
-import 'package:gogo_app/presentation/sign_up/bloc/school/school_bloc.dart';
-
 import '../api/stage/stage_api.dart';
 import '../repositories/stage/stage_repository.dart';
 import '../repositories/stage/stage_repository_impl.dart';
