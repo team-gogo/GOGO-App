@@ -1,12 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:gogo_app/data/data_sources/login/auth_data_source_impl.dart';
+import 'package:gogo_app/data/data_sources/auth/auth_data_source_impl.dart';
+import 'package:gogo_app/data/data_sources/stage/stage_data_source.dart';
+import 'package:gogo_app/data/data_sources/stage/stage_data_source_impl.dart';
 import 'package:gogo_app/data/get_it_module/setup_dio.dart';
-import 'package:gogo_app/data/repositories/login/auth_repository.dart';
-import 'package:gogo_app/data/repositories/login/auth_repository_impl.dart';
+import 'package:gogo_app/data/api/auth_api.dart';
+import 'package:gogo_app/data/data_sources/auth/auth_data_source.dart';
+import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
+import 'package:gogo_app/data/repositories/auth/auth_repository_impl.dart';
 
-import '../api/auth_api.dart';
-import '../data_sources/login/auth_data_source.dart';
+import '../api/stage_api.dart';
+import '../repositories/stage/stage_repository.dart';
+import '../repositories/stage/stage_repository_impl.dart';
 
 final locator = GetIt.instance;
 
@@ -15,13 +20,22 @@ void setUpDio() {
 }
 
 void setupDataSourceLocator() {
-  locator.registerLazySingleton<AuthDatasource>(() => AuthDatasourceImpl(locator<Dio>()));
+  locator.registerLazySingleton<AuthDatasource>(
+      () => AuthDatasourceImpl(locator<Dio>()));
+
+  locator.registerLazySingleton<StageDataSource>(
+      () => StageDataSourceImpl(locator<Dio>()));
 }
 
 void setupRepositoryLocator() {
-  locator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(locator<AuthDatasource>()));
+  locator.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(locator<AuthDatasource>()));
+
+  locator.registerLazySingleton<StageRepository>(
+      () => StageRepositoryImpl(locator<StageDataSource>()));
 }
 
 void setupApiLocator() {
   locator.registerLazySingleton<AuthApi>(() => AuthApi(locator<Dio>()));
+  locator.registerLazySingleton<StageApi>(() => StageApi(locator<Dio>()));
 }
