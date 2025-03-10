@@ -9,6 +9,7 @@ import 'package:gogo_app/data/data_sources/auth/auth_data_source.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository_impl.dart';
 
+import '../api/mini_game_api.dart';
 import '../api/stage_api.dart';
 import '../repositories/stage/stage_repository.dart';
 import '../repositories/stage/stage_repository_impl.dart';
@@ -38,4 +39,5 @@ void setupRepositoryLocator() {
 void setupApiLocator() {
   locator.registerLazySingleton<AuthApi>(() => AuthApi(locator<Dio>()));
   locator.registerLazySingleton<StageApi>(() => StageApi(locator<Dio>()));
+  locator.registerLazySingleton<MiniGameApi>(() => MiniGameApi(locator<Dio>()));
 }
