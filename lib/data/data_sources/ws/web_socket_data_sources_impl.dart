@@ -7,7 +7,9 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 class WebSocketDataSourceImpl implements WebSocketDataSource {
   late final WebSocketChannel _channel;
 
-  WebSocketDataSourcesImpl(String url) {
+  WebSocketDataSourceImpl();
+
+  void connect(String url) {
     _channel = WebSocketChannel.connect(Uri.parse(url));
   }
 
@@ -19,8 +21,8 @@ class WebSocketDataSourceImpl implements WebSocketDataSource {
 
   @override
   Stream<Map<String, dynamic>> get messages => _channel.stream.map((event) {
-        return jsonDecode(event) as Map<String, dynamic>;
-      });
+    return jsonDecode(event) as Map<String, dynamic>;
+  });
 
   @override
   void close() {
