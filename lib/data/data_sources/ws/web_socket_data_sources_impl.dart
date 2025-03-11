@@ -9,6 +9,7 @@ class WebSocketDataSourceImpl implements WebSocketDataSource {
 
   WebSocketDataSourceImpl();
 
+  @override
   void connect(String url) {
     _channel = WebSocketChannel.connect(Uri.parse(url));
   }
