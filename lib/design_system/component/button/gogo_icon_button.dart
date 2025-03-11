@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme/color.dart';
 import '../../theme/typography.dart';
 
-class GogoButtonWithIcon extends StatelessWidget {
+class GogoIconButton extends StatelessWidget {
   final VoidCallback onTap;
   final String text;
   final double width;
@@ -14,7 +14,7 @@ class GogoButtonWithIcon extends StatelessWidget {
   final Widget icon;
   final double spacing;
 
-  const GogoButtonWithIcon({
+  const GogoIconButton({
     super.key,
     required this.onTap,
     required this.text,
