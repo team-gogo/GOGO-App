@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gogo_app/design_system/component/button/gogo_button_with_icon.dart';
+import 'package:gogo_app/design_system/component/button/gogo_icon_button.dart';
 import 'package:gogo_app/design_system/component/tag/tag_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import '../../theme/color.dart';
@@ -21,8 +21,8 @@ class StageCardComponent extends StatelessWidget {
   final EdgeInsets padding;
   final bool official; // 공식: true, 비공식: false
   final bool recruiting; // 모집 중: true, 모집 확정: false
-  final bool manager;
-  final bool broadcast;
+  final bool manager; // 관리자 태그가 보임: true, 안보임: false
+  final bool broadcast; // 중계 설정 태그가 보임: true, 안보임: false
   final VoidCallback onTap;
   final String buttonText;
   final double buttonHeight;
@@ -158,7 +158,7 @@ class StageCardComponent extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
                   height: buttonHeight,
-                  child: GogoButtonWithIcon(
+                  child: GogoIconButton(
                     icon: buttonIcon,
                     onTap: onTap,
                     text: buttonText,
