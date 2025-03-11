@@ -462,7 +462,6 @@ class GogoIcons {
       _buildIcon('enabled_bell.svg',
           color: color, width: width, height: height, onTap: onTap);
 
-
   static Widget basketball({
     Color? color,
     double width = 24,
@@ -514,4 +513,13 @@ class GogoIcons {
           height: height,
         ),
       );
+
+  static Widget play({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('play.svg',
+          color: color, width: width, height: height, onTap: onTap);
 }
