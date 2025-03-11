@@ -5,6 +5,6 @@ import '../../models/shop/response/shop_ticket_status_response.dart';
 
 abstract class ShopDataSource {
   Future<ShopTicketStatusResponse> shopTicketStatusResponse (int stageId);
-  Future<ReceiptItem> getReceiptItem(int shopId);
+  Future<ShopReceiptResponse> getReceiptItem(int shopId);
   Future<void> buyShopItemRequest(int shopId, BuyShopItemRequest body);
 }
