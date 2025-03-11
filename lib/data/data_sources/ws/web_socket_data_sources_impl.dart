@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:gogo_app/data/data_sources/ws/web_socket_data_sources.dart';
+import 'package:gogo_app/data/data_sources/ws/web_socket_data_source.dart';
 import 'package:web_socket_channel/status.dart' as status;
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class WebSocketDataSourcesImpl implements WebSocketDataSources {
+class WebSocketDataSourceImpl implements WebSocketDataSource {
   late final WebSocketChannel _channel;
 
   WebSocketDataSourcesImpl(String url) {
