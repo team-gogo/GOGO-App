@@ -1,6 +1,7 @@
 import 'package:gogo_app/data/repositories/mini_game/ws/plinko/plinko_web_socket_repository.dart';
 
 import '../../../../data_sources/ws/web_socket_data_source.dart';
+import '../../../../models/mini_game/ws/plinko_Request.dart';
 import '../../../../models/mini_game/ws/plinko_response.dart';
 
 class PlinkoWebSocketRepositoryImpl implements PlinkoWebSocketRepository {
@@ -10,14 +11,13 @@ class PlinkoWebSocketRepositoryImpl implements PlinkoWebSocketRepository {
 
   @override
   void connect(String stageId) {
-    _webSocketDataSource.connect(
-        "wss://echo.websocket.org" + "/plinko/$stageId");
+    _webSocketDataSource
+        .connect("wss://echo.websocket.org" + "/plinko/$stageId");
   }
 
   @override
-  void sendBet(int amount, String risk) {
-    final request = {"amount": amount, "risk": risk};
-    _webSocketDataSource.sendMessage(request);
+  void sendBet(PlinkoRequest body) {
+    _webSocketDataSource.sendMessage(body.toJson());
   }
 
   @override
