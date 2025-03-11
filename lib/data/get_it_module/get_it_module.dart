@@ -1,16 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:gogo_app/data/api/auth_api.dart';
+import 'package:gogo_app/data/data_sources/auth/auth_data_source.dart';
 import 'package:gogo_app/data/data_sources/auth/auth_data_source_impl.dart';
 import 'package:gogo_app/data/data_sources/stage/stage_data_source.dart';
 import 'package:gogo_app/data/data_sources/stage/stage_data_source_impl.dart';
 import 'package:gogo_app/data/get_it_module/setup_dio.dart';
-import 'package:gogo_app/data/api/auth_api.dart';
-import 'package:gogo_app/data/data_sources/auth/auth_data_source.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository_impl.dart';
 
 import '../api/mini_game_api.dart';
 import '../api/stage_api.dart';
+import '../data_sources/ws/web_socket_data_source.dart';
+import '../data_sources/ws/web_socket_data_sources_impl.dart';
 import '../repositories/stage/stage_repository.dart';
 import '../repositories/stage/stage_repository_impl.dart';
 
@@ -26,6 +28,9 @@ void setupDataSourceLocator() {
 
   locator.registerLazySingleton<StageDataSource>(
       () => StageDataSourceImpl(locator<Dio>()));
+
+  locator.registerFactory<WebSocketDataSource>(() =>
+      WebSocketDataSourceImpl());
 }
 
 void setupRepositoryLocator() {
