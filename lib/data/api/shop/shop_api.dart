@@ -16,7 +16,7 @@ abstract class ShopApi {
       @Path('stage_id') int stageId);
   
   @GET('/shop/receipt/{shop_id}')
-  Future<ReceiptItem> getShopReceipt(
+  Future <ShopReceiptResponse> getShopReceipt(
       @Path('shop_id') int shopId);
 
   @POST('/shop/{shop_id}')

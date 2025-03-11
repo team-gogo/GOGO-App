@@ -3,7 +3,7 @@ import 'package:gogo_app/data/data_sources/shop/shop_data_source.dart';
 import 'package:gogo_app/data/models/shop/request/buy_shop_item_request.dart';
 import 'package:gogo_app/data/models/shop/response/shop_receipt_response.dart';
 import 'package:gogo_app/data/models/shop/response/shop_ticket_status_response.dart';
-import '../../api/shop_api.dart';
+import '../../api/shop/shop_api.dart';
 import '../../util/execute_handle_api_call.dart';
 
 class ShopDataSourceImpl implements ShopDataSource {
@@ -17,7 +17,7 @@ class ShopDataSourceImpl implements ShopDataSource {
   }
 
   @override
-  Future<ReceiptItem> getReceiptItem(int shopId) async {
+  Future<ShopReceiptResponse> getReceiptItem(int shopId) async {
     return await executeHandleApiCall(() => _shopApi.getShopReceipt(shopId));
   }
 
