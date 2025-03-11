@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/school/school_bloc.dart';
+import 'package:gogo_app/presentation/sign_up/bloc/school/school_event.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/school/school_state.dart';
+import 'package:gogo_app/presentation/sign_up/widgets/page/school/school_search_component.dart';
 import 'package:gogo_app/router.dart';
 import '../../../../design_system/component/button/gogo_default_button.dart';
 import '../../../../design_system/component/text_field/gogo_text_field.dart';
@@ -39,13 +41,22 @@ class SchoolPage extends StatelessWidget {
             height: 36,
           ),
           GogoTextField(
+            onEditingComplete: () => context.read<SchoolBloc>().add(
+                EnterSchoolEvent(
+                    context.read<SchoolBloc>().schoolController.text)),
             textFieldState: GogoTextFieldState.search,
             controller: context.read<SchoolBloc>().schoolController,
             hintText: "학교를 입력해주세요.",
           ),
+          SizedBox(
+            height: 12,
+          ),
+          state is InitSchoolState || state is ChooseSchoolState
+              ? SizedBox()
+              : SchoolSearchComponent(),
           Spacer(),
           GogoDefaultButton(
-            onTap: state is EnableSchoolState
+            onTap: state is ChooseSchoolState
                 ? () => pageController.animateToPage(
                       1,
                       duration: Duration(milliseconds: 300),
@@ -53,7 +64,7 @@ class SchoolPage extends StatelessWidget {
                     )
                 : () {},
             text: "다음",
-            color: state is EnableSchoolState
+            color: state is ChooseSchoolState
                 ? GogoColors.main600
                 : GogoColors.gray400,
           ),

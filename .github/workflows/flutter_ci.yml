@@ -25,7 +25,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          
+
       - name: Checking Flutter Version
         run: flutter --version
 
@@ -39,7 +39,14 @@ jobs:
       - name: Create firebase_options.dart from Secret
         run: |
           echo "${{ secrets.FIREBASE_OPTIONS }}" > lib/firebase_options.dart 
-          
+
+      - name: Create .env from Secret
+        run: |
+          echo "SCHOOL_API_KEY=${{ secrets.SCHOOL_API_KEY }}" >> .env
+          echo "BASEURL=${{ secrets.BASEURL }}" >> .env
+      
+      
+
       - name: Notify Success for Push
         if: github.event_name == 'push' && success()
         env:

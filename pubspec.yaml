@@ -37,6 +37,8 @@ dependencies:
   retrofit: ^4.0.3 # API 연결 도와주는 라이브러리
 
   json_annotation: ^4.8.1 # Json 코드 제너레이팅 해주는 라이브러리
+  flutter_dotenv: ^5.2.1
+  rxdart: ^0.28.0
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +53,7 @@ flutter:
   assets:
     - assets/drawable/
     - assets/typo/
+    - .env
 
   uses-material-design: true
 
