@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gogo_app/router.dart';
 import 'data/get_it_module/get_it_module.dart';
 import 'design_system/theme/color.dart';
@@ -7,6 +8,10 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // env 불러오기
+  await dotenv.load(fileName: ".env");
+  print(dotenv.env['NEIS_KEY']);
 
   // 파이어베이스 초기화
   await Firebase.initializeApp(
