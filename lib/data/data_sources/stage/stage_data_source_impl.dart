@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:gogo_app/data/api/stage_api.dart';
+import 'package:gogo_app/data/api/stage/stage_api.dart';
 import 'package:gogo_app/data/util/execute_handle_api_call.dart';
 import 'package:gogo_app/data/models/stage/create_stage/api/official_stage_create_request.dart';
 import 'package:gogo_app/data/models/stage/create_stage/api/fast_stage_create_request.dart';
