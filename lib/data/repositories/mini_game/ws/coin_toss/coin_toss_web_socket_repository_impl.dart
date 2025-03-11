@@ -1,4 +1,5 @@
 import '../../../../data_sources/ws/web_socket_data_source.dart';
+import '../../../../models/mini_game/ws/amount_dto.dart';
 import '../../../../models/mini_game/ws/coin_toss_response.dart';
 import 'coin_toss_web_socket_repository.dart';
 
@@ -14,9 +15,8 @@ class CoinTossWebSocketRepositoryImpl implements CoinTossWebSocketRepository {
   }
 
   @override
-  void sendAmount(int amount) {
-    final request = {"amount": amount};
-    _webSocketDataSource.sendMessage(request);
+  void sendAmount(AmountDTO amount) {
+    _webSocketDataSource.sendMessage(amount.toJson());
   }
 
   @override
