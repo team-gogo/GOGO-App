@@ -2,18 +2,16 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'plinko_request.g.dart';
 
+enum RiskLevel { LOW, MEDIUM, HIGH }
+
 @JsonSerializable()
 class PlinkoRequest {
-  final String proof;
-  final String uuid;
   final int amount;
-  final int round;
+  final RiskLevel risk;
 
   PlinkoRequest({
-    required this.proof,
-    required this.uuid,
     required this.amount,
-    required this.round,
+    required this.risk,
   });
 
   factory PlinkoRequest.fromJson(Map<String, dynamic> json) =>
