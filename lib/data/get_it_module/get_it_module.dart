@@ -23,7 +23,7 @@ import '../repositories/stage/stage_repository_impl.dart';
 final locator = GetIt.instance;
 
 void setUpDio() {
-  locator.registerLazySingleton<Dio>(() => setupDio());
+  locator.registerLazySingleton<Dio>(() => settingDio());
 }
 
 void setupDataSourceLocator() {
@@ -50,4 +50,3 @@ void setupRepositoryLocator() {
   locator.registerLazySingleton<SearchSchoolRepository>(
       () => SearchSchoolRepositoryImpl(locator<SearchSchoolDataSource>()));
 }
-
