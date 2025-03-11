@@ -1,10 +1,10 @@
-
+import '../../../../models/mini_game/ws/amount_dto.dart';
 import '../../../../models/mini_game/ws/coin_toss_response.dart';
 
 abstract class CoinTossWebSocketRepository {
   void connect(String stageId);
 
-  void sendAmount(int amount);
+  void sendAmount(AmountDTO amount);
 
   Stream<CoinTossResponse> listenForResponses();
 
