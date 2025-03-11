@@ -15,7 +15,7 @@ class ShopRepositoryImpl implements ShopRepository {
   }
 
   @override
-  Future<ReceiptItem> getReceiptItem(int shopId) {
+  Future<ShopReceiptResponse> getReceiptItem(int shopId) {
     return _shopDataSource.getReceiptItem(shopId);
   }
 
