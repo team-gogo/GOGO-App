@@ -34,7 +34,7 @@ class SchoolBloc extends Bloc<SchoolEvent, SchoolState> {
   void _handlerEnterSchoolEvent(
       EnterSchoolEvent event, Emitter<SchoolState> emit) async {
     var result = await _searchSchoolRepository.getSchoolInfo(
-        event.search, dotenv.env['NEIS_KEY']!, 'json', 1, 100);
+        event.search, dotenv.env['SCHOOL_API_KEY']!, 'json', 1, 100);
     print(result);
     searchSchoolResponse = result.row;
     searchSchoolResponse.isNotEmpty

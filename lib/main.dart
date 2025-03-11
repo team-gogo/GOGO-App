@@ -11,8 +11,6 @@ void main() async {
 
   // env 불러오기
   await dotenv.load(fileName: ".env");
-  print(dotenv.env['NEIS_KEY']);
-
   // 파이어베이스 초기화
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
