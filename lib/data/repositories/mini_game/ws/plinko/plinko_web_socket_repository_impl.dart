@@ -9,8 +9,8 @@ class PlinkoWebSocketRepositoryImpl implements PlinkoWebSocketRepository {
   PlinkoWebSocketRepositoryImpl(this._webSocketDataSource);
 
   @override
-  void connect() {
-    _webSocketDataSource.connect("wss://echo.websocket.org");
+  void connect(String stageId) {
+    _webSocketDataSource.connect("wss://echo.websocket.org"+"/plinko/$stageId");
   }
 
   @override
