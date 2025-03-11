@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gogo_app/data/get_it_module/get_it_module.dart';
+import 'package:gogo_app/data/repositories/search_school/search_school_repository.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/name/name_bloc.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/school/school_bloc.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/sex/sex_bloc.dart';
@@ -32,7 +34,7 @@ class SignUpScreen extends StatelessWidget {
                   classController,
                   numberController,
                 )),
-        BlocProvider(create: (_) => SchoolBloc(schoolController)),
+        BlocProvider(create: (_) => SchoolBloc()),
         BlocProvider(create: (_) => SexBloc(sexController)),
       ],
       child: GestureDetector(
@@ -43,6 +45,7 @@ class SignUpScreen extends StatelessWidget {
             child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 50, 16, 95),
                 child: PageView(
+                  physics: NeverScrollableScrollPhysics(),
                   controller: _pageController,
                   children: <Widget>[
                     SchoolPage(pageController: _pageController),
