@@ -9,8 +9,6 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // 스크린 이미지 불러오기
-  await ScreenUtil.ensureScreenSize();
   // env 불러오기
   await dotenv.load(fileName: ".env");
   // 파이어베이스 초기화
