@@ -18,14 +18,12 @@ import 'package:gogo_app/data/repositories/mini_game/ws/plinko/plinko_web_socket
 import 'package:gogo_app/data/repositories/mini_game/ws/yavarwee/yavarwee_web_socket_repository.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository_impl.dart';
-
 import 'package:gogo_app/data/api/mini_game_api.dart';
 import 'package:gogo_app/data/api/stage/stage_api.dart';
 import 'package:gogo_app/data/data_sources/ws/web_socket_data_source.dart';
 import 'package:gogo_app/data/data_sources/ws/web_socket_data_sources_impl.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository_impl.dart';
-
 import '../repositories/mini_game/mini_game_repository.dart';
 import '../repositories/mini_game/mini_game_repository_impl.dart';
 import '../repositories/mini_game/ws/coin_toss/coin_toss_web_socket_repository_impl.dart';
@@ -35,7 +33,7 @@ import '../repositories/mini_game/ws/yavarwee/yavarwee_web_socket_repository_imp
 final locator = GetIt.instance;
 
 void setUpDio() {
-  locator.registerLazySingleton<Dio>(() => setupDio());
+  locator.registerLazySingleton<Dio>(() => settingDio());
 }
 
 void setupDataSourceLocator() {

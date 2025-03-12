@@ -1,7 +1,7 @@
 import 'package:gogo_app/data/repositories/mini_game/ws/plinko/plinko_web_socket_repository.dart';
 
 import '../../../../data_sources/ws/web_socket_data_source.dart';
-import '../../../../models/mini_game/ws/plinko_Request.dart';
+import '../../../../models/mini_game/ws/plinko_request.dart';
 import '../../../../models/mini_game/ws/plinko_response.dart';
 
 class PlinkoWebSocketRepositoryImpl implements PlinkoWebSocketRepository {

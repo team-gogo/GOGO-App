@@ -19,14 +19,18 @@ dependencies:
 
   go_router: ^14.8.1 # 라우팅을 도와주는 라이브러리
 
-  # =====================
-  firebase_core: ^3.12.1 # 구글 로그인 도와주는 라이브러리
+  google_sign_in: ^6.1.0 # 구글 로그인 도와주는 라이브러리
+
+  # ===================== firebase 라이브러리
+  firebase_core: ^3.12.1
   firebase_auth: ^5.5.1
-  google_sign_in: ^6.1.0
+  firebase_messaging: ^15.2.4
   # =====================
 
-  # =====================
-  bloc: ^9.0.0 # 상태관리 라이브러리
+  flutter_local_notifications: ^18.0.1 # 알림 라이브러리
+
+  # ===================== 상태관리 라이브러리
+  bloc: ^9.0.0
   flutter_bloc: ^9.1.0
   # =====================
 
@@ -36,14 +40,15 @@ dependencies:
 
   retrofit: ^4.0.3 # API 연결 도와주는 라이브러리
 
+  flutter_dotenv: ^5.2.1 # ENV 라이브러리
+
+  rxdart: ^0.28.0 # ReactiveX 라이브러리
+
   json_annotation: ^4.9.0 # Json 코드 제너레이팅 해주는 라이브러리
 
   web_socket_channel: ^2.1.0 # web socket 프로토콜을 사용하게 해주는 라이브러리
 
-  flutter_dotenv: ^5.2.1
-
-  rxdart: ^0.28.0
-  flutter_screenutil: ^5.9.3
+flutter_screenutil: ^5.9.3 # 반응형 라이브러리
 
 dev_dependencies:
   flutter_test:

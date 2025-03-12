@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-Dio setupDio() {
+Dio settingDio() {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'https://api.baseURL.com',
