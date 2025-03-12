@@ -1,4 +1,4 @@
-import '../../../../models/mini_game/ws/plinko_Request.dart';
+import '../../../../models/mini_game/ws/plinko_request.dart';
 import '../../../../models/mini_game/ws/plinko_response.dart';
 
 abstract class PlinkoWebSocketRepository {
