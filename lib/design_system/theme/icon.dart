@@ -522,4 +522,13 @@ class GogoIcons {
           height: height,
         ),
       );
+
+  static Widget play({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('play.svg',
+          color: color, width: width, height: height, onTap: onTap);
 }
