@@ -570,16 +570,22 @@ packages:
     description:
       name: package_config
 <<<<<<< HEAD
+<<<<<<< HEAD
       sha256: "92d4488434b520a62570293fbd33bb556c7d49230791c1b4bbd973baf6d2dc67"
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
 =======
+=======
+>>>>>>> 90f17031c8a97f38bf288df486356bd53d3487b8
       sha256: f096c55ebb7deb7e384101542bfba8c52696c1b56fca2eb62827989ef2353bbc
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+<<<<<<< HEAD
 >>>>>>> 9b9b058 (:memo: :: Update pubspec.lock File)
+=======
+>>>>>>> 90f17031c8a97f38bf288df486356bd53d3487b8
   path:
     dependency: transitive
     description:
@@ -850,6 +856,7 @@ packages:
     source: hosted
     version: "1.1.1"
 <<<<<<< HEAD
+<<<<<<< HEAD
   web_socket_channel:
     dependency: "direct main"
     description:
@@ -859,6 +866,8 @@ packages:
     source: hosted
     version: "2.4.0"
 =======
+=======
+>>>>>>> 90f17031c8a97f38bf288df486356bd53d3487b8
   web_socket:
     dependency: transitive
     description:
@@ -875,7 +884,10 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+<<<<<<< HEAD
 >>>>>>> 9b9b058 (:memo: :: Update pubspec.lock File)
+=======
+>>>>>>> 90f17031c8a97f38bf288df486356bd53d3487b8
   xml:
     dependency: transitive
     description:
