@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/router.dart';
@@ -9,6 +10,8 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // 가로모드 방지
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // env 불러오기
   await dotenv.load(fileName: ".env");
   // 파이어베이스 초기화
