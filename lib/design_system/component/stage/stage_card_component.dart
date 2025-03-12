@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/design_system/component/button/gogo_icon_button.dart';
 import 'package:gogo_app/design_system/component/tag/tag_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
@@ -8,51 +9,29 @@ import '../../theme/typography.dart';
 class StageCardComponent extends StatelessWidget {
   final String stageName;
   final TextStyle stageTextStyle;
-  final double spacing;
-  final double height;
-  final double width;
   final Color color;
-  final BorderRadius borderRadius;
-  final EdgeInsets tagPadding;
-  final double tagSpacing;
-  final double tagInsideSpacing;
   final TextStyle tagTextStyle;
-  final BorderRadius tagBorderRadius;
-  final double iconSize;
-  final EdgeInsets padding;
   final bool official; // 공식: true, 비공식: false
   final bool recruiting; // 모집 중: true, 모집 확정: false
   final bool manager; // 관리자 태그가 보임: true, 안보임: false
   final bool broadcast; // 중계 설정 태그가 보임: true, 안보임: false
   final VoidCallback onTap;
   final String buttonText;
-  final double buttonHeight;
   final double buttonWidth;
   final Widget buttonIcon;
 
   const StageCardComponent({
     super.key,
-    this.height = 220,
-    this.width = double.infinity,
     required this.stageName,
     this.stageTextStyle = GogoTypography.body1Extrabold,
-    this.spacing = 16,
     required this.color,
-    this.borderRadius = const BorderRadius.all(Radius.circular(16)),
-    this.tagPadding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-    this.tagSpacing = 12,
-    this.tagInsideSpacing = 6,
     this.tagTextStyle = GogoTypography.caption3Semibold,
-    this.tagBorderRadius = const BorderRadius.all(Radius.circular(8)),
-    this.iconSize = 12,
-    this.padding = const EdgeInsets.all(16),
     required this.official,
     required this.recruiting,
     required this.manager,
     required this.broadcast,
     required this.onTap,
     required this.buttonText,
-    this.buttonHeight = 60,
     this.buttonWidth = double.infinity,
     required this.buttonIcon,
   });
@@ -60,90 +39,92 @@ class StageCardComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: spacing),
+      padding: EdgeInsets.only(right: 16.w),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: borderRadius,
+          borderRadius: BorderRadius.all(Radius.circular(16.r)),
           color: color,
         ),
-        height: height,
-        width: width,
+        height: 183.h,
+        width: 320.w,
         child: Padding(
-          padding: padding,
+          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
           child: Stack(
             children: [
               Align(
                 alignment: Alignment.topLeft,
                 child: Row(
+                  spacing: 8.w,
                   children: [
                     official
-                        ? TagComponent(
-                            padding: tagPadding,
-                            borderRadius: tagBorderRadius,
-                            spacing: tagInsideSpacing,
+                        ? TagComponent.small(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8.w, vertical: 4.h),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.h)),
+                            spacing: 4.w,
                             color: GogoColors.white,
                             text: '공식',
                             textStyle: tagTextStyle,
                             icon: GogoIcons.trophy(
-                              width: iconSize,
-                              height: iconSize,
+                              width: 12.sp,
+                              height: 12.sp,
                               color: GogoColors.white,
                             ),
                           )
                         : SizedBox.shrink(),
-                    SizedBox(
-                      width: tagSpacing,
-                    ),
-                    TagComponent(
-                      padding: tagPadding,
-                      borderRadius: tagBorderRadius,
-                      spacing: tagInsideSpacing,
+                    TagComponent.small(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                      borderRadius: BorderRadius.all(Radius.circular(8.h)),
+                      spacing: 4.w,
                       color:
                           recruiting ? GogoColors.success : GogoColors.gray500,
                       text: recruiting ? '모집 중' : '모집 확정',
                       textStyle: tagTextStyle,
                       icon: GogoIcons.stage(
-                        width: iconSize,
-                        height: iconSize,
+                        width: 12.sp,
+                        height: 12.sp,
                         color: recruiting
                             ? GogoColors.success
                             : GogoColors.gray500,
                       ),
                     ),
-                    SizedBox(
-                      width: tagSpacing,
-                    ),
                     manager
-                        ? TagComponent(
-                            padding: tagPadding,
-                            borderRadius: tagBorderRadius,
-                            spacing: tagInsideSpacing,
+                        ? TagComponent.small(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8.w, vertical: 4.h),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.h)),
+                            spacing: 4.w,
                             color: GogoColors.main500,
                             text: '관리자',
                             textStyle: tagTextStyle,
                             icon: GogoIcons.person(
-                              width: iconSize,
-                              height: iconSize,
+                              width: 12.sp,
+                              height: 12.sp,
                               color: GogoColors.main500,
                             ),
                           )
                         : SizedBox.shrink(),
+                    SizedBox(width: 16.w),
                   ],
                 ),
               ),
               Align(
                 alignment: Alignment.topRight,
                 child: broadcast
-                    ? TagComponent(
-                        padding: tagPadding,
-                        borderRadius: tagBorderRadius,
-                        spacing: tagInsideSpacing,
+                    ? TagComponent.small(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.w, vertical: 4.h),
+                        borderRadius: BorderRadius.all(Radius.circular(8.h)),
+                        spacing: 4.w,
                         color: GogoColors.error,
                         text: '중계 설정',
                         textStyle: tagTextStyle,
                         icon: GogoIcons.play(
-                          width: iconSize,
-                          height: iconSize,
+                          width: 12.sp,
+                          height: 12.sp,
                           color: GogoColors.error,
                         ),
                       )
@@ -151,17 +132,22 @@ class StageCardComponent extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.center,
-                child: Text(
-                  stageName,
-                  style: stageTextStyle.copyWith(color: GogoColors.white),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 28.h),
+                  child: Text(
+                    stageName,
+                    style: stageTextStyle.copyWith(color: GogoColors.white),
+                  ),
                 ),
               ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
-                  height: buttonHeight,
+                  height: 45.h,
                   child: GogoIconButton(
+                    padding: EdgeInsets.symmetric(horizontal: 16.sp),
                     icon: buttonIcon,
+                    spacing: 8.w,
                     onTap: onTap,
                     text: buttonText,
                     width: buttonWidth,
