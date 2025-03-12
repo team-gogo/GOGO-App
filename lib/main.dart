@@ -16,6 +16,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // 백그라운드 Notification 핸들러 지정
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
