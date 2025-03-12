@@ -43,6 +43,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
 
   rxdart: ^0.28.0
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
