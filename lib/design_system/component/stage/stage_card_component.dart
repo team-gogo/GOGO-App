@@ -8,6 +8,7 @@ import '../../theme/typography.dart';
 class StageCardComponent extends StatelessWidget {
   final String stageName;
   final TextStyle stageTextStyle;
+  final double spacing;
   final double height;
   final double width;
   final Color color;
@@ -35,6 +36,7 @@ class StageCardComponent extends StatelessWidget {
     this.width = double.infinity,
     required this.stageName,
     this.stageTextStyle = GogoTypography.body1Extrabold,
+    this.spacing = 16,
     required this.color,
     this.borderRadius = const BorderRadius.all(Radius.circular(16)),
     this.tagPadding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -58,7 +60,7 @@ class StageCardComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding,
+      padding: EdgeInsets.only(right: spacing),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: borderRadius,
@@ -88,7 +90,7 @@ class StageCardComponent extends StatelessWidget {
                               color: GogoColors.white,
                             ),
                           )
-                        : Container(),
+                        : SizedBox.shrink(),
                     SizedBox(
                       width: tagSpacing,
                     ),
@@ -125,7 +127,7 @@ class StageCardComponent extends StatelessWidget {
                               color: GogoColors.main500,
                             ),
                           )
-                        : Container(),
+                        : SizedBox.shrink(),
                   ],
                 ),
               ),
@@ -145,7 +147,7 @@ class StageCardComponent extends StatelessWidget {
                           color: GogoColors.error,
                         ),
                       )
-                    : Container(),
+                    : SizedBox.shrink(),
               ),
               Align(
                 alignment: Alignment.center,
