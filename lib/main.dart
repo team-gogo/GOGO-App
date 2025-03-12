@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/router.dart';
 import 'data/get_it_module/get_it_module.dart';
 import 'design_system/theme/color.dart';
@@ -8,7 +10,8 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  // 가로모드 방지
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // env 불러오기
   await dotenv.load(fileName: ".env");
   // 파이어베이스 초기화
@@ -36,16 +39,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        scaffoldBackgroundColor: GogoColors.black,
+    return ScreenUtilInit(
+      designSize: Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (_, child) => MaterialApp.router(
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          scaffoldBackgroundColor: GogoColors.black,
+        ),
+        routerDelegate: PageRouter.router.routerDelegate,
+        routeInformationParser: PageRouter.router.routeInformationParser,
+        routeInformationProvider: PageRouter.router.routeInformationProvider,
       ),
-      routerDelegate: PageRouter.router.routerDelegate,
-      routeInformationParser: PageRouter.router.routeInformationParser,
-      routeInformationProvider: PageRouter.router.routeInformationProvider,
     );
   }
 }
