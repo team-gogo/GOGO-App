@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_event.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_state.dart';
 
@@ -33,6 +31,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
 
     ///================================================================= 포그라운드 알림 처리
     FirebaseMessaging.onMessage
-        .listen((RemoteMessage message) => debugPrint(message.data.toString()));
+        .listen((RemoteMessage message) => print(message.notification?.title));
   }
 }
