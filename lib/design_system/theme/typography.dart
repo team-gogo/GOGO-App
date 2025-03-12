@@ -1,130 +1,129 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GogoTypography {
-  static const String _fontFamily = 'suit';
+  static const _fontFamily = 'suit';
 
   // Title
-  static TextStyle title1Extrabold = TextStyle(
+  static const title1Extrabold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w800,
-    fontSize: 44.sp,
+    fontSize: 44,
     height: 1.5,
     letterSpacing: 0,
   );
-  static TextStyle title2Extrabold = TextStyle(
+  static const title2Extrabold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w800,
-    fontSize: 40.sp,
+    fontSize: 40,
     height: 1.5,
     letterSpacing: 0,
   );
-  static TextStyle title3Extrabold = TextStyle(
+  static const title3Extrabold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w800,
-    fontSize: 36.sp,
+    fontSize: 36,
     height: 1.5,
     letterSpacing: 0,
   );
-  static TextStyle title4Extrabold = TextStyle(
+  static const title4Extrabold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w800,
-    fontSize: 32.sp,
+    fontSize: 32,
     height: 1.5,
     letterSpacing: 0,
   );
-  static TextStyle title4Semibold = TextStyle(
+  static const title4Semibold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w600,
-    fontSize: 32.sp,
+    fontSize: 32,
     height: 1.5,
     letterSpacing: 0,
   );
 
   // Body
-  static TextStyle body1Extrabold = TextStyle(
+  static const body1Extrabold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w800,
-    fontSize: 24.sp,
+    fontSize: 24,
     height: 1.5,
     letterSpacing: 0,
   );
-  static TextStyle body1Semibold = TextStyle(
+  static const body1Semibold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w600,
-    fontSize: 24.sp,
+    fontSize: 24,
     height: 1.5,
     letterSpacing: 0,
   );
-  static TextStyle body2Extrabold = TextStyle(
+  static const body2Extrabold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w800,
-    fontSize: 20.sp,
+    fontSize: 20,
     height: 1.2,
     letterSpacing: 0,
   );
-  static TextStyle body2Semibold = TextStyle(
+  static const body2Semibold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w600,
-    fontSize: 20.sp,
+    fontSize: 20,
     height: 1.2,
     letterSpacing: 0,
   );
-  static TextStyle body3Extrabold = TextStyle(
+  static const body3Extrabold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w800,
-    fontSize: 16.sp,
+    fontSize: 16,
     height: 1.5,
     letterSpacing: 0,
   );
-  static TextStyle body3Semibold = TextStyle(
+  static const body3Semibold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w600,
-    fontSize: 16.sp,
+    fontSize: 16,
     height: 2,
     letterSpacing: 0,
   );
 
   // Caption
-  static TextStyle caption1Extrabold = TextStyle(
+  static const caption1Extrabold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w800,
-    fontSize: 14.sp,
+    fontSize: 14,
     height: 1.5,
     letterSpacing: 0,
   );
-  static TextStyle caption1Semibold = TextStyle(
+  static const caption1Semibold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w600,
-    fontSize: 14.sp,
+    fontSize: 14,
     height: 1.5,
     letterSpacing: 0,
   );
-  static TextStyle caption2Extrabold = TextStyle(
+  static const caption2Extrabold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w800,
-    fontSize: 12.sp,
+    fontSize: 12,
     height: 1.5,
     letterSpacing: 0,
   );
-  static TextStyle caption2Semibold = TextStyle(
+  static const caption2Semibold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w600,
-    fontSize: 12.sp,
+    fontSize: 12,
     height: 1.5,
     letterSpacing: 0,
   );
-  static TextStyle caption3Extrabold = TextStyle(
+  static const caption3Extrabold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w800,
-    fontSize: 11.sp,
+    fontSize: 11,
     height: 2,
     letterSpacing: 0,
   );
-  static TextStyle caption3Semibold = TextStyle(
+  static const caption3Semibold = TextStyle(
     fontFamily: _fontFamily,
     fontWeight: FontWeight.w600,
-    fontSize: 11.sp,
+    fontSize: 11,
     height: 2,
     letterSpacing: 0,
   );
