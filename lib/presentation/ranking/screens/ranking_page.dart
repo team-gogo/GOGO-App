@@ -43,7 +43,7 @@ class RankingPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         RankingComponent(
-                          points: '1500',
+                          points: 1500,
                           name: '나현욱',
                           colors: [
                             Color(0xFF989898),
@@ -54,7 +54,7 @@ class RankingPage extends StatelessWidget {
                           iconSize: 24,
                         ),
                         RankingComponent(
-                          points: '2000',
+                          points: 2000,
                           name: '나현욱',
                           colors: [
                             Color(0xFFA07102),
@@ -65,7 +65,7 @@ class RankingPage extends StatelessWidget {
                           iconSize: 40,
                         ),
                         RankingComponent(
-                          points: '1000',
+                          points: 1000,
                           name: '나현욱',
                           colors: [
                             Color(0xFFAE5C43),
