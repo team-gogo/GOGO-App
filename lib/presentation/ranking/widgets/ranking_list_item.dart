@@ -30,7 +30,7 @@ class RankingListItem extends StatelessWidget {
             spacing: 24,
             children: [
               Text(
-                "$index등",
+                "${index + 1}등",
                 style: GogoTypography.caption1Extrabold.copyWith(
                   color: GogoColors.white,
                 ),
