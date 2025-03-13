@@ -8,16 +8,12 @@ class GogoProfileCardComponent extends StatefulWidget {
   final String name;
   final String school;
   final String male;
-  final bool selected; // 선택 되었을때 true, 선택 되지 않았을때 false
-  final VoidCallback onTap;
 
   const GogoProfileCardComponent({
     super.key,
     required this.name,
     required this.school,
     required this.male,
-    required this.selected,
-    required this.onTap,
   });
 
   @override
