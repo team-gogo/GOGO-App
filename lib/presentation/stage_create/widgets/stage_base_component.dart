@@ -37,7 +37,7 @@ class StageBaseComponent extends StatelessWidget {
                   : SizedBox.shrink()
             ],
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 16),
           Column(
             spacing: 12,
             children: [
