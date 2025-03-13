@@ -8,12 +8,16 @@ class GogoProfileCardComponent extends StatelessWidget {
   final String name;
   final String school;
   final String male;
+  final bool selected; // 선택 되었을때 true, 선택 되지 않았을때 false
+  final VoidCallback onTap;
 
   const GogoProfileCardComponent({
     super.key,
     required this.name,
     required this.school,
     required this.male,
+    required this.selected,
+    required this.onTap,
   });
 
   @override
@@ -96,22 +100,27 @@ class GogoProfileCardComponent extends StatelessWidget {
                 ),
               ],
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: 8.w,
-              children: [
-                GogoIcons.gearWheel(
-                  width: 24.sp,
-                  height: 24.sp,
-                  color: GogoColors.gray500,
-                ),
-                Text(
-                  '설정',
-                  style: subjectStyle,
-                ),
-              ],
+            GestureDetector(
+              onTap: onTap,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: 8.w,
+                children: [
+                  GogoIcons.gearWheel(
+                    width: 24.sp,
+                    height: 24.sp,
+                    color: selected ? GogoColors.white : GogoColors.gray500,
+                  ),
+                  Text(
+                    '설정',
+                    style: selected
+                        ? subjectStyle.copyWith(color: GogoColors.white)
+                        : subjectStyle,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
