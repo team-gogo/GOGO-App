@@ -41,7 +41,6 @@ class NamePage extends StatelessWidget {
             height: 36,
           ),
           GogoTextField(
-            textFieldState: GogoTextFieldState.basic,
             controller: context.read<NameBloc>().nameController,
             hintText: "이름를 입력해주세요.",
             validator: context.read<NameBloc>().validateName,
