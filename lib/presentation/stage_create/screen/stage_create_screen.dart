@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gogo_app/design_system/component/button/gogo_default_button.dart';
 import 'package:gogo_app/design_system/component/text_field/gogo_text_field.dart';
 import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
@@ -131,11 +132,36 @@ class StageCreateScreen extends StatelessWidget {
                         GogoTextField(
                           controller: TextEditingController(),
                           hintText: "초기 보유 포인트",
-                          endIcon: GogoIcons.ticket(
-                              color: GogoColors.gray400),
+                          endIcon: GogoIcons.ticket(color: GogoColors.gray400),
                         ),
                       ],
                     ),
+                    StageBaseComponent(
+                      title: '입장번호',
+                      description: '입장 번호는 선택사항입니다.',
+                      children: [
+                        GogoTextField(
+                          controller: TextEditingController(),
+                          hintText: "입장 번호 입력",
+                        ),
+                      ],
+                    ),
+                    StageBaseComponent(
+                      title: '관리할 학생 (최대 5명)',
+                      description: '관리할 학생은 선택사항입니다.',
+                      children: [
+                        GogoTextField(
+                          controller: TextEditingController(),
+                          hintText: "본인과 함께 스테이지를 관리할 학생",
+                        ),
+                      ],
+                    ),
+                    GogoDefaultButton(
+                      onTap: () {},
+                      color: true ? GogoColors.gray400 : GogoColors.main600,
+                      text: "확인",
+                    ),
+                    SizedBox(height: 75),
                   ],
                 ),
               ),
