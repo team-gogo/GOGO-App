@@ -95,11 +95,8 @@ class RankingPage extends StatelessWidget {
                       spacing: 8,
                       children: List.generate(
                         20,
-                        (index) => SizedBox(
-                          height: 38,
-                          child: RankingListItem(
-                              index: index, name: '김진원', point: 123),
-                        ),
+                        (index) => RankingListItem(
+                            index: index , name: '김진원', point: 123),
                       ),
                     ),
                   ),
