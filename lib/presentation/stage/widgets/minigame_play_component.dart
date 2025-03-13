@@ -3,25 +3,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gogo_app/design_system/component/button/gogo_icon_button.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
+import 'package:gogo_app/design_system/theme/typography.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MinigamePlayComponent extends StatelessWidget {
-  final double width;
-  final double height;
-  final BorderRadius borderRadius;
   final VoidCallback buttononPressed;
   final bool selectedminigame; // 미니게임이 선택이 되면 true, 안되면 false
-  final EdgeInsets padding;
-  final double spacing;
 
   const MinigamePlayComponent({
     super.key,
-    this.width = 343,
-    this.height = 232,
-    this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     required this.buttononPressed,
     this.selectedminigame = false,
-    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 17),
-    this.spacing = 8,
   });
 
   @override
@@ -30,8 +22,8 @@ class MinigamePlayComponent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: width,
-          height: 24,
+          width: 343.w,
+          height: 24.h,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -43,15 +35,14 @@ class MinigamePlayComponent extends StatelessWidget {
                       color: Colors.white,
                     ),
                     SizedBox(
-                      width: spacing,
+                      width: 8.w,
                     ),
                     Text(
                       "미니게임",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "SUIT",
-                          fontWeight: FontWeight.w800,
-                          fontSize: 20),
+                      maxLines: 1,
+                      style: GogoTypography.body2Extrabold.copyWith(
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
@@ -61,15 +52,13 @@ class MinigamePlayComponent extends StatelessWidget {
                   children: [
                     Text(
                       "더보기",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: "SUIT",
-                        fontWeight: FontWeight.w600,
+                      maxLines: 1,
+                      style: GogoTypography.caption1Semibold.copyWith(
                         color: GogoColors.gray500,
                       ),
                     ),
                     SizedBox(
-                      width: 8,
+                      width: 8.w,
                     ),
                     GogoIcons.chevronRight(
                       color: GogoColors.gray500,
@@ -81,22 +70,23 @@ class MinigamePlayComponent extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 16,
+          height: 16.h,
         ),
         Container(
-          width: width,
-          height: 183,
-          padding: padding,
+          width: 343.w,
+          height: 183.h,
+          padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 17.w),
           decoration: BoxDecoration(
-            borderRadius: borderRadius,
+            borderRadius: BorderRadius.circular(12.r),
             color: GogoColors.gray700,
           ),
           child: Column(
             children: [
               Container(
-                width: 309,
-                height: 95,
+                width: 309.w,
+                height: 95.h,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     MinigameSelectButton(
                       gameName: "야바위",
@@ -106,7 +96,7 @@ class MinigamePlayComponent extends StatelessWidget {
                       onPressed: buttononPressed,
                     ),
                     SizedBox(
-                      width: spacing,
+                      width: 8.w,
                     ),
                     MinigameSelectButton(
                       gameName: "코인토스",
@@ -116,7 +106,7 @@ class MinigamePlayComponent extends StatelessWidget {
                       onPressed: buttononPressed,
                     ),
                     SizedBox(
-                      width: 8,
+                      width: 8.w,
                     ),
                     MinigameSelectButton(
                       gameName: "플린코",
@@ -129,19 +119,19 @@ class MinigamePlayComponent extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 12,
+                height: 12.h,
               ),
               Container(
-                width: 309,
-                height: 48,
+                width: 309.w,
+                height: 48.h,
                 child: ElevatedButton(
                   style: ButtonStyle(
                     padding: WidgetStateProperty.all(
-                      EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
                     ),
                     shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
-                        borderRadius: borderRadius,
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     backgroundColor: WidgetStateProperty.all(
@@ -154,11 +144,9 @@ class MinigamePlayComponent extends StatelessWidget {
                     children: [
                       Text(
                         "게임 하기",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: "SUIT",
-                          fontWeight: FontWeight.w600,
-                          color: GogoColors.white,
+                        maxLines: 1,
+                        style: GogoTypography.caption1Semibold.copyWith(
+                          color: Colors.white,
                         ),
                       ),
                       GogoIcons.chevronRight(
@@ -190,9 +178,9 @@ class MinigameSelectButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 95,
-      height: 95,
+    return Container(
+      width: 95.w,
+      height: 95.h,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
@@ -201,7 +189,7 @@ class MinigameSelectButton extends StatelessWidget {
           ),
           shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
           ),
         ),
@@ -210,17 +198,14 @@ class MinigameSelectButton extends StatelessWidget {
           children: [
             minigameImage,
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
             Text(
               gameName,
+              maxLines: 1,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: GogoColors.gray400,
-                fontFamily: "SUIT",
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: GogoTypography.body3Semibold
+                  .copyWith(color: GogoColors.gray400),
             ),
           ],
         ),
