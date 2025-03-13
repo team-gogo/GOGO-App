@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 
@@ -20,9 +21,17 @@ class GogoTopBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            GogoIcons.chevronLeft(onTap: onBackTap),
+            GogoIcons.chevronLeft(
+              onTap: onBackTap,
+              color: GogoColors.white,
+            ),
             const SizedBox(width: 24),
-            Text(title, style: GogoTypography.body2Semibold),
+            Text(
+              title,
+              style: GogoTypography.body2Semibold.copyWith(
+                color: GogoColors.white,
+              ),
+            ),
           ],
         ),
       ),
