@@ -8,7 +8,11 @@ class GogoTopBar extends StatelessWidget {
   final String title;
   final VoidCallback onBackTap;
 
-  const GogoTopBar({super.key, required this.title, required this.onBackTap});
+  const GogoTopBar({
+    super.key,
+    required this.title,
+    required this.onBackTap,
+  });
 
   @override
   Widget build(BuildContext context) {
