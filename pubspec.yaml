@@ -51,6 +51,7 @@ dependencies:
   flutter_screenutil: ^5.9.3 # 반응형 라이브러리
   intl: ^0.20.2
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
