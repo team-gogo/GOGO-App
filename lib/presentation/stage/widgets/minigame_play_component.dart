@@ -29,13 +29,11 @@ class MinigamePlayComponent extends StatelessWidget {
             children: [
               Container(
                 child: Row(
+                  spacing : 8.w,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GogoIcons.arcade(
                       color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 8.w,
                     ),
                     Text(
                       "미니게임",
@@ -49,6 +47,7 @@ class MinigamePlayComponent extends StatelessWidget {
               ),
               Container(
                 child: Row(
+                  spacing: 8.w,
                   children: [
                     Text(
                       "더보기",
@@ -56,9 +55,6 @@ class MinigamePlayComponent extends StatelessWidget {
                       style: GogoTypography.caption1Semibold.copyWith(
                         color: GogoColors.gray500,
                       ),
-                    ),
-                    SizedBox(
-                      width: 8.w,
                     ),
                     GogoIcons.chevronRight(
                       color: GogoColors.gray500,
@@ -86,6 +82,7 @@ class MinigamePlayComponent extends StatelessWidget {
                 width: 309.w,
                 height: 95.h,
                 child: Row(
+                  spacing: 8.w,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     MinigameSelectButton(
