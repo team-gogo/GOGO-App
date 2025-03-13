@@ -4,6 +4,7 @@ import 'package:gogo_app/design_system/component/button/gogo_icon_button.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MinigamePlayComponent extends StatelessWidget {
   final VoidCallback buttononPressed;
