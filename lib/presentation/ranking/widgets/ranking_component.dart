@@ -3,7 +3,7 @@ import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 
 class RankingComponent extends StatelessWidget {
-  final String points;
+  final int points;
   final String name;
   final List<Color> colors;
   final double circleSize;
@@ -36,7 +36,7 @@ class RankingComponent extends StatelessWidget {
             );
           },
           child: Text(
-            points,
+            '${points}P',
             style: GogoTypography.caption2Semibold,
           ),
         ),
