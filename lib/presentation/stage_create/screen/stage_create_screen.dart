@@ -108,6 +108,50 @@ class StageCreateScreen extends StatelessWidget {
                     StageBaseComponent(
                       title: '미니게임',
                       children: [
+                        Container(
+                          decoration: ShapeDecoration(
+                            color: GogoColors.gray700,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 24.0),
+                            child: Stack(
+                              alignment: Alignment.topRight,
+                              children: [
+                                SizedBox(
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                                    child: GogoIcons.questionMarkCircle(
+                                      color: GogoColors.gray500,
+                                      onTap: () {},
+                                    ),
+                                  ),
+                                ),
+                                Center(
+                                  child: Column(
+                                    spacing: 16,
+                                    children: [
+                                      GogoIcons.pointCoin(
+                                        width: 48,
+                                        height: 48,
+                                      ),
+                                      Text(
+                                        "코인토스",
+                                        style: GogoTypography.body1Semibold
+                                            .copyWith(
+                                                color: GogoColors.gray400),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                         Row(
                           spacing: 16,
                           children: [
