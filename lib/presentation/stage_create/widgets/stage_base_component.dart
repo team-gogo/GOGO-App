@@ -32,7 +32,8 @@ class StageBaseComponent extends StatelessWidget {
               description != null
                   ? Text(
                       description!,
-                      style: GogoTypography.caption2Semibold,
+                      style: GogoTypography.caption2Semibold
+                          .copyWith(color: GogoColors.gray400),
                     )
                   : SizedBox.shrink()
             ],
