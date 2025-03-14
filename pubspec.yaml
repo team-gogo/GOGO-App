@@ -49,8 +49,6 @@ dependencies:
   web_socket_channel: ^2.1.0 # web socket 프로토콜을 사용하게 해주는 라이브러리
 
   flutter_screenutil: ^5.9.3 # 반응형 라이브러리
-  intl: ^0.20.2
-
 
   intl: ^0.20.2 # 날짜 및 숫자 분석 라이브러리
 
