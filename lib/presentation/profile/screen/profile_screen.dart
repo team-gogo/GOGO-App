@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/component/stage/stage_card_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
-import 'package:gogo_app/presentation/profile/Widget/gogo_profile_card_component.dart';
-import 'package:gogo_app/presentation/profile/widget/page/edit_profile_screen.dart';
-
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/typography.dart';
+import '../widget/component/gogo_profile_card_component.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({super.key});
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
