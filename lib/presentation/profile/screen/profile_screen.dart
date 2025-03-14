@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/component/stage/stage_card_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/presentation/profile/Widget/gogo_profile_card_component.dart';
-import 'package:gogo_app/presentation/profile/widget/page/edit_profile_page.dart';
+import 'package:gogo_app/presentation/profile/widget/page/edit_profile_screen.dart';
 
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/typography.dart';
