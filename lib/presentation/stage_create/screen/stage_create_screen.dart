@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/component/button/gogo_default_button.dart';
 import 'package:gogo_app/design_system/component/text_field/gogo_text_field.dart';
 import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
@@ -14,7 +15,6 @@ class StageCreateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: GogoColors.black,
       body: Padding(
         padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
         child: Column(
