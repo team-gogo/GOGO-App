@@ -13,8 +13,8 @@ class GogoBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: [
       Divider(
-        height: 1,
-        thickness: 1,
+        thickness: 0.5,
+        height: 0,
         color: GogoColors.gray500,
       ),
       BlocBuilder<GogoBottomNavigationBarBloc, int>(
