@@ -55,7 +55,6 @@ class StageScreen extends StatelessWidget {
                 children: [
                   StageCardComponent(
                     stageName: '스테이지 이름',
-                    color: GogoColors.gray700,
                     official: true,
                     recruiting: true,
                     manager: true,
@@ -66,7 +65,6 @@ class StageScreen extends StatelessWidget {
                   ),
                   StageCardComponent(
                     stageName: '스테이지 이름',
-                    color: GogoColors.gray700,
                     official: true,
                     recruiting: true,
                     manager: true,
@@ -93,7 +91,6 @@ class StageScreen extends StatelessWidget {
                 children: [
                   StageCardComponent(
                     stageName: '스테이지 이름',
-                    color: GogoColors.gray700,
                     official: true,
                     recruiting: false,
                     manager: false,
@@ -108,7 +105,6 @@ class StageScreen extends StatelessWidget {
                   ),
                   StageCardComponent(
                     stageName: '스테이지 이름',
-                    color: GogoColors.gray700,
                     official: true,
                     recruiting: false,
                     manager: false,
@@ -135,7 +131,6 @@ class StageScreen extends StatelessWidget {
                 children: [
                   StageCardComponent(
                     stageName: '스테이지 이름',
-                    color: GogoColors.gray700,
                     official: true,
                     recruiting: true,
                     manager: true,
@@ -146,7 +141,6 @@ class StageScreen extends StatelessWidget {
                   ),
                   StageCardComponent(
                     stageName: '스테이지 이름',
-                    color: GogoColors.gray700,
                     official: true,
                     recruiting: true,
                     manager: true,
