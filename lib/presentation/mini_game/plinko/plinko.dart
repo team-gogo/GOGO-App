@@ -34,7 +34,7 @@ class PlinkoGame extends Forge2DGame {
         if (row == 0 || row == 1) continue;
         if (row == 17 && col != 0) {
           add(
-            RoundedBoxComponent(
+            RoundedBox(
               color: GogoColors.main100,
               width: 17,
               height: 15,
