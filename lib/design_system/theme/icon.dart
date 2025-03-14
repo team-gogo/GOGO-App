@@ -498,15 +498,6 @@ class GogoIcons {
       _buildIcon('alarm.svg',
           color: color, width: width, height: height, onTap: onTap);
 
-  static Widget gameIcon({
-    Color? color,
-    double width = 24,
-    double height = 24,
-    VoidCallback? onTap,
-  }) =>
-      _buildIcon('game_icon.svg',
-          color: color, width: width, height: height, onTap: onTap);
-
   static Widget logo({
     Color? color,
     double width = 24,
