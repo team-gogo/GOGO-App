@@ -50,6 +50,9 @@ dependencies:
 
   flutter_screenutil: ^5.9.3 # 반응형 라이브러리
 
+  flame: ^1.26.0 # 플러터 게임 엔진 (2D 게임 제작용)
+  flame_forge2d: ^0.16.0 # Forge2D 물리 엔진 (Box2D 기반의 물리 시뮬레이션)
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
