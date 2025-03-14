@@ -40,8 +40,12 @@ class PlinkoGame extends Forge2DGame {
 
 class Obstacle extends BodyComponent {
   final Vector2 position;
+  final Color color; // 색상 추가
+  late Paint _paint;
 
-  Obstacle(this.position);
+  Obstacle(this.position, {this.color = GogoColors.main300}) {
+    _paint = Paint()..color = color;
+  }
 
   @override
   Body createBody() {
@@ -49,6 +53,11 @@ class Obstacle extends BodyComponent {
     final fixtureDef = FixtureDef(shape, density: 1, restitution: 0.3);
     final bodyDef = BodyDef(position: position, type: BodyType.static);
     return world.createBody(bodyDef)..createFixture(fixtureDef);
+  }
+
+  @override
+  void renderCircle(Canvas canvas, Offset center, double radius) {
+    canvas.drawCircle(center, radius, _paint);
   }
 }
 
