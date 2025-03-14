@@ -498,15 +498,6 @@ class GogoIcons {
       _buildIcon('alarm.svg',
           color: color, width: width, height: height, onTap: onTap);
 
-  static Widget gameIcon({
-    Color? color,
-    double width = 24,
-    double height = 24,
-    VoidCallback? onTap,
-  }) =>
-      _buildIcon('game_icon.svg',
-          color: color, width: width, height: height, onTap: onTap);
-
   static Widget logo({
     Color? color,
     double width = 24,
@@ -539,5 +530,23 @@ class GogoIcons {
     VoidCallback? onTap,
   }) =>
       _buildIcon('lock.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget pointCircle({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('point_circle.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget pointCoin({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('point_coin.svg',
           color: color, width: width, height: height, onTap: onTap);
 }

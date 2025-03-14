@@ -152,7 +152,7 @@ final Map<String, Widget Function(bool isSelected)> gameIcons = {
   '야바위': (isSelected) => GogoIcons.shellGame(
         color: isSelected ? GogoColors.main600 : GogoColors.gray400,
       ),
-  '코인토스': (isSelected) => GogoIcons.gameIcon(
+  '코인토스': (isSelected) => GogoIcons.pointCircle(
         color: isSelected ? GogoColors.main600 : GogoColors.gray400,
       ),
   '플린코': (isSelected) => GogoIcons.plinko(

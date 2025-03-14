@@ -110,7 +110,7 @@ class MinigamePlayComponent extends StatelessWidget {
                     ),
                     MinigameSelectButton(
                       gameName: "코인토스",
-                      minigameImage: GogoIcons.gameIcon(
+                      minigameImage: GogoIcons.pointCircle(
                         color: GogoColors.gray400,
                       ),
                       onPressed: buttononPressed,
