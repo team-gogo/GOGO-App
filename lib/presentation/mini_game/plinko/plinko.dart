@@ -1,9 +1,11 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/body_component.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
+import 'package:gogo_app/design_system/theme/color.dart';
 
 double getRandomNumber(double min, double max) {
   final random = Random();
@@ -21,9 +23,9 @@ class PlinkoGame extends Forge2DGame {
   void addObstacles() async {
     double startX = size.x / 2;
     double startY = size.y / 5;
-    double spacing = 35;
+    double spacing = 25;
 
-    for (int row = 0; row < 10; row++) {
+    for (int row = 0; row < 15; row++) {
       for (int col = 0; col <= row; col++) {
         if (row == 0 || row == 1) continue;
         double x = startX + col * spacing - (row * spacing / 2);
@@ -49,7 +51,7 @@ class Obstacle extends BodyComponent {
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = 5;
+    final shape = CircleShape()..radius = 4;
     final fixtureDef = FixtureDef(shape, density: 1, restitution: 0.3);
     final bodyDef = BodyDef(position: position, type: BodyType.static);
     return world.createBody(bodyDef)..createFixture(fixtureDef);
@@ -68,8 +70,8 @@ class Ball extends BodyComponent {
 
   @override
   Body createBody() {
-    final shape = CircleShape()..radius = 7.5;
-    final fixtureDef = FixtureDef(shape, density: 0.8, restitution: 1.0);
+    final shape = CircleShape()..radius = 5;
+    final fixtureDef = FixtureDef(shape, density: 1, restitution: 0.9);
     final bodyDef = BodyDef(position: position, type: BodyType.dynamic);
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
