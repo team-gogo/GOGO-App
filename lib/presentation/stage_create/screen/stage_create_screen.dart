@@ -22,7 +22,7 @@ class StageCreateScreen extends StatelessWidget {
             GogoTopBar(
               title: "스테이지 생성(빠른 경기)",
               onBackTap: () {
-                Navigator.of(context).pop();
+                context.pop();
               },
             ),
             SizedBox(height: 8),
