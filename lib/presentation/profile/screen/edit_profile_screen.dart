@@ -6,7 +6,7 @@ import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 
-import '../../../../design_system/component/button/gogo_default_button.dart';
+import '../../../design_system/component/button/gogo_default_button.dart';
 
 class EditProfilePage extends StatefulWidget {
   EditProfilePage({super.key});
