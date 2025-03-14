@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/sex/sex_event.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/sex/sex_state.dart';
+import '../../../../data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 
 class SexBloc extends Bloc<SexEvent, SexState> {
   Sex? _sexController;
@@ -20,10 +21,10 @@ class SexBloc extends Bloc<SexEvent, SexState> {
     if (_sexController == null) {
       emit(DisableSexState());
     }
-    if (_sexController == Sex.male) {
+    if (_sexController == Sex.MALE) {
       emit(EnableMaleSexState());
     }
-    if (_sexController == Sex.female) {
+    if (_sexController == Sex.FEMALE) {
       emit(EnableFemaleSexState());
     }
   }
