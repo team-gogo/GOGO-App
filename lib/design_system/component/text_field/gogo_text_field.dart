@@ -74,12 +74,16 @@ class _GogoTextFieldState extends State<GogoTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onFieldSubmitted: (_) {
+        widget.onEditingComplete;
+        FocusScope.of(context).unfocus();
+      },
       controller: widget.controller,
       autovalidateMode: AutovalidateMode.onUnfocus,
       validator: (value) {
         if (widget.textFieldState == GogoTextFieldState.basic &&
             widget.validator != null) {
-          return widget.validator!(value);  // 이 부분을 수정
+          return widget.validator!(value); // 이 부분을 수정
         } else {
           return null;
         }
