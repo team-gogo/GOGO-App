@@ -7,9 +7,13 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 
 class MinigameComponent extends StatelessWidget {
   final double width;
+  final int point;
+  final int ticketsCount;
 
   const MinigameComponent({
     this.width = 343,
+    required this.point,
+    required this.ticketsCount,
     super.key,
   });
 
@@ -41,7 +45,7 @@ class MinigameComponent extends StatelessWidget {
                   color: GogoColors.white,
                 ),
                 Text(
-                  '2000',
+                  '$point',
                   style: GogoTypography.body2Semibold.copyWith(
                     color: GogoColors.white,
                   ),
@@ -59,7 +63,7 @@ class MinigameComponent extends StatelessWidget {
                   color: GogoColors.white,
                 ),
                 Text(
-                  "2",
+                  "$ticketsCount",
                   style: GogoTypography.body3Semibold.copyWith(
                     color: GogoColors.white,
                   ),
