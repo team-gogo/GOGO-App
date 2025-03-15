@@ -13,7 +13,7 @@ class MinigameScreen extends StatelessWidget {
   final int shellgameTickets; // 야바위 티켓수
   final int cointTossTickets; // 코인토스 티켓수 
   final int plinkoTickets; // 플링코 티켓수
-  final int shellgameTicketsCount; // 야바위 티켓 구매 가능한 수수
+  final int shellgameTicketsCount; // 야바위 티켓 구매 가능한 수
   final int cointTossTicketsCount; // 코인토스 티켓 구매 가능한 수
   final int plinkoTicketsCount; // 야바위 티켓 구매 가능한 수
   final int shellgameTicketscost; // 코인토스 티켓 가격
@@ -154,104 +154,6 @@ class MinigameScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-// 미니게임 공통 컴포넌트를 모아둔 Column
-
-class MinigameComponent extends StatelessWidget {
-  final Widget component;
-  final Widget icon;
-  final String text;
-  final int shellgameTicketscost; // 코인토스 티켓 가격
-  final int cointTossTicketscost; // 플링코 티켓 가격
-  final int plinkoTicketscost; // 야바위 티켓 가격
-  final int shellgameTicketsCount; // 야바위 티켓 구매 가능한 수수
-  final int cointTossTicketsCount; // 코인토스 티켓 구매 가능한 수
-  final int plinkoTicketsCount; // 야바위 티켓 구매 가능한 수
-  final bool info; // 티켓이면 true, 포인트 정보이면 false
-
-  const MinigameComponent({
-    super.key,
-    required this.component,
-    required this.icon,
-    required this.text,
-    this.shellgameTicketscost = 0,
-    this.cointTossTicketscost = 0,
-    this.plinkoTicketscost = 0,
-    this.shellgameTicketsCount = 0,
-    this.cointTossTicketsCount = 0,
-    this.plinkoTicketsCount = 0,
-    required this.info,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        MinigameTopBar(
-          height: 32,
-          component: component,
-          icon: icon,
-          text: text,
-        ),
-        SizedBox(
-          height: 12,
-        ),
-        MinigameSelectComponent(
-          info: info,
-          gameIcon: info
-              ? GogoIcons.shellGame(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                )
-              : GogoIcons.ticket(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                ),
-          gameName: "야바위",
-          ticketsCost: shellgameTicketscost,
-          ticketsCount: shellgameTicketsCount,
-        ),
-        MinigameSelectComponent(
-          info: info,
-          gameIcon: info
-              ? GogoIcons.pointCoin(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                )
-              : GogoIcons.ticket(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                ),
-          gameName: "코인토스",
-          ticketsCost: cointTossTicketscost,
-          ticketsCount: cointTossTicketsCount,
-        ),
-        MinigameSelectComponent(
-          info: info,
-          gameIcon: info
-              ? GogoIcons.plinko(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                )
-              : GogoIcons.ticket(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                ),
-          gameName: "플링코",
-          ticketsCost: plinkoTicketscost,
-          ticketsCount: plinkoTicketsCount,
-        ),
-      ],
     );
   }
 }

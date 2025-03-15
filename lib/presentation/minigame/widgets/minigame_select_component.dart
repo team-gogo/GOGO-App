@@ -72,7 +72,7 @@ class MinigameSelectComponent extends StatelessWidget {
               child: TextButton(
                 onPressed: () {},
                 child: Text(
-                  info ? "게임하기" : '$ticketsCost',
+                  info ? "게임하기기" : '$ticketsCost',
                   style: GogoTypography.caption1Semibold.copyWith(
                     color: GogoColors.white,
                   ),
@@ -95,7 +95,7 @@ class MinigameSelectComponent extends StatelessWidget {
   }
 }
 
-class MinigameComponent extends StatelessWidget {
+class MinigameScrollComponent extends StatelessWidget {
   final Widget component;
   final Widget icon;
   final String text;
@@ -107,7 +107,7 @@ class MinigameComponent extends StatelessWidget {
   final int plinkoTicketsCount; // 야바위 티켓 구매 가능한 수
   final bool info; // 티켓이면 true, 포인트 정보이면 false
 
-  const MinigameComponent({
+  const MinigameScrollComponent({
     super.key,
     required this.component,
     required this.icon,
