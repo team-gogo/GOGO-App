@@ -549,4 +549,13 @@ class GogoIcons {
   }) =>
       _buildIcon('point_coin.svg',
           color: color, width: width, height: height, onTap: onTap);
+
+  static Widget shop({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('shop.svg',
+          color: color, width: width, height: height, onTap: onTap);
 }
