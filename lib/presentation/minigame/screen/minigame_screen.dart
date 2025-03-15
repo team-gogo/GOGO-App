@@ -14,6 +14,9 @@ class MinigameScreen extends StatelessWidget {
   final int shellgameTicketsCount; // 야바위 티켓 구매 가능한 수수
   final int cointTossTicketsCount; // 코인토스 티켓 구매 가능한 수
   final int plinkoTicketsCount; // 야바위 티켓 구매 가능한 수
+  final int shellgameTicketscost; // 코인토스 티켓 가격
+  final int cointTossTicketscost; // 플링코 티켓 가격
+  final int plinkoTicketscost; // 야바위 티켓 가격
   final int point; // 보유 포인트
 
   const MinigameScreen({
@@ -23,6 +26,9 @@ class MinigameScreen extends StatelessWidget {
     required this.shellgameTicketsCount,
     required this.cointTossTicketsCount,
     required this.plinkoTicketsCount,
+    required this.shellgameTicketscost,
+    required this.cointTossTicketscost,
+    required this.plinkoTicketscost,
     required this.point,
     super.key,
   });
@@ -35,8 +41,13 @@ class MinigameScreen extends StatelessWidget {
           children: [
             // 티켓 정보 및 구매
             MinigameComponent(
+              icon: GogoIcons.arcade(
+                color: GogoColors.white,
+              ),
+              info: true,
+              text: "게임",
               component: Row(
-                spacing: 10,
+                spacing: 12,
                 children: [
                   Text(
                     "티켓",
@@ -103,30 +114,49 @@ class MinigameScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              icon: GogoIcons.arcade(
-                color: GogoColors.white,
-              ),
-              info: true,
-              text: "게임",
             ),
             // 포인트 정보 및 게임화면으로 이동
             MinigameComponent(
-              component: Row(
-                spacing: 10,
-                children: [
-                  Text(
-                    "티켓",
-                    style: GogoTypography.caption1Semibold.copyWith(
-                      color: GogoColors.white,
-                    ),
-                  ),
-                ],
-              ),
-              icon: GogoIcons.arcade(
+              icon: GogoIcons.shop(
                 color: GogoColors.white,
               ),
               info: false,
               text: "상점",
+              component: Row(
+                spacing: 12,
+                children: [
+                  Text(
+                    "보유 포인트",
+                    style: GogoTypography.caption1Semibold.copyWith(
+                      color: GogoColors.white,
+                    ),
+                  ),
+                  Container(
+                    child: Row(
+                      spacing: 8,
+                      children: [
+                        Text(
+                          '$point',
+                          style: GogoTypography.caption1Semibold.copyWith(
+                            color: GogoColors.white,
+                          ),
+                        ),
+                        GogoIcons.pointCircle(
+                          color: GogoColors.white,
+                          width: 16,
+                          height: 16,
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              shellgameTicketscost: shellgameTicketscost,
+              cointTossTicketscost: cointTossTicketscost,
+              plinkoTicketscost: plinkoTicketscost,
+              shellgameTicketsCount: shellgameTicketsCount,
+              cointTossTicketsCount: cointTossTicketsCount,
+              plinkoTicketsCount: plinkoTicketsCount,
             ),
           ],
         ),
@@ -142,8 +172,8 @@ class MinigameSelectComponent extends StatelessWidget {
   final double height;
   final Widget gameIcon;
   final String gameName;
-  final String gameScreen;
-  final String infoScreen;
+  final int ticketsCost;
+  final int ticketsCount;
   final bool info; // 티켓 정보이면 true, 미니게임이면 false,
 
   const MinigameSelectComponent({
@@ -152,70 +182,78 @@ class MinigameSelectComponent extends StatelessWidget {
     this.height = 143,
     required this.gameIcon,
     required this.gameName,
-    required this.gameScreen,
-    required this.infoScreen,
+    required this.ticketsCost,
+    this.ticketsCount = 0,
     required this.info,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 16.h,
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-          width: width.w,
-          height: height,
-          decoration: BoxDecoration(
-              color: GogoColors.gray700,
-              borderRadius: BorderRadius.circular(12)),
-          child: Stack(
-            children: [
-              Center(
-                child: Column(
-                  spacing: 16,
-                  children: [
-                    gameIcon,
-                    Text(
-                      gameName,
-                      style: GogoTypography.body1Semibold.copyWith(
-                        color: GogoColors.white,
-                      ),
+    return Column(spacing: 16.h, children: [
+      Container(
+        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+            color: GogoColors.gray700, borderRadius: BorderRadius.circular(12)),
+        child: Stack(
+          children: [
+            Center(
+              child: Column(
+                spacing: 16,
+                children: [
+                  gameIcon,
+                  Text(
+                    gameName,
+                    style: GogoTypography.body1Semibold.copyWith(
+                      color: GogoColors.white,
                     ),
-                  ],
-                ),
-              ),
-              Positioned(
-                  right: 0,
-                  child: GogoIcons.questionMarkCircle(
-                    onTap: () => context.go(infoScreen),
-                    color: GogoColors.gray500,
-                  )),
-            ],
-          ),
-        ),
-        Container(
-          width: width.w,
-          height: 45,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: GogoColors.main600,
-          ),
-          child: TextButton(
-            onPressed: () => context.go(gameScreen),
-            child: Text(
-              "게임하기",
-              style: GogoTypography.caption1Semibold.copyWith(
-                color: GogoColors.white,
+                  ),
+                ],
               ),
             ),
-          ),
+            Positioned(
+                right: 0,
+                child: GogoIcons.questionMarkCircle(
+                  onTap: () {},
+                  color: GogoColors.gray500,
+                )),
+          ],
         ),
-        SizedBox(
-          height: 12,
-        ),
-      ],
-    );
+      ),
+      Column(
+        spacing: 8,
+        children: [
+          Container(
+              width: width,
+              height: 45,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: GogoColors.main600,
+              ),
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  info ? "게임하기" : '$ticketsCost',
+                  style: GogoTypography.caption1Semibold.copyWith(
+                    color: GogoColors.white,
+                  ),
+                ),
+              )),
+          info
+              ? Container()
+              : Text(
+                  '구매 가능한 티켓 : $ticketsCount',
+                  style: GogoTypography.caption2Semibold.copyWith(
+                    color: GogoColors.gray500,
+                  ),
+                ),
+        ],
+      ),
+      SizedBox(
+        height: 12,
+      ),
+    ]);
   }
 }
 
@@ -274,6 +312,12 @@ class MinigameComponent extends StatelessWidget {
   final Widget component;
   final Widget icon;
   final String text;
+  final int shellgameTicketscost; // 코인토스 티켓 가격
+  final int cointTossTicketscost; // 플링코 티켓 가격
+  final int plinkoTicketscost; // 야바위 티켓 가격
+  final int shellgameTicketsCount; // 야바위 티켓 구매 가능한 수수
+  final int cointTossTicketsCount; // 코인토스 티켓 구매 가능한 수
+  final int plinkoTicketsCount; // 야바위 티켓 구매 가능한 수
   final bool info; // 티켓이면 true, 포인트 정보이면 false
 
   const MinigameComponent({
@@ -281,6 +325,12 @@ class MinigameComponent extends StatelessWidget {
     required this.component,
     required this.icon,
     required this.text,
+    this.shellgameTicketscost = 0,
+    this.cointTossTicketscost = 0,
+    this.plinkoTicketscost = 0,
+    this.shellgameTicketsCount = 0,
+    this.cointTossTicketsCount = 0,
+    this.plinkoTicketsCount = 0,
     required this.info,
   });
 
@@ -299,8 +349,6 @@ class MinigameComponent extends StatelessWidget {
           height: 12,
         ),
         MinigameSelectComponent(
-          infoScreen: "", // 야바위 자세히 보기 화면
-          gameScreen: "", // 야바위 게임 화면
           info: info,
           gameIcon: info
               ? GogoIcons.shellGame(
@@ -314,10 +362,10 @@ class MinigameComponent extends StatelessWidget {
                   color: GogoColors.white,
                 ),
           gameName: "야바위",
+          ticketsCost: shellgameTicketscost,
+          ticketsCount: shellgameTicketsCount,
         ),
         MinigameSelectComponent(
-          infoScreen: "", //코인토스 자세히 보기 화면
-          gameScreen: "", //코인토스 게임 화면
           info: info,
           gameIcon: info
               ? GogoIcons.pointCoin(
@@ -331,10 +379,10 @@ class MinigameComponent extends StatelessWidget {
                   color: GogoColors.white,
                 ),
           gameName: "코인토스",
+          ticketsCost: cointTossTicketscost,
+          ticketsCount: cointTossTicketsCount,
         ),
         MinigameSelectComponent(
-          infoScreen: "", // 플링코 자세히 보기 화면
-          gameScreen: "", // 플링코 게임 화면
           info: info,
           gameIcon: info
               ? GogoIcons.plinko(
@@ -348,6 +396,8 @@ class MinigameComponent extends StatelessWidget {
                   color: GogoColors.white,
                 ),
           gameName: "플링코",
+          ticketsCost: plinkoTicketscost,
+          ticketsCount: plinkoTicketsCount,
         ),
       ],
     );
