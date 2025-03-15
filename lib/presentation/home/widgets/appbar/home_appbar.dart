@@ -4,8 +4,8 @@ import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/home/widgets/appbar/bloc/home_appbar_bloc.dart';
 import 'package:gogo_app/presentation/home/widgets/appbar/bloc/home_appbar_state.dart';
-import '../../../../design_system/component/tag/date_tag_component.dart';
-import '../../../../design_system/component/tag/tag_component.dart';
+import '../../../../design_system/component/tag/gogo_date_tag_component.dart';
+import '../../../../design_system/component/tag/gogo_tag_component.dart';
 
 class HomeAppbar extends StatelessWidget {
   final int point;
@@ -50,7 +50,7 @@ class HomeAppbar extends StatelessWidget {
                         10,
                         (index) {
                           dateTime = dateTime.add(Duration(days: 1));
-                          return DateTagComponent(
+                          return GogoDateTagComponent(
                             tagState:
                                 state is InitHomeAppbarState && index == 0
                                     ? TagState.isSelected

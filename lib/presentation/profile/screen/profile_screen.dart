@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gogo_app/design_system/component/stage/stage_card_component.dart';
+import 'package:gogo_app/design_system/component/stage/gogo_stage_card_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/typography.dart';
