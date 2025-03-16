@@ -19,13 +19,9 @@ class GogoIconButton extends StatelessWidget {
     required this.onTap,
     required this.text,
     this.width = double.infinity,
-    this.padding = const EdgeInsets.symmetric(
-      vertical: 12,
-    ),
+    this.padding = const EdgeInsets.symmetric(vertical: 12),
     this.color = GogoColors.main600,
-    this.borderRadius = const BorderRadius.all(
-      Radius.circular(12),
-    ),
+    this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.textStyle = GogoTypography.body3Semibold,
     this.textColor = GogoColors.white,
     required this.icon,
@@ -34,30 +30,31 @@ class GogoIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: padding,
-        alignment: Alignment.center,
-        width: width,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: borderRadius,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            icon,
-            SizedBox(
-              width: spacing,
-            ),
-            Text(
-              text,
-              style: textStyle.copyWith(
-                color: textColor,
+    return Material(
+      borderRadius: borderRadius,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: borderRadius,
+        splashColor: Colors.white.withOpacity(0.2),
+        highlightColor: Colors.white.withOpacity(0.1),
+        child: Ink(
+          width: width,
+          padding: padding,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: borderRadius,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon,
+              SizedBox(width: spacing),
+              Text(
+                text,
+                style: textStyle.copyWith(color: textColor),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
