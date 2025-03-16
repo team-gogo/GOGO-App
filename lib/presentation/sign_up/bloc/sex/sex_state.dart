@@ -1,3 +1,4 @@
+enum Sex { male, female }
 
 abstract class SexState {}
 class DisableSexState extends SexState {}

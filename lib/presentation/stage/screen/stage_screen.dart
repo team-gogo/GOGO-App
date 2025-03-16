@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gogo_app/design_system/component/stage/gogo_stage_card_component.dart';
-import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
+import 'package:gogo_app/design_system/component/stage/stage_card_component.dart';
+import 'package:gogo_app/design_system/component/tag/tag_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 
 import '../../../design_system/theme/color.dart';
@@ -32,7 +32,7 @@ class StageScreen extends StatelessWidget {
                         .copyWith(color: GogoColors.white),
                   ),
                   GestureDetector(
-                    child: GogoTagComponent(
+                    child: TagComponent(
                       color: GogoColors.main400,
                       padding: const EdgeInsets.all(12.0),
                       borderRadius: BorderRadius.circular(8),
@@ -55,6 +55,7 @@ class StageScreen extends StatelessWidget {
                 children: [
                   StageCardComponent(
                     stageName: '스테이지 이름',
+                    color: GogoColors.gray700,
                     official: true,
                     recruiting: true,
                     manager: true,
@@ -65,6 +66,7 @@ class StageScreen extends StatelessWidget {
                   ),
                   StageCardComponent(
                     stageName: '스테이지 이름',
+                    color: GogoColors.gray700,
                     official: true,
                     recruiting: true,
                     manager: true,
@@ -91,6 +93,7 @@ class StageScreen extends StatelessWidget {
                 children: [
                   StageCardComponent(
                     stageName: '스테이지 이름',
+                    color: GogoColors.gray700,
                     official: true,
                     recruiting: false,
                     manager: false,
@@ -105,6 +108,7 @@ class StageScreen extends StatelessWidget {
                   ),
                   StageCardComponent(
                     stageName: '스테이지 이름',
+                    color: GogoColors.gray700,
                     official: true,
                     recruiting: false,
                     manager: false,
@@ -131,6 +135,7 @@ class StageScreen extends StatelessWidget {
                 children: [
                   StageCardComponent(
                     stageName: '스테이지 이름',
+                    color: GogoColors.gray700,
                     official: true,
                     recruiting: true,
                     manager: true,
@@ -141,6 +146,7 @@ class StageScreen extends StatelessWidget {
                   ),
                   StageCardComponent(
                     stageName: '스테이지 이름',
+                    color: GogoColors.gray700,
                     official: true,
                     recruiting: true,
                     manager: true,

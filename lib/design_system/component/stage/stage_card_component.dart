@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gogo_app/design_system/component/button/gogo_icon_button.dart';
-import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
+import 'package:gogo_app/design_system/component/tag/tag_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import '../../theme/color.dart';
 import '../../theme/typography.dart';
@@ -8,6 +8,9 @@ import '../../theme/typography.dart';
 class StageCardComponent extends StatelessWidget {
   final String stageName;
   final TextStyle stageTextStyle;
+  final double height;
+  final double width;
+  final Color color;
   final BorderRadius borderRadius;
   final EdgeInsets tagPadding;
   final double tagSpacing;
@@ -22,17 +25,22 @@ class StageCardComponent extends StatelessWidget {
   final bool broadcast; // 중계 설정 태그가 보임: true, 안보임: false
   final VoidCallback onTap;
   final String buttonText;
+  final double buttonHeight;
+  final double buttonWidth;
   final Widget buttonIcon;
 
   const StageCardComponent({
     super.key,
+    this.height = 220,
+    this.width = double.infinity,
     required this.stageName,
-    this.stageTextStyle = GogoTypography.body2Extrabold,
+    this.stageTextStyle = GogoTypography.body1Extrabold,
+    required this.color,
     this.borderRadius = const BorderRadius.all(Radius.circular(16)),
     this.tagPadding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     this.tagSpacing = 12,
     this.tagInsideSpacing = 6,
-    this.tagTextStyle = GogoTypography.caption2Semibold,
+    this.tagTextStyle = GogoTypography.caption3Semibold,
     this.tagBorderRadius = const BorderRadius.all(Radius.circular(8)),
     this.iconSize = 12,
     this.padding = const EdgeInsets.all(16),
@@ -42,31 +50,32 @@ class StageCardComponent extends StatelessWidget {
     required this.broadcast,
     required this.onTap,
     required this.buttonText,
+    this.buttonHeight = 60,
+    this.buttonWidth = double.infinity,
     required this.buttonIcon,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: borderRadius,
-        color: GogoColors.gray700,
-      ),
-      child: Padding(
-        padding: padding,
-        child: Column(
-          spacing: 28,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  spacing: 8,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: padding,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: borderRadius,
+          color: color,
+        ),
+        height: height,
+        width: width,
+        child: Padding(
+          padding: padding,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Row(
                   children: [
                     official
-                        ? GogoTagComponent(
+                        ? TagComponent(
                             padding: tagPadding,
                             borderRadius: tagBorderRadius,
                             spacing: tagInsideSpacing,
@@ -80,7 +89,10 @@ class StageCardComponent extends StatelessWidget {
                             ),
                           )
                         : Container(),
-                    GogoTagComponent(
+                    SizedBox(
+                      width: tagSpacing,
+                    ),
+                    TagComponent(
                       padding: tagPadding,
                       borderRadius: tagBorderRadius,
                       spacing: tagInsideSpacing,
@@ -96,8 +108,11 @@ class StageCardComponent extends StatelessWidget {
                             : GogoColors.gray500,
                       ),
                     ),
+                    SizedBox(
+                      width: tagSpacing,
+                    ),
                     manager
-                        ? GogoTagComponent(
+                        ? TagComponent(
                             padding: tagPadding,
                             borderRadius: tagBorderRadius,
                             spacing: tagInsideSpacing,
@@ -113,8 +128,11 @@ class StageCardComponent extends StatelessWidget {
                         : Container(),
                   ],
                 ),
-                broadcast
-                    ? GogoTagComponent(
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: broadcast
+                    ? TagComponent(
                         padding: tagPadding,
                         borderRadius: tagBorderRadius,
                         spacing: tagInsideSpacing,
@@ -128,20 +146,28 @@ class StageCardComponent extends StatelessWidget {
                         ),
                       )
                     : Container(),
-              ],
-            ),
-            Text(
-              stageName,
-              style: stageTextStyle.copyWith(color: GogoColors.white),
-            ),
-            GogoIconButton(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              textStyle: GogoTypography.caption1Semibold,
-              icon: buttonIcon,
-              onTap: onTap,
-              text: buttonText,
-            ),
-          ],
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  stageName,
+                  style: stageTextStyle.copyWith(color: GogoColors.white),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  height: buttonHeight,
+                  child: GogoIconButton(
+                    icon: buttonIcon,
+                    onTap: onTap,
+                    text: buttonText,
+                    width: buttonWidth,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

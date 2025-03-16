@@ -4,7 +4,7 @@ import 'package:gogo_app/design_system/component/button/gogo_default_button.dart
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import '../../../../design_system/component/tag/gogo_tag_component.dart';
+import '../../../../design_system/component/tag/tag_component.dart';
 import 'bloc/match_card_bloc.dart';
 import 'bloc/match_card_event.dart';
 import 'bloc/match_card_state.dart';
@@ -211,7 +211,7 @@ class EndedMatchCardComponent extends StatelessWidget {
                             : GogoIcons.bell(color: GogoColors.gray500),
                       );
                     }),
-                    GogoTagComponent.small(
+                    TagComponent.small(
                       color: GogoColors.gray500,
                       text: "경기 종료",
                       icon: GogoIcons.alarm(

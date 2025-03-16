@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
+import 'package:gogo_app/design_system/component/tag/tag_component.dart';
 import 'package:intl/intl.dart';
 
 import '../../theme/color.dart';
 import '../../theme/typography.dart';
 
-class GogoDateTagComponent extends StatelessWidget {
+class DateTagComponent extends StatelessWidget {
   final Color color;
   final double borderWidth;
   final BorderRadius borderRadius;
@@ -15,7 +15,7 @@ class GogoDateTagComponent extends StatelessWidget {
   final TextStyle textStyle;
   final TagState tagState;
 
-  const GogoDateTagComponent({
+  const DateTagComponent({
     super.key,
     required this.dateTime,
     this.color = GogoColors.main600,

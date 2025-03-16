@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../design_system/component/tag/gogo_tag_component.dart';
+import '../../../design_system/component/tag/tag_component.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
 import '../widgets/match_card/match_card_component.dart';
@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GogoTagComponent(
+            TagComponent(
                 tagState: TagState.isSelected,
                 color: GogoColors.main500,
                 icon: GogoIcons.volleyball(),
@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
               child: Row(
                 children: [
                   MatchCardComponent(
-                    time: GogoTagComponent.small(
+                    time: TagComponent.small(
                       color: GogoColors.success,
                       text: "12:00",
                       icon: GogoIcons.alarm(
@@ -33,13 +33,13 @@ class HomeScreen extends StatelessWidget {
                         height: 12,
                       ),
                     ),
-                    round: GogoTagComponent.small(
+                    round: TagComponent.small(
                       color: GogoColors.white,
                       text: "12강",
                       icon: GogoIcons.trophy(
                           color: GogoColors.white, width: 12, height: 12),
                     ),
-                    event: GogoTagComponent.small(
+                    event: TagComponent.small(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       color: GogoColors.main500,
                       text: "배드민턴",
@@ -50,13 +50,13 @@ class HomeScreen extends StatelessWidget {
                     teamA: "A",
                     teamB: 'B',
                   ),EndedMatchCardComponent(
-                    round: GogoTagComponent.small(
+                    round: TagComponent.small(
                       color: GogoColors.white,
                       text: "12강",
                       icon: GogoIcons.trophy(
                           color: GogoColors.white, width: 12, height: 12),
                     ),
-                    event: GogoTagComponent.small(
+                    event: TagComponent.small(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       color: GogoColors.main500,
                       text: "배드민턴",

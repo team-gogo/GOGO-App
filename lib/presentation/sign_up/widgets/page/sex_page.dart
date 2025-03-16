@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/sex/sex_bloc.dart';
 import 'package:gogo_app/router.dart';
-import '../../../../data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 import '../../../../design_system/component/button/gogo_default_button.dart';
 import '../../../../design_system/theme/color.dart';
 import '../../../../design_system/theme/icon.dart';
@@ -47,7 +46,7 @@ class SexPage extends StatelessWidget {
             height: 36,
           ),
           GogoDefaultButton(
-            onTap: () => context.read<SexBloc>().sexController = Sex.MALE,
+            onTap: () => context.read<SexBloc>().sexController = Sex.male,
             text: "남성",
             color: state is EnableMaleSexState
                 ? GogoColors.main600
@@ -57,7 +56,7 @@ class SexPage extends StatelessWidget {
             height: 12,
           ),
           GogoDefaultButton(
-            onTap: () => context.read<SexBloc>().sexController = Sex.FEMALE,
+            onTap: () => context.read<SexBloc>().sexController = Sex.female,
             text: "여성",
             color: state is EnableFemaleSexState
                 ? GogoColors.main600
