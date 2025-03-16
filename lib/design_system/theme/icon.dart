@@ -550,6 +550,33 @@ class GogoIcons {
       _buildIcon('point_coin.svg',
           color: color, width: width, height: height, onTap: onTap);
 
+  static Widget badminton({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('badminton.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget eSports({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('e_sports.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget etc({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('etc.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
   static Widget shop({
     Color? color,
     double width = 24,
