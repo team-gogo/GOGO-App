@@ -9,11 +9,13 @@ class MinigameComponent extends StatelessWidget {
   final double width;
   final int point;
   final int ticketsCount;
+  final String action;
 
   const MinigameComponent({
     this.width = 343,
     required this.point,
     required this.ticketsCount,
+    required this.action,
     super.key,
   });
 
@@ -91,7 +93,7 @@ class MinigameComponent extends StatelessWidget {
               ),
               onPressed: () {},
               child: Text(
-                '뒷집기',
+                action,
                 style: GogoTypography.body3Semibold.copyWith(
                   color: GogoColors.white,
                 ),
