@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import '../util/auth_token_interceptor.dart';
+
 Dio settingDio() {
   final dio = Dio(
     BaseOptions(
@@ -8,6 +10,7 @@ Dio settingDio() {
       receiveTimeout: Duration(seconds: 30),
     ),
   );
+  dio.interceptors.add(AuthTokenInterceptor());
   dio.interceptors.add(LogInterceptor());
 
   return dio;
