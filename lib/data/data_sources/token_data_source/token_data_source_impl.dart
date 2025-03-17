@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gogo_app/data/data_sources/token_data_source/token_data_source.dart';
-import 'package:gogo_app/data/models/auth/google_oauth/google_oauth_login_response.dart';
+import 'package:gogo_app/data/models/auth/google_oauth/token_dto.dart';
 
 class TokenDataSourceImpl implements TokenDataSource {
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
@@ -30,7 +30,7 @@ class TokenDataSourceImpl implements TokenDataSource {
   }
 
   @override
-  Future<void> saveToken(GoogleOAuthLoginResponse token) async {
+  Future<void> saveToken(TokenDto token) async {
     print("🔄 saveToken: ${token.accessToken} ${token.refreshToken}");
     await _storage.write(key: _accessTokenKey, value: token.accessToken);
     await _storage.write(key: _refreshTokenKey, value: token.refreshToken);
