@@ -13,5 +13,5 @@ abstract class AuthDatasource {
     AdditionalSignUpRequest body,
   );
 
-  Future<TokenRefreshResponse> tokenRefresh();
+  Future<TokenRefreshResponse> tokenRefresh(String token);
 }

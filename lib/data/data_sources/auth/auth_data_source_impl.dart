@@ -27,7 +27,7 @@ class AuthDatasourceImpl implements AuthDatasource {
   }
 
   @override
-  Future<TokenRefreshResponse> tokenRefresh() async {
-    return await executeHandleApiCall(() => _authApi.tokenRefresh());
+  Future<TokenRefreshResponse> tokenRefresh(String refreshToken) async {
+    return await executeHandleApiCall(() => _authApi.tokenRefresh("Bearer $refreshToken"));
   }
 }
