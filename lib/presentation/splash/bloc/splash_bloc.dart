@@ -4,7 +4,7 @@ import 'package:gogo_app/presentation/splash/bloc/splash_event.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_state.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
-  late String deviceToken;
+  final AuthRepository _authRepository = GetIt.instance.get<AuthRepository>();
 
   SplashBloc() : super(InitSplashState()) {
     on<LaunchSplashEvent>((event, emit) async {
