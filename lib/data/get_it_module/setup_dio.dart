@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../util/auth_token_interceptor.dart';
+import '../util/token_refresh_interceptor.dart';
 
 Dio settingDio() {
   final dio = Dio(
@@ -12,6 +13,7 @@ Dio settingDio() {
   );
   dio.interceptors.add(AuthTokenInterceptor());
   dio.interceptors.add(LogInterceptor());
+  dio.interceptors.add(TokenRefreshInterceptor());
 
   return dio;
 }
