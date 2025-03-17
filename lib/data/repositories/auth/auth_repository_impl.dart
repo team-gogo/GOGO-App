@@ -27,10 +27,15 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<TokenDto> tokenRefresh(String refreshToken) async {
-    final TokenDto response = await _authDatasource.tokenRefresh(refreshToken);
-    _tokenRepository.saveToken(response);
-    return response;
+  Future<TokenDto> tokenRefresh() async {
+    final String? refreshToken = await _tokenRepository.getRefreshToken();
+    if (refreshToken == null) {
+      throw Exception('Refresh token is null');
+    } else {
+      final TokenDto response = await _authDatasource.tokenRefresh(refreshToken);
+      _tokenRepository.saveToken(response);
+      return response;
+    }
   }
 
   @override

@@ -7,6 +7,6 @@ abstract class AuthRepository {
   Future<TokenDto> googleOAuthLogin(
       GoogleOAuthLoginRequest body);
   Future<void> additionalSignUp(AdditionalSignUpRequest body);
-  Future<TokenDto> tokenRefresh(String refreshToken);
+  Future<TokenDto> tokenRefresh();
   Future<void> logOut();
 }

@@ -16,31 +16,25 @@ class TokenRefreshInterceptor extends Interceptor {
     if (err.response?.statusCode == 401 && _retryCount < 3) {
       _retryCount++;
       try {
-        final refreshToken = await _tokenDataSource.getRefreshToken();
+        final newToken = await _authRepository.tokenRefresh();
 
-        if (refreshToken != null && refreshToken.isNotEmpty) {
-          final newToken = await _authRepository.tokenRefresh(refreshToken);
+        if (newToken.accessToken.isNotEmpty) {
+          dio.options.headers['Authorization'] = 'Bearer ${newToken.accessToken}';
 
-          if (newToken.accessToken.isNotEmpty) {
-            dio.options.headers['Authorization'] = 'Bearer ${newToken.accessToken}';
+          _tokenDataSource.saveToken(newToken);
 
-            _tokenDataSource.saveToken(newToken);
+          final response = await dio.request(
+            err.requestOptions.path,
+            options: Options(
+              method: err.requestOptions.method,
+              headers: err.requestOptions.headers,
+            ),
+          );
 
-            final response = await dio.request(
-              err.requestOptions.path,
-              options: Options(
-                method: err.requestOptions.method,
-                headers: err.requestOptions.headers,
-              ),
-            );
-
-            _retryCount = 0;
-            return handler.resolve(response);
-          } else {
-            return handler.next(DioException(requestOptions: err.requestOptions, error: 'Failed to refresh token'));
-          }
+          _retryCount = 0;
+          return handler.resolve(response);
         } else {
-          return handler.next(DioException(requestOptions: err.requestOptions, error: 'Refresh token not found'));
+          return handler.next(DioException(requestOptions: err.requestOptions, error: 'Failed to refresh token'));
         }
       } catch (e) {
         return handler.next(DioException(requestOptions: err.requestOptions, error: e.toString()));
