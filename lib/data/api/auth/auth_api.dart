@@ -21,5 +21,7 @@ abstract class AuthApi {
   Future<void> additionalSignUp(@Body() AdditionalSignUpRequest body);
 
   @POST('/user/auth/refresh')
-  Future<TokenRefreshResponse> tokenRefresh();
+  Future<TokenRefreshResponse> tokenRefresh(
+    @Header('Refresh-Token') String refreshToken,
+  );
 }
