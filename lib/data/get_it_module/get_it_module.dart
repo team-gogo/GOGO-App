@@ -24,6 +24,8 @@ import 'package:gogo_app/data/data_sources/ws/web_socket_data_source.dart';
 import 'package:gogo_app/data/data_sources/ws/web_socket_data_sources_impl.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository_impl.dart';
+import '../data_sources/token_data_source/token_data_source.dart';
+import '../data_sources/token_data_source/token_data_source_impl.dart';
 import '../repositories/mini_game/mini_game_repository.dart';
 import '../repositories/mini_game/mini_game_repository_impl.dart';
 import '../repositories/mini_game/ws/coin_toss/coin_toss_web_socket_repository_impl.dart';
@@ -45,6 +47,8 @@ void setupDataSourceLocator() {
       () => MiniGameDataSourceImpl(locator<Dio>()));
   locator.registerLazySingleton<SearchSchoolDataSource>(
       () => SearchSchoolDataSourceImpl(locator<Dio>()));
+  locator.registerLazySingleton<TokenDataSource>(
+      () => TokenDataSourceImpl());
 
   locator.registerFactory<WebSocketDataSource>(() => WebSocketDataSourceImpl());
 }
