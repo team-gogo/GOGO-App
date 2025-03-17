@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gogo_app/design_system/component/button/gogo_icon_button.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
-import 'package:gogo_app/presentation/minigame/widgets/minigame_play_component.dart';
+import 'package:gogo_app/presentation/minigame/widgets/minigame_select_component.dart';
 
 class MinigameScreen extends StatelessWidget {
   /* =========================== 삭제 해야할값
@@ -33,7 +31,7 @@ class MinigameScreen extends StatelessWidget {
         child: ListView(
           children: [
             // 티켓 정보 및 구매
-            MinigameComponent(
+            MinigameScrollComponent(
               icon: GogoIcons.arcade(
                 color: GogoColors.white,
               ),
@@ -109,7 +107,7 @@ class MinigameScreen extends StatelessWidget {
               ),
             ),
             // 포인트 정보 및 게임화면으로 이동
-            MinigameComponent(
+            MinigameScrollComponent(
               icon: GogoIcons.shop(
                 color: GogoColors.white,
               ),

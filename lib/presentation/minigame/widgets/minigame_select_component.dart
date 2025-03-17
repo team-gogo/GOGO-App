@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
+import 'package:gogo_app/presentation/minigame/widgets/minigame_topbar.dart';
 
 class MinigameSelectComponent extends StatelessWidget {
   final double width;
