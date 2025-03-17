@@ -26,7 +26,6 @@ class MinigameComponent extends StatelessWidget {
 
     return SizedBox(
       width: width.w,
-      height: 180,
       child: Column(
         spacing: 20,
         children: [
@@ -79,6 +78,7 @@ class MinigameComponent extends StatelessWidget {
             backgroundColor: GogoColors.gray700,
             keyboardType: TextInputType.number,
             endIcon: GogoIcons.pointCircle(),
+            inputFormatter: [NumericInputFormatter()],
           ),
           Container(
             width: width.w,
