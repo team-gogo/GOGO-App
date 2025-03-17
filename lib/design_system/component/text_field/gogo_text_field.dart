@@ -173,3 +173,17 @@ class ClassSuffixInputFormatter extends TextInputFormatter {
     );
   }
 }
+
+class NumericInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    // 숫자만 허용하고 그 외의 문자는 제거
+    final newText = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+
+    return TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
+  }
+}
