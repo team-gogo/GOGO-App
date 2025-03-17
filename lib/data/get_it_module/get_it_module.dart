@@ -55,7 +55,7 @@ void setupDataSourceLocator() {
 
 void setupRepositoryLocator() {
   locator.registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(locator<AuthDatasource>()));
+      () => AuthRepositoryImpl(locator<AuthDatasource>(), locator<TokenDataSource>()));
   locator.registerLazySingleton<StageRepository>(
       () => StageRepositoryImpl(locator<StageDataSource>()));
   locator.registerLazySingleton<SearchSchoolRepository>(
