@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/design_system/component/button/gogo_icon_button.dart';
-import 'package:gogo_app/design_system/component/tag/tag_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import '../../theme/color.dart';
 import '../../theme/typography.dart';
+import '../tag/gogo_tag_component.dart';
 
-class StageCardComponent extends StatelessWidget {
+class GogoStageCardComponent extends StatelessWidget {
   final String stageName;
   final Color color;
   final bool official;
@@ -17,7 +17,7 @@ class StageCardComponent extends StatelessWidget {
   final String buttonText;
   final Widget buttonIcon;
 
-  const StageCardComponent({
+  const GogoStageCardComponent({
     super.key,
     required this.stageName,
     required this.color,
@@ -49,18 +49,18 @@ class StageCardComponent extends StatelessWidget {
                 spacing: 12,
                 children: [
                   official
-                      ? TagComponent.small(
-                          color: GogoColors.white,
-                          text: '공식',
-                          textStyle: GogoTypography.caption3Semibold,
-                          icon: GogoIcons.trophy(
-                            width: 12,
-                            height: 12,
-                            color: GogoColors.white,
-                          ),
-                        )
+                      ? GogoTagComponent.small(
+                    color: GogoColors.white,
+                    text: '공식',
+                    textStyle: GogoTypography.caption3Semibold,
+                    icon: GogoIcons.trophy(
+                      width: 12,
+                      height: 12,
+                      color: GogoColors.white,
+                    ),
+                  )
                       : SizedBox.shrink(),
-                  TagComponent.small(
+                  GogoTagComponent.small(
                     color: recruiting ? GogoColors.success : GogoColors.gray500,
                     text: recruiting ? '모집 중' : '모집 확정',
                     textStyle: GogoTypography.caption3Semibold,
@@ -68,41 +68,41 @@ class StageCardComponent extends StatelessWidget {
                       width: 12,
                       height: 12,
                       color:
-                          recruiting ? GogoColors.success : GogoColors.gray500,
+                      recruiting ? GogoColors.success : GogoColors.gray500,
                     ),
                   ),
                   manager
-                      ? TagComponent.small(
-                          color: GogoColors.main500,
-                          text: '관리자',
-                          textStyle: GogoTypography.caption3Semibold,
-                          icon: GogoIcons.person(
-                            width: 12,
-                            height: 12,
-                            color: GogoColors.main500,
-                          ),
-                        )
+                      ? GogoTagComponent.small(
+                    color: GogoColors.main500,
+                    text: '관리자',
+                    textStyle: GogoTypography.caption3Semibold,
+                    icon: GogoIcons.person(
+                      width: 12,
+                      height: 12,
+                      color: GogoColors.main500,
+                    ),
+                  )
                       : SizedBox.shrink(),
                 ],
               ),
               broadcast
-                  ? TagComponent.small(
-                      color: GogoColors.error,
-                      text: '중계 설정',
-                      textStyle: GogoTypography.caption3Semibold,
-                      icon: GogoIcons.play(
-                        width: 12,
-                        height: 12,
-                        color: GogoColors.error,
-                      ),
-                    )
+                  ? GogoTagComponent.small(
+                color: GogoColors.error,
+                text: '중계 설정',
+                textStyle: GogoTypography.caption3Semibold,
+                icon: GogoIcons.play(
+                  width: 12,
+                  height: 12,
+                  color: GogoColors.error,
+                ),
+              )
                   : SizedBox.shrink(),
             ],
           ),
           Text(
             stageName,
             style:
-                GogoTypography.body2Extrabold.copyWith(color: GogoColors.white),
+            GogoTypography.body2Extrabold.copyWith(color: GogoColors.white),
           ),
           GogoIconButton(
             textStyle: GogoTypography.caption1Semibold,
