@@ -17,9 +17,11 @@ class LogInScreen extends StatelessWidget {
       create: (context) => LoginBloc(),
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
-          state is GoogleLoginSuccess
-              ? context.goNamed(PageRouter.signUp)
-              : null;
+          state is GogoLoginSuccess
+              ? context.goNamed(PageRouter.home)
+              : state is GoogleLoginSuccess
+                  ? context.goNamed(PageRouter.signUp)
+                  : null;
         },
         builder: (context, state) => Scaffold(
           body: Stack(
