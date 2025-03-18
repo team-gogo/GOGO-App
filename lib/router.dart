@@ -3,10 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
 import 'package:gogo_app/presentation/navigation_view/widgets/bottom_navigation_bar/gogo_bottom_navigation_bar.dart';
+import 'package:gogo_app/presentation/profile/screen/edit_profile_screen.dart';
 import 'package:gogo_app/presentation/profile/screen/profile_screen.dart';
 import 'package:gogo_app/presentation/sign_up/screen/sign_up_screen.dart';
 import 'package:gogo_app/presentation/splash/screen/splash_screen.dart';
 import 'package:gogo_app/presentation/stage/screen/stage_screen.dart';
+import 'package:gogo_app/presentation/stage_create/screen/stage_create_screen.dart';
 import 'design_system/theme/color.dart';
 
 class PageRouter {
@@ -23,6 +25,8 @@ class PageRouter {
   static const String stage = "stage";
   static const String alert = "alert";
   static const String profile = "profile";
+  static const String editProfile = "editProfile";
+  static const String createStage = "createStage";
 
   static GoRoute _customGoRoute({
     required String name,
@@ -52,55 +56,29 @@ class PageRouter {
         },
       ),
       _customGoRoute(name: signUp, screen: SignUpScreen()),
+
+      /// ✅ StatefulShellRoute (BottomNavigationBar 포함)
       StatefulShellRoute.indexedStack(
-          builder: (_, __, navigationShell) => Scaffold(
-                backgroundColor: GogoColors.black,
-                body: SafeArea(
-                  bottom: false,
-                  child: navigationShell,
-                ),
-                bottomNavigationBar: GogoBottomNavigationBar(
-                  navigationShell: navigationShell,
-                ),
-              ),
-          branches: [
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  name: home,
-                  path: "/$home",
-                  builder: (_, __) => HomeScreen(),
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  name: stage,
-                  path: "/$stage",
-                  builder: (_, __) => StageScreen(),
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  name: alert,
-                  path: "/$alert",
-                  builder: (_, __) => Placeholder(),
-                ),
-              ],
-            ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  name: profile,
-                  path: "/$profile",
-                  builder: (_, __) => ProfileScreen(),
-                ),
-              ],
-            ),
-          ])
+        builder: (_, __, navigationShell) => Scaffold(
+          backgroundColor: GogoColors.black,
+          body: SafeArea(bottom: false, child: navigationShell),
+          bottomNavigationBar:
+              GogoBottomNavigationBar(navigationShell: navigationShell),
+        ),
+        branches: [
+          StatefulShellBranch(
+              routes: [_customGoRoute(name: home, screen: HomeScreen())]),
+          StatefulShellBranch(
+              routes: [_customGoRoute(name: stage, screen: StageScreen())]),
+          StatefulShellBranch(
+              routes: [_customGoRoute(name: alert, screen: Placeholder())]),
+          StatefulShellBranch(
+              routes: [_customGoRoute(name: profile, screen: ProfileScreen())]),
+        ],
+      ),
+
+      _customGoRoute(name: editProfile, screen: EditProfilePage()),
+      _customGoRoute(name: createStage, screen: StageCreateScreen()),
     ],
   );
 }
