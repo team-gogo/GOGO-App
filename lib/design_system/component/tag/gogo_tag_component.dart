@@ -3,7 +3,7 @@ import '../../theme/typography.dart';
 
 enum TagState { basic, isSelected }
 
-class TagComponent extends StatelessWidget {
+class GogoTagComponent extends StatelessWidget {
   final Color color;
   final double borderWidth;
   final BorderRadius borderRadius;
@@ -14,7 +14,7 @@ class TagComponent extends StatelessWidget {
   final TextStyle textStyle;
   final TagState tagState;
 
-  const TagComponent({
+  const GogoTagComponent({
     super.key,
     required this.color,
     required this.text,
@@ -27,7 +27,7 @@ class TagComponent extends StatelessWidget {
     this.textStyle = GogoTypography.caption1Semibold,
   });
 
-  const TagComponent.small({
+  const GogoTagComponent.small({
     super.key,
     required this.color,
     required this.text,

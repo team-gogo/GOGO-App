@@ -46,7 +46,6 @@ class NumberPage extends StatelessWidget {
             height: 36,
           ),
           GogoTextField(
-            textFieldState: GogoTextFieldState.basic,
             controller: context.read<NumberBloc>().gradeController,
             hintText: "학년",
             validator: context.read<NumberBloc>().gradeValidator,
@@ -61,7 +60,6 @@ class NumberPage extends StatelessWidget {
             height: 12,
           ),
           GogoTextField(
-            textFieldState: GogoTextFieldState.basic,
             controller: context.read<NumberBloc>().classController,
             hintText: "반",
             validator: context.read<NumberBloc>().classValidator,
@@ -76,7 +74,6 @@ class NumberPage extends StatelessWidget {
             height: 12,
           ),
           GogoTextField(
-            textFieldState: GogoTextFieldState.basic,
             controller: context.read<NumberBloc>().numberController,
             hintText: "번호",
             validator: context.read<NumberBloc>().numberValidator,

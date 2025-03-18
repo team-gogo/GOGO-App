@@ -2,16 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../theme/color.dart';
-import '../../theme/icon.dart';
 import '../../theme/typography.dart';
 
-enum GogoTextFieldState {
-  basic,
-  search,
-}
-
 class GogoTextField extends StatefulWidget {
-  final GogoTextFieldState textFieldState;
+  final Widget? endIcon;
   final TextEditingController controller;
   final Function(String?)? validator;
   final Color backgroundColor;
@@ -28,7 +22,7 @@ class GogoTextField extends StatefulWidget {
   final Color errorColor;
   final BorderSide errorBorderSide;
   final VoidCallback? onEditingComplete;
-  final EdgeInsetsGeometry searchIconPadding;
+  final EdgeInsetsGeometry iconPadding;
   final Color searchIconColor;
   final EdgeInsetsGeometry passwordIconPadding;
   final double passwordIconSize;
@@ -37,7 +31,7 @@ class GogoTextField extends StatefulWidget {
 
   const GogoTextField({
     super.key,
-    required this.textFieldState,
+    this.endIcon,
     required this.controller,
     required this.hintText,
     this.validator,
@@ -59,7 +53,7 @@ class GogoTextField extends StatefulWidget {
     this.errorStyle = GogoTypography.caption2Semibold,
     this.errorColor = GogoColors.error,
     this.errorBorderSide = const BorderSide(color: GogoColors.error, width: 1),
-    this.searchIconPadding = const EdgeInsets.all(16),
+    this.iconPadding = const EdgeInsets.all(16),
     this.searchIconColor = GogoColors.gray400,
     this.passwordIconPadding =
         const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -74,12 +68,15 @@ class _GogoTextFieldState extends State<GogoTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onFieldSubmitted: (_) {
+        widget.onEditingComplete;
+        FocusScope.of(context).unfocus();
+      },
       controller: widget.controller,
       autovalidateMode: AutovalidateMode.onUnfocus,
       validator: (value) {
-        if (widget.textFieldState == GogoTextFieldState.basic &&
-            widget.validator != null) {
-          return widget.validator!(value);  // 이 부분을 수정
+        if (widget.validator != null) {
+          return widget.validator!(value); // 이 부분을 수정
         } else {
           return null;
         }
@@ -91,17 +88,15 @@ class _GogoTextFieldState extends State<GogoTextField> {
       cursorErrorColor: widget.cursorErrorColor,
       onEditingComplete: widget.onEditingComplete,
       decoration: InputDecoration(
-        suffixIcon: widget.textFieldState == GogoTextFieldState.search
-            ? GestureDetector(
+        suffixIcon: widget.endIcon == null
+            ? null
+            : GestureDetector(
                 onTap: widget.onEditingComplete,
                 child: Padding(
-                  padding: widget.searchIconPadding,
-                  child: GogoIcons.search(
-                    color: widget.searchIconColor,
-                  ),
+                  padding: widget.iconPadding,
+                  child: widget.endIcon,
                 ),
-              )
-            : null,
+              ),
         filled: true,
         fillColor: widget.backgroundColor,
         contentPadding: widget.contentPadding,
