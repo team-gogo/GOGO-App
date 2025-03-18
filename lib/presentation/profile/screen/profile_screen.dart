@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
-import 'package:gogo_app/presentation/profile/Widget/profile_card_component.dart';
+import 'package:gogo_app/router.dart';
 import '../../../design_system/component/stage/gogo_stage_card_component.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/typography.dart';
+import '../widget/profile_card_component.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -48,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: 22,
                     ),
-                    GogoProfileCardComponent(
+                    ProfileCardComponent(
                       name: '박유현',
                       school: '광주소프트웨어마이스터그동학교',
                       male: '남자',
@@ -120,7 +122,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     if (selected)
                       Container(
-                        width: 147,
+                        padding: EdgeInsets.all(24),
+                        width: 108,
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -134,32 +137,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         child: Column(
+                          spacing: 36,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () =>
+                                  context.pushNamed(PageRouter.editProfile),
                               child: Container(
                                 width: double.infinity,
-                                height: 90.h,
                                 decoration: BoxDecoration(),
                                 alignment: Alignment.center,
                                 child: Text(
                                   '정보수정',
-                                  style: GogoTypography.body2Semibold.copyWith(
+                                  style: GogoTypography.body3Semibold.copyWith(
                                     color: GogoColors.white,
                                   ),
                                 ),
                               ),
                             ),
+                            Divider(),
                             GestureDetector(
                               child: Container(
                                 width: double.infinity,
-                                height: 90.h,
                                 decoration: BoxDecoration(),
                                 alignment: Alignment.center,
                                 child: Text(
                                   '회원 탈퇴',
-                                  style: GogoTypography.body2Semibold.copyWith(
+                                  style: GogoTypography.body3Semibold.copyWith(
                                     color: GogoColors.error,
                                   ),
                                 ),

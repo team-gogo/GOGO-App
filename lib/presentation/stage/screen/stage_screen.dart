@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
+import 'package:gogo_app/router.dart';
 import '../../../design_system/component/stage/gogo_stage_card_component.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/typography.dart';
@@ -33,6 +35,7 @@ class StageScreen extends StatelessWidget {
                             .copyWith(color: GogoColors.white),
                       ),
                       GestureDetector(
+                        onTap: ()=> context.pushNamed(PageRouter.createStage),
                         child: GogoTagComponent(
                           color: GogoColors.main400,
                           padding: const EdgeInsets.all(12.0),
