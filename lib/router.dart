@@ -1,9 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/presentation/home/screen/home_screen.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
-import 'package:gogo_app/presentation/navigation_view/screen/navigation_view.dart';
+import 'package:gogo_app/presentation/navigation_view/widgets/bottom_navigation_bar/gogo_bottom_navigation_bar.dart';
+import 'package:gogo_app/presentation/profile/screen/profile_screen.dart';
 import 'package:gogo_app/presentation/sign_up/screen/sign_up_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:gogo_app/presentation/splash/screen/splash_screen.dart';
+import 'package:gogo_app/presentation/stage/screen/stage_screen.dart';
+import 'design_system/theme/color.dart';
 
 class PageRouter {
   static final PageRouter _pageRouter = PageRouter.init();
@@ -15,7 +19,10 @@ class PageRouter {
   static const String splash = "splash";
   static const String login = "login";
   static const String signUp = "signUp";
-  static const String main = "main";
+  static const String home = "home";
+  static const String stage = "stage";
+  static const String alert = "alert";
+  static const String profile = "profile";
 
   static GoRoute _customGoRoute({
     required String name,
@@ -27,7 +34,7 @@ class PageRouter {
   }
 
   static final router = GoRouter(
-    initialLocation: "/$splash",
+    initialLocation: "/$home",
     routes: [
       _customGoRoute(name: splash, screen: SplashScreen()),
       GoRoute(
@@ -45,7 +52,55 @@ class PageRouter {
         },
       ),
       _customGoRoute(name: signUp, screen: SignUpScreen()),
-      _customGoRoute(name: main, screen: NavigationView())
+      StatefulShellRoute.indexedStack(
+          builder: (_, __, navigationShell) => Scaffold(
+                backgroundColor: GogoColors.black,
+                body: SafeArea(
+                  bottom: false,
+                  child: navigationShell,
+                ),
+                bottomNavigationBar: GogoBottomNavigationBar(
+                  navigationShell: navigationShell,
+                ),
+              ),
+          branches: [
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: home,
+                  path: "/$home",
+                  builder: (_, __) => HomeScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: stage,
+                  path: "/$stage",
+                  builder: (_, __) => StageScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: alert,
+                  path: "/$alert",
+                  builder: (_, __) => Placeholder(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: profile,
+                  path: "/$profile",
+                  builder: (_, __) => ProfileScreen(),
+                ),
+              ],
+            ),
+          ])
     ],
   );
 }
