@@ -3,6 +3,7 @@ import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 
 class GogoProfileCardComponent extends StatelessWidget {
+  // test
   final String name;
   final String school;
   final String male;
