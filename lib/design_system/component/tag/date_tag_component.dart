@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gogo_app/design_system/component/tag/tag_component.dart';
+import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:intl/intl.dart';
 
 import '../../theme/color.dart';
