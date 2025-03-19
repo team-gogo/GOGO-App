@@ -24,7 +24,6 @@ class HomeAppbar extends StatelessWidget {
           builder: (context, state) {
         return Row(
           children: [
-            SizedBox(width: 16),
             Text(
               '포인트',
               style: GogoTypography.body2Semibold.copyWith(
