@@ -102,8 +102,8 @@ class _ComunityWriteScreenState extends State<CommunityWriteScreen> {
                               tagState:
                                   state is SelectedCommunitySportFilterState &&
                                           state.gameType == gameTypes[index]
-                                      ? TagState.isSelected
-                                      : TagState.basic,
+                                      ? true
+                                      : false,
                               color: GogoColors.main500,
                               text: categoryTexts[index],
                               icon: categoryIcons[index](

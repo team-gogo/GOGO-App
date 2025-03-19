@@ -106,8 +106,8 @@ class CommunityFilterPopup extends StatelessWidget {
                           tagState:
                               state is SelectedCommunitySportFilterState &&
                                       state.gameType == gameTypes[index]
-                                  ? TagState.isSelected
-                                  : TagState.basic,
+                                  ? true
+                                  : false,
                           color: GogoColors.main500,
                           text: categoryTexts[index],
                           icon: categoryIcons[index](
@@ -143,8 +143,8 @@ class CommunityFilterPopup extends StatelessWidget {
                         child: GogoTagComponent.small(
                           tagState: state is SelectedCommunitySortFilterState &&
                                   state.sortType == sortType[index]
-                              ? TagState.isSelected
-                              : TagState.basic,
+                              ? true
+                              : false,
                           color: GogoColors.main500,
                           text: sortTexts[index],
                           icon: GogoIcons.alarm(
