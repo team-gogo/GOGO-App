@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_event.dart';
@@ -9,7 +8,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   late String deviceToken;
 
   SplashBloc() : super(InitSplashState()) {
-    _settingPermission();
     on<LaunchSplashEvent>((event, emit) async {
       emit(AutoLoginLoading());
       try {
