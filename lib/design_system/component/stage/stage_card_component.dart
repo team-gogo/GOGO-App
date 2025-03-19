@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gogo_app/design_system/component/button/gogo_icon_button.dart';
-import 'package:gogo_app/design_system/component/tag/tag_component.dart';
+import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import '../../theme/color.dart';
 import '../../theme/typography.dart';
@@ -75,7 +75,7 @@ class StageCardComponent extends StatelessWidget {
                 child: Row(
                   children: [
                     official
-                        ? TagComponent(
+                        ? GogoTagComponent(
                             padding: tagPadding,
                             borderRadius: tagBorderRadius,
                             spacing: tagInsideSpacing,
@@ -92,7 +92,7 @@ class StageCardComponent extends StatelessWidget {
                     SizedBox(
                       width: tagSpacing,
                     ),
-                    TagComponent(
+                    GogoTagComponent(
                       padding: tagPadding,
                       borderRadius: tagBorderRadius,
                       spacing: tagInsideSpacing,
@@ -112,7 +112,7 @@ class StageCardComponent extends StatelessWidget {
                       width: tagSpacing,
                     ),
                     manager
-                        ? TagComponent(
+                        ? GogoTagComponent(
                             padding: tagPadding,
                             borderRadius: tagBorderRadius,
                             spacing: tagInsideSpacing,
@@ -132,7 +132,7 @@ class StageCardComponent extends StatelessWidget {
               Align(
                 alignment: Alignment.topRight,
                 child: broadcast
-                    ? TagComponent(
+                    ? GogoTagComponent(
                         padding: tagPadding,
                         borderRadius: tagBorderRadius,
                         spacing: tagInsideSpacing,
