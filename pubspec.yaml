@@ -52,8 +52,6 @@ dependencies:
 
   intl: ^0.20.2 # 날짜 및 숫자 분석 라이브러리
 
-  flutter_secure_storage: ^9.2.4 # 보안을 위한 aos: keystore, ios: keychain 사용하도록 해주는 라이브러리
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
