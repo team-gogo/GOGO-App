@@ -4,6 +4,7 @@ import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/minigame/widgets/minigame_component.dart';
+import 'package:o3d/o3d.dart';
 
 class MinigameCointossScreen extends StatelessWidget {
   const MinigameCointossScreen({super.key});
@@ -36,7 +37,7 @@ class MinigameCointossScreen extends StatelessWidget {
                           Radius.circular(12),
                         ),
                       ),
-                      child: CircleAvatar(),
+                      child: O3D(src: 'assets/drawable/gogo_coin.glb')
                     ),
                     Row(
                       spacing: 15,
