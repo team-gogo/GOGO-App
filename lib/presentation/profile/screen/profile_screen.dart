@@ -4,7 +4,7 @@ import 'package:gogo_app/design_system/theme/icon.dart';
 import '../../../design_system/component/stage/gogo_stage_card_component.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/typography.dart';
-import '../widget/component/gogo_profile_card_component.dart';
+import '../widget/gogo_profile_card_component.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -76,7 +76,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           broadcast: true,
                           onTap: () {},
                           buttonText: '상세보기',
-                          buttonIcon: GogoIcons.lock(),  color: GogoColors.gray700,
+                          buttonIcon: GogoIcons.lock(),
+                          color: GogoColors.gray700,
                         ),
                       ),
                     )
