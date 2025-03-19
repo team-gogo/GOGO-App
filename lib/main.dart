@@ -17,31 +17,38 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 백그라운드 Notification 핸들러 지정
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  // 가로모드 방지
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
-  // env 불러오기
-  await dotenv.load(fileName: ".env");
-
-  // 파이어베이스 초기화
+  // Firebase 초기화
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // get it dataSource Module 초기화
+  // FCM 백그라운드 메시지 핸들러 등록
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // .env 불러오기
+  await dotenv.load(fileName: ".env");
+
+  // GetIt DI 모듈 초기화
   setupDataSourceLocator();
-
-  // get it repository Module 초기화
   setupRepositoryLocator();
-
-  // get it api Module 초기화
   setupApiLocator();
-
-  // get it api Module 초기화
   setUpDio();
+
+  // 알림 권한 요청
+  await FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    badge: true,
+    carPlay: true,
+    sound: true,
+  );
+
+  // 포그라운드 푸시 알림 처리
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print("포그라운드 알림: ${message.notification?.title}");
+  });
+
+  // 가로모드 방지 (Firebase 초기화 후로 이동)
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(const MyApp());
 }
@@ -52,7 +59,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(375, 812),
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (_, child) => MaterialApp.router(
