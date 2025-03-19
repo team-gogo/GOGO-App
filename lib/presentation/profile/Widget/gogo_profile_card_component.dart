@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
-import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 
-class GogoProfileCardComponent extends StatefulWidget {
+class GogoProfileCardComponent extends StatelessWidget {
+  // test
   final String name;
   final String school;
   final String male;
@@ -15,14 +14,6 @@ class GogoProfileCardComponent extends StatefulWidget {
     required this.school,
     required this.male,
   });
-
-  @override
-  State<GogoProfileCardComponent> createState() =>
-      _GogoProfileCardComponentState();
-}
-
-class _GogoProfileCardComponentState extends State<GogoProfileCardComponent> {
-  bool selected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +49,7 @@ class _GogoProfileCardComponentState extends State<GogoProfileCardComponent> {
                     style: subjectStyle,
                   ),
                   Text(
-                    widget.name,
+                    name,
                     style: mainStyle,
                   ),
                 ],
@@ -72,7 +63,7 @@ class _GogoProfileCardComponentState extends State<GogoProfileCardComponent> {
                     style: subjectStyle,
                   ),
                   Text(
-                    widget.school,
+                    school,
                     style: mainStyle,
                   ),
                 ],
@@ -86,93 +77,11 @@ class _GogoProfileCardComponentState extends State<GogoProfileCardComponent> {
                     style: subjectStyle,
                   ),
                   Text(
-                    widget.male,
+                    male,
                     style: mainStyle,
                   ),
                 ],
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            spacing: 8,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              GestureDetector(
-                onTap: () => setState(() {
-                  selected = !selected;
-                }),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  spacing: 8,
-                  children: [
-                    GogoIcons.gearWheel(
-                      width: 24,
-                      height: 24,
-                      color: selected ? GogoColors.white : GogoColors.gray500,
-                    ),
-                    Text(
-                      '설정',
-                      style: selected
-                          ? subjectStyle.copyWith(color: GogoColors.white)
-                          : subjectStyle,
-                    ),
-                  ],
-                ),
-              ),
-              if (selected)
-                Container(
-                  width: 147,
-                  height: 286.h,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xff000000),
-                        blurRadius: 9,
-                      ),
-                    ],
-                    color: GogoColors.gray700,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        child: Container(
-                          decoration: BoxDecoration(),
-                          alignment: Alignment.center,
-                          child: Text(
-                            '정보수정',
-                            style: GogoTypography.body2Semibold.copyWith(
-                              color: GogoColors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        child: Container(
-                          decoration: BoxDecoration(),
-                          alignment: Alignment.center,
-                          child: Text(
-                            '회원 탈퇴',
-                            style: GogoTypography.body2Semibold.copyWith(
-                              color: GogoColors.error,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              else
-                SizedBox.shrink()
             ],
           ),
         ),

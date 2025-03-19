@@ -15,7 +15,6 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GogoTagComponent(
-                tagState: true,
                 color: GogoColors.main500,
                 icon: GogoIcons.volleyball(),
                 text: "배구"),

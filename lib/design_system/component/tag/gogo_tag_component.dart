@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
-import '../../theme/typography.dart';
+import 'package:gogo_app/design_system/theme/typography.dart';
 
 enum TagState { basic, isSelected }
 
@@ -14,7 +14,6 @@ class GogoTagComponent extends StatelessWidget {
   final String text;
   final TextStyle textStyle;
   final bool tagState;
-
   const GogoTagComponent({
     super.key,
     required this.color,
