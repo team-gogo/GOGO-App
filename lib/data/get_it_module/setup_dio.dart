@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 
+import '../util/auth_token_interceptor.dart';
+import '../util/token_refresh_interceptor.dart';
+
 Dio settingDio() {
   final dio = Dio(
     BaseOptions(
@@ -8,25 +11,9 @@ Dio settingDio() {
       receiveTimeout: Duration(seconds: 30),
     ),
   );
-
-  dio.interceptors.add(InterceptorsWrapper(
-    onRequest: (options, handler) {
-      print('Request: ${options.method} ${options.uri}');
-      print('Request Headers: ${options.headers}');
-      print('Request Data: ${options.data}');
-      return handler.next(options);
-    },
-    onResponse: (response, handler) {
-      print('Response: ${response.statusCode} ${response.requestOptions.uri}');
-      print('Response Data: ${response.data}');
-      return handler.next(response);
-    },
-    onError: (DioException e, handler) {
-      print('Error: ${e.response?.statusCode} ${e.requestOptions.uri}');
-      print('Error Message: ${e.message}');
-      return handler.next(e);
-    },
-  ));
+  dio.interceptors.add(AuthTokenInterceptor());
+  dio.interceptors.add(LogInterceptor());
+  dio.interceptors.add(TokenRefreshInterceptor());
 
   return dio;
 }
