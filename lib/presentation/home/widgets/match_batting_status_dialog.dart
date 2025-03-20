@@ -84,6 +84,8 @@ class MatchBattingStatusDialog extends StatelessWidget {
                 maxBattingPoint: maxPoints,
                 currentTeamBattingPoint: teamAPoint,
                 currentBattingPercentage: aTeamPercentage,
+                enableBetting: enableBetting,
+                onBattingClick: (team) => onBattingClick(team),
               ),
               SizedBox(
                 height: 238,
@@ -121,6 +123,8 @@ class MatchBattingStatusDialog extends StatelessWidget {
                 maxBattingPoint: maxPoints,
                 currentTeamBattingPoint: teamBPoint,
                 currentBattingPercentage: bTeamPercentage,
+                enableBetting: enableBetting,
+                onBattingClick: (team) => onBattingClick(team),
               ),
             ],
           ),
@@ -154,54 +158,61 @@ class MatchBattingStatusDialog extends StatelessWidget {
     required int maxBattingPoint,
     required int currentTeamBattingPoint,
     required int currentBattingPercentage,
+    required bool enableBetting,
+    required Function(String) onBattingClick,
   }) {
-    return Column(
-      spacing: 24,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          spacing: 8,
-          children: [
-            Text(
-              '${currentTeamBattingPoint}P',
-              style: GogoTypography.caption1Semibold.copyWith(
-                color: GogoColors.gray300,
+    return GestureDetector(
+      onTap: () {
+        enableBetting ? onBattingClick : null;
+      },
+      child: Column(
+        spacing: 24,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            spacing: 8,
+            children: [
+              Text(
+                '${currentTeamBattingPoint}P',
+                style: GogoTypography.caption1Semibold.copyWith(
+                  color: GogoColors.gray300,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              "$teamName팀",
-              style: GogoTypography.body2Extrabold.copyWith(
-                color: GogoColors.white,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        AnimatedContainer(
-          height: 30 + 131 * (currentBattingPercentage / 100),
-          decoration: ShapeDecoration(
-            color: isSelected ? GogoColors.main600 : GogoColors.gray500,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          duration: Duration(milliseconds: 500),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Center(
-              child: Text(
-                '$currentBattingPercentage%',
-                style: GogoTypography.body3Extrabold.copyWith(
+              Text(
+                "$teamName팀",
+                style: GogoTypography.body2Extrabold.copyWith(
                   color: GogoColors.white,
                 ),
                 textAlign: TextAlign.center,
               ),
-            ),
+            ],
           ),
-        )
-      ],
+          AnimatedContainer(
+            height: 30 + 131 * (currentBattingPercentage / 100),
+            decoration: ShapeDecoration(
+              color: isSelected ? GogoColors.main600 : GogoColors.gray500,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            duration: Duration(milliseconds: 500),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Center(
+                child: Text(
+                  '$currentBattingPercentage%',
+                  style: GogoTypography.body3Extrabold.copyWith(
+                    color: GogoColors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
