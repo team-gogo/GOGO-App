@@ -354,6 +354,15 @@ class GogoIcons {
       _buildIcon('dollor_circle.svg',
           color: color, width: width, height: height, onTap: onTap);
 
+  static Widget communit({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('communit.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
   static Widget coin({
     Color? color,
     double width = 24,
