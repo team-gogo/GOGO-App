@@ -13,13 +13,13 @@ class GogoDateTagComponent extends StatelessWidget {
   final double spacing;
   final DateTime dateTime;
   final TextStyle textStyle;
-  final bool tagState;
+  final TagState tagState;
 
   const GogoDateTagComponent({
     super.key,
     required this.dateTime,
     this.color = GogoColors.main600,
-    this.tagState = false,
+    this.tagState = TagState.basic,
     this.borderWidth = 1,
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -33,18 +33,20 @@ class GogoDateTagComponent extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         borderRadius: borderRadius,
-        border: tagState
+        border: tagState == TagState.isSelected
             ? null
             : Border.all(
                 color: GogoColors.gray500,
                 width: borderWidth,
               ),
-        color: tagState ? color : null,
+        color: tagState == TagState.isSelected ? color : null,
       ),
       child: Text(
         '${DateFormat('MM').format(dateTime)} - ${DateFormat.d().format(dateTime)}',
         style: GogoTypography.caption3Semibold.copyWith(
-          color: tagState ? GogoColors.white : GogoColors.gray500,
+          color: tagState == TagState.isSelected
+              ? GogoColors.white
+              : GogoColors.gray500,
         ),
       ),
     );
