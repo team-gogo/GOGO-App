@@ -8,9 +8,12 @@ import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/community/bloc/community_bloc.dart';
-import 'package:gogo_app/presentation/community/bloc/community_event.dart';
-import 'package:gogo_app/presentation/community/bloc/community_state.dart';
+import 'package:gogo_app/presentation/community/bloc/write/community_write_bloc.dart';
+import '../bloc/filter/community_filter_bloc.dart';
+import '../bloc/filter/community_filter_event.dart';
+import '../bloc/filter/community_filter_state.dart';
+import '../bloc/write/community_write_event.dart';
+import '../bloc/write/community_write_state.dart';
 
 class CommunityWriteScreen extends StatefulWidget {
   CommunityWriteScreen({
@@ -18,10 +21,10 @@ class CommunityWriteScreen extends StatefulWidget {
   });
 
   @override
-  State<CommunityWriteScreen> createState() => _ComunityWriteScreenState();
+  State<CommunityWriteScreen> createState() => _CommunityWriteScreenState();
 }
 
-class _ComunityWriteScreenState extends State<CommunityWriteScreen> {
+class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
   static const int max_length = 30;
 
   final List<String> categoryTexts = [
@@ -58,7 +61,7 @@ class _ComunityWriteScreenState extends State<CommunityWriteScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => CommunityBloc()),
+        BlocProvider(create: (_) => CommunityWriteBloc()),
         BlocProvider(create: (_) => CommunitySortFilterBloc()),
         BlocProvider(create: (_) => CommunitySportFilterBloc()),
       ],
@@ -125,7 +128,7 @@ class _ComunityWriteScreenState extends State<CommunityWriteScreen> {
               SizedBox(
                 height: 12,
               ),
-              BlocBuilder<CommunityBloc, CommunityState>(
+              BlocBuilder<CommunityWriteBloc, CommunityWriteState>(
                 builder: (context, state) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -133,7 +136,7 @@ class _ComunityWriteScreenState extends State<CommunityWriteScreen> {
                       GogoTextField(
                         hintText: '제목을 입력해주세요.',
                         onChanged: (value) => context
-                            .read<CommunityBloc>()
+                            .read<CommunityWriteBloc>()
                             .add(TitleChanged(value)),
                         controller: TextEditingController(text: state.title)
                           ..selection = TextSelection.collapsed(
@@ -146,7 +149,7 @@ class _ComunityWriteScreenState extends State<CommunityWriteScreen> {
                   );
                 },
               ),
-              BlocBuilder<CommunityBloc, CommunityState>(
+              BlocBuilder<CommunityWriteBloc, CommunityWriteState>(
                 builder: (context, state) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -154,7 +157,7 @@ class _ComunityWriteScreenState extends State<CommunityWriteScreen> {
                       GogoTextField(
                         hintText: '내용을 입력해주세요.',
                         onChanged: (value) => context
-                            .read<CommunityBloc>()
+                            .read<CommunityWriteBloc>()
                             .add(ContentChanged(value)),
                         controller: TextEditingController(text: state.content)
                           ..selection = TextSelection.collapsed(
@@ -168,7 +171,7 @@ class _ComunityWriteScreenState extends State<CommunityWriteScreen> {
                 },
               ),
               Spacer(),
-              BlocBuilder<CommunityBloc, CommunityState>(
+              BlocBuilder<CommunityWriteBloc, CommunityWriteState>(
                 builder: (context, state) {
                   return GogoDefaultButton(
                     color:
