@@ -95,21 +95,25 @@ class MatchBattingStatusDialog extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Row(
-                      spacing: 4,
-                      children: [
-                        GogoIcons.pointCircle(height: 20, width: 20),
-                        AnimatedInt(
-                          currentInt: teamAPoint + teamBPoint,
-                          builder: (int value) => Text(
-                            "$value",
-                            style: GogoTypography.caption1Semibold.copyWith(
-                              color: GogoColors.gray300,
+                    SizedBox(
+                      width: 62,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 4,
+                        children: [
+                          GogoIcons.pointCircle(height: 20, width: 20),
+                          AnimatedInt(
+                            currentInt: teamAPoint + teamBPoint,
+                            builder: (int value) => Text(
+                              "$value",
+                              style: GogoTypography.caption1Semibold.copyWith(
+                                color: GogoColors.gray300,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                     Text(
                       "VS",
@@ -172,6 +176,7 @@ class MatchBattingStatusDialog extends StatelessWidget {
         }
       },
       child: Column(
+        spacing: 24,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -205,8 +210,8 @@ class MatchBattingStatusDialog extends StatelessWidget {
               ),
             ),
             duration: Duration(milliseconds: 500),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: SizedBox(
+              width: 80,
               child: Center(
                 child: AnimatedInt(
                   currentInt: currentBattingPercentage,
