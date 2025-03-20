@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gogo_app/design_system/theme/color.dart';
-import 'package:gogo_app/design_system/theme/typography.dart';
+import '../../theme/typography.dart';
 
 enum TagState { basic, isSelected }
 
@@ -13,13 +12,14 @@ class GogoTagComponent extends StatelessWidget {
   final Widget? icon;
   final String text;
   final TextStyle textStyle;
-  final bool tagState;
+  final TagState tagState;
+
   const GogoTagComponent({
     super.key,
     required this.color,
     required this.text,
     this.icon,
-    this.tagState = false,
+    this.tagState = TagState.basic,
     this.borderWidth = 1,
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -32,7 +32,7 @@ class GogoTagComponent extends StatelessWidget {
     required this.color,
     required this.text,
     this.icon,
-    this.tagState = false,
+    this.tagState = TagState.basic,
     this.borderWidth = 1,
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -40,18 +40,19 @@ class GogoTagComponent extends StatelessWidget {
     this.textStyle = GogoTypography.caption3Semibold,
   });
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: padding,
       decoration: BoxDecoration(
-          border: tagState
+          border: tagState == TagState.isSelected
               ? null
               : Border.all(
                   color: color,
                   width: borderWidth,
                 ),
-          color: tagState ? color : null,
+          color: tagState == TagState.isSelected ? color : null,
           borderRadius: borderRadius),
       child: Row(
         spacing: spacing,
@@ -61,7 +62,7 @@ class GogoTagComponent extends StatelessWidget {
           Text(
             text,
             style: textStyle.copyWith(
-              color: tagState ? GogoColors.white : color,
+              color: tagState == TagState.isSelected ? null : color,
             ),
           )
         ],

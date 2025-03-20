@@ -28,7 +28,6 @@ class GogoTextField extends StatefulWidget {
   final double passwordIconSize;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatter;
-  final Function(String)? onChanged;
 
   const GogoTextField({
     super.key,
@@ -59,7 +58,6 @@ class GogoTextField extends StatefulWidget {
     this.passwordIconPadding =
         const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     this.passwordIconSize = 24,
-    this.onChanged,
   });
 
   @override
@@ -118,7 +116,6 @@ class _GogoTextFieldState extends State<GogoTextField> {
           borderSide: widget.errorBorderSide,
         ),
       ),
-      onChanged: widget.onChanged,
     );
   }
 }
