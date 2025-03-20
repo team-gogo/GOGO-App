@@ -9,39 +9,20 @@ import 'data/get_it_module/get_it_module.dart';
 import 'design_system/theme/color.dart';
 import 'firebase_options.dart';
 
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling a background message: ${message.messageId}");
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setFireBase();
+  // .env 불러오기
+  await dotenv.load(fileName: ".env");
 
-  // 백그라운드 Notification 핸들러 지정
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // GetIt DI 모듈 초기화
+  setupDataSourceLocator();
+  setupRepositoryLocator();
+  setupApiLocator();
+  setUpDio();
 
   // 가로모드 방지
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
-  // env 불러오기
-  await dotenv.load(fileName: ".env");
-
-  // 파이어베이스 초기화
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  // get it dataSource Module 초기화
-  setupDataSourceLocator();
-
-  // get it repository Module 초기화
-  setupRepositoryLocator();
-
-  // get it api Module 초기화
-  setupApiLocator();
-
-  // get it api Module 초기화
-  setUpDio();
 
   runApp(const MyApp());
 }
@@ -52,7 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(375, 812),
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (_, child) => MaterialApp.router(
@@ -68,4 +49,20 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+void setFireBase() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // FCM 백그라운드 메시지 핸들러 등록
+  FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
+    print("Handling a background message: ${message.messageId}");
+  });
+
+  // FCM 포그라운드 푸시 알림 처리
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print("포그라운드 알림: ${message.notification?.title}");
+  });
 }
