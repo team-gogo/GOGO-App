@@ -6,9 +6,10 @@ import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/community/bloc/community.bloc.dart';
 import 'package:gogo_app/presentation/community/bloc/community_event.dart';
 import 'package:gogo_app/presentation/community/bloc/community_state.dart';
+
+import 'bloc/community_bloc.dart';
 
 class CommunityFilterPopup extends StatelessWidget {
   const CommunityFilterPopup({super.key});
