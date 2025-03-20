@@ -85,8 +85,8 @@ class MatchBattingStatusDialog extends StatelessWidget {
                 currentTeamBattingPoint: teamAPoint,
                 currentBattingPercentage: aTeamPercentage,
               ),
-              Align(
-                alignment: Alignment.center,
+              SizedBox(
+                height: 238,
                 child: Column(
                   spacing: 12,
                   mainAxisAlignment: MainAxisAlignment.center,
