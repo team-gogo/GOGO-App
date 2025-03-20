@@ -51,9 +51,7 @@ class HomeAppbar extends StatelessWidget {
                         (index) {
                           dateTime = dateTime.add(Duration(days: 1));
                           return GogoDateTagComponent(
-                            tagState: state is InitHomeAppbarState && index == 0
-                                ? true
-                                : false,
+                            tagState: state is InitHomeAppbarState && index == 0,
                             dateTime: dateTime,
                           );
                         },
