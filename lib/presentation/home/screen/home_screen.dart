@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GogoTagComponent(
+                tagState: false,
                 color: GogoColors.main500,
                 icon: GogoIcons.volleyball(),
                 text: "배구"),
@@ -48,8 +49,7 @@ class HomeScreen extends StatelessWidget {
                     point: '10000P',
                     teamA: "A",
                     teamB: 'B',
-                  ),
-                  EndedMatchCardComponent(
+                  ),EndedMatchCardComponent(
                     round: GogoTagComponent.small(
                       color: GogoColors.white,
                       text: "12강",
@@ -71,6 +71,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
+
           ],
         ),
       ),

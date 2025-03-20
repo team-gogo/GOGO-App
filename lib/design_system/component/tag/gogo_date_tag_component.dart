@@ -36,9 +36,9 @@ class GogoDateTagComponent extends StatelessWidget {
         border: tagState
             ? null
             : Border.all(
-                color: GogoColors.gray500,
-                width: borderWidth,
-              ),
+          color: GogoColors.gray500,
+          width: borderWidth,
+        ),
         color: tagState ? color : null,
       ),
       child: Text(
