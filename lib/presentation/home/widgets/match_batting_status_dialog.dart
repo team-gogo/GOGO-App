@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gogo_app/design_system/component/button/gogo_default_button.dart';
 import 'package:gogo_app/design_system/component/text_field/gogo_text_field.dart';
 
@@ -38,124 +38,128 @@ class MatchBattingStatusDialog extends StatelessWidget {
     final int aTeamPercentage = ((teamAPoint / totalPoints) * 100).toInt();
     final int bTeamPercentage = ((teamBPoint / totalPoints) * 100).toInt();
 
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 24, horizontal: 15),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: GogoColors.black,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        spacing: 32,
-        children: [
-          Column(
-            spacing: 18,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    '$teamA팀 VS $teamB팀',
-                    style: GogoTypography.body1Extrabold.copyWith(
-                      color: GogoColors.white,
-                    ),
-                  ),
-                  GogoIcons.x(
-                    width: 32,
-                    height: 32,
-                    onTap: closeDialog,
-                    color: GogoColors.white,
-                  )
-                ],
-              ),
-              Row(
-                spacing: 20,
-                children: [...detailWidgets],
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              buildBattingGraph(
-                isSelected: true,
-                teamName: teamA,
-                maxBattingPoint: maxPoints,
-                currentTeamBattingPoint: teamAPoint,
-                currentBattingPercentage: aTeamPercentage,
-                enableBetting: enableBetting,
-                onClick: (team) => onBattingClick(team),
-              ),
-              SizedBox(
-                height: 238,
-                child: Column(
-                  spacing: 12,
-                  mainAxisAlignment: MainAxisAlignment.center,
+    return Dialog(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 24, horizontal: 15),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: GogoColors.black,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 32,
+          children: [
+            Column(
+              spacing: 18,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    SizedBox(
-                      width: 62,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: 4,
-                        children: [
-                          GogoIcons.pointCircle(height: 20, width: 20),
-                          AnimatedInt(
-                            currentInt: teamAPoint + teamBPoint,
-                            builder: (int value) => Text(
-                              "$value",
-                              style: GogoTypography.caption1Semibold.copyWith(
-                                color: GogoColors.gray300,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
                     Text(
-                      "VS",
+                      '$teamA팀 VS $teamB팀',
                       style: GogoTypography.body1Extrabold.copyWith(
-                        color: GogoColors.gray500,
+                        color: GogoColors.white,
                       ),
-                      textAlign: TextAlign.center,
                     ),
+                    GogoIcons.x(
+                      width: 32,
+                      height: 32,
+                      onTap: closeDialog,
+                      color: GogoColors.white,
+                    )
                   ],
                 ),
-              ),
-              buildBattingGraph(
-                isSelected: false,
-                teamName: teamB,
-                maxBattingPoint: maxPoints,
-                currentTeamBattingPoint: teamBPoint,
-                currentBattingPercentage: bTeamPercentage,
-                enableBetting: enableBetting,
-                onClick: (team) => onBattingClick(team),
-              ),
-            ],
-          ),
-          Column(
-            spacing: 12,
-            children: [
-              GogoTextField(
-                controller: TextEditingController(),
-                hintText: "배팅할 금액을 입력해주세요",
-                endIcon: GogoIcons.pointCircle(
-                  color: true ? GogoColors.white : GogoColors.gray400,
+                Row(
+                  spacing: 20,
+                  children: [...detailWidgets],
                 ),
-              ),
-              GogoDefaultButton(
-                color: enableBetting ? GogoColors.main600 : GogoColors.gray400,
-                text: "배팅",
-                onTap: () {
-                  onBattingClick("selectedTeam");
-                },
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                buildBattingGraph(
+                  isSelected: true,
+                  teamName: teamA,
+                  maxBattingPoint: maxPoints,
+                  currentTeamBattingPoint: teamAPoint,
+                  currentBattingPercentage: aTeamPercentage,
+                  enableBetting: enableBetting,
+                  onClick: (team) => onBattingClick(team),
+                ),
+                SizedBox(
+                  height: 238,
+                  child: Column(
+                    spacing: 12,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      SizedBox(
+                        width: 62,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          spacing: 4,
+                          children: [
+                            GogoIcons.pointCircle(height: 20, width: 20),
+                            AnimatedInt(
+                              currentInt: teamAPoint + teamBPoint,
+                              builder: (int value) => Text(
+                                "$value",
+                                style: GogoTypography.caption1Semibold.copyWith(
+                                  color: GogoColors.gray300,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Text(
+                        "VS",
+                        style: GogoTypography.body1Extrabold.copyWith(
+                          color: GogoColors.gray500,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                buildBattingGraph(
+                  isSelected: false,
+                  teamName: teamB,
+                  maxBattingPoint: maxPoints,
+                  currentTeamBattingPoint: teamBPoint,
+                  currentBattingPercentage: bTeamPercentage,
+                  enableBetting: enableBetting,
+                  onClick: (team) => onBattingClick(team),
+                ),
+              ],
+            ),
+            Column(
+              spacing: 12,
+              children: [
+                GogoTextField(
+                  controller: TextEditingController(),
+                  hintText: "배팅할 금액을 입력해주세요",
+                  endIcon: GogoIcons.pointCircle(
+                    color: true ? GogoColors.white : GogoColors.gray400,
+                  ),
+                ),
+                GogoDefaultButton(
+                  color:
+                      enableBetting ? GogoColors.main600 : GogoColors.gray400,
+                  text: "배팅",
+                  onTap: () {
+                    onBattingClick("selectedTeam");
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
