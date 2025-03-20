@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../design_system/component/stage/gogo_stage_card_component.dart';
 import '../../../design_system/theme/color.dart';
+import '../../../design_system/theme/icon.dart';
 import '../../../design_system/theme/typography.dart';
 import '../widget/gogo_profile_card_component.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool selected = false;
+
+  final TextStyle subjectStyle = GogoTypography.body3Semibold.copyWith(
+    color: GogoColors.gray500,
+  );
+
+  final TextStyle mainStyle = GogoTypography.caption1Extrabold.copyWith(
+    color: GogoColors.white,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +176,8 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
+      ),
     );
   }
 }
