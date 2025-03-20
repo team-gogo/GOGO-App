@@ -34,14 +34,6 @@ void main() async {
   setupApiLocator();
   setUpDio();
 
-  // 알림 권한 요청
-  await FirebaseMessaging.instance.requestPermission(
-    alert: true,
-    badge: true,
-    carPlay: true,
-    sound: true,
-  );
-
   // 포그라운드 푸시 알림 처리
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print("포그라운드 알림: ${message.notification?.title}");
