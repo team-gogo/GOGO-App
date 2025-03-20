@@ -2,6 +2,8 @@ abstract class SplashState {}
 
 class InitSplashState extends SplashState {}
 
-class LoadingSplashState extends SplashState {}
+class AutoLoginLoading extends SplashState {}
 
-class DisposeSplashState extends SplashState {}
+class AutoLoginFailed extends SplashState {}
+
+class AutoLoginSuccess extends SplashState {}

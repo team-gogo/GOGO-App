@@ -16,8 +16,10 @@ class SplashScreen extends StatelessWidget {
     return BlocProvider<SplashBloc>(
       create: (BuildContext context) => SplashBloc()..add(LaunchSplashEvent()),
       child: BlocListener<SplashBloc, SplashState>(
-        listener: (context, state) =>
-            state is DisposeSplashState ? context.goNamed(PageRouter.login) : null,
+        listener: (context, state) => {
+          if (state is AutoLoginFailed) context.goNamed(PageRouter.login)
+          else if (state is AutoLoginSuccess) context.goNamed(PageRouter.main)
+        },
         child: Scaffold(
           backgroundColor: GogoColors.black,
           body: Center(
