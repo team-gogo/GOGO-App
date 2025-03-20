@@ -1,17 +1,5 @@
-import 'package:gogo_app/data/models/stage/community/sort_type.dart';
-import 'package:gogo_app/data/models/stage/game_type.dart';
-
-abstract class CommunityEvent {}
-
-class TitleChanged extends CommunityEvent {
-  final String title;
-  TitleChanged(this.title);
-}
-
-class ContentChanged extends CommunityEvent {
-  final String content;
-  ContentChanged(this.content);
-}
+import '../../../../data/models/stage/community/sort_type.dart';
+import '../../../../data/models/stage/game_type.dart';
 
 abstract class CommunitySportFilterEvent {}
 

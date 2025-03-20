@@ -1,29 +1,5 @@
-import 'package:gogo_app/data/models/stage/community/sort_type.dart';
-import 'package:gogo_app/data/models/stage/game_type.dart';
-
-class CommunityState {
-  final String title;
-  final String content;
-  final bool isValid;
-
-  CommunityState({
-    required this.title,
-    required this.content,
-    required this.isValid,
-  });
-
-  CommunityState copyWith({
-    String? title,
-    String? content,
-    bool? isValid,
-  }) {
-    return CommunityState(
-      title: title ?? this.title,
-      content: content ?? this.content,
-      isValid: isValid ?? this.isValid,
-    );
-  }
-}
+import '../../../../data/models/stage/community/sort_type.dart';
+import '../../../../data/models/stage/game_type.dart';
 
 abstract class CommunitySportFilterState {}
 
