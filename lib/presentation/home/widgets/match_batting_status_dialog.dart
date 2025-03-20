@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gogo_app/design_system/component/button/gogo_default_button.dart';
 import 'package:gogo_app/design_system/component/text_field/gogo_text_field.dart';
 
+import '../../../design_system/component/animattion/animated_int.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
 import '../../../design_system/theme/typography.dart';
@@ -78,7 +79,7 @@ class MatchBattingStatusDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              BattingGraph(
+              buildBattingGraph(
                 isSelected: true,
                 teamName: teamA,
                 maxBattingPoint: maxPoints,
@@ -98,13 +99,16 @@ class MatchBattingStatusDialog extends StatelessWidget {
                       spacing: 4,
                       children: [
                         GogoIcons.pointCircle(height: 20, width: 20),
-                        Text(
-                          "${teamAPoint + teamBPoint}",
-                          style: GogoTypography.caption1Semibold.copyWith(
-                            color: GogoColors.gray300,
+                        AnimatedInt(
+                          currentInt: teamAPoint + teamBPoint,
+                          builder: (int value) => Text(
+                            "$value",
+                            style: GogoTypography.caption1Semibold.copyWith(
+                              color: GogoColors.gray300,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
+                        )
                       ],
                     ),
                     Text(
@@ -117,7 +121,7 @@ class MatchBattingStatusDialog extends StatelessWidget {
                   ],
                 ),
               ),
-              BattingGraph(
+              buildBattingGraph(
                 isSelected: false,
                 teamName: teamB,
                 maxBattingPoint: maxPoints,
@@ -151,80 +155,40 @@ class MatchBattingStatusDialog extends StatelessWidget {
       ),
     );
   }
-}
 
-class BattingGraph extends StatefulWidget {
-  final bool isSelected;
-  final String teamName;
-  final int maxBattingPoint;
-  final int currentTeamBattingPoint;
-  final int currentBattingPercentage;
-  final bool enableBetting;
-  final Function(String) onBattingClick;
-
-  const BattingGraph({
-    super.key,
-    required this.isSelected,
-    required this.teamName,
-    required this.maxBattingPoint,
-    required this.currentTeamBattingPoint,
-    required this.currentBattingPercentage,
-    required this.enableBetting,
-    required this.onBattingClick,
-  });
-
-  @override
-  _BattingGraphState createState() => _BattingGraphState();
-}
-
-class _BattingGraphState extends State<BattingGraph> {
-  int previousPercentage = 0;
-  int previousPoints = 0;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget buildBattingGraph({
+    required bool isSelected,
+    required String teamName,
+    required int maxBattingPoint,
+    required int currentTeamBattingPoint,
+    required int currentBattingPercentage,
+    required bool enableBetting,
+    required Function(String) onBattingClick,
+  }) {
     return GestureDetector(
       onTap: () {
-        if (widget.enableBetting) {
-          widget.onBattingClick(widget.teamName);
+        if (enableBetting) {
+          onBattingClick(teamName);
         }
       },
       child: Column(
-        spacing: 24,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
-            spacing: 8,
             children: [
-              TweenAnimationBuilder<int>(
-                tween: IntTween(
-                  begin: previousPoints,
-                  end: widget.currentTeamBattingPoint,
+              AnimatedInt(
+                currentInt: currentTeamBattingPoint,
+                builder: (int value) => Text(
+                  '${value}P',
+                  style: GogoTypography.caption1Semibold.copyWith(
+                    color: GogoColors.gray300,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                duration: Duration(seconds: 1),
-                builder: (context, value, child) {
-                  return Text(
-                    '${value}P',
-                    style: GogoTypography.caption1Semibold.copyWith(
-                      color: GogoColors.gray300,
-                    ),
-                    textAlign: TextAlign.center,
-                  );
-                },
-                onEnd: () {
-                  setState(() {
-                    previousPoints = widget.currentTeamBattingPoint;
-                  });
-                },
               ),
               Text(
-                "${widget.teamName}팀",
+                "$teamName팀",
                 style: GogoTypography.body2Extrabold.copyWith(
                   color: GogoColors.white,
                 ),
@@ -233,10 +197,9 @@ class _BattingGraphState extends State<BattingGraph> {
             ],
           ),
           AnimatedContainer(
-            height: 30 + 131 * (widget.currentBattingPercentage / 100),
+            height: 30 + 131 * (currentBattingPercentage / 100),
             decoration: ShapeDecoration(
-              color:
-                  widget.isSelected ? GogoColors.main600 : GogoColors.gray500,
+              color: isSelected ? GogoColors.main600 : GogoColors.gray500,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -245,26 +208,15 @@ class _BattingGraphState extends State<BattingGraph> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Center(
-                child: TweenAnimationBuilder<int>(
-                  tween: IntTween(
-                    begin: previousPercentage,
-                    end: widget.currentBattingPercentage,
+                child: AnimatedInt(
+                  currentInt: currentBattingPercentage,
+                  builder: (int value) => Text(
+                    '$value%',
+                    style: GogoTypography.body3Extrabold.copyWith(
+                      color: GogoColors.white,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  duration: Duration(seconds: 1),
-                  builder: (context, value, child) {
-                    return Text(
-                      '$value%',
-                      style: GogoTypography.body3Extrabold.copyWith(
-                        color: GogoColors.white,
-                      ),
-                      textAlign: TextAlign.center,
-                    );
-                  },
-                  onEnd: () {
-                    setState(() {
-                      previousPercentage = widget.currentBattingPercentage;
-                    });
-                  },
                 ),
               ),
             ),
