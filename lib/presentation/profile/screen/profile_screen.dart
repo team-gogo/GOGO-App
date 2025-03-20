@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/typography.dart';
+import '../widget/gogo_profile_card_component.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
