@@ -1,3 +1,4 @@
+import 'package:gogo_app/data/models/stage/game_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'search_write_detail_response.g.dart';
@@ -10,7 +11,8 @@ class SearchWriteDetailResponse {
   final int likeCount;
   final bool isLiked;
   final String createdAt;
-  final Author author;
+  final Stage stage;
+  final Author Authorauthor;
   final int commentCount;
   final List<Comment> comment;
 
@@ -21,13 +23,15 @@ class SearchWriteDetailResponse {
     required this.likeCount,
     required this.isLiked,
     required this.createdAt,
-    required this.author,
+    required this.stage,
+    required this.Authorauthor,
     required this.commentCount,
     required this.comment,
   });
 
   factory SearchWriteDetailResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchWriteDetailResponseFromJson(json);
+
   Map<String, dynamic> toJson() => _$SearchWriteDetailResponseToJson(this);
 }
 
@@ -46,6 +50,7 @@ class Author {
   });
 
   factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
+
   Map<String, dynamic> toJson() => _$AuthorToJson(this);
 }
 
@@ -67,5 +72,22 @@ class Comment {
 
   factory Comment.fromJson(Map<String, dynamic> json) =>
       _$CommentFromJson(json);
+
   Map<String, dynamic> toJson() => _$CommentToJson(this);
+}
+
+@JsonSerializable()
+class Stage {
+  final String name;
+  final GameType GameCategory;
+
+  Stage({
+    required this.name,
+    required this.GameCategory,
+  });
+
+  factory Stage.fromJson(Map<String, dynamic> json) =>
+      _$StageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StageToJson(this);
 }

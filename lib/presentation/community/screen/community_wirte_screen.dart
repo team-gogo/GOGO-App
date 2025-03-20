@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/data/models/stage/game_type.dart';
 import 'package:gogo_app/design_system/component/button/gogo_default_button.dart';
 import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
@@ -9,7 +8,7 @@ import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/community/bloc/community.bloc.dart';
+import 'package:gogo_app/presentation/community/bloc/community_bloc.dart';
 import 'package:gogo_app/presentation/community/bloc/community_event.dart';
 import 'package:gogo_app/presentation/community/bloc/community_state.dart';
 
