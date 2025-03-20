@@ -86,7 +86,7 @@ class MatchBattingStatusDialog extends StatelessWidget {
                 currentTeamBattingPoint: teamAPoint,
                 currentBattingPercentage: aTeamPercentage,
                 enableBetting: enableBetting,
-                onBattingClick: (team) => onBattingClick(team),
+                onClick: (team) => onBattingClick(team),
               ),
               SizedBox(
                 height: 238,
@@ -132,7 +132,7 @@ class MatchBattingStatusDialog extends StatelessWidget {
                 currentTeamBattingPoint: teamBPoint,
                 currentBattingPercentage: bTeamPercentage,
                 enableBetting: enableBetting,
-                onBattingClick: (team) => onBattingClick(team),
+                onClick: (team) => onBattingClick(team),
               ),
             ],
           ),
@@ -167,12 +167,12 @@ class MatchBattingStatusDialog extends StatelessWidget {
     required int currentTeamBattingPoint,
     required int currentBattingPercentage,
     required bool enableBetting,
-    required Function(String) onBattingClick,
+    required Function(String) onClick,
   }) {
     return GestureDetector(
       onTap: () {
         if (enableBetting) {
-          onBattingClick(teamName);
+          onClick(teamName);
         }
       },
       child: Column(
