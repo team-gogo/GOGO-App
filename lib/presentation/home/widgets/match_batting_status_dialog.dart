@@ -179,14 +179,15 @@ class MatchBattingStatusDialog extends StatelessWidget {
             ),
           ],
         ),
-        Container(
-          height: 80 + 80 / maxBattingPoint * currentTeamBattingPoint,
+        AnimatedContainer(
+          height: 30 + 131 * (currentBattingPercentage / 100),
           decoration: ShapeDecoration(
             color: isSelected ? GogoColors.main600 : GogoColors.gray500,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
           ),
+          duration: Duration(milliseconds: 500),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Center(
