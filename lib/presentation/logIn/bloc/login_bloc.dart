@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
@@ -42,13 +43,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(GoogleLoginFail(message: "유저 정보를 가져오지 못했습니다."));
         return;
       }
-
-      await authRepository.googleOAuthLogin(
-        GoogleOAuthLoginRequest(
-          deviceToken: deviceToken,
-          oauthToken: googleAuth.idToken ?? "",
-        ),
-      );
+      try {
+        final token = await authRepository.googleOAuthLogin(
+          GoogleOAuthLoginRequest(
+            deviceToken: deviceToken,
+            oauthToken: googleAuth.idToken ?? "",
+          ),
+        );
+        print('로그인 성공: ${token.accessToken}');
+        emit(GogoLoginSuccess());
+      } on DioException catch (e) {
+        if (e.response?.statusCode == 401) {
+          print('401: OAuth 계정이 존재하지 않음');
+        } else if (e.response?.statusCode == 404) {
+          print('404: 유저가 존재하지 않음');
+        } else {
+          print('기타 오류 발생: ${e.message}');
+        }
+        emit(GogoLoginFail());
+      }
 
       emit(GoogleLoginSuccess(user: userCredential.user!));
     } catch (e) {
