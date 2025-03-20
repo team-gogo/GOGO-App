@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +26,7 @@ class CommunityMainScreen extends StatefulWidget {
 }
 
 class _CommunityMainScreenState extends State<CommunityMainScreen> {
-  int currentPage = 1;
+  int currentPage = 0;
   int startPage = 0;
   int resultPerPage = 5;
   GameType? sportType;
@@ -35,7 +37,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
           FetchCommunityEvent(
             queryString: CommunitySearchRequestQueryString(
               page: currentPage,
-              size: 20,
+              size: 15,
               type: sportType,
               sort: sortType,
             ),
@@ -59,7 +61,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
               FetchCommunityEvent(
                 queryString: CommunitySearchRequestQueryString(
                   page: currentPage,
-                  size: 20,
+                  size: 15,
                   type: null,
                   sort: null,
                 ),
@@ -161,56 +163,96 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                   thickness: 0,
                   height: 1,
                 ),
-                const SizedBox(height: 16),
                 BlocBuilder<CommunityBloc, CommunityState>(
                   builder: (context, state) {
                     if (state is CommunityLoadingState) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is CommunityLoadedState) {
-                      return Column(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            spacing: 8,
-                            children: List.generate(
-                              state.response.board.length,
-                              (index) => CommunityItem(
-                                  sportIcon:
-                                      state.response.board[index].gameType,
-                                  title: state.response.board[index].title,
-                                  name: state.response.board[index].author.name,
-                                  commentNum: 10,
-                                  likeNum:
-                                      state.response.board[index].likeCount),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                      return Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
                             children: [
-                              /// 뒤로가기 버튼
-                              startPage > 0 &&
-                                      ((MediaQuery.of(context).size.width -
-                                                      120) /
-                                                  30)
-                                              .floor() <
-                                          (state.response.board.length /
-                                                  resultPerPage)
-                                              .ceil()
-                                  ? InkWell(
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 8,
+                                children: List.generate(
+                                  state.response.board.length,
+                                  (index) => CommunityItem(
+                                      sportIcon:
+                                          state.response.board[index].gameType,
+                                      title: state.response.board[index].title,
+                                      name: state
+                                          .response.board[index].author.name,
+                                      commentNum: 10,
+                                      likeNum: state
+                                          .response.board[index].likeCount),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  /// 뒤로가기 버튼 (startPage가 0보다 클 때만 표시)
+                                  if (startPage > 0)
+                                    InkWell(
                                       onTap: () => setState(() {
                                         startPage--;
+                                        _fetchCommunity(); // 페이지 변경 시 데이터 다시 불러오기
                                       }),
                                       child: GogoIcons.chevronLeft(
                                         color: GogoColors.gray500,
                                         width: 16,
                                         height: 16,
                                       ),
-                                    )
-                                  : SizedBox.shrink(),
-                              /// 
+                                    ),
+
+                                  /// 번호 버튼 (5개 고정)
+                                  for (int i = startPage;
+                                      i < startPage + 5 &&
+                                          i <
+                                              (state.response.board.length /
+                                                      resultPerPage)
+                                                  .ceil();
+                                      i++)
+                                    TextButton(
+                                      onPressed: () => setState(() {
+                                        currentPage = i;
+                                        _fetchCommunity(); // 페이지 변경 시 데이터 다시 불러오기
+                                      }),
+                                      child: Text(
+                                        (i + 1).toString(),
+                                        style: GogoTypography.caption1Extrabold
+                                            .copyWith(
+                                          color: currentPage == i
+                                              ? GogoColors.main600
+                                              : GogoColors.gray500,
+                                        ),
+                                      ),
+                                    ),
+
+                                  /// 앞으로 가기 버튼 (더 표시할 페이지가 남아있을 때만 표시)
+                                  if ((state.response.board.length /
+                                              resultPerPage)
+                                          .ceil() >
+                                      startPage + 5)
+                                    InkWell(
+                                      onTap: () => setState(() {
+                                        startPage++;
+                                        _fetchCommunity(); // 페이지 변경 시 데이터 다시 불러오기
+                                      }),
+                                      child: GogoIcons.chevronRight(
+                                        color: GogoColors.gray500,
+                                        width: 16,
+                                        height: 16,
+                                      ),
+                                    ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       );
                     } else if (state is CommunityErrorState) {
                       return Center(child: Text('Error: ${state.message}'));
