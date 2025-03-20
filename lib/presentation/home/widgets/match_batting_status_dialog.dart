@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:gogo_app/design_system/component/button/gogo_default_button.dart';
+import 'package:gogo_app/design_system/component/text_field/gogo_text_field.dart';
 
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
@@ -32,7 +33,7 @@ class MatchBattingStatusDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int maxPoints = max(teamAPoint, teamBPoint);
-    final int totalPoints = teamAPoint+teamBPoint;
+    final int totalPoints = teamAPoint + teamBPoint;
     final int aTeamPercentage = ((teamAPoint / totalPoints) * 100).toInt();
     final int bTeamPercentage = ((teamBPoint / totalPoints) * 100).toInt();
 
@@ -123,12 +124,24 @@ class MatchBattingStatusDialog extends StatelessWidget {
               ),
             ],
           ),
-          GogoDefaultButton(
-            color: enableBetting ? GogoColors.main600 : GogoColors.gray400,
-            text: "배팅",
-            onTap: () {
-              onBattingClick("selectedTeam");
-            },
+          Column(
+            spacing: 12,
+            children: [
+              GogoTextField(
+                controller: TextEditingController(),
+                hintText: "배팅할 금액을 입력해주세요",
+                endIcon: GogoIcons.pointCircle(
+                  color: true ? GogoColors.white : GogoColors.gray400,
+                ),
+              ),
+              GogoDefaultButton(
+                color: enableBetting ? GogoColors.main600 : GogoColors.gray400,
+                text: "배팅",
+                onTap: () {
+                  onBattingClick("selectedTeam");
+                },
+              ),
+            ],
           ),
         ],
       ),
