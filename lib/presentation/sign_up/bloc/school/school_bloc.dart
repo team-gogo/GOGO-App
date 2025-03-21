@@ -1,18 +1,20 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:gogo_app/data/models/search_school/search_school_response.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/school/school_event.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/school/school_state.dart';
 import 'package:rxdart/rxdart.dart';
+
 import '../../../../data/get_it_module/get_it_module.dart';
+import '../../../../data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 
 class SchoolBloc extends Bloc<SchoolEvent, SchoolState> {
   final TextEditingController _schoolController = TextEditingController();
   final SearchSchoolRepository _searchSchoolRepository =
       locator<SearchSchoolRepository>();
-  List<SearchSchoolResponse> searchSchoolResponse = [];
+  List<School> searchSchoolResponse = [];
+  School? searchSchoolResponseSelected;
 
   TextEditingController get schoolController => _schoolController;
 
@@ -45,7 +47,8 @@ class SchoolBloc extends Bloc<SchoolEvent, SchoolState> {
   void _handlerChooseSchoolEvent(
       ChooseSchoolEvent event, Emitter<SchoolState> emit) {
     _schoolController.removeListener(_onTextChanged);
-    _schoolController.text = event.searchSchoolResponse.schulNm;
+    _schoolController.text = event.searchSchoolResponse.name;
+    searchSchoolResponseSelected = event.searchSchoolResponse;
     _schoolController.addListener(_onTextChanged);
     emit(ChooseSchoolState());
   }
