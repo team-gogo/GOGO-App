@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'dart:developer';
+import 'dart:convert';
 
-class LogInterceptor extends InterceptorsWrapper {
+class GogoLogInterceptor extends InterceptorsWrapper {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     log('--> ${options.method} ${options.uri}');
