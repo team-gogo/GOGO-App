@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +10,7 @@ import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
+import 'package:gogo_app/presentation/community/bloc/filter/community_filter_state.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_bloc.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_event.dart';
 import 'package:gogo_app/presentation/community/widgets/community_filter_popup.dart';
@@ -26,18 +26,37 @@ class CommunityMainScreen extends StatefulWidget {
 }
 
 class _CommunityMainScreenState extends State<CommunityMainScreen> {
+  ScrollController scrollController = ScrollController();
   int currentPage = 0;
-  int startPage = 0;
-  int resultPerPage = 5;
+  int resultPerPage = 15;
   GameType? sportType;
   SortType? sortType;
 
-  void _fetchCommunity() async {
+  void _onPageChanged(BuildContext context, int? newPage) {
+    setState(() {
+      if (newPage != null) {
+        currentPage = newPage;
+      }
+      if (context.read<CommunitySportFilterBloc>().state
+          is SelectedCommunitySportFilterState) {
+        sportType = (context.read<CommunitySportFilterBloc>().state
+                as SelectedCommunitySportFilterState)
+            .gameType;
+      }
+      if (context.read<CommunitySortFilterBloc>().state
+          is SelectedCommunitySortFilterState) {
+        sortType = (context.read<CommunitySortFilterBloc>().state
+                as SelectedCommunitySortFilterState)
+            .sortType;
+      }
+    });
+    scrollController.jumpTo(0);
+    // 페이지 변경 후 새로운 데이터 가져오기
     context.read<CommunityBloc>().add(
           FetchCommunityEvent(
             queryString: CommunitySearchRequestQueryString(
               page: currentPage,
-              size: 15,
+              size: resultPerPage,
               type: sportType,
               sort: sortType,
             ),
@@ -47,21 +66,23 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final communitySportFilterBloc = CommunitySportFilterBloc();
+    final communitySortFilterBloc = CommunitySortFilterBloc();
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (BuildContext context) => CommunitySportFilterBloc(),
+        BlocProvider<CommunitySportFilterBloc>(
+          create: (_) => communitySportFilterBloc,
         ),
-        BlocProvider(
-          create: (BuildContext context) => CommunitySortFilterBloc(),
+        BlocProvider<CommunitySortFilterBloc>(
+          create: (_) => communitySortFilterBloc,
         ),
-        BlocProvider(
+        BlocProvider<CommunityBloc>(
           create: (BuildContext context) => CommunityBloc()
             ..add(
               FetchCommunityEvent(
                 queryString: CommunitySearchRequestQueryString(
                   page: currentPage,
-                  size: 15,
+                  size: resultPerPage,
                   type: null,
                   sort: null,
                 ),
@@ -103,7 +124,21 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                         GestureDetector(
                           onTap: () => showDialog(
                               context: context,
-                              builder: (builder) => CommunityFilterPopup()),
+                              builder: (builder) => MultiBlocProvider(
+                                    providers: [
+                                      BlocProvider<CommunitySportFilterBloc>(
+                                        create: (_) => communitySportFilterBloc,
+                                      ),
+                                      BlocProvider<
+                                              CommunitySortFilterBloc>(
+                                        create: (_) => communitySortFilterBloc,
+                                      ),
+                                    ],
+                                    child: CommunityFilterPopup(
+                                      onTap: () =>
+                                          _onPageChanged(context, null),
+                                    ),
+                                  )),
                           child: GogoTagComponent(
                             color: GogoColors.main500,
                             text: '필터',
@@ -168,59 +203,62 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                     if (state is CommunityLoadingState) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is CommunityLoadedState) {
+                      int totalPage = state.response.info.totalPage;
+                      int startPage = (currentPage / 5).floor() * 5; // 5개씩 묶기
+                      int endPage = min(startPage + 5, totalPage);
+
                       return Expanded(
                         child: SingleChildScrollView(
+                          controller: scrollController,
                           child: Column(
                             children: [
-                              SizedBox(
-                                height: 16,
-                              ),
+                              SizedBox(height: 16),
                               Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 spacing: 8,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: List.generate(
                                   state.response.board.length,
                                   (index) => CommunityItem(
-                                      sportIcon:
-                                          state.response.board[index].gameType,
-                                      title: state.response.board[index].title,
-                                      name: state
-                                          .response.board[index].author.name,
-                                      commentNum: 10,
-                                      likeNum: state
-                                          .response.board[index].likeCount),
+                                    sportIcon:
+                                        state.response.board[index].gameType,
+                                    title: state.response.board[index].title,
+                                    name:
+                                        state.response.board[index].author.name,
+                                    commentNum: 10,
+                                    likeNum:
+                                        state.response.board[index].likeCount,
+                                  ),
                                 ),
                               ),
+                              // 페이지네이션 버튼 클릭 시 데이터를 다시 불러오는 코드 수정
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  /// 뒤로가기 버튼 (startPage가 0보다 클 때만 표시)
-                                  if (startPage > 0)
-                                    InkWell(
-                                      onTap: () => setState(() {
-                                        startPage--;
-                                        _fetchCommunity(); // 페이지 변경 시 데이터 다시 불러오기
-                                      }),
-                                      child: GogoIcons.chevronLeft(
-                                        color: GogoColors.gray500,
-                                        width: 16,
-                                        height: 16,
-                                      ),
-                                    ),
-
-                                  /// 번호 버튼 (5개 고정)
-                                  for (int i = startPage;
-                                      i < startPage + 5 &&
-                                          i <
-                                              (state.response.board.length /
-                                                      resultPerPage)
-                                                  .ceil();
-                                      i++)
+                                  currentPage > 0
+                                      ? InkWell(
+                                          onTap: () => _onPageChanged(
+                                              context, currentPage - 1),
+                                          child: GogoIcons.chevronLeft(
+                                            color: GogoColors.gray500,
+                                            width: 16,
+                                            height: 16,
+                                          ),
+                                        )
+                                      : SizedBox(
+                                          height: 16,
+                                          width: 16,
+                                        ),
+                                  for (int i = startPage; i < endPage; i++)
                                     TextButton(
-                                      onPressed: () => setState(() {
-                                        currentPage = i;
-                                        _fetchCommunity(); // 페이지 변경 시 데이터 다시 불러오기
-                                      }),
+                                      style: TextButton.styleFrom(
+                                        iconSize: 16,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                        ),
+                                        minimumSize: Size(16, 16),
+                                      ),
+                                      onPressed: () =>
+                                          _onPageChanged(context, i),
                                       child: Text(
                                         (i + 1).toString(),
                                         style: GogoTypography.caption1Extrabold
@@ -231,25 +269,24 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                                         ),
                                       ),
                                     ),
-
-                                  /// 앞으로 가기 버튼 (더 표시할 페이지가 남아있을 때만 표시)
-                                  if ((state.response.board.length /
-                                              resultPerPage)
-                                          .ceil() >
-                                      startPage + 5)
-                                    InkWell(
-                                      onTap: () => setState(() {
-                                        startPage++;
-                                        _fetchCommunity(); // 페이지 변경 시 데이터 다시 불러오기
-                                      }),
-                                      child: GogoIcons.chevronRight(
-                                        color: GogoColors.gray500,
-                                        width: 16,
-                                        height: 16,
-                                      ),
-                                    ),
+                                  currentPage < totalPage - 1
+                                      ? InkWell(
+                                          onTap: () => _onPageChanged(
+                                              context, currentPage + 1),
+                                          child: GogoIcons.chevronRight(
+                                            color: GogoColors.gray500,
+                                            width: 16,
+                                            height: 16,
+                                          ),
+                                        )
+                                      : SizedBox(
+                                          height: 16,
+                                          width: 16,
+                                        ),
                                 ],
                               )
+
+                              // 페이지 변경 처리
                             ],
                           ),
                         ),
