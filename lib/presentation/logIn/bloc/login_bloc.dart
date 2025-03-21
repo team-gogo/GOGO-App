@@ -60,6 +60,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await authRepository.googleOAuthLogin(
         GoogleOAuthLoginRequest(
           deviceToken: deviceToken,
+          oauthToken: googleAuth.accessToken ?? "",
         ),
       );
 
