@@ -44,12 +44,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         return;
       }
       try {
-        final token = await authRepository.googleOAuthLogin(
-          GoogleOAuthLoginRequest(
-            deviceToken: deviceToken,
             oauthToken: googleAuth.idToken ?? "",
-          ),
-        );
         print('로그인 성공: ${token.accessToken}');
         emit(GogoLoginSuccess());
       } on DioException catch (e) {
@@ -62,6 +57,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         }
         emit(GogoLoginFail());
       }
+      await authRepository.googleOAuthLogin(
+        GoogleOAuthLoginRequest(
+          deviceToken: deviceToken,
+        ),
+      );
 
       emit(GoogleLoginSuccess(user: userCredential.user!));
     } catch (e) {
