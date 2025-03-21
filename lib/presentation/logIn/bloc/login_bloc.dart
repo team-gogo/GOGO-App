@@ -44,10 +44,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         return;
       }
       try {
-        final token = await authRepository.googleOAuthLogin(
+        await authRepository.googleOAuthLogin(
           GoogleOAuthLoginRequest(
             deviceToken: deviceToken,
-            oauthToken: googleAuth.idToken ?? "",
+            oauthToken: googleAuth.accessToken ?? "",
           ),
         );
         print('로그인 성공: ${token.accessToken}');
