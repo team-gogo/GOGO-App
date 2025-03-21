@@ -49,6 +49,28 @@ class School {
     required this.phoneNumber,
   });
 
-  factory School.fromJson(Map<String, dynamic> json) => _$SchoolFromJson(json);
+  factory School.fromJson(Map<String, dynamic> json) {
+    return School(
+      sdCode: json['SD_SCHUL_CODE'] as String? ?? '',
+      name: json['SCHUL_NM'] as String? ?? '',
+      type: _mapSchoolType(json['SCHUL_KND_SC_NM'] as String?),
+      address: '${json['ORG_RDNMA'] ?? ''} ${json['ORG_RDNDA'] ?? ''}'.trim(),
+      region: json['LCTN_SC_NM'] as String? ?? '',
+      countOfStudent: 0,
+      phoneNumber: json['ORG_TELNO'] as String? ?? '',
+    );
+  }
+
+  static SchoolType _mapSchoolType(String? type) {
+    switch (type) {
+      case '중학교':
+        return SchoolType.MiddleSchool;
+      case '고등학교':
+        return SchoolType.HighSchool;
+      default:
+        throw ArgumentError('알 수 없는 학교 유형: $type');
+    }
+  }
+
   Map<String, dynamic> toJson() => _$SchoolToJson(this);
 }
