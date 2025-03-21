@@ -12,7 +12,9 @@ import '../bloc/filter/community_filter_event.dart';
 import '../bloc/filter/community_filter_state.dart';
 
 class CommunityFilterPopup extends StatelessWidget {
-  const CommunityFilterPopup({super.key});
+  const CommunityFilterPopup({super.key, required this.onTap});
+
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -81,33 +83,32 @@ class CommunityFilterPopup extends StatelessWidget {
                   ),
                 ],
               ),
-              BlocBuilder<CommunitySportFilterBloc,
-                  CommunitySportFilterState>(builder: (context, state) {
+              BlocBuilder<CommunitySportFilterBloc, CommunitySportFilterState>(
+                  builder: (context, state) {
                 return Wrap(
                   spacing: 12,
                   runSpacing: 14,
                   children: List.generate(
                     categoryTexts.length,
                     (index) => GestureDetector(
-                      onTap: () =>
-                          context.read<CommunitySportFilterBloc>().add(
-                                SelectCommunitySportFilterEvent(
-                                    gameType: gameTypes[index]),
-                              ),
+                      onTap: () {
+                        onTap();
+                        context.read<CommunitySportFilterBloc>().add(
+                            SelectCommunitySportFilterEvent(
+                                gameType: gameTypes[index]));
+                      },
                       child: GogoTagComponent.small(
-                        tagState:
-                            state is SelectedCommunitySportFilterState &&
-                                    state.gameType == gameTypes[index]
-                                ? true
-                                : false,
+                        tagState: state is SelectedCommunitySportFilterState &&
+                                state.gameType == gameTypes[index]
+                            ? true
+                            : false,
                         color: GogoColors.main500,
                         text: categoryTexts[index],
                         icon: categoryIcons[index](
-                            color:
-                                state is SelectedCommunitySportFilterState &&
-                                        state.gameType == gameTypes[index]
-                                    ? Colors.white
-                                    : GogoColors.main500,
+                            color: state is SelectedCommunitySportFilterState &&
+                                    state.gameType == gameTypes[index]
+                                ? Colors.white
+                                : GogoColors.main500,
                             height: 12,
                             width: 12),
                       ),
@@ -127,11 +128,13 @@ class CommunityFilterPopup extends StatelessWidget {
                   children: List.generate(
                     sortTexts.length,
                     (index) => GestureDetector(
-                      onTap: () =>
-                          context.read<CommunitySortFilterBloc>().add(
-                                SelectCommunitySortFilterEvent(
-                                    sortType: sortType[index]),
-                              ),
+                      onTap: () {
+                        onTap();
+                        context.read<CommunitySortFilterBloc>().add(
+                              SelectCommunitySortFilterEvent(
+                                  sortType: sortType[index]),
+                            );
+                      },
                       child: GogoTagComponent.small(
                         tagState: state is SelectedCommunitySortFilterState &&
                                 state.sortType == sortType[index]
@@ -140,11 +143,10 @@ class CommunityFilterPopup extends StatelessWidget {
                         color: GogoColors.main500,
                         text: sortTexts[index],
                         icon: GogoIcons.alarm(
-                            color:
-                                state is SelectedCommunitySortFilterState &&
-                                        state.sortType == sortType[index]
-                                    ? Colors.white
-                                    : GogoColors.main500,
+                            color: state is SelectedCommunitySortFilterState &&
+                                    state.sortType == sortType[index]
+                                ? Colors.white
+                                : GogoColors.main500,
                             height: 12,
                             width: 12),
                       ),
