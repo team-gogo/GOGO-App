@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/sex/sex_bloc.dart';
 import '../../../../data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 import '../../../../design_system/component/button/gogo_default_button.dart';
@@ -12,10 +11,12 @@ import '../../bloc/sex/sex_state.dart';
 
 class SexPage extends StatelessWidget {
   final PageController pageController;
+  final VoidCallback submitSign;
 
   const SexPage({
     super.key,
     required this.pageController,
+    required this.submitSign,
   });
 
   @override
@@ -28,7 +29,7 @@ class SexPage extends StatelessWidget {
             color: GogoColors.white,
             width: 40,
             height: 40,
-            onTap: ()=> pageController.animateToPage(
+            onTap: () => pageController.animateToPage(
               2,
               duration: Duration(milliseconds: 300),
               curve: Curves.ease,
@@ -64,7 +65,7 @@ class SexPage extends StatelessWidget {
           ),
           Spacer(),
           GogoDefaultButton(
-            onTap: state is EnableSexState ? () => context.goNamed(PageRouter.main) : () {},
+            onTap: submitSign,
             text: "확인",
             color: state is EnableSexState
                 ? GogoColors.main600
