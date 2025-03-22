@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 abstract class LoginState {}
 
 class Init extends LoginState {}
@@ -12,10 +10,6 @@ class GoogleLoginFail extends LoginState {
 
 class GogoLoginFail extends LoginState {}
 
-class GoogleLoginSuccess extends LoginState {
-  final User user;
-
-  GoogleLoginSuccess({required this.user});
-}
+class GoogleLoginSuccess extends LoginState {}
 
 class GogoLoginSuccess extends LoginState {}

@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
-import 'package:gogo_app/data/models/auth/google_oauth/google_oauth_login_request.dart'
-    show GoogleOAuthLoginRequest;
+import 'package:gogo_app/data/models/auth/google_oauth/google_oauth_login_request.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/presentation/logIn/bloc/login_event.dart';
 import 'package:gogo_app/presentation/logIn/bloc/login_state.dart';
@@ -20,7 +17,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<GoogleLogInEvent>(_googleSignInHandler);
   }
 
-  // ...
   void _googleSignInHandler(LoginEvent event, Emitter<LoginState> emit) async {
     try {
 
@@ -51,7 +47,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         ),
       );
 
-      emit(GoogleLoginSuccess(user: userCredential.user!));
+      emit(GoogleLoginSuccess());
     } catch (e) {
       emit(GoogleLoginFail(message: "구글 로그인에 실패 했습니다: $e"));
     }
