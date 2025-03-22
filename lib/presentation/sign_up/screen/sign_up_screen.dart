@@ -9,6 +9,7 @@ import 'package:gogo_app/presentation/sign_up/widgets/page/school_page.dart';
 import 'package:gogo_app/presentation/sign_up/widgets/page/sex_page.dart';
 
 import '../../../data/models/auth/additional_sign_up/additional_sign_up_response.dart';
+import '../../../data/util/extract_number.dart';
 import '../bloc/number/number_bloc.dart';
 import '../bloc/sign_up/sign_up_bloc.dart';
 import '../bloc/sign_up/sign_up_event.dart';
@@ -62,21 +63,12 @@ class SignUpScreen extends StatelessWidget {
                               AdditionalSignUpRequestEvent(
                                 AdditionalSignUpRequest(
                                   name: nameController.text,
-                                  classNumber: classController.text as int,
-                                  studentNumber: numberController.text as int,
+                                  classNumber: extractNumber(classController.text),
+                                  studentNumber: extractNumber(numberController.text),
                                   sex: sexController ?? Sex.MALE,
                                   school: context
-                                          .read<SchoolBloc>()
-                                          .searchSchoolResponseSelected ??
-                                      School(
-                                        sdCode: "",
-                                        name: "",
-                                        type: SchoolType.HighSchool,
-                                        address: "",
-                                        region: "",
-                                        countOfStudent: 0,
-                                        phoneNumber: "0",
-                                      ),
+                                      .read<SchoolBloc>()
+                                      .searchSchoolResponseSelected!,
                                 ),
                               ),
                             );
