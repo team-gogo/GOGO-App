@@ -1,22 +1,20 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/stage/community/community_search_request_query_string.dart';
 import 'package:gogo_app/data/models/stage/community/sort_type.dart';
 import 'package:gogo_app/data/models/stage/game_type.dart';
-import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
-import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
-import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/community/bloc/filter/community_filter_state.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_bloc.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_event.dart';
+import 'package:gogo_app/presentation/community/bloc/main/community_state.dart';
 import 'package:gogo_app/presentation/community/widgets/community_filter_popup.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
-import '../bloc/filter/community_filter_bloc.dart';
-import '../bloc/main/community_state.dart';
+import 'package:go_router/go_router.dart';
+import 'dart:math';
+import '../../../design_system/component/tag/gogo_tag_component.dart';
+import '../../../design_system/component/top_bar/gogo_top_bar.dart';
+import '../../../design_system/theme/icon.dart';
 
 class CommunityMainScreen extends StatefulWidget {
   const CommunityMainScreen({super.key});
@@ -29,7 +27,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
   ScrollController scrollController = ScrollController();
   int currentPage = 0;
   int resultPerPage = 15;
-  GameType? sportType;
+  GameType? gameType;
   SortType? sortType;
 
   void _onPageChanged(BuildContext context, int? newPage) {
@@ -37,27 +35,14 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
       if (newPage != null) {
         currentPage = newPage;
       }
-      if (context.read<CommunitySportFilterBloc>().state
-          is SelectedCommunitySportFilterState) {
-        sportType = (context.read<CommunitySportFilterBloc>().state
-                as SelectedCommunitySportFilterState)
-            .gameType;
-      }
-      if (context.read<CommunitySortFilterBloc>().state
-          is SelectedCommunitySortFilterState) {
-        sortType = (context.read<CommunitySortFilterBloc>().state
-                as SelectedCommunitySortFilterState)
-            .sortType;
-      }
     });
     scrollController.jumpTo(0);
-    // 페이지 변경 후 새로운 데이터 가져오기
     context.read<CommunityBloc>().add(
           FetchCommunityEvent(
             queryString: CommunitySearchRequestQueryString(
               page: currentPage,
               size: resultPerPage,
-              type: sportType,
+              type: gameType,
               sort: sortType,
             ),
           ),
@@ -66,30 +51,18 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final communitySportFilterBloc = CommunitySportFilterBloc();
-    final communitySortFilterBloc = CommunitySortFilterBloc();
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<CommunitySportFilterBloc>(
-          create: (_) => communitySportFilterBloc,
-        ),
-        BlocProvider<CommunitySortFilterBloc>(
-          create: (_) => communitySortFilterBloc,
-        ),
-        BlocProvider<CommunityBloc>(
-          create: (BuildContext context) => CommunityBloc()
-            ..add(
-              FetchCommunityEvent(
-                queryString: CommunitySearchRequestQueryString(
-                  page: currentPage,
-                  size: resultPerPage,
-                  type: null,
-                  sort: null,
-                ),
-              ),
+    return BlocProvider<CommunityBloc>(
+      create: (BuildContext context) => CommunityBloc()
+        ..add(
+          FetchCommunityEvent(
+            queryString: CommunitySearchRequestQueryString(
+              page: currentPage,
+              size: resultPerPage,
+              type: null,
+              sort: null,
             ),
+          ),
         ),
-      ],
       child: Scaffold(
         body: SafeArea(
           child: Padding(
@@ -122,23 +95,40 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                         ),
                         const SizedBox(width: 12),
                         GestureDetector(
-                          onTap: () => showDialog(
+                          onTap: () async {
+                            final result =
+                                await showDialog<Map<String, dynamic>>(
+                              barrierDismissible: false,
+                              // 백그라운드 눌러도 다이얼로그가 닫히지 않음
+
                               context: context,
-                              builder: (builder) => MultiBlocProvider(
-                                    providers: [
-                                      BlocProvider<CommunitySportFilterBloc>(
-                                        create: (_) => communitySportFilterBloc,
+                              builder: (_) => CommunityFilterPopup(
+                                gameType: gameType,
+                                sortType: sortType,
+                              ),
+                            );
+
+                            if (result != null) {
+                              setState(() {
+                                gameType = result['gameType'] as GameType?;
+                                sortType = result['sortType'] as SortType?;
+                                currentPage = 0;
+                              });
+                              if (mounted) {
+                                context.read<CommunityBloc>().add(
+                                      FetchCommunityEvent(
+                                        queryString:
+                                            CommunitySearchRequestQueryString(
+                                          page: currentPage,
+                                          size: resultPerPage,
+                                          type: gameType,
+                                          sort: sortType,
+                                        ),
                                       ),
-                                      BlocProvider<
-                                              CommunitySortFilterBloc>(
-                                        create: (_) => communitySortFilterBloc,
-                                      ),
-                                    ],
-                                    child: CommunityFilterPopup(
-                                      onTap: () =>
-                                          _onPageChanged(context, null),
-                                    ),
-                                  )),
+                                    );
+                              }
+                            }
+                          },
                           child: GogoTagComponent(
                             color: GogoColors.main500,
                             text: '필터',
@@ -204,7 +194,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is CommunityLoadedState) {
                       int totalPage = state.response.info.totalPage;
-                      int startPage = (currentPage / 5).floor() * 5; // 5개씩 묶기
+                      int startPage = (currentPage / 5).floor() * 5;
                       int endPage = min(startPage + 5, totalPage);
 
                       return Expanded(
@@ -212,10 +202,9 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                           controller: scrollController,
                           child: Column(
                             children: [
-                              SizedBox(height: 16),
+                              const SizedBox(height: 16),
                               Column(
                                 spacing: 8,
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: List.generate(
                                   state.response.board.length,
                                   (index) => CommunityItem(
@@ -230,7 +219,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                                   ),
                                 ),
                               ),
-                              // 페이지네이션 버튼 클릭 시 데이터를 다시 불러오는 코드 수정
+                              const SizedBox(height: 16),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -244,18 +233,14 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                                             height: 16,
                                           ),
                                         )
-                                      : SizedBox(
-                                          height: 16,
-                                          width: 16,
-                                        ),
+                                      : const SizedBox(width: 16),
                                   for (int i = startPage; i < endPage; i++)
                                     TextButton(
                                       style: TextButton.styleFrom(
                                         iconSize: 16,
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                        ),
-                                        minimumSize: Size(16, 16),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8),
+                                        minimumSize: const Size(16, 16),
                                       ),
                                       onPressed: () =>
                                           _onPageChanged(context, i),
@@ -279,14 +264,9 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                                             height: 16,
                                           ),
                                         )
-                                      : SizedBox(
-                                          height: 16,
-                                          width: 16,
-                                        ),
+                                      : const SizedBox(width: 16),
                                 ],
                               )
-
-                              // 페이지 변경 처리
                             ],
                           ),
                         ),
