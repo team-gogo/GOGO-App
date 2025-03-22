@@ -4,7 +4,7 @@ part 'additional_sign_up_response.g.dart';
 
 enum Sex { MALE, FEMALE }
 
-enum SchoolType { MiddleSchool, HighSchool }
+enum SchoolType { MIDDLE_SCHOOL, HIGH_SCHOOL }
 
 @JsonSerializable()
 class AdditionalSignUpRequest {
@@ -64,9 +64,9 @@ class School {
   static SchoolType _mapSchoolType(String? type) {
     switch (type) {
       case '중학교':
-        return SchoolType.MiddleSchool;
+        return SchoolType.MIDDLE_SCHOOL;
       case '고등학교':
-        return SchoolType.HighSchool;
+        return SchoolType.HIGH_SCHOOL;
       default:
         throw ArgumentError('알 수 없는 학교 유형: $type');
     }
