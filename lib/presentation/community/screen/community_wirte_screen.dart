@@ -9,9 +9,6 @@ import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/bloc/write/community_write_bloc.dart';
-import '../bloc/filter/community_filter_bloc.dart';
-import '../bloc/filter/community_filter_event.dart';
-import '../bloc/filter/community_filter_state.dart';
 import '../bloc/write/community_write_event.dart';
 import '../bloc/write/community_write_state.dart';
 
@@ -21,10 +18,10 @@ class CommunityWriteScreen extends StatefulWidget {
   });
 
   @override
-  State<CommunityWriteScreen> createState() => _CommunityWriteScreenState();
+  State<CommunityWriteScreen> createState() => _ComunityWriteScreenState();
 }
 
-class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
+class _ComunityWriteScreenState extends State<CommunityWriteScreen> {
   static const int max_length = 30;
 
   final List<String> categoryTexts = [
@@ -57,21 +54,18 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
     GameType.ETC,
   ];
 
+  GameType? selectedGameType;
+
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => CommunityWriteBloc()),
-        BlocProvider(create: (_) => CommunitySortFilterBloc()),
-        BlocProvider(create: (_) => CommunitySportFilterBloc()),
-      ],
+    return BlocProvider(
+      create: (_) => CommunityWriteBloc(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: SafeArea(
           minimum: EdgeInsets.all(14),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: 10,
             children: [
               GogoTopBar(
                 title: '커뮤니티 생성하기',
@@ -82,48 +76,36 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
               SizedBox(
                 height: 24,
               ),
-              BlocBuilder<CommunitySportFilterBloc, CommunitySportFilterState>(
-                builder: (context, state) {
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      spacing: 4,
-                      children: List.generate(
-                        categoryTexts.length,
-                        (index) => GestureDetector(
-                          onTap: () =>
-                              context.read<CommunitySportFilterBloc>().add(
-                                    SelectCommunitySportFilterEvent(
-                                        gameType: gameTypes[index]),
-                                  ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                right:
-                                    index == categoryTexts.length - 1 ? 0 : 12),
-                            child: GogoTagComponent(
-                              tagState:
-                                  state is SelectedCommunitySportFilterState &&
-                                          state.gameType == gameTypes[index]
-                                      ? true
-                                      : false,
-                              color: GogoColors.main500,
-                              text: categoryTexts[index],
-                              icon: categoryIcons[index](
-                                color:
-                                    state is SelectedCommunitySportFilterState &&
-                                            state.gameType == gameTypes[index]
-                                        ? Colors.white
-                                        : GogoColors.main500,
-                                height: 12,
-                                width: 12,
-                              ),
-                            ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                    categoryTexts.length,
+                    (index) => GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedGameType = gameTypes[index];
+                        });
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            right: index == categoryTexts.length - 1 ? 0 : 12),
+                        child: GogoTagComponent(
+                          tagState: selectedGameType == gameTypes[index],
+                          color: GogoColors.main500,
+                          text: categoryTexts[index],
+                          icon: categoryIcons[index](
+                            color: selectedGameType == gameTypes[index]
+                                ? Colors.white
+                                : GogoColors.main500,
+                            height: 12,
+                            width: 12,
                           ),
                         ),
                       ),
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
               SizedBox(
                 height: 12,
@@ -187,41 +169,4 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
       ),
     );
   }
-}
-
-final List<SportTag> sportTags = [
-  SportTag(
-      text: '배구',
-      icon: GogoIcons.volleyball(
-          color: GogoColors.main500, width: 12, height: 12)),
-  SportTag(
-      text: '농구',
-      icon: GogoIcons.basketball(
-          color: GogoColors.main500, width: 12, height: 12)),
-  SportTag(
-      text: '축구',
-      icon:
-          GogoIcons.football(color: GogoColors.main500, width: 12, height: 12)),
-  SportTag(
-      text: '야구',
-      icon:
-          GogoIcons.baseball(color: GogoColors.main500, width: 12, height: 12)),
-  SportTag(
-      text: 'LOL',
-      icon:
-          GogoIcons.eSports(color: GogoColors.main500, width: 12, height: 12)),
-  SportTag(
-      text: '배드민턴',
-      icon: GogoIcons.badminton(
-          color: GogoColors.main500, width: 12, height: 12)),
-  SportTag(
-      text: '기타',
-      icon: GogoIcons.etc(color: GogoColors.main500, width: 12, height: 12)),
-];
-
-class SportTag {
-  final String text;
-  final Widget icon;
-
-  SportTag({required this.text, required this.icon});
 }
