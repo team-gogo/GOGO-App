@@ -177,7 +177,10 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                 BlocBuilder<CommunityBloc, CommunityState>(
                   builder: (context, state) {
                     if (state is CommunityLoadingState) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        color: GogoColors.main600,
+                      ));
                     } else if (state is CommunityLoadedState) {
                       int totalPage = state.response.info.totalPage;
                       int startPage = (currentPage / 5).floor() * 5;
