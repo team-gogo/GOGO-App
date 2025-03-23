@@ -54,8 +54,6 @@ class _CommunityFilterPopupState extends State<CommunityFilterPopup> {
             ),
           ),
         );
-
-    print('asdf');
     Navigator.pop(
       context,
       {
