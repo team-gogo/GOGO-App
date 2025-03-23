@@ -60,113 +60,105 @@ class _ComunityWriteScreenState extends State<CommunityWriteScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CommunityWriteBloc(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          minimum: EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              GogoTopBar(
-                title: '커뮤니티 생성하기',
-                onBackTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(
-                    categoryTexts.length,
-                    (index) => GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedGameType = gameTypes[index];
-                        });
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            right: index == categoryTexts.length - 1 ? 0 : 12),
-                        child: GogoTagComponent(
-                          tagState: selectedGameType == gameTypes[index],
-                          color: GogoColors.main500,
-                          text: categoryTexts[index],
-                          icon: categoryIcons[index](
-                            color: selectedGameType == gameTypes[index]
-                                ? Colors.white
-                                : GogoColors.main500,
-                            height: 12,
-                            width: 12,
+      child: BlocBuilder<CommunityWriteBloc, CommunityWriteState>(
+          builder: (context, state) {
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+            minimum: EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                GogoTopBar(
+                  title: '커뮤니티 생성하기',
+                  onBackTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(
+                      categoryTexts.length,
+                      (index) => GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedGameType = gameTypes[index];
+                          });
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              right:
+                                  index == categoryTexts.length - 1 ? 0 : 12),
+                          child: GogoTagComponent(
+                            tagState: selectedGameType == gameTypes[index],
+                            color: GogoColors.main500,
+                            text: categoryTexts[index],
+                            icon: categoryIcons[index](
+                              color: selectedGameType == gameTypes[index]
+                                  ? Colors.white
+                                  : GogoColors.main500,
+                              height: 12,
+                              width: 12,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              BlocBuilder<CommunityWriteBloc, CommunityWriteState>(
-                builder: (context, state) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      GogoTextField(
-                        hintText: '제목을 입력해주세요.',
-                        onChanged: (value) => context
-                            .read<CommunityWriteBloc>()
-                            .add(TitleChanged(value)),
-                        controller: TextEditingController(text: state.title)
-                          ..selection = TextSelection.collapsed(
-                              offset: state.title.length),
-                      ),
-                      Text('${state.title.length}/30',
-                          style: GogoTypography.body3Semibold
-                              .copyWith(color: GogoColors.gray500)),
-                    ],
-                  );
-                },
-              ),
-              BlocBuilder<CommunityWriteBloc, CommunityWriteState>(
-                builder: (context, state) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      GogoTextField(
-                        hintText: '내용을 입력해주세요.',
-                        onChanged: (value) => context
-                            .read<CommunityWriteBloc>()
-                            .add(ContentChanged(value)),
-                        controller: TextEditingController(text: state.content)
-                          ..selection = TextSelection.collapsed(
-                              offset: state.content.length),
-                      ),
-                      Text('${state.content.length}/30',
-                          style: GogoTypography.body3Semibold
-                              .copyWith(color: GogoColors.gray500)),
-                    ],
-                  );
-                },
-              ),
-              Spacer(),
-              BlocBuilder<CommunityWriteBloc, CommunityWriteState>(
-                builder: (context, state) {
-                  return GogoDefaultButton(
-                    color:
-                        state.isValid ? GogoColors.main500 : GogoColors.gray300,
-                    onTap: state.isValid ? () {} : () {},
-                    text: '확인하기',
-                  );
-                },
-              ),
-            ],
+                SizedBox(
+                  height: 12,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    GogoTextField(
+                      hintText: '제목을 입력해주세요.',
+                      onChanged: (value) => context
+                          .read<CommunityWriteBloc>()
+                          .add(TitleChanged(value)),
+                      controller: TextEditingController(text: state.title)
+                        ..selection =
+                            TextSelection.collapsed(offset: state.title.length),
+                    ),
+                    Text('${state.title.length}/30',
+                        style: GogoTypography.body3Semibold
+                            .copyWith(color: GogoColors.gray500)),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    GogoTextField(
+                      hintText: '내용을 입력해주세요.',
+                      onChanged: (value) => context
+                          .read<CommunityWriteBloc>()
+                          .add(ContentChanged(value)),
+                      controller: TextEditingController(text: state.content)
+                        ..selection = TextSelection.collapsed(
+                            offset: state.content.length),
+                    ),
+                    Text('${state.content.length}/30',
+                        style: GogoTypography.body3Semibold
+                            .copyWith(color: GogoColors.gray500)),
+                  ],
+                ),
+                Spacer(),
+                GogoDefaultButton(
+                  color:
+                      state.isValid ? GogoColors.main500 : GogoColors.gray300,
+                  onTap: state.isValid ? () {} : () {},
+                  text: '확인하기',
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
