@@ -99,34 +99,20 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                             final result =
                                 await showDialog<Map<String, dynamic>>(
                               barrierDismissible: false,
-                              // 백그라운드 눌러도 다이얼로그가 닫히지 않음
-
                               context: context,
                               builder: (_) => CommunityFilterPopup(
+                                resultPerPage: resultPerPage,
                                 gameType: gameType,
                                 sortType: sortType,
+                                scrollController: scrollController,
                               ),
                             );
-
                             if (result != null) {
                               setState(() {
-                                gameType = result['gameType'] as GameType?;
-                                sortType = result['sortType'] as SortType?;
+                                gameType = result['gameType'];
+                                sortType = result['sortType'];
                                 currentPage = 0;
                               });
-                              if (mounted) {
-                                context.read<CommunityBloc>().add(
-                                      FetchCommunityEvent(
-                                        queryString:
-                                            CommunitySearchRequestQueryString(
-                                          page: currentPage,
-                                          size: resultPerPage,
-                                          type: gameType,
-                                          sort: sortType,
-                                        ),
-                                      ),
-                                    );
-                              }
                             }
                           },
                           child: GogoTagComponent(
