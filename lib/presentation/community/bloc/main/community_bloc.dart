@@ -11,9 +11,7 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
   }
 
   Future<void> _onFetchCommunity(
-    FetchCommunityEvent event,
-    Emitter<CommunityState> emit,
-  ) async {
+      FetchCommunityEvent event, Emitter<CommunityState> emit) async {
     emit(CommunityLoadingState());
     try {
       final response = _generateMockData();
@@ -59,7 +57,8 @@ SearchBoardResponse _generateMockData() {
           studentNumber: 3,
         ),
         isFiltered: false,
-      ),Board(
+      ),
+      Board(
         boardId: 2,
         gameType: GameType.BADMINTON,
         title: 'Challenging Puzzle Game',
@@ -73,7 +72,8 @@ SearchBoardResponse _generateMockData() {
           studentNumber: 3,
         ),
         isFiltered: false,
-      ),Board(
+      ),
+      Board(
           boardId: 1,
           gameType: GameType.LOL,
           title: 'Exciting Action Game',
@@ -86,7 +86,8 @@ SearchBoardResponse _generateMockData() {
             classNumber: 1,
             studentNumber: 1,
           ),
-          isFiltered: false),Board(
+          isFiltered: false),
+      Board(
           boardId: 1,
           gameType: GameType.LOL,
           title: 'Exciting Action Game',
@@ -99,7 +100,8 @@ SearchBoardResponse _generateMockData() {
             classNumber: 1,
             studentNumber: 1,
           ),
-          isFiltered: false),Board(
+          isFiltered: false),
+      Board(
           boardId: 1,
           gameType: GameType.LOL,
           title: 'Exciting Action Game',
@@ -112,7 +114,8 @@ SearchBoardResponse _generateMockData() {
             classNumber: 1,
             studentNumber: 1,
           ),
-          isFiltered: false),Board(
+          isFiltered: false),
+      Board(
           boardId: 1,
           gameType: GameType.LOL,
           title: 'Exciting Action Game',
@@ -125,7 +128,8 @@ SearchBoardResponse _generateMockData() {
             classNumber: 1,
             studentNumber: 1,
           ),
-          isFiltered: false),Board(
+          isFiltered: false),
+      Board(
           boardId: 1,
           gameType: GameType.LOL,
           title: 'Exciting Action Game',
@@ -138,7 +142,8 @@ SearchBoardResponse _generateMockData() {
             classNumber: 1,
             studentNumber: 1,
           ),
-          isFiltered: false),Board(
+          isFiltered: false),
+      Board(
           boardId: 1,
           gameType: GameType.LOL,
           title: 'Exciting Action Game',
@@ -151,7 +156,8 @@ SearchBoardResponse _generateMockData() {
             classNumber: 1,
             studentNumber: 1,
           ),
-          isFiltered: false),Board(
+          isFiltered: false),
+      Board(
           boardId: 1,
           gameType: GameType.LOL,
           title: 'Exciting Action Game',
