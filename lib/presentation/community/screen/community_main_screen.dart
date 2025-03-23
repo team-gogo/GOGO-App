@@ -176,94 +176,98 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                 ),
                 BlocBuilder<CommunityBloc, CommunityState>(
                   builder: (context, state) {
-                    if (state is CommunityLoadingState) {
-                      return const Center(
-                          child: CircularProgressIndicator(
-                        color: GogoColors.main600,
-                      ));
-                    } else if (state is CommunityLoadedState) {
-                      int totalPage = state.response.info.totalPage;
-                      int startPage = (currentPage / 5).floor() * 5;
-                      int endPage = min(startPage + 5, totalPage);
+                    switch (state) {
+                      case CommunityLoadingState _:
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: GogoColors.main600,
+                        ));
+                        break;
+                      case CommunityLoadedState _:
+                        int totalPage = state.response.info.totalPage;
+                        int startPage = (currentPage / 5).floor() * 5;
+                        int endPage = min(startPage + 5, totalPage);
 
-                      return Expanded(
-                        child: SingleChildScrollView(
-                          controller: scrollController,
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 16),
-                              Column(
-                                spacing: 8,
-                                children: List.generate(
-                                  state.response.board.length,
-                                  (index) => CommunityItem(
-                                    sportIcon:
-                                        state.response.board[index].gameType,
-                                    title: state.response.board[index].title,
-                                    name:
-                                        state.response.board[index].author.name,
-                                    commentNum: 10,
-                                    likeNum:
-                                        state.response.board[index].likeCount,
+                        return Expanded(
+                          child: SingleChildScrollView(
+                            controller: scrollController,
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 16),
+                                Column(
+                                  spacing: 8,
+                                  children: List.generate(
+                                    state.response.board.length,
+                                    (index) => CommunityItem(
+                                      sportIcon:
+                                          state.response.board[index].gameType,
+                                      title: state.response.board[index].title,
+                                      name: state
+                                          .response.board[index].author.name,
+                                      commentNum: 10,
+                                      likeNum:
+                                          state.response.board[index].likeCount,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 16),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  currentPage > 0
-                                      ? InkWell(
-                                          onTap: () => _onPageChanged(
-                                              context, currentPage - 1),
-                                          child: GogoIcons.chevronLeft(
-                                            color: GogoColors.gray500,
-                                            width: 16,
-                                            height: 16,
+                                const SizedBox(height: 16),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    currentPage > 0
+                                        ? InkWell(
+                                            onTap: () => _onPageChanged(
+                                                context, currentPage - 1),
+                                            child: GogoIcons.chevronLeft(
+                                              color: GogoColors.gray500,
+                                              width: 16,
+                                              height: 16,
+                                            ),
+                                          )
+                                        : const SizedBox(width: 16),
+                                    for (int i = startPage; i < endPage; i++)
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          iconSize: 16,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          minimumSize: const Size(16, 16),
+                                        ),
+                                        onPressed: () =>
+                                            _onPageChanged(context, i),
+                                        child: Text(
+                                          (i + 1).toString(),
+                                          style: GogoTypography
+                                              .caption1Extrabold
+                                              .copyWith(
+                                            color: currentPage == i
+                                                ? GogoColors.main600
+                                                : GogoColors.gray500,
                                           ),
-                                        )
-                                      : const SizedBox(width: 16),
-                                  for (int i = startPage; i < endPage; i++)
-                                    TextButton(
-                                      style: TextButton.styleFrom(
-                                        iconSize: 16,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        minimumSize: const Size(16, 16),
-                                      ),
-                                      onPressed: () =>
-                                          _onPageChanged(context, i),
-                                      child: Text(
-                                        (i + 1).toString(),
-                                        style: GogoTypography.caption1Extrabold
-                                            .copyWith(
-                                          color: currentPage == i
-                                              ? GogoColors.main600
-                                              : GogoColors.gray500,
                                         ),
                                       ),
-                                    ),
-                                  currentPage < totalPage - 1
-                                      ? InkWell(
-                                          onTap: () => _onPageChanged(
-                                              context, currentPage + 1),
-                                          child: GogoIcons.chevronRight(
-                                            color: GogoColors.gray500,
-                                            width: 16,
-                                            height: 16,
-                                          ),
-                                        )
-                                      : const SizedBox(width: 16),
-                                ],
-                              )
-                            ],
+                                    currentPage < totalPage - 1
+                                        ? InkWell(
+                                            onTap: () => _onPageChanged(
+                                                context, currentPage + 1),
+                                            child: GogoIcons.chevronRight(
+                                              color: GogoColors.gray500,
+                                              width: 16,
+                                              height: 16,
+                                            ),
+                                          )
+                                        : const SizedBox(width: 16),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    } else if (state is CommunityErrorState) {
-                      return Center(child: Text('Error: ${state.message}'));
-                    } else {
-                      return const Center(child: Text('No data available'));
+                        );
+                        break;
+                      case CommunityErrorState _:
+                        return Center(child: Text('Error: ${state.message}'));
+                      default:
+                        return const Center(child: Text('No data available'));
                     }
                   },
                 ),
