@@ -13,17 +13,15 @@ import '../bloc/write/community_write_event.dart';
 import '../bloc/write/community_write_state.dart';
 
 class CommunityWriteScreen extends StatefulWidget {
-  CommunityWriteScreen({
+  const CommunityWriteScreen({
     super.key,
   });
 
   @override
-  State<CommunityWriteScreen> createState() => _ComunityWriteScreenState();
+  State<CommunityWriteScreen> createState() => _CommunityWriteScreenState();
 }
 
-class _ComunityWriteScreenState extends State<CommunityWriteScreen> {
-  static const int max_length = 30;
-
+class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
   final List<String> categoryTexts = [
     '배구',
     '농구',
