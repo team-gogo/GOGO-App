@@ -11,6 +11,7 @@ import 'package:gogo_app/presentation/community/bloc/main/community_state.dart';
 import 'package:gogo_app/presentation/community/widgets/community_filter_popup.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/router.dart';
 import 'dart:math';
 import '../../../design_system/component/tag/gogo_tag_component.dart';
 import '../../../design_system/component/top_bar/gogo_top_bar.dart';
@@ -88,10 +89,17 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                     ),
                     Row(
                       children: [
-                        GogoTagComponent(
-                          color: GogoColors.white,
-                          text: '글 쓰기',
-                          icon: GogoIcons.plusCircle(color: GogoColors.white),
+                        GestureDetector(
+                          onTap: () => context.pushNamed(
+                            PageRouter.communityWrite,
+                          ),
+                          child: GogoTagComponent(
+                            color: GogoColors.white,
+                            text: '글 쓰기',
+                            icon: GogoIcons.plusCircle(
+                              color: GogoColors.white,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 12),
                         GestureDetector(
