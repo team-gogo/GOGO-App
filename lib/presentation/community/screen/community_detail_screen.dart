@@ -37,7 +37,7 @@ class CommunityDeatilScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: 750.h,
+              height: 768.h,
               child: ListView(
                 children: [
                   GogoTopBar(
@@ -175,7 +175,46 @@ class CommunityDeatilScreen extends StatelessWidget {
                   ),
                   ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
-                      return 
+                      return Container(
+                        width: 344,
+                        height: 56,
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: GogoColors.gray700,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                GogoIcons.person(
+                                  width: 20,
+                                  height: 20,
+                                  color: GogoColors.gray300,
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  '김진원', // 댓글 작성한 사람,
+                                  style:
+                                      GogoTypography.caption1Semibold.copyWith(
+                                    color: GogoColors.gray300,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  '그냥 디자이너 접으셈 3D로 ㄱㄱdddddddddd',
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
                     },
                   ),
                 ],
