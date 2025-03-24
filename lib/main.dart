@@ -11,7 +11,10 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Firebase 초기화
   setFireBase();
+
   // .env 불러오기
   await dotenv.load(fileName: ".env");
 
@@ -53,17 +56,21 @@ class MyApp extends StatelessWidget {
 }
 
 void setFireBase() async {
+  // Firebase 초기화
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   // FCM 백그라운드 메시지 핸들러 등록
-  FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
-    print("Handling a background message: ${message.messageId}");
-  });
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // FCM 포그라운드 푸시 알림 처리
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print("포그라운드 알림: ${message.notification?.title}");
   });
+}
+
+@pragma('vm:entry-point') // 앱의 진입점 설정
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print('🔔 FCM-Background ${message.messageId}');
 }
