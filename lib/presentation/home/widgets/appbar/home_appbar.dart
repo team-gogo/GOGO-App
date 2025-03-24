@@ -24,7 +24,6 @@ class HomeAppbar extends StatelessWidget {
           builder: (context, state) {
         return Row(
           children: [
-            SizedBox(width: 16),
             Text(
               '포인트',
               style: GogoTypography.body2Semibold.copyWith(
@@ -51,10 +50,7 @@ class HomeAppbar extends StatelessWidget {
                         (index) {
                           dateTime = dateTime.add(Duration(days: 1));
                           return GogoDateTagComponent(
-                            tagState:
-                                state is InitHomeAppbarState && index == 0
-                                    ? TagState.isSelected
-                                    : TagState.basic,
+                            tagState: state is InitHomeAppbarState && index == 0,
                             dateTime: dateTime,
                           );
                         },

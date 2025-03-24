@@ -9,8 +9,8 @@ part 'community_search_request_query_string.g.dart';
 class CommunitySearchRequestQueryString {
   final int page;
   final int size;
-  final GameType type;
-  final SortType sort;
+  final GameType? type;
+  final SortType? sort;
 
   CommunitySearchRequestQueryString({
     required this.page,

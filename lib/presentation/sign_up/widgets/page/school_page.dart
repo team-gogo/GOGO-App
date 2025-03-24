@@ -46,7 +46,7 @@ class SchoolPage extends StatelessWidget {
                     context.read<SchoolBloc>().schoolController.text)),
             controller: context.read<SchoolBloc>().schoolController,
             hintText: "학교를 입력해주세요.",
-            endIcon: GogoIcons.search(),
+            endIcon: GogoIcons.search(color: GogoColors.gray400),
           ),
           SizedBox(
             height: 12,
