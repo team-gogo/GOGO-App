@@ -10,7 +10,7 @@ import 'package:gogo_app/presentation/logIn/bloc/login_state.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../data/models/auth/google_oauth/google_oauth_login_request.dart';
-import '../../../data/models/auth/sign_in/google_login_response.dart';
+import '../../../data/models/auth/sign_in/login_response.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepository = GetIt.instance.get<AuthRepository>();
