@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'google_login_response.g.dart';
+part 'login_response.g.dart';
 
 enum Authority {
   UNAUTHENTICATED, // 인증되지 않은 사용자
@@ -10,19 +10,19 @@ enum Authority {
 }
 
 @JsonSerializable()
-class GogoLoginResponse {
+class LoginResponse {
   final String accessToken;
   final String refreshToken;
   final Authority authority;
 
-  GogoLoginResponse({
+  LoginResponse({
     required this.accessToken,
     required this.refreshToken,
     required this.authority,
   });
 
-  factory GogoLoginResponse.fromJson(Map<String, dynamic> json) =>
-      _$GoogleLoginResponseFromJson(json);
+  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GoogleLoginResponseToJson(this);
+  Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 }
