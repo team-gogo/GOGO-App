@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
@@ -18,7 +19,7 @@ class RankingPage extends StatelessWidget {
           child: Column(
             spacing: 24,
             children: [
-              GogoTopBar(title: '포인트 랭킹', onBackTap: () {}),
+              GogoTopBar(title: '포인트 랭킹', onBackTap: () => context.pop(context)),
               Container(
                 padding: EdgeInsets.all(20),
                 width: double.infinity,
@@ -81,23 +82,13 @@ class RankingPage extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: GogoColors.gray700,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      spacing: 8,
-                      children: List.generate(
-                        20,
-                        (index) => RankingListItem(
-                            index: index , name: '김진원', point: 123),
-                      ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    spacing: 8,
+                    children: List.generate(
+                      20,
+                      (index) => RankingListItem(
+                          index: index , name: '김진원', point: 123),
                     ),
                   ),
                 ),
