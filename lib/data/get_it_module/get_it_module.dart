@@ -49,6 +49,7 @@ void setupDataSourceLocator() {
       () => SearchSchoolDataSourceImpl(locator<Dio>()));
   locator.registerLazySingleton<TokenDataSource>(
       () => TokenDataSourceImpl());
+
   locator.registerFactory<WebSocketDataSource>(() => WebSocketDataSourceImpl());
 }
 
@@ -61,6 +62,7 @@ void setupRepositoryLocator() {
       () => SearchSchoolRepositoryImpl(locator<SearchSchoolDataSource>()));
   locator.registerLazySingleton<MiniGameRepository>(
       () => MiniGameRepositoryImpl(locator<MiniGameDataSource>()));
+
   locator.registerLazySingleton<CoinTossWebSocketRepository>(
       () => CoinTossWebSocketRepositoryImpl(locator<WebSocketDataSource>()));
   locator.registerLazySingleton<PlinkoWebSocketRepository>(
