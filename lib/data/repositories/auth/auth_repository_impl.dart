@@ -4,9 +4,9 @@ import 'package:gogo_app/data/models/auth/additional_sign_up/additional_sign_up_
 import 'package:gogo_app/data/models/auth/google_oauth/google_oauth_login_request.dart';
 
 import '../../data_sources/auth/auth_data_source.dart';
-import '../../mapper/GoogleLoginResponseToTokenDto.dart';
+import '../../mapper/google_login_response_to_token_dto.dart';
 import '../../models/auth/google_oauth/token_dto.dart';
-import '../../models/auth/sign_in/google_login_response.dart';
+import '../../models/auth/sign_in/login_response.dart';
 import 'auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -17,7 +17,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Authority> googleOAuthLogin(GoogleOAuthLoginRequest body) async {
-    final GogoLoginResponse response =
+    final LoginResponse response =
         await _authDatasource.googleOAuthLogin(body);
     _tokenRepository.saveToken(toTokenDto(response));
     return response.authority;
