@@ -28,7 +28,7 @@ class SexPage extends StatelessWidget {
             color: GogoColors.white,
             width: 40,
             height: 40,
-            onTap: ()=> pageController.animateToPage(
+            onTap: () => pageController.animateToPage(
               2,
               duration: Duration(milliseconds: 300),
               curve: Curves.ease,
@@ -64,7 +64,9 @@ class SexPage extends StatelessWidget {
           ),
           Spacer(),
           GogoDefaultButton(
-            onTap: state is EnableSexState ? () => context.goNamed(PageRouter.main) : () {},
+            onTap: state is EnableSexState
+                ? () => context.goNamed(PageRouter.home)
+                : () {},
             text: "확인",
             color: state is EnableSexState
                 ? GogoColors.main600

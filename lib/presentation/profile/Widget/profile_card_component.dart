@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 
-class GogoProfileCardComponent extends StatelessWidget {
-  // test
+class ProfileCardComponent extends StatelessWidget {
   final String name;
   final String school;
   final String male;
 
-  const GogoProfileCardComponent({
+  const ProfileCardComponent({
     super.key,
     required this.name,
     required this.school,
