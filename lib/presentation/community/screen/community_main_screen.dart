@@ -199,7 +199,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                                   children: List.generate(
                                     state.response.board.length,
                                     (index) => CommunityItem(
-                                      sportIcon:
+                                      gameType:
                                           state.response.board[index].gameType,
                                       title: state.response.board[index].title,
                                       name: state
