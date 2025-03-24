@@ -9,6 +9,7 @@ import 'package:gogo_app/presentation/sign_up/widgets/page/name_page.dart';
 import 'package:gogo_app/presentation/sign_up/widgets/page/number_page.dart';
 import 'package:gogo_app/presentation/sign_up/widgets/page/school_page.dart';
 import 'package:gogo_app/presentation/sign_up/widgets/page/sex_page.dart';
+import '../../../data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 import '../bloc/number/number_bloc.dart';
 import '../bloc/sex/sex_state.dart';
 
