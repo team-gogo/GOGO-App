@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/data/models/stage/game_type.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
+import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:gogo_app/presentation/home/widgets/appbar/home_appbar.dart';
 import 'package:gogo_app/presentation/ranking/widgets/ranking_list_item.dart';
 import 'package:intl/intl.dart';
@@ -195,8 +197,13 @@ class HomeScreen extends StatelessWidget {
                           spacing: 8,
                           children: List.generate(
                             5,
-                            (index) => RankingListItem(
-                                index: index, name: '홍길동', point: 100),
+                            (index) => CommunityItem(
+                              name: '홍길동',
+                              gameType: GameType.BADMINTON,
+                              title: '김진원 김진원 김진원 김진원',
+                              commentNum: 10,
+                              likeNum: 10,
+                            ),
                           ),
                         ),
                       )
