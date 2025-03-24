@@ -8,14 +8,14 @@ import '../../../design_system/theme/typography.dart';
 class CommunityItem extends StatelessWidget {
   CommunityItem({
     super.key,
-    required this.sportIcon,
+    required this.gameType,
     required this.title,
     required this.name,
     required this.commentNum,
     required this.likeNum,
   });
 
-  final GameType sportIcon;
+  final GameType gameType;
   final String title;
   final String name;
   final int commentNum;
@@ -53,7 +53,7 @@ class CommunityItem extends StatelessWidget {
         children: [
           Expanded(
               flex: 1,
-              child: gameTypeIcons[sportIcon] ??
+              child: gameTypeIcons[gameType] ??
                   GogoIcons.etc(
                       color: GogoColors.main500, height: 16, width: 16)),
           Expanded(
@@ -81,7 +81,7 @@ class CommunityItem extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    GogoIcons.communit(
+                    GogoIcons.community(
                         color: GogoColors.gray300, width: 12, height: 12),
                     SizedBox(width: 4),
                     Text(
