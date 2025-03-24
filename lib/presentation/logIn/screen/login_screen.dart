@@ -20,7 +20,7 @@ class LogInScreen extends StatelessWidget {
           if (state is GogoLoginFail) {
             context.goNamed(PageRouter.signUp);
           } else if (state is GogoLoginSuccess) {
-            context.goNamed(PageRouter.main);
+            context.goNamed(PageRouter.home);
           }
         },
         builder: (context, state) => Scaffold(

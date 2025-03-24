@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 import 'package:gogo_app/design_system/component/text_field/gogo_text_field.dart';
 import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
@@ -56,7 +57,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               children: [
                 GogoTopBar(
                   title: '정보수정',
-                  onBackTap: () {},
+                  onBackTap: () => context.pop(context),
                 ),
                 _editItem(
                     '이름',

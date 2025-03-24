@@ -5,6 +5,7 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:gogo_app/presentation/home/widgets/appbar/home_appbar.dart';
 import 'package:gogo_app/presentation/ranking/widgets/ranking_list_item.dart';
+import 'package:gogo_app/router.dart';
 import 'package:intl/intl.dart';
 import '../../../design_system/component/tag/gogo_tag_component.dart';
 import '../../../design_system/theme/color.dart';
@@ -160,17 +161,17 @@ class HomeScreen extends StatelessWidget {
                     spacing: 16,
                     children: [
                       _itemTopBar(GogoIcons.arcade(color: GogoColors.white),
-                          text: '미니게임'),
+                          text: '미니게임',
+                          onTap: () => context.pushNamed(PageRouter.miniGame)),
                       MinigamePlayComponent()
                     ],
                   ),
                   Column(
                     spacing: 16,
                     children: [
-                      _itemTopBar(
-                        GogoIcons.trophy(color: GogoColors.white),
-                        text: '포인트 랭킹',
-                      ),
+                      _itemTopBar(GogoIcons.trophy(color: GogoColors.white),
+                          text: '포인트 랭킹',
+                          onTap: () => context.pushNamed(PageRouter.ranking)),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
@@ -190,6 +191,7 @@ class HomeScreen extends StatelessWidget {
                       _itemTopBar(
                         GogoIcons.community(color: GogoColors.white),
                         text: '커뮤니티',
+                        onTap: () => context.pushNamed(PageRouter.community),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),

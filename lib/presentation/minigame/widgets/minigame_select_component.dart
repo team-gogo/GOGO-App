@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/minigame/widgets/minigame_topbar.dart';
+import 'package:gogo_app/router.dart';
 
 class MinigameSelectComponent extends StatelessWidget {
   final double width;
@@ -12,6 +14,8 @@ class MinigameSelectComponent extends StatelessWidget {
   final String gameName;
   final int ticketsCost;
   final int ticketsCount;
+  final VoidCallback onTap;
+
   final bool info; // 티켓 정보이면 true, 미니게임이면 false,
 
   const MinigameSelectComponent({
@@ -23,21 +27,26 @@ class MinigameSelectComponent extends StatelessWidget {
     required this.ticketsCost,
     this.ticketsCount = 0,
     required this.info,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(spacing: 16.h, children: [
-      Container(
-        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-            color: GogoColors.gray700, borderRadius: BorderRadius.circular(12)),
-        child: Stack(
-          children: [
-            Center(
-              child: Column(
+    return Column(
+      spacing: 16.h,
+      children: [
+        Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            color: GogoColors.gray700,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 16,
                 children: [
                   gameIcon,
@@ -49,20 +58,21 @@ class MinigameSelectComponent extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            Positioned(
-                right: 0,
+              Positioned(
+                right: 14,
+                top: 12,
                 child: GogoIcons.questionMarkCircle(
                   onTap: () {},
                   color: GogoColors.gray500,
-                )),
-          ],
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      Column(
-        spacing: 8,
-        children: [
-          Container(
+        Column(
+          spacing: 8,
+          children: [
+            Container(
               width: width,
               height: 45,
               decoration: BoxDecoration(
@@ -70,28 +80,27 @@ class MinigameSelectComponent extends StatelessWidget {
                 color: GogoColors.main600,
               ),
               child: TextButton(
-                onPressed: () {},
+                onPressed: onTap,
                 child: Text(
-                  info ? "게임하기기" : '$ticketsCost',
+                  info ? "게임하기" : '$ticketsCost',
                   style: GogoTypography.caption1Semibold.copyWith(
                     color: GogoColors.white,
                   ),
                 ),
-              )),
-          info
-              ? Container()
-              : Text(
-                  '구매 가능한 티켓 : $ticketsCount',
-                  style: GogoTypography.caption2Semibold.copyWith(
-                    color: GogoColors.gray500,
+              ),
+            ),
+            info
+                ? Container()
+                : Text(
+                    '구매 가능한 티켓 : $ticketsCount',
+                    style: GogoTypography.caption2Semibold.copyWith(
+                      color: GogoColors.gray500,
+                    ),
                   ),
-                ),
-        ],
-      ),
-      SizedBox(
-        height: 12,
-      ),
-    ]);
+          ],
+        ),
+      ],
+    );
   }
 }
 
@@ -124,6 +133,7 @@ class MinigameScrollComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: 24,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         MinigameTopBar(
@@ -131,9 +141,6 @@ class MinigameScrollComponent extends StatelessWidget {
           component: component,
           icon: icon,
           text: text,
-        ),
-        SizedBox(
-          height: 12,
         ),
         MinigameSelectComponent(
           info: info,
@@ -151,6 +158,7 @@ class MinigameScrollComponent extends StatelessWidget {
           gameName: "야바위",
           ticketsCost: shellgameTicketscost,
           ticketsCount: shellgameTicketsCount,
+          onTap: () => context.pushNamed(PageRouter.yavarwee),
         ),
         MinigameSelectComponent(
           info: info,
@@ -168,6 +176,7 @@ class MinigameScrollComponent extends StatelessWidget {
           gameName: "코인토스",
           ticketsCost: cointTossTicketscost,
           ticketsCount: cointTossTicketsCount,
+          onTap: () => context.pushNamed(PageRouter.coinToss),
         ),
         MinigameSelectComponent(
           info: info,
@@ -185,6 +194,7 @@ class MinigameScrollComponent extends StatelessWidget {
           gameName: "플링코",
           ticketsCost: plinkoTicketscost,
           ticketsCount: plinkoTicketsCount,
+          onTap: () {},
         ),
       ],
     );
