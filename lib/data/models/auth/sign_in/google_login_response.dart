@@ -10,18 +10,18 @@ enum Authority {
 }
 
 @JsonSerializable()
-class GoogleLoginResponse {
+class GogoLoginResponse {
   final String accessToken;
   final String refreshToken;
   final Authority authority;
 
-  GoogleLoginResponse({
+  GogoLoginResponse({
     required this.accessToken,
     required this.refreshToken,
     required this.authority,
   });
 
-  factory GoogleLoginResponse.fromJson(Map<String, dynamic> json) =>
+  factory GogoLoginResponse.fromJson(Map<String, dynamic> json) =>
       _$GoogleLoginResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$GoogleLoginResponseToJson(this);
