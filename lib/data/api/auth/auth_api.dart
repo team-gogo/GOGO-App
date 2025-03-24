@@ -6,6 +6,7 @@ import 'package:gogo_app/data/models/auth/google_oauth/google_oauth_login_reques
 
 import '../../models/auth/google_oauth/token_dto.dart';
 import '../../models/auth/sign_in/login_response.dart';
+import '../../models/auth/student/student_response.dart';
 
 part 'auth_api.g.dart';
 
@@ -19,10 +20,17 @@ abstract class AuthApi {
   );
 
   @POST('/user/auth/signup')
-  Future<void> additionalSignUp(@Body() AdditionalSignUpRequest body);
+  Future<void> additionalSignUp(
+    @Body() AdditionalSignUpRequest body,
+  );
 
   @POST('/user/auth/refresh')
   Future<TokenDto> tokenRefresh(
     @Header('Refresh-Token') String refreshToken,
+  );
+
+  @GET('/user/student')
+  Future<Student> searchStudent(
+    @Query('userId') String userId,
   );
 }
