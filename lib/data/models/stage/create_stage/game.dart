@@ -1,3 +1,4 @@
+import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'game.g.dart';
@@ -13,16 +14,16 @@ enum GameSystem {
 
 @JsonSerializable()
 class Game {
-  final List<String> category;
+  final GameType category;
   final String name;
-  final String gameSystem;
+  final GameSystem system;
   final int teamMinCapacity;
   final int teamMaxCapacity;
 
   Game({
     required this.category,
     required this.name,
-    required this.gameSystem,
+    required this.system,
     required this.teamMinCapacity,
     required this.teamMaxCapacity,
   });
