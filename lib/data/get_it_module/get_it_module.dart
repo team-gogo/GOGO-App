@@ -41,15 +41,14 @@ void setupDataSourceLocator() {
       () => MiniGameDataSourceImpl(locator<Dio>()));
   locator.registerLazySingleton<SearchSchoolDataSource>(
       () => SearchSchoolDataSourceImpl(locator<Dio>()));
-  locator.registerLazySingleton<TokenDataSource>(
-      () => TokenDataSourceImpl());
+  locator.registerLazySingleton<TokenDataSource>(() => TokenDataSourceImpl());
 
   locator.registerFactory<WebSocketDataSource>(() => WebSocketDataSourceImpl());
 }
 
 void setupRepositoryLocator() {
-  locator.registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(locator<AuthDatasource>(), locator<TokenDataSource>()));
+  locator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
+      locator<AuthDatasource>(), locator<TokenDataSource>()));
   locator.registerLazySingleton<StageRepository>(
       () => StageRepositoryImpl(locator<StageDataSource>()));
   locator.registerLazySingleton<SearchSchoolRepository>(

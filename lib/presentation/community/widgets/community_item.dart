@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gogo_app/data/models/stage/game_type.dart';
+import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';

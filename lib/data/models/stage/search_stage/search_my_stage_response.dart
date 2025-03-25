@@ -1,11 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'search_my_stage_response.g.dart';
+import '../enum_type/stage_type.dart';
 
-enum StageType {
-  FAST,
-  OFFICIAL,
-}
+part 'search_my_stage_response.g.dart';
 
 enum StageStatus {
   RECRUITING,
@@ -29,7 +26,9 @@ class StageInfo {
     required this.isMaintaining,
   });
 
-  factory StageInfo.fromJson(Map<String, dynamic> json) => _$StageInfoFromJson(json);
+  factory StageInfo.fromJson(Map<String, dynamic> json) =>
+      _$StageInfoFromJson(json);
+
   Map<String, dynamic> toJson() => _$StageInfoToJson(this);
 }
 
@@ -41,6 +40,8 @@ class SearchMyStageResponse {
     required this.stages,
   });
 
-  factory SearchMyStageResponse.fromJson(Map<String, dynamic> json) => _$SearchMyStageResponseFromJson(json);
+  factory SearchMyStageResponse.fromJson(Map<String, dynamic> json) =>
+      _$SearchMyStageResponseFromJson(json);
+
   Map<String, dynamic> toJson() => _$SearchMyStageResponseToJson(this);
 }
