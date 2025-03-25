@@ -1,4 +1,4 @@
-import 'package:gogo_app/data/models/stage/game_type.dart';
+import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community_write_request.g.dart';
