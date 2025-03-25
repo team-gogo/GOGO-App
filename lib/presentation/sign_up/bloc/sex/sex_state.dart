@@ -1,3 +1,4 @@
+
 abstract class SexState {}
 
 class DisableSexState extends SexState {}

@@ -2,11 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
-import 'package:gogo_app/data/models/auth/google_oauth/google_oauth_login_request.dart';
-import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
-import 'package:gogo_app/presentation/logIn/bloc/login_event.dart';
-import 'package:gogo_app/presentation/logIn/bloc/login_state.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../../../data/models/auth/google_oauth/google_oauth_login_request.dart';
+import '../../../data/models/auth/sign_in/login_response.dart';
+import '../../../data/repositories/auth/auth_repository.dart';
+import 'login_event.dart';
+import 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepository = GetIt.instance.get<AuthRepository>();
@@ -19,14 +20,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   void _googleSignInHandler(LoginEvent event, Emitter<LoginState> emit) async {
     try {
-
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         emit(GoogleLoginFail(message: "구글 로그인을 취소 했습니다."));
         return;
       }
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -40,14 +41,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         return;
       }
 
-      await authRepository.googleOAuthLogin(
+      final result = await authRepository.googleOAuthLogin(
         GoogleOAuthLoginRequest(
           deviceToken: deviceToken,
           oauthToken: googleAuth.accessToken ?? "",
         ),
       );
 
-      emit(GoogleLoginSuccess());
+      switch (result) {
+        case Authority.UNAUTHENTICATED:
+          emit(UnauthorizedGogoLoginSuccess());
+          break;
+        case Authority.USER:
+          emit(UserGogoLoginSuccess());
+          break;
+        default:
+          emit(GogoLoginFail());
+      }
     } catch (e) {
       emit(GoogleLoginFail(message: "구글 로그인에 실패 했습니다: $e"));
     }

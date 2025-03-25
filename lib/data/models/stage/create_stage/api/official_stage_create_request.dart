@@ -12,7 +12,7 @@ class OfficialStageCreateRequest {
   final List<Game> game;
   final int initialPoint;
   final Rule rule;
-  final MiniGame miniGame;
+  final OfficialMiniGame miniGame;
   final Shop shop;
   final String? passCode;
   final List<int> maintainer;

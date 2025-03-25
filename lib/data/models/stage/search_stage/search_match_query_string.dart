@@ -4,9 +4,9 @@ part 'search_match_query_string.g.dart';
 
 @JsonSerializable()
 class SearchMatchQueryString {
-  final String y; // 년
-  final String m; // 월
-  final String d; // 일
+  final int y; // 년
+  final int m; // 월
+  final int d; // 일
 
   SearchMatchQueryString({
     required this.y,

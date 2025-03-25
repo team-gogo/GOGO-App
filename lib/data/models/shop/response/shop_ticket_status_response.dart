@@ -5,9 +5,9 @@ part 'shop_ticket_status_response.g.dart';
 @JsonSerializable()
 class ShopTicketStatusResponse {
   final int shopId;
-  final CoinToss coinToss;
-  final Yavarwee yavarwee;
-  final Plinko plinko;
+  final CoinTossTicket coinToss;
+  final YavarweeTicket yavarwee;
+  final PlinkoTicket plinko;
 
   ShopTicketStatusResponse({
     required this.shopId,
@@ -21,49 +21,49 @@ class ShopTicketStatusResponse {
 }
 
 @JsonSerializable()
-class CoinToss {
+class CoinTossTicket {
   final int coinTossId;
   final int ticketPrice;
   final int ticketQuantity;
 
-  CoinToss({
+  CoinTossTicket({
     required this.coinTossId,
     required this.ticketPrice,
     required this.ticketQuantity,
   });
 
-  factory CoinToss.fromJson(Map<String, dynamic> json) => _$CoinTossFromJson(json);
-  Map<String, dynamic> toJson() => _$CoinTossToJson(this);
+  factory CoinTossTicket.fromJson(Map<String, dynamic> json) => _$CoinTossTicketFromJson(json);
+  Map<String, dynamic> toJson() => _$CoinTossTicketToJson(this);
 }
 
 @JsonSerializable()
-class Yavarwee {
-  final int yavarweeId;
+class YavarweeTicket {
+  final int YavarweeTicketId;
   final int ticketPrice;
   final int ticketQuantity;
 
-  Yavarwee({
-    required this.yavarweeId,
+  YavarweeTicket({
+    required this.YavarweeTicketId,
     required this.ticketPrice,
     required this.ticketQuantity,
   });
 
-  factory Yavarwee.fromJson(Map<String, dynamic> json) => _$YavarweeFromJson(json);
-  Map<String, dynamic> toJson() => _$YavarweeToJson(this);
+  factory YavarweeTicket.fromJson(Map<String, dynamic> json) => _$YavarweeTicketFromJson(json);
+  Map<String, dynamic> toJson() => _$YavarweeTicketToJson(this);
 }
 
 @JsonSerializable()
-class Plinko {
-  final int plinkoId;
+class PlinkoTicket {
+  final int PlinkoTicketId;
   final int ticketPrice;
   final int ticketQuantity;
 
-  Plinko({
-    required this.plinkoId,
+  PlinkoTicket({
+    required this.PlinkoTicketId,
     required this.ticketPrice,
     required this.ticketQuantity,
   });
 
-  factory Plinko.fromJson(Map<String, dynamic> json) => _$PlinkoFromJson(json);
-  Map<String, dynamic> toJson() => _$PlinkoToJson(this);
+  factory PlinkoTicket.fromJson(Map<String, dynamic> json) => _$PlinkoTicketFromJson(json);
+  Map<String, dynamic> toJson() => _$PlinkoTicketToJson(this);
 }

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../../common/team_response.dart';
 
 part 'search_participation_match_response.g.dart';
 
@@ -12,26 +13,10 @@ class SearchParticipationMatchResponse {
     required this.team,
   });
 
-  factory SearchParticipationMatchResponse.fromJson(Map<String, dynamic> json) =>
-    _$SearchParticipationMatchResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$SearchParticipationMatchResponseToJson(this);
-}
+  factory SearchParticipationMatchResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$SearchParticipationMatchResponseFromJson(json);
 
-@JsonSerializable()
-class Team {
-  final int teamId;
-  final String teamName;
-  final int participantCount;
-  final int winCount;
-
-  Team({
-    required this.teamId,
-    required this.teamName,
-    required this.participantCount,
-    required this.winCount,
-  });
-
-  factory Team.fromJson(Map<String, dynamic> json) =>
-    _$TeamFromJson(json);
-  Map<String, dynamic> toJson() => _$TeamToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$SearchParticipationMatchResponseToJson(this);
 }

@@ -18,7 +18,7 @@ class RankingListItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: GogoColors.gray600,
+        color: GogoColors.gray700,
         borderRadius: BorderRadius.all(
           Radius.circular(8),
         ),

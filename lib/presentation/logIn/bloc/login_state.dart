@@ -10,6 +10,8 @@ class GoogleLoginFail extends LoginState {
 
 class GogoLoginFail extends LoginState {}
 
-class GoogleLoginSuccess extends LoginState {}
+class UserGogoLoginSuccess extends LoginState {}
 
-class GogoLoginSuccess extends LoginState {}
+class UnauthorizedGogoLoginSuccess extends LoginState {}
+
+class GoogleLoginSuccess extends LoginState {}
