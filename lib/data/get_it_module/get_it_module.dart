@@ -13,9 +13,6 @@ import 'package:gogo_app/data/data_sources/stage/stage_data_source_impl.dart';
 import 'package:gogo_app/data/get_it_module/setup_dio.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository_impl.dart';
-import 'package:gogo_app/data/repositories/mini_game/ws/coin_toss/coin_toss_web_socket_repository.dart';
-import 'package:gogo_app/data/repositories/mini_game/ws/plinko/plinko_web_socket_repository.dart';
-import 'package:gogo_app/data/repositories/mini_game/ws/yavarwee/yavarwee_web_socket_repository.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository_impl.dart';
 import 'package:gogo_app/data/api/stage/stage_api.dart';
@@ -28,9 +25,6 @@ import '../data_sources/token_data_source/token_data_source.dart';
 import '../data_sources/token_data_source/token_data_source_impl.dart';
 import '../repositories/mini_game/mini_game_repository.dart';
 import '../repositories/mini_game/mini_game_repository_impl.dart';
-import '../repositories/mini_game/ws/coin_toss/coin_toss_web_socket_repository_impl.dart';
-import '../repositories/mini_game/ws/plinko/plinko_web_socket_repository_impl.dart';
-import '../repositories/mini_game/ws/yavarwee/yavarwee_web_socket_repository_impl.dart';
 
 final locator = GetIt.instance;
 
@@ -61,13 +55,6 @@ void setupRepositoryLocator() {
       () => SearchSchoolRepositoryImpl(locator<SearchSchoolDataSource>()));
   locator.registerLazySingleton<MiniGameRepository>(
       () => MiniGameRepositoryImpl(locator<MiniGameDataSource>()));
-
-  locator.registerLazySingleton<CoinTossWebSocketRepository>(
-      () => CoinTossWebSocketRepositoryImpl(locator<WebSocketDataSource>()));
-  locator.registerLazySingleton<PlinkoWebSocketRepository>(
-      () => PlinkoWebSocketRepositoryImpl(locator<WebSocketDataSource>()));
-  locator.registerLazySingleton<YavarweeWebSocketRepository>(
-      () => YavarweeWebSocketRepositoryImpl(locator<WebSocketDataSource>()));
 }
 
 void setupApiLocator() {
