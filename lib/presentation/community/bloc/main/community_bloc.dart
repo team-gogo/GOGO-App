@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:gogo_app/data/models/stage/community/search_board_response.dart';
-import 'package:gogo_app/data/models/stage/game_type.dart';
-import 'package:gogo_app/data/models/stage/stage_type.dart';
+import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
+import 'package:gogo_app/data/models/stage/enum_type/stage_type.dart';
 import 'community_event.dart';
 import 'community_state.dart';
 
@@ -14,164 +14,32 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
       FetchCommunityEvent event, Emitter<CommunityState> emit) async {
     emit(CommunityLoadingState());
     try {
-      final response = _generateMockData();
-      emit(CommunityLoadedState(response: response));
+      // final response = _generateMockData();
+      emit(
+        CommunityLoadedState(
+          response: SearchBoardResponse(
+            info: Info(totalPage: 20, totalElement: 200),
+            board: [
+              Board(
+                boardId: 0,
+                gameCategory: GameType.BADMINTON,
+                title: 'asdf',
+                likeCount: 1,
+                createdAt: DateTime(1),
+                commentCount: 1,
+                stageType: StageType.FAST,
+                author: Author(
+                    studentId: 1,
+                    name: 'qwer',
+                    classNumber: 1234,
+                    studentNumber: 1234),
+              ),
+            ],
+          ),
+        ),
+      );
     } catch (e) {
       emit(CommunityErrorState(message: e.toString()));
     }
   }
-}
-
-SearchBoardResponse _generateMockData() {
-  return SearchBoardResponse(
-    info: Info(
-      totalPage: 5,
-      totalElement: 20,
-    ),
-    board: [
-      Board(
-          boardId: 1,
-          gameType: GameType.LOL,
-          title: 'Exciting Action Game',
-          likeCount: 120,
-          createdAt: DateTime.parse('2025-03-20T14:30:00'),
-          stageType: StageType.OFFICIAL,
-          author: Author(
-            studentId: 12345,
-            name: 'John Doe',
-            classNumber: 1,
-            studentNumber: 1,
-          ),
-          isFiltered: false),
-      Board(
-        boardId: 2,
-        gameType: GameType.BADMINTON,
-        title: 'Challenging Puzzle Game',
-        likeCount: 80,
-        createdAt: DateTime.parse('2025-03-19T10:15:00'),
-        stageType: StageType.FAST,
-        author: Author(
-          studentId: 67890,
-          name: 'Jane Smith',
-          classNumber: 2,
-          studentNumber: 3,
-        ),
-        isFiltered: false,
-      ),
-      Board(
-        boardId: 2,
-        gameType: GameType.BADMINTON,
-        title: 'Challenging Puzzle Game',
-        likeCount: 80,
-        createdAt: DateTime.parse('2025-03-19T10:15:00'),
-        stageType: StageType.FAST,
-        author: Author(
-          studentId: 67890,
-          name: 'Jane Smith',
-          classNumber: 2,
-          studentNumber: 3,
-        ),
-        isFiltered: false,
-      ),
-      Board(
-          boardId: 1,
-          gameType: GameType.LOL,
-          title: 'Exciting Action Game',
-          likeCount: 120,
-          createdAt: DateTime.parse('2025-03-20T14:30:00'),
-          stageType: StageType.OFFICIAL,
-          author: Author(
-            studentId: 12345,
-            name: 'John Doe',
-            classNumber: 1,
-            studentNumber: 1,
-          ),
-          isFiltered: false),
-      Board(
-          boardId: 1,
-          gameType: GameType.LOL,
-          title: 'Exciting Action Game',
-          likeCount: 120,
-          createdAt: DateTime.parse('2025-03-20T14:30:00'),
-          stageType: StageType.OFFICIAL,
-          author: Author(
-            studentId: 12345,
-            name: 'John Doe',
-            classNumber: 1,
-            studentNumber: 1,
-          ),
-          isFiltered: false),
-      Board(
-          boardId: 1,
-          gameType: GameType.LOL,
-          title: 'Exciting Action Game',
-          likeCount: 120,
-          createdAt: DateTime.parse('2025-03-20T14:30:00'),
-          stageType: StageType.OFFICIAL,
-          author: Author(
-            studentId: 12345,
-            name: 'John Doe',
-            classNumber: 1,
-            studentNumber: 1,
-          ),
-          isFiltered: false),
-      Board(
-          boardId: 1,
-          gameType: GameType.LOL,
-          title: 'Exciting Action Game',
-          likeCount: 120,
-          createdAt: DateTime.parse('2025-03-20T14:30:00'),
-          stageType: StageType.OFFICIAL,
-          author: Author(
-            studentId: 12345,
-            name: 'John Doe',
-            classNumber: 1,
-            studentNumber: 1,
-          ),
-          isFiltered: false),
-      Board(
-          boardId: 1,
-          gameType: GameType.LOL,
-          title: 'Exciting Action Game',
-          likeCount: 120,
-          createdAt: DateTime.parse('2025-03-20T14:30:00'),
-          stageType: StageType.OFFICIAL,
-          author: Author(
-            studentId: 12345,
-            name: 'John Doe',
-            classNumber: 1,
-            studentNumber: 1,
-          ),
-          isFiltered: false),
-      Board(
-          boardId: 1,
-          gameType: GameType.LOL,
-          title: 'Exciting Action Game',
-          likeCount: 120,
-          createdAt: DateTime.parse('2025-03-20T14:30:00'),
-          stageType: StageType.OFFICIAL,
-          author: Author(
-            studentId: 12345,
-            name: 'John Doe',
-            classNumber: 1,
-            studentNumber: 1,
-          ),
-          isFiltered: false),
-      Board(
-          boardId: 1,
-          gameType: GameType.LOL,
-          title: 'Exciting Action Game',
-          likeCount: 120,
-          createdAt: DateTime.parse('2025-03-20T14:30:00'),
-          stageType: StageType.OFFICIAL,
-          author: Author(
-            studentId: 12345,
-            name: 'John Doe',
-            classNumber: 1,
-            studentNumber: 1,
-          ),
-          isFiltered: false),
-      // 추가 데이터...
-    ],
-  );
 }
