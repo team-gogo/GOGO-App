@@ -1,7 +1,8 @@
 import 'package:gogo_app/data/models/stage/search_stage/search_betting_stage_response.dart';
 import 'package:json_annotation/json_annotation.dart';
-import '../stage/game_type.dart';
-import '../stage/match_round.dart';
+import '../stage/enum_type/game_type.dart';
+import '../stage/enum_type/match_round.dart';
+import '../stage/enum_type/system_type.dart';
 
 part 'match_dto.g.dart';
 
@@ -10,8 +11,8 @@ class MatchDto {
   final int matchId;
   final MatchTeam aTeam;
   final MatchTeam bTeam;
-  final String startDate;
-  final String endDate;
+  final DateTime startDate;
+  final DateTime endDate;
   final bool isEnd;
   final MatchRound? round;
   final GameType category;
@@ -74,13 +75,13 @@ class MatchTeam {
   final int teamId;
   final String teamName;
   final int bettingPoint;
-  final int? winCount;
+  final int winCount;
 
   MatchTeam({
     required this.teamId,
     required this.teamName,
     required this.bettingPoint,
-    this.winCount,
+    required this.winCount,
   });
 
   factory MatchTeam.fromJson(Map<String, dynamic> json) =>
