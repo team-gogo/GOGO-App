@@ -62,6 +62,7 @@ class CommunityDeatilScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
+                            spacing: 20,
                             children: [
                               GogoTagComponent(
                                 color: GogoColors.main500,
@@ -70,7 +71,6 @@ class CommunityDeatilScreen extends StatelessWidget {
                                   color: GogoColors.main500,
                                 ),
                               ),
-                              SizedBox(width: 12),
                               Text(
                                 '스테이지 이름',
                                 style:
@@ -78,7 +78,6 @@ class CommunityDeatilScreen extends StatelessWidget {
                                   color: GogoColors.gray300,
                                 ),
                               ),
-                              SizedBox(width: 8),
                               Row(
                                 children: [
                                   GogoIcons.person(color: GogoColors.gray300),
