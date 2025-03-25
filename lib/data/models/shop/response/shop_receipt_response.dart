@@ -18,7 +18,7 @@ class ReceiptItem {
   final int ticketPrice;
   final int ticketQuantity;
   final TicketType ticketType;
-  final String purchaseDate;
+  final DateTime purchaseDate;
 
   ReceiptItem({
     required this.ticketPrice,
