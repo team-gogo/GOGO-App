@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gogo_app/data/models/stage/game_type.dart';
+import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:gogo_app/presentation/home/widgets/appbar/home_appbar.dart';
