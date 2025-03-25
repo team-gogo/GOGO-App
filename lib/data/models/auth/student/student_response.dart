@@ -5,32 +5,19 @@ part 'student_response.g.dart';
 
 @JsonSerializable()
 class Student {
-  final int userId;
   final int studentId;
-  final int schoolId;
-  final String email;
-  final String name;
-  final String? deviceToken;
-  final Sex sex;
   final int grade;
-  final int classNumber;
   final int studentNumber;
-  final bool isActiveProfanityFilter;
-  final DateTime createdAt;
+  final int classNumber;
+  final String name;
 
-  const Student(
-      {required this.userId,
-      required this.studentId,
-      required this.schoolId,
-      required this.email,
-      required this.name,
-      this.deviceToken,
-      required this.sex,
-      required this.grade,
-      required this.classNumber,
-      required this.studentNumber,
-      required this.isActiveProfanityFilter,
-      required this.createdAt});
+  const Student({
+    required this.studentId,
+    required this.grade,
+    required this.studentNumber,
+    required this.classNumber,
+    required this.name,
+  });
 
   factory Student.fromJson(Map<String, dynamic> json) =>
       _$StudentFromJson(json);
