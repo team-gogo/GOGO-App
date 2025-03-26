@@ -237,10 +237,13 @@ class MatchCard extends StatelessWidget {
                 )
               : GogoDefaultButton(
                   onTap: () {},
-                  text: "배팅",
+                  text: matchDto.betting.isBetting
+                      ? "${matchDto.betting.bettingPoint}P 배팅"
+                      : "배팅",
                   textStyle: GogoTypography.caption1Semibold,
-                  color:
-                      matchDto.isEnd ? GogoColors.main600 : GogoColors.gray400,
+                  color: matchDto.isEnd || matchDto.betting.isBetting
+                      ? GogoColors.gray400
+                      : GogoColors.main600,
                 )
         ],
       ),
