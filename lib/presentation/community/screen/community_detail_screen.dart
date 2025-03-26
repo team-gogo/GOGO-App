@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gogo_app/data/models/stage/community/search_write_detail_response.dart';
 import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:gogo_app/design_system/component/text_field/gogo_text_field.dart';
 import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
@@ -7,25 +7,11 @@ import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 
-class CommunityDeatilScreen extends StatelessWidget {
-  final String sport;
-  final String stageName;
-  final String user;
-  final String title;
-  final String content;
-  final int heartCount;
-  final int commentCount;
-  final String date;
+class CommunityDetailScreen extends StatelessWidget {
+  final SearchCommunityDetailResponse post;
 
-  const CommunityDeatilScreen({
-    required this.sport,
-    required this.stageName,
-    required this.user,
-    required this.title,
-    required this.content,
-    required this.heartCount,
-    required this.commentCount,
-    required this.date,
+  const CommunityDetailScreen({
+    required this.post,
     super.key,
   });
 
@@ -53,7 +39,6 @@ class CommunityDeatilScreen extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(16),
                       width: double.infinity,
-                      height: 210,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         color: GogoColors.gray700,
@@ -62,28 +47,29 @@ class CommunityDeatilScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            spacing: 20,
                             children: [
                               GogoTagComponent(
                                 color: GogoColors.main500,
-                                text: "배드민턴",
+                                text: post.stage.name,
                                 icon: GogoIcons.badminton(
                                   color: GogoColors.main500,
                                 ),
                               ),
+                              SizedBox(width: 12),
                               Text(
-                                '스테이지 이름',
+                                post.stage.category.toString(),
                                 style:
                                     GogoTypography.caption2Extrabold.copyWith(
                                   color: GogoColors.gray300,
                                 ),
                               ),
+                              SizedBox(width: 12),
                               Row(
                                 children: [
                                   GogoIcons.person(color: GogoColors.gray300),
                                   SizedBox(width: 4),
                                   Text(
-                                    '디자인',
+                                    post.author.name,
                                     style: GogoTypography.caption2Semibold
                                         .copyWith(
                                       color: GogoColors.gray300,
@@ -95,18 +81,18 @@ class CommunityDeatilScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 18),
                           Text(
-                            '오늘 너무 디자인 하기 싫음',
+                            post.title,
                             style: GogoTypography.caption1Extrabold.copyWith(
                               color: GogoColors.white,
                             ),
                           ),
                           Text(
-                            '오늘 너무 갑자기 하기 싫어짐 어떡함? 그냥 갈아 엎을까? 해결책 좀 ㄹㅇ....',
+                            post.content,
                             style: GogoTypography.caption2Semibold.copyWith(
                               color: GogoColors.gray400,
                             ),
                           ),
-                          Spacer(),
+                          SizedBox(height: 12),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -116,7 +102,7 @@ class CommunityDeatilScreen extends StatelessWidget {
                                       color: GogoColors.gray300),
                                   SizedBox(width: 4),
                                   Text(
-                                    '4',
+                                    post.commentCount.toString(),
                                     style: GogoTypography.caption2Semibold
                                         .copyWith(
                                       color: GogoColors.gray300,
@@ -127,7 +113,7 @@ class CommunityDeatilScreen extends StatelessWidget {
                                       color: GogoColors.gray300),
                                   SizedBox(width: 4),
                                   Text(
-                                    '13',
+                                    post.likeCount.toString(),
                                     style: GogoTypography.caption2Semibold
                                         .copyWith(
                                       color: GogoColors.gray300,
@@ -136,7 +122,7 @@ class CommunityDeatilScreen extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                '2025-03-08',
+                                post.createdAt.toString(),
                                 style: GogoTypography.caption2Semibold.copyWith(
                                   color: GogoColors.gray500,
                                 ),
@@ -157,8 +143,9 @@ class CommunityDeatilScreen extends StatelessWidget {
                     ListView.separated(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: 12,
+                      itemCount: post.comment.length,
                       itemBuilder: (BuildContext context, int index) {
+                        final comment = post.comment[index];
                         return Container(
                           width: double.infinity,
                           padding: EdgeInsets.all(12),
@@ -178,7 +165,7 @@ class CommunityDeatilScreen extends StatelessWidget {
                                   ),
                                   SizedBox(width: 4),
                                   Text(
-                                    '김진원',
+                                    comment.author.name,
                                     style: GogoTypography.caption1Semibold
                                         .copyWith(
                                       color: GogoColors.gray300,
@@ -186,9 +173,9 @@ class CommunityDeatilScreen extends StatelessWidget {
                                   ),
                                   SizedBox(width: 8),
                                   SizedBox(
-                                    width: 150.w,
+                                    width: 150,
                                     child: Text(
-                                      '그냥 디자이너 접으셈 3D로 ㄱㄱ',
+                                      comment.comment,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       style: GogoTypography.caption3Semibold
@@ -208,7 +195,7 @@ class CommunityDeatilScreen extends StatelessWidget {
                                   ),
                                   SizedBox(width: 4),
                                   Text(
-                                    '14',
+                                    comment.likeCount.toString(),
                                     style:
                                         GogoTypography.body3Semibold.copyWith(
                                       color: GogoColors.gray300,
