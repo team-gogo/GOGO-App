@@ -111,23 +111,21 @@ class MinigameScreen extends StatelessWidget {
                     color: GogoColors.white,
                   ),
                 ),
-                Container(
-                  child: Row(
-                    spacing: 8,
-                    children: [
-                      Text(
-                        '2000',
-                        style: GogoTypography.caption1Semibold.copyWith(
-                          color: GogoColors.white,
-                        ),
-                      ),
-                      GogoIcons.pointCircle(
+                Row(
+                  spacing: 8,
+                  children: [
+                    Text(
+                      '2000',
+                      style: GogoTypography.caption1Semibold.copyWith(
                         color: GogoColors.white,
-                        width: 16,
-                        height: 16,
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                    GogoIcons.pointCircle(
+                      color: GogoColors.white,
+                      width: 16,
+                      height: 16,
+                    )
+                  ],
                 )
               ],
             ),
