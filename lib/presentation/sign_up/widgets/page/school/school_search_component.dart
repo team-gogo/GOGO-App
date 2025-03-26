@@ -109,10 +109,16 @@ class _SchoolComponent extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(),
         child: Column(
+          spacing: 4,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${searchSchoolResponse.region}\n${searchSchoolResponse.address}",
+              searchSchoolResponse.name,
+              style: GogoTypography.caption2Semibold
+                  .copyWith(color: GogoColors.gray400),
+            ),
+            Text(
+              searchSchoolResponse.address,
               style: GogoTypography.caption2Semibold
                   .copyWith(color: GogoColors.gray400),
             ),
