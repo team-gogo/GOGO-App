@@ -7,6 +7,10 @@ import 'package:gogo_app/presentation/home/widgets/appbar/home_appbar.dart';
 import 'package:gogo_app/presentation/ranking/widgets/ranking_list_item.dart';
 import 'package:gogo_app/router.dart';
 import 'package:intl/intl.dart';
+import '../../../data/models/common/match_dto.dart';
+import '../../../data/models/stage/enum_type/match_round.dart';
+import '../../../data/models/stage/enum_type/system_type.dart';
+import '../../../data/models/stage/search_stage/search_betting_stage_response.dart';
 import '../../../design_system/component/tag/gogo_tag_component.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
@@ -18,8 +22,7 @@ class HomeScreen extends StatelessWidget {
 
   static final EdgeInsets padding = EdgeInsets.symmetric(horizontal: 16);
 
-  Widget _itemTopBar(
-    Widget gogoIcon, {
+  Widget _itemTopBar(Widget gogoIcon, {
     String? text,
     DateTime? date,
     VoidCallback? onTap,
@@ -96,62 +99,45 @@ class HomeScreen extends StatelessWidget {
                         child: Row(
                           spacing: 8,
                           children: [
-                            MatchCardComponent(
-                              time: GogoTagComponent.small(
-                                color: GogoColors.success,
-                                text: "12:00",
-                                icon: GogoIcons.alarm(
-                                  color: GogoColors.success,
-                                  width: 12,
-                                  height: 12,
-                                ),
-                              ),
-                              round: GogoTagComponent.small(
-                                color: GogoColors.white,
-                                text: "12강",
-                                icon: GogoIcons.trophy(
-                                    color: GogoColors.white,
-                                    width: 12,
-                                    height: 12),
-                              ),
-                              event: GogoTagComponent.small(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 4),
-                                color: GogoColors.main500,
-                                text: "배드민턴",
-                                icon: GogoIcons.volleyball(
-                                    color: GogoColors.main500,
-                                    width: 12,
-                                    height: 12),
-                              ),
-                              point: '10000P',
-                              teamA: "A",
-                              teamB: 'B',
+                            MatchCard(
+                                matchDto: MatchDto(
+                                  matchId: 1,
+                                  aTeam: MatchTeam(
+                                    teamId: 101,
+                                    teamName: "Team A",
+                                    bettingPoint: 500,
+                                    winCount: 10,
+                                  ),
+                                  bTeam: MatchTeam(
+                                    teamId: 102,
+                                    teamName: "Team B",
+                                    bettingPoint: 600,
+                                    winCount: 12,
+                                  ),
+                                  startDate: DateTime(2024, 3, 25, 18, 30),
+                                  endDate: DateTime(2024, 3, 25, 20, 30),
+                                  isEnd: true,
+                                  round: MatchRound.SEMI_FINALS,
+                                  category: GameType.LOL,
+                                  gameName: "Champions League",
+                                  system: System.TOURNAMENT,
+                                  turn: 1,
+                                  isNotice: true,
+                                  betting: Betting(
+                                    isBetting: true,
+                                    bettingPoint: 2001,
+                                    predictedWinTeamId: 101,
+                                  ),
+                                  result: MatchResult(
+                                    victoryTeamId: 102,
+                                    aTeamScore: 1,
+                                    bTeamScore: 2,
+                                    isPredictionSuccess: true,
+                                    earnedPoint: 300,
+                                    tempPointExpiredDate: DateTime(2024, 6, 1),
+                                  ),
+                                )
                             ),
-                            EndedMatchCardComponent(
-                              round: GogoTagComponent.small(
-                                color: GogoColors.white,
-                                text: "12강",
-                                icon: GogoIcons.trophy(
-                                    color: GogoColors.white,
-                                    width: 12,
-                                    height: 12),
-                              ),
-                              event: GogoTagComponent.small(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 4),
-                                color: GogoColors.main500,
-                                text: "배드민턴",
-                                icon: GogoIcons.volleyball(
-                                    color: GogoColors.main500,
-                                    width: 12,
-                                    height: 12),
-                              ),
-                              point: '10000P',
-                              winner: "A",
-                              earnedPoint: -1000,
-                              isPredictionSuccess: false,
-                            )
                           ],
                         ),
                       ),
@@ -178,8 +164,9 @@ class HomeScreen extends StatelessWidget {
                           spacing: 8,
                           children: List.generate(
                             5,
-                            (index) => RankingListItem(
-                                index: index, name: '홍길동', point: 100),
+                                (index) =>
+                                RankingListItem(
+                                    index: index, name: '홍길동', point: 100),
                           ),
                         ),
                       )
@@ -199,13 +186,14 @@ class HomeScreen extends StatelessWidget {
                           spacing: 8,
                           children: List.generate(
                             5,
-                            (index) => CommunityItem(
-                              name: '홍길동',
-                              gameType: GameType.BADMINTON,
-                              title: '김진원 김진원 김진원 김진원',
-                              commentNum: 10,
-                              likeNum: 10,
-                            ),
+                                (index) =>
+                                CommunityItem(
+                                  name: '홍길동',
+                                  gameType: GameType.BADMINTON,
+                                  title: '김진원 김진원 김진원 김진원',
+                                  commentNum: 10,
+                                  likeNum: 10,
+                                ),
                           ),
                         ),
                       )
