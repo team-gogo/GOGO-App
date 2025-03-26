@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/data/models/stage/community/search_write_detail_response.dart';
 import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:gogo_app/design_system/component/text_field/gogo_text_field.dart';
@@ -19,7 +20,7 @@ class CommunityDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController controller = TextEditingController();
 
-    Widget CommentList() {
+    Widget CommentList(Comment comment) {
       return Container(
         width: double.infinity,
         padding: EdgeInsets.all(12),
@@ -99,6 +100,7 @@ class CommunityDetailScreen extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(16),
                       width: double.infinity,
+                      height: 210.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         color: GogoColors.gray700,
@@ -206,66 +208,7 @@ class CommunityDetailScreen extends StatelessWidget {
                       itemCount: post.comment.length,
                       itemBuilder: (BuildContext context, int index) {
                         final comment = post.comment[index];
-                        return Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: GogoColors.gray700,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  GogoIcons.person(
-                                    width: 20,
-                                    height: 20,
-                                    color: GogoColors.gray300,
-                                  ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    comment.author.name,
-                                    style: GogoTypography.caption1Semibold
-                                        .copyWith(
-                                      color: GogoColors.gray300,
-                                    ),
-                                  ),
-                                  SizedBox(width: 8),
-                                  SizedBox(
-                                    width: 150,
-                                    child: Text(
-                                      comment.comment,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: GogoTypography.caption3Semibold
-                                          .copyWith(
-                                        color: GogoColors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  GogoIcons.heartOutlined(
-                                    color: GogoColors.gray300,
-                                    width: 20,
-                                    height: 20,
-                                  ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    comment.likeCount.toString(),
-                                    style:
-                                        GogoTypography.body3Semibold.copyWith(
-                                      color: GogoColors.gray300,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        );
+                        return CommentList(comment);
                       },
                       separatorBuilder: (BuildContext context, int index) {
                         return SizedBox(height: 12);
