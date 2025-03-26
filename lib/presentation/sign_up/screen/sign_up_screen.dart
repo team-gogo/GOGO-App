@@ -39,45 +39,72 @@ class SignUpScreen extends StatelessWidget {
         BlocProvider(create: (_) => SexBloc(sexController)),
         BlocProvider(create: (_) => SignUpBloc()),
       ],
-      child: BlocBuilder<SignUpBloc, SignUpState>(
+      child: BlocConsumer<SignUpBloc, SignUpState>(
         builder: (context, state) => GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 50, 16, 95),
-                child: PageView(
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _pageController,
-                  children: <Widget>[
-                    SchoolPage(pageController: _pageController),
-                    NamePage(pageController: _pageController),
-                    NumberPage(pageController: _pageController),
-                    SexPage(
-                      pageController: _pageController,
-                      submitSign: () {
-                        context.read<SignUpBloc>().add(
-                              AdditionalSignUpRequestEvent(
-                                AdditionalSignUpRequest(
-                                  name: nameController.text,
-                                  classNumber: extractNumber(classController.text),
-                                  studentNumber: extractNumber(numberController.text),
-                                  sex: sexController ?? Sex.MALE,
-                                  school: context
-                                      .read<SchoolBloc>()
-                                      .searchSchoolResponseSelected!,
-                                ),
+              child: PageView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _pageController,
+                children: <Widget>[
+                  SchoolPage(pageController: _pageController),
+                  NamePage(pageController: _pageController),
+                  NumberPage(pageController: _pageController),
+                  SexPage(
+                    pageController: _pageController,
+                    submitSign: () {
+                      context.read<SignUpBloc>().add(
+                            AdditionalSignUpRequestEvent(
+                              AdditionalSignUpRequest(
+                                name: nameController.text,
+                                grade: int.parse(
+                                    gradeController.text.replaceAll('학년', '')),
+                                classNumber: int.parse(
+                                    classController.text.replaceAll('반', '')),
+                                studentNumber: int.parse(
+                                    numberController.text.replaceAll('번', '')),
+                                sex: sexController ?? Sex.MALE,
+                                school: context
+                                    .read<SchoolBloc>()
+                                    .searchSchoolResponseSelected!,
                               ),
-                            );
-                      },
-                    ),
-                  ],
-                ),
+                            ),
+                          );
+                    },
+                  ),
+                ],
               ),
             ),
           ),
         ),
+        listener: (BuildContext context, SignUpState state) {
+          if (state is SignUpFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.errorMessage)),
+            );
+            if (state.errorMessage.contains('학교')) {
+              _pageController.animateToPage(
+                0,
+                duration: Duration(milliseconds: 300),
+                curve: Curves.ease,
+              );
+            } else if (state.errorMessage.contains('이름')) {
+              _pageController.animateToPage(
+                1,
+                duration: Duration(milliseconds: 300),
+                curve: Curves.ease,
+              );
+            } else if (state.errorMessage.contains('학년, 반, 번호')) {
+              _pageController.animateToPage(
+                2,
+                duration: Duration(milliseconds: 300),
+                curve: Curves.ease,
+              );
+            }
+          }
+        },
       ),
     );
   }
