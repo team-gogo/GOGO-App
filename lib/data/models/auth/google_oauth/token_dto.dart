@@ -6,10 +6,12 @@ part 'token_dto.g.dart';
 class TokenDto {
   final String accessToken;
   final String refreshToken;
+  final String? authority;
 
   TokenDto({
     required this.accessToken,
     required this.refreshToken,
+    this.authority,
   });
 
   factory TokenDto.fromJson(Map<String, dynamic> json) =>
