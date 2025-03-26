@@ -9,7 +9,6 @@ import 'bloc/match_card_bloc.dart';
 import 'bloc/match_card_event.dart';
 import 'bloc/match_card_state.dart';
 
-class MatchCardComponent extends StatelessWidget {
   final Widget time;
   final Widget round;
   final Widget event;
@@ -21,6 +20,7 @@ class MatchCardComponent extends StatelessWidget {
   final Color backgroundColor;
   final BorderRadius borderRadius;
   final EdgeInsets padding;
+class MatchCard extends StatelessWidget {
   final double width;
 
   const MatchCardComponent({
