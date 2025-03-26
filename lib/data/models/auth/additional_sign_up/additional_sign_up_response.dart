@@ -65,13 +65,16 @@ class School {
   }
 
   static SchoolType _mapSchoolType(String? type) {
-    switch (type) {
-      case '중학교':
-        return SchoolType.MIDDLE_SCHOOL;
-      case '고등학교':
-        return SchoolType.HIGH_SCHOOL;
-      default:
-        throw ArgumentError('알 수 없는 학교 유형: $type');
+    if (type == null) {
+      throw ArgumentError('학교 유형이 null입니다.');
+    }
+    if (type.contains('중학교')) {
+      return SchoolType.MIDDLE_SCHOOL;
+    }
+    if (type.contains('고등학교')) {
+      return SchoolType.HIGH_SCHOOL;
+    } else {
+      throw ArgumentError('알 수 없는 학교 유형: $type');
     }
   }
 
