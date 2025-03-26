@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/school/school_event.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/school/school_state.dart';
@@ -12,7 +13,7 @@ import '../../../../data/models/auth/additional_sign_up/additional_sign_up_respo
 class SchoolBloc extends Bloc<SchoolEvent, SchoolState> {
   final TextEditingController _schoolController = TextEditingController();
   final SearchSchoolRepository _searchSchoolRepository =
-      locator<SearchSchoolRepository>();
+      GetIt.instance<SearchSchoolRepository>();
   List<School> searchSchoolResponse = [];
   School? searchSchoolResponseSelected;
 
@@ -35,8 +36,7 @@ class SchoolBloc extends Bloc<SchoolEvent, SchoolState> {
 
   void _handlerEnterSchoolEvent(
       EnterSchoolEvent event, Emitter<SchoolState> emit) async {
-    var result = await _searchSchoolRepository.getSchoolInfo(
-        event.search);
+    var result = await _searchSchoolRepository.getSchoolInfo(event.search);
     print(result);
     searchSchoolResponse = result.row;
     searchSchoolResponse.isNotEmpty
