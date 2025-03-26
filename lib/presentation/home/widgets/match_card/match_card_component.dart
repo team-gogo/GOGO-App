@@ -184,8 +184,12 @@ class MatchCard extends StatelessWidget {
                       children: [
                         Text(
                           "${matchDto.aTeam.teamName}팀",
-                          style: GogoTypography.body1Extrabold
-                              .copyWith(color: GogoColors.white),
+                          style: GogoTypography.body1Extrabold.copyWith(
+                              color: matchDto.betting.isBetting &&
+                                      matchDto.betting.predictedWinTeamId ==
+                                          matchDto.aTeam.teamId
+                                  ? GogoColors.main500
+                                  : GogoColors.white),
                         ),
                         Text(
                           "VS",
@@ -194,8 +198,13 @@ class MatchCard extends StatelessWidget {
                         ),
                         Text(
                           "${matchDto.bTeam.teamName}팀",
-                          style: GogoTypography.body1Extrabold
-                              .copyWith(color: GogoColors.white),
+                          style: GogoTypography.body1Extrabold.copyWith(
+                            color: matchDto.betting.isBetting &&
+                                    matchDto.betting.predictedWinTeamId ==
+                                        matchDto.bTeam.teamId
+                                ? GogoColors.main500
+                                : GogoColors.white,
+                          ),
                         ),
                       ],
                     ),
