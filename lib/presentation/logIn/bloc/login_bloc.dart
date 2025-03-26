@@ -1,16 +1,13 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
-import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
-import 'package:gogo_app/presentation/logIn/bloc/login_event.dart';
-import 'package:gogo_app/presentation/logIn/bloc/login_state.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import '../../../data/models/auth/google_oauth/google_oauth_login_request.dart';
-import '../../../data/models/auth/sign_in/google_login_response.dart';
+import '../../../data/models/auth/sign_in/login_response.dart';
+import '../../../data/repositories/auth/auth_repository.dart';
+import 'login_event.dart';
+import 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepository = GetIt.instance.get<AuthRepository>();
@@ -29,7 +26,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         return;
       }
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,

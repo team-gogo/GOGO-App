@@ -1,22 +1,23 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../stage_type.dart';
+import '../enum_type/stage_type.dart';
 
-part 'stage_search_response.g.dart';
+part 'search_stage_response.g.dart';
 
 @JsonSerializable()
-class StageSearchResponse {
+class SearchStageResponse {
   final int count;
-  final List<Stage> stage;
+  final List<Stage> stages;
 
-  StageSearchResponse({
+  SearchStageResponse({
     required this.count,
-    required this.stage,
+    required this.stages,
   });
 
-  factory StageSearchResponse.fromJson(Map<String, dynamic> json) =>
-      _$StageSearchResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$StageSearchResponseToJson(this);
+  factory SearchStageResponse.fromJson(Map<String, dynamic> json) =>
+      _$SearchStageResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SearchStageResponseToJson(this);
 }
 
 @JsonEnum(alwaysCreate: true)
@@ -37,6 +38,8 @@ class Stage {
   final StageStatus status;
   final int participantCount;
   final bool isParticipating;
+  final bool isMaintainer;
+  final bool isPassCode;
 
   Stage({
     required this.stageId,
@@ -45,8 +48,11 @@ class Stage {
     required this.status,
     required this.participantCount,
     required this.isParticipating,
+    required this.isMaintainer,
+    required this.isPassCode,
   });
 
   factory Stage.fromJson(Map<String, dynamic> json) => _$StageFromJson(json);
+
   Map<String, dynamic> toJson() => _$StageToJson(this);
 }

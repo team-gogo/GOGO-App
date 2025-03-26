@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../game_type.dart';
-import '../stage_type.dart';
+import '../enum_type/game_type.dart';
+import '../enum_type/stage_type.dart';
 
 part 'search_board_response.g.dart';
 
@@ -37,21 +37,21 @@ class Info {
 @JsonSerializable()
 class Board {
   final int boardId;
-  final GameType gameType;
+  final GameType gameCategory;
   final String title;
   final int likeCount;
   final DateTime createdAt;
-  final bool isFiltered;
   final StageType stageType;
+  final int commentCount;
   final Author author;
 
   Board({
     required this.boardId,
-    required this.gameType,
+    required this.gameCategory,
     required this.title,
     required this.likeCount,
     required this.createdAt,
-    required this.isFiltered,
+    required this.commentCount,
     required this.stageType,
     required this.author,
   });

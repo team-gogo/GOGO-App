@@ -1,10 +1,10 @@
-import 'package:gogo_app/data/models/stage/game_type.dart';
+import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'search_write_detail_response.g.dart';
 
 @JsonSerializable()
-class SearchWriteDetailResponse {
+class SearchCommunityDetailResponse {
   final int boardId;
   final String title;
   final String content;
@@ -12,11 +12,11 @@ class SearchWriteDetailResponse {
   final bool isLiked;
   final String createdAt;
   final Stage stage;
-  final Author Authorauthor;
+  final Author author;
   final int commentCount;
   final List<Comment> comment;
 
-  SearchWriteDetailResponse({
+  SearchCommunityDetailResponse({
     required this.boardId,
     required this.title,
     required this.content,
@@ -24,15 +24,15 @@ class SearchWriteDetailResponse {
     required this.isLiked,
     required this.createdAt,
     required this.stage,
-    required this.Authorauthor,
+    required this.author,
     required this.commentCount,
     required this.comment,
   });
 
-  factory SearchWriteDetailResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchWriteDetailResponseFromJson(json);
+  factory SearchCommunityDetailResponse.fromJson(Map<String, dynamic> json) =>
+      _$SearchCommunityDetailResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SearchWriteDetailResponseToJson(this);
+  Map<String, dynamic> toJson() => _$SearchCommunityDetailResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -58,15 +58,17 @@ class Author {
 class Comment {
   final int commentId;
   final String comment;
-  final String createdAt;
-  final bool isFiltered;
+  final DateTime createdAt;
+  final int likeCount;
+  final bool isLiked;
   final Author author;
 
   Comment({
     required this.commentId,
     required this.comment,
     required this.createdAt,
-    required this.isFiltered,
+    required this.likeCount,
+    required this.isLiked,
     required this.author,
   });
 
@@ -79,15 +81,14 @@ class Comment {
 @JsonSerializable()
 class Stage {
   final String name;
-  final GameType GameCategory;
+  final GameType category;
 
   Stage({
     required this.name,
-    required this.GameCategory,
+    required this.category,
   });
 
-  factory Stage.fromJson(Map<String, dynamic> json) =>
-      _$StageFromJson(json);
+  factory Stage.fromJson(Map<String, dynamic> json) => _$StageFromJson(json);
 
   Map<String, dynamic> toJson() => _$StageToJson(this);
 }

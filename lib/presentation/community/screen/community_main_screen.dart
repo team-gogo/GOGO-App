@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gogo_app/data/models/stage/community/community_search_request_query_string.dart';
 import 'package:gogo_app/data/models/stage/community/sort_type.dart';
-import 'package:gogo_app/data/models/stage/game_type.dart';
+import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_bloc.dart';
@@ -208,7 +208,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                                     state.response.board.length,
                                     (index) => CommunityItem(
                                       gameType:
-                                          state.response.board[index].gameType,
+                                          state.response.board[index].gameCategory,
                                       title: state.response.board[index].title,
                                       name: state
                                           .response.board[index].author.name,
