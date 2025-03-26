@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/api/auth/auth_api.dart';
 import 'package:gogo_app/data/api/search_school/search_school_api.dart';
@@ -30,6 +33,15 @@ final locator = GetIt.instance;
 
 void setUpDio() {
   locator.registerLazySingleton<Dio>(() => settingDio());
+
+  log('✅ Dio 세팅 및 의존성 주입 완료');
+}
+
+void setUpStorage() {
+  locator.registerLazySingleton<FlutterSecureStorage>(
+      () => const FlutterSecureStorage());
+
+  log('✅ FlutterSecureStorage 세팅 및 의존성 주입 완료');
 }
 
 void setupDataSourceLocator() {
@@ -43,7 +55,7 @@ void setupDataSourceLocator() {
       () => SearchSchoolDataSourceImpl(locator<Dio>()));
   locator.registerLazySingleton<TokenDataSource>(() => TokenDataSourceImpl());
 
-  locator.registerFactory<WebSocketDataSource>(() => WebSocketDataSourceImpl());
+  log('✅ DataSource 세팅 및 의존성 주입 완료');
 }
 
 void setupRepositoryLocator() {
@@ -55,6 +67,8 @@ void setupRepositoryLocator() {
       () => SearchSchoolRepositoryImpl(locator<SearchSchoolDataSource>()));
   locator.registerLazySingleton<MiniGameRepository>(
       () => MiniGameRepositoryImpl(locator<MiniGameDataSource>()));
+
+  log('✅ Repository 세팅 및 의존성 주입 완료');
 }
 
 void setupApiLocator() {
@@ -63,4 +77,6 @@ void setupApiLocator() {
   locator.registerLazySingleton<MiniGameApi>(() => MiniGameApi(locator<Dio>()));
   locator.registerLazySingleton<SearchSchoolApi>(
       () => SearchSchoolApi(locator<Dio>()));
+
+  log('✅ API 세팅 및 의존성 주입 완료');
 }
