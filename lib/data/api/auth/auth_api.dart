@@ -24,7 +24,7 @@ abstract class AuthApi {
 
   // 회원가입 ✅
   @POST('/user/auth/signup')
-  Future<void> additionalSignUp(
+  Future<TokenDto> additionalSignUp(
     @Body() AdditionalSignUpRequest body,
   );
 

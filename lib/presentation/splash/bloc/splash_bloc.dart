@@ -9,21 +9,13 @@ import 'package:gogo_app/presentation/splash/bloc/splash_state.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   final AuthRepository _authRepository = GetIt.instance.get<AuthRepository>();
-  final FlutterSecureStorage _storage =
-      GetIt.instance.get<FlutterSecureStorage>();
-  static final String _authority = 'authority';
 
   SplashBloc() : super(InitSplashState()) {
     on<LaunchSplashEvent>((event, emit) async {
       emit(AutoLoginLoading());
       try {
         await _authRepository.tokenRefresh();
-        final valuePart = await _storage.read(key: _authority);
-        if (valuePart == Authority.USER.toString()) {
           emit(AutoLoginSuccess());
-        } else {
-          emit(AutoLoginFailed());
-        }
       } catch (e) {
         log("토큰 갱신 실패: $e");
         emit(AutoLoginFailed());

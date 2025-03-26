@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/sign_up/sign_up_event.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/sign_up/sign_up_state.dart';

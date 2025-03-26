@@ -39,7 +39,6 @@ class School {
   final SchoolType type;
   final String address;
   final String region;
-  final int countOfStudent;
   final String phoneNumber;
 
   School({
@@ -48,7 +47,6 @@ class School {
     required this.type,
     required this.address,
     required this.region,
-    required this.countOfStudent,
     required this.phoneNumber,
   });
 
@@ -59,7 +57,6 @@ class School {
       type: _mapSchoolType(json['SCHUL_KND_SC_NM'] as String?),
       address: '${json['ORG_RDNMA'] ?? ''} ${json['ORG_RDNDA'] ?? ''}'.trim(),
       region: json['LCTN_SC_NM'] as String? ?? '',
-      countOfStudent: 0,
       phoneNumber: json['ORG_TELNO'] as String? ?? '',
     );
   }

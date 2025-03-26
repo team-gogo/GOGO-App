@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/name/name_bloc.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/school/school_bloc.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/sex/sex_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:gogo_app/presentation/sign_up/widgets/page/name_page.dart';
 import 'package:gogo_app/presentation/sign_up/widgets/page/number_page.dart';
 import 'package:gogo_app/presentation/sign_up/widgets/page/school_page.dart';
 import 'package:gogo_app/presentation/sign_up/widgets/page/sex_page.dart';
+import 'package:gogo_app/router.dart';
 import '../../../data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 import '../bloc/number/number_bloc.dart';
 import '../bloc/sign_up/sign_up_bloc.dart';
@@ -45,6 +47,7 @@ class SignUpScreen extends StatelessWidget {
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             body: SafeArea(
+              bottom: false,
               child: PageView(
                 physics: NeverScrollableScrollPhysics(),
                 controller: _pageController,
@@ -103,6 +106,8 @@ class SignUpScreen extends StatelessWidget {
                 curve: Curves.ease,
               );
             }
+          } else if (state is SignUpSuccess) {
+            context.goNamed(PageRouter.home);
           }
         },
       ),

@@ -26,7 +26,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> additionalSignUp(AdditionalSignUpRequest body) async {
-    return await _authDatasource.additionalSignUp(body);
+    final TokenDto response = await _authDatasource.additionalSignUp(body);
+    _tokenRepository.saveToken(response);
   }
 
   @override
