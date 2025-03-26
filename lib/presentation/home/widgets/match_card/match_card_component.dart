@@ -224,7 +224,7 @@ class MatchCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${matchDto.result!.earnedPoint.toString()}P",
+                          "${matchDto.result!.isPredictionSuccess! ? "+" : "-"}${matchDto.result!.earnedPoint.toString()}P",
                           style: GogoTypography.body3Semibold.copyWith(
                             color: matchDto.result!.isPredictionSuccess!
                                 ? GogoColors.main500
