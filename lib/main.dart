@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ void main() async {
   setupRepositoryLocator();
   setupApiLocator();
   setUpDio();
+  setUpStorage();
 
   // 가로모드 방지
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -68,6 +71,8 @@ void setFireBase() async {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print("포그라운드 알림: ${message.notification?.title}");
   });
+
+  log('✅ FCM 초기화 완료!');
 }
 
 @pragma('vm:entry-point') // 앱의 진입점 설정
