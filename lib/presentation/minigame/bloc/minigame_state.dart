@@ -3,7 +3,7 @@ abstract class MinigameDescriptionState {}
 class MinigameDescriptionInitial extends MinigameDescriptionState {}
 
 class MinigameDescriptionUpdated extends MinigameDescriptionState {
-  final int selectedIndex;
+  final String minigameName;
 
-  MinigameDescriptionUpdated({required this.selectedIndex});
+  MinigameDescriptionUpdated({required this.minigameName});
 }

@@ -1,7 +1,7 @@
 abstract class MinigameDescriptionEvent {}
 
 class ChangeCategory extends MinigameDescriptionEvent {
-  final int selectedIndex;
+  final String minigameName;
 
-  ChangeCategory({required this.selectedIndex});
+  ChangeCategory({required this.minigameName});
 }
