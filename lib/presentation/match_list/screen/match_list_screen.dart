@@ -130,6 +130,7 @@ class MatchListScreen extends StatelessWidget {
                     color: GogoColors.main500,
                     text: "필터",
                     icon: GogoIcons.filter(
+                      color: GogoColors.main500,
                       width: 16,
                       height: 16,
                     ),
