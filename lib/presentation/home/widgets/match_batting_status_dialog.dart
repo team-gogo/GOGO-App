@@ -50,185 +50,199 @@ class MatchBattingStatusDialog extends StatelessWidget {
     final int bTeamPercentage = ((teamBPoint / totalPoints) * 100).toInt();
 
     return Dialog(
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 24, horizontal: 15),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: GogoColors.black,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 32,
-          children: [
-            Column(
-              spacing: 18,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      '$teamA팀 VS $teamB팀',
-                      style: GogoTypography.body1Extrabold.copyWith(
+      child: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 24, horizontal: 15),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: GogoColors.black,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 32,
+            children: [
+              Column(
+                spacing: 18,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        '$teamA팀 VS $teamB팀',
+                        style: GogoTypography.body1Extrabold.copyWith(
+                          color: GogoColors.white,
+                        ),
+                      ),
+                      GogoIcons.x(
+                        width: 32,
+                        height: 32,
+                        onTap: closeDialog,
                         color: GogoColors.white,
-                      ),
-                    ),
-                    GogoIcons.x(
-                      width: 32,
-                      height: 32,
-                      onTap: closeDialog,
-                      color: GogoColors.white,
-                    )
-                  ],
-                ),
-                Row(
-                  spacing: 20,
-                  children: [
-                    GogoTagComponent.small(
-                      color: GogoColors.success,
-                      text: formatDateTimeToHourMinute(startDate),
-                      icon: GogoIcons.alarm(
+                      )
+                    ],
+                  ),
+                  Row(
+                    spacing: 20,
+                    children: [
+                      GogoTagComponent.small(
                         color: GogoColors.success,
-                        width: 12,
-                        height: 12,
+                        text: formatDateTimeToHourMinute(startDate),
+                        icon: GogoIcons.alarm(
+                          color: GogoColors.success,
+                          width: 12,
+                          height: 12,
+                        ),
                       ),
-                    ),
-                    switch (system) {
-                      System.TOURNAMENT => GogoTagComponent.small(
-                          color: GogoColors.white,
-                          text: switch (round) {
-                            MatchRound.ROUND_OF_32 => "32",
-                            MatchRound.ROUND_OF_16 => "16",
-                            MatchRound.QUARTER_FINALS => "4",
-                            MatchRound.SEMI_FINALS => "2",
-                            MatchRound.FINALS => "결승전",
-                            null => "",
-                          },
-                          icon: round == MatchRound.FINALS
-                              ? GogoIcons.flame(
-                                  color: GogoColors.white,
-                                  width: 12,
-                                  height: 12,
-                                )
-                              : GogoIcons.trophy(
-                                  color: GogoColors.white,
-                                  width: 12,
-                                  height: 12,
-                                ),
-                        ),
-                      System.FULL_LEAGUE => GogoTagComponent.small(
-                          color: GogoColors.white,
-                          text: "리그전",
-                          icon: GogoIcons.trophy(
+                      switch (system) {
+                        System.TOURNAMENT => GogoTagComponent.small(
                             color: GogoColors.white,
-                            width: 12,
-                            height: 12,
+                            text: switch (round) {
+                              MatchRound.ROUND_OF_32 => "32",
+                              MatchRound.ROUND_OF_16 => "16",
+                              MatchRound.QUARTER_FINALS => "4",
+                              MatchRound.SEMI_FINALS => "2",
+                              MatchRound.FINALS => "결승전",
+                              null => "",
+                            },
+                            icon: round == MatchRound.FINALS
+                                ? GogoIcons.flame(
+                                    color: GogoColors.white,
+                                    width: 12,
+                                    height: 12,
+                                  )
+                                : GogoIcons.trophy(
+                                    color: GogoColors.white,
+                                    width: 12,
+                                    height: 12,
+                                  ),
                           ),
-                        ),
-                      System.SINGLE => GogoTagComponent.small(
-                          color: GogoColors.white,
-                          text: "단판",
-                          icon: GogoIcons.trophy(
+                        System.FULL_LEAGUE => GogoTagComponent.small(
                             color: GogoColors.white,
-                            width: 12,
-                            height: 12,
+                            text: "리그전",
+                            icon: GogoIcons.trophy(
+                              color: GogoColors.white,
+                              width: 12,
+                              height: 12,
+                            ),
                           ),
-                        ),
-                    },
-                    GogoTagComponent.small(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      color: GogoColors.main500,
-                      text: switch (gameType) {
-                        GameType.SOCCER => "축구",
-                        GameType.BASKET_BALL => "농구",
-                        GameType.BASE_BALL => "야구",
-                        GameType.VOLLEY_BALL => "배구",
-                        GameType.BADMINTON => "배드민턴",
-                        GameType.LOL => "리그오브레전드",
-                        GameType.ETC => "기타",
-                      },
-                      icon: switch (gameType) {
-                        GameType.SOCCER => GogoIcons.football(
-                            color: GogoColors.main500,
-                            width: 12,
-                            height: 12,
-                          ),
-                        GameType.BASKET_BALL => GogoIcons.basketball(
-                            color: GogoColors.main500,
-                            width: 12,
-                            height: 12,
-                          ),
-                        GameType.BASE_BALL => GogoIcons.baseball(
-                            color: GogoColors.main500,
-                            width: 12,
-                            height: 12,
-                          ),
-                        GameType.VOLLEY_BALL => GogoIcons.volleyball(
-                            color: GogoColors.main500,
-                            width: 12,
-                            height: 12,
-                          ),
-                        GameType.BADMINTON => GogoIcons.badminton(
-                            color: GogoColors.main500,
-                            width: 12,
-                            height: 12,
-                          ),
-                        GameType.LOL => GogoIcons.onlineGame(
-                            color: GogoColors.main500,
-                            width: 12,
-                            height: 12,
-                          ),
-                        GameType.ETC => GogoIcons.volleyball(
-                            color: GogoColors.main500,
-                            width: 12,
-                            height: 12,
+                        System.SINGLE => GogoTagComponent.small(
+                            color: GogoColors.white,
+                            text: "단판",
+                            icon: GogoIcons.trophy(
+                              color: GogoColors.white,
+                              width: 12,
+                              height: 12,
+                            ),
                           ),
                       },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                buildBattingGraph(
-                  isSelected: true,
-                  teamName: teamA,
-                  maxBattingPoint: maxPoints,
-                  currentTeamBattingPoint: teamAPoint,
-                  currentBattingPercentage: aTeamPercentage,
-                  enableBetting: enableBetting,
-                  onClick: (team) => onBattingClick(team),
-                ),
-                SizedBox(
-                  height: 238,
-                  child: Column(
+                      GogoTagComponent.small(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        color: GogoColors.main500,
+                        text: switch (gameType) {
+                          GameType.SOCCER => "축구",
+                          GameType.BASKET_BALL => "농구",
+                          GameType.BASE_BALL => "야구",
+                          GameType.VOLLEY_BALL => "배구",
+                          GameType.BADMINTON => "배드민턴",
+                          GameType.LOL => "리그오브레전드",
+                          GameType.ETC => "기타",
+                        },
+                        icon: switch (gameType) {
+                          GameType.SOCCER => GogoIcons.football(
+                              color: GogoColors.main500,
+                              width: 12,
+                              height: 12,
+                            ),
+                          GameType.BASKET_BALL => GogoIcons.basketball(
+                              color: GogoColors.main500,
+                              width: 12,
+                              height: 12,
+                            ),
+                          GameType.BASE_BALL => GogoIcons.baseball(
+                              color: GogoColors.main500,
+                              width: 12,
+                              height: 12,
+                            ),
+                          GameType.VOLLEY_BALL => GogoIcons.volleyball(
+                              color: GogoColors.main500,
+                              width: 12,
+                              height: 12,
+                            ),
+                          GameType.BADMINTON => GogoIcons.badminton(
+                              color: GogoColors.main500,
+                              width: 12,
+                              height: 12,
+                            ),
+                          GameType.LOL => GogoIcons.onlineGame(
+                              color: GogoColors.main500,
+                              width: 12,
+                              height: 12,
+                            ),
+                          GameType.ETC => GogoIcons.volleyball(
+                              color: GogoColors.main500,
+                              width: 12,
+                              height: 12,
+                            ),
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      buildBattingGraph(
+                        isSelected: true,
+                        teamName: teamA,
+                        maxBattingPoint: maxPoints,
+                        currentTeamBattingPoint: teamAPoint,
+                        currentBattingPercentage: aTeamPercentage,
+                        enableBetting: enableBetting,
+                        onClick: (team) => onBattingClick(team),
+                      ),
+                      SizedBox(
+                        width: 62,
+                      ),
+                      buildBattingGraph(
+                        isSelected: false,
+                        teamName: teamB,
+                        maxBattingPoint: maxPoints,
+                        currentTeamBattingPoint: teamBPoint,
+                        currentBattingPercentage: bTeamPercentage,
+                        enableBetting: enableBetting,
+                        onClick: (team) => onBattingClick(team),
+                      ),
+                    ],
+                  ),
+                  Column(
                     spacing: 12,
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      SizedBox(
-                        width: 62,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: 4,
-                          children: [
-                            GogoIcons.pointCircle(height: 20, width: 20),
-                            AnimatedInt(
-                              currentInt: teamAPoint + teamBPoint,
-                              builder: (int value) => Text(
-                                "$value",
-                                style: GogoTypography.caption1Semibold.copyWith(
-                                  color: GogoColors.gray300,
-                                ),
-                                textAlign: TextAlign.center,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 4,
+                        children: [
+                          GogoIcons.pointCircle(height: 20, width: 20),
+                          AnimatedInt(
+                            currentInt: teamAPoint + teamBPoint,
+                            builder: (int value) => Text(
+                              "$value",
+                              style: GogoTypography.caption1Semibold.copyWith(
+                                color: GogoColors.gray300,
                               ),
-                            )
-                          ],
-                        ),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        ],
                       ),
                       Text(
                         "VS",
@@ -239,39 +253,30 @@ class MatchBattingStatusDialog extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-                buildBattingGraph(
-                  isSelected: false,
-                  teamName: teamB,
-                  maxBattingPoint: maxPoints,
-                  currentTeamBattingPoint: teamBPoint,
-                  currentBattingPercentage: bTeamPercentage,
-                  enableBetting: enableBetting,
-                  onClick: (team) => onBattingClick(team),
-                ),
-              ],
-            ),
-            Column(
-              spacing: 12,
-              children: [
-                GogoTextField(
-                  controller: TextEditingController(),
-                  hintText: "배팅할 금액을 입력해주세요",
-                  endIcon: GogoIcons.pointCircle(
-                    color: true ? GogoColors.white : GogoColors.gray400,
+                ],
+              ),
+              Column(
+                spacing: 12,
+                children: [
+                  GogoTextField(
+                    controller: TextEditingController(),
+                    hintText: "배팅할 금액을 입력해주세요",
+                    endIcon: GogoIcons.pointCircle(
+                      color: true ? GogoColors.white : GogoColors.gray400,
+                    ),
                   ),
-                ),
-                GogoDefaultButton(
-                  color:
-                      enableBetting ? GogoColors.main600 : GogoColors.gray400,
-                  text: "배팅",
-                  onTap: () {
-                    onBattingClick("selectedTeam");
-                  },
-                ),
-              ],
-            ),
-          ],
+                  GogoDefaultButton(
+                    color:
+                        enableBetting ? GogoColors.main600 : GogoColors.gray400,
+                    text: "배팅",
+                    onTap: () {
+                      onBattingClick("selectedTeam");
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
