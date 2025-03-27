@@ -9,6 +9,7 @@ import '../../../data/models/stage/enum_type/match_round.dart';
 import '../../../data/models/stage/enum_type/system_type.dart';
 import '../../../data/models/stage/search_stage/search_betting_stage_response.dart';
 import '../../../design_system/theme/icon.dart';
+import '../../home/widgets/match_batting_status_dialog.dart';
 import '../../home/widgets/match_card/match_card_component.dart';
 
 class MatchListScreen extends StatelessWidget {
@@ -145,9 +146,13 @@ class MatchListScreen extends StatelessWidget {
                 separatorBuilder: (context, index) =>
                     SizedBox(height: 12), // 간격 추가
                 itemBuilder: (context, index) {
+                  final matchDto = list[index];
                   return MatchCard(
-                    matchDto: list[index],
+                    matchDto: matchDto,
                     width: double.infinity,
+                    onBattingClick: () {
+                      showDialogMatchBatting(context, matchDto);
+                    },
                   );
                 },
               ),
@@ -155,6 +160,32 @@ class MatchListScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void showDialogMatchBatting(
+    BuildContext context,
+    MatchDto data,
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MatchBattingStatusDialog(
+          startDate: data.startDate,
+          system: data.system,
+          gameType: data.category,
+          round: data.round,
+          teamAPoint: data.aTeam.bettingPoint,
+          teamBPoint: data.bTeam.bettingPoint,
+          teamA: data.aTeam.teamName,
+          teamB: data.bTeam.teamName,
+          enableBetting: !data.isEnd && data.startDate.isBefore(DateTime.now()),
+          closeDialog: () {
+            Navigator.pop(context);
+          },
+          onBattingClick: (String team) {},
+        );
+      },
     );
   }
 }
