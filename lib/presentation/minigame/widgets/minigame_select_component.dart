@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/minigame/widgets/minigame_explanation_modal.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_event.dart';
+import 'package:gogo_app/presentation/minigame/widgets/Minigame_description_popup.dart';
 import 'package:gogo_app/presentation/minigame/widgets/minigame_topbar.dart';
 import 'package:gogo_app/router.dart';
 
@@ -64,11 +67,19 @@ class MinigameSelectComponent extends StatelessWidget {
                 top: 12,
                 child: GogoIcons.questionMarkCircle(
                   onTap: () {
+                    context
+                        .read<MinigameDescriptionBloc>()
+                        .add(ChangeCategory(minigameName: gameName));
                     showDialog(
                         context: context,
-                        builder: (context) {
-                          return MinigameExplanationModal(
-                              minigameName: gameName);
+                        barrierDismissible: false,
+                        builder: (dialogcontext) {
+                          return BlocProvider.value(
+                            value: BlocProvider.of<MinigameDescriptionBloc>(
+                                context),
+                            child: MinigameDescriptionPopup(
+                                minigameName: gameName),
+                          );
                         });
                   },
                   color: GogoColors.gray500,
