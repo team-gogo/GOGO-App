@@ -140,7 +140,6 @@ class MatchListScreen extends StatelessWidget {
             SizedBox(height: 25),
             Expanded(
               child: ListView.separated(
-                padding: const EdgeInsets.all(8.0),
                 itemCount: list.length,
                 separatorBuilder: (context, index) =>
                     SizedBox(height: 12), // 간격 추가
