@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gogo_app/presentation/logIn/bloc/login_bloc.dart';
-import 'package:gogo_app/presentation/logIn/bloc/login_event.dart';
-import 'package:gogo_app/presentation/logIn/bloc/login_state.dart';
 import 'package:gogo_app/router.dart';
 import '../../../design_system/theme/icon.dart';
 import '../../logIn/widgets/google_login_button.dart';
+import '../bloc/login_bloc.dart';
+import '../bloc/login_event.dart';
+import '../bloc/login_state.dart';
 
 class LogInScreen extends StatelessWidget {
   const LogInScreen({super.key});
@@ -17,10 +17,10 @@ class LogInScreen extends StatelessWidget {
       create: (context) => LoginBloc(),
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
-          if (state is GogoLoginFail) {
+          if (state is GogoLoginFail || state is UnauthorizedGogoLoginSuccess) {
             context.goNamed(PageRouter.signUp);
-          } else if (state is GogoLoginSuccess) {
-            context.goNamed(PageRouter.main);
+          } else if (state is UserGogoLoginSuccess) {
+            context.goNamed(PageRouter.home);
           }
         },
         builder: (context, state) => Scaffold(

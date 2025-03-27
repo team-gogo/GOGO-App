@@ -12,7 +12,7 @@ class FastStageCreateRequest {
   final Game game;
   final int initialPoint;
   final Rule rule;
-  final MiniGame miniGame;
+  final FastMiniGame miniGame;
   final String? passCode;
   final List<int> maintainer;
 

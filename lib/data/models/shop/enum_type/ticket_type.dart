@@ -1,5 +1,5 @@
 enum TicketType {
   COINTOSS,
-  TAVARWEE,
+  WAVARWEE,
   PLINKO
 }

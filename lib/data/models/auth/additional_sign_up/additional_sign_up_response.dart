@@ -4,12 +4,13 @@ part 'additional_sign_up_response.g.dart';
 
 enum Sex { MALE, FEMALE }
 
-enum SchoolType { MiddleSchool, HighSchool }
+enum SchoolType { MIDDLE_SCHOOL, HIGH_SCHOOL }
 
 @JsonSerializable()
 class AdditionalSignUpRequest {
   final String? deviceToken;
   final String name;
+  final int grade;
   final int classNumber;
   final int studentNumber;
   final Sex sex;
@@ -18,6 +19,7 @@ class AdditionalSignUpRequest {
   AdditionalSignUpRequest({
     this.deviceToken,
     required this.name,
+    required this.grade,
     required this.classNumber,
     required this.studentNumber,
     required this.sex,
@@ -26,6 +28,7 @@ class AdditionalSignUpRequest {
 
   factory AdditionalSignUpRequest.fromJson(Map<String, dynamic> json) =>
       _$AdditionalSignUpRequestFromJson(json);
+
   Map<String, dynamic> toJson() => _$AdditionalSignUpRequestToJson(this);
 }
 
@@ -50,5 +53,6 @@ class School {
   });
 
   factory School.fromJson(Map<String, dynamic> json) => _$SchoolFromJson(json);
+
   Map<String, dynamic> toJson() => _$SchoolToJson(this);
 }

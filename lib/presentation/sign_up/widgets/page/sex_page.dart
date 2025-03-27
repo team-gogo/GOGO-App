@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/sex/sex_bloc.dart';
 import 'package:gogo_app/router.dart';
+import '../../../../data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 import '../../../../design_system/component/button/gogo_default_button.dart';
 import '../../../../design_system/theme/color.dart';
 import '../../../../design_system/theme/icon.dart';
@@ -28,7 +29,7 @@ class SexPage extends StatelessWidget {
             color: GogoColors.white,
             width: 40,
             height: 40,
-            onTap: ()=> pageController.animateToPage(
+            onTap: () => pageController.animateToPage(
               2,
               duration: Duration(milliseconds: 300),
               curve: Curves.ease,
@@ -46,7 +47,7 @@ class SexPage extends StatelessWidget {
             height: 36,
           ),
           GogoDefaultButton(
-            onTap: () => context.read<SexBloc>().sexController = Sex.male,
+            onTap: () => context.read<SexBloc>().sexController = Sex.MALE,
             text: "남성",
             color: state is EnableMaleSexState
                 ? GogoColors.main600
@@ -56,7 +57,7 @@ class SexPage extends StatelessWidget {
             height: 12,
           ),
           GogoDefaultButton(
-            onTap: () => context.read<SexBloc>().sexController = Sex.female,
+            onTap: () => context.read<SexBloc>().sexController = Sex.FEMALE,
             text: "여성",
             color: state is EnableFemaleSexState
                 ? GogoColors.main600
@@ -64,7 +65,9 @@ class SexPage extends StatelessWidget {
           ),
           Spacer(),
           GogoDefaultButton(
-            onTap: state is EnableSexState ? () => context.goNamed(PageRouter.main) : () {},
+            onTap: state is EnableSexState
+                ? () => context.goNamed(PageRouter.home)
+                : () {},
             text: "확인",
             color: state is EnableSexState
                 ? GogoColors.main600
