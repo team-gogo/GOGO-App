@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_event.dart';
+import 'package:gogo_app/presentation/minigame/widgets/Minigame_description_popup.dart';
 import 'package:gogo_app/presentation/minigame/widgets/minigame_topbar.dart';
 import 'package:gogo_app/router.dart';
 
@@ -62,7 +66,22 @@ class MinigameSelectComponent extends StatelessWidget {
                 right: 14,
                 top: 12,
                 child: GogoIcons.questionMarkCircle(
-                  onTap: () {},
+                  onTap: () {
+                    context
+                        .read<MinigameDescriptionBloc>()
+                        .add(ChangeCategory(minigameName: gameName));
+                    showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (dialogcontext) {
+                          return BlocProvider.value(
+                            value: BlocProvider.of<MinigameDescriptionBloc>(
+                                context),
+                            child: MinigameDescriptionPopup(
+                                minigameName: gameName),
+                          );
+                        });
+                  },
                   color: GogoColors.gray500,
                 ),
               ),
@@ -191,7 +210,7 @@ class MinigameScrollComponent extends StatelessWidget {
                   height: 48,
                   color: GogoColors.white,
                 ),
-          gameName: "플링코",
+          gameName: "플린코",
           ticketsCost: plinkoTicketscost,
           ticketsCount: plinkoTicketsCount,
           onTap: () {},
