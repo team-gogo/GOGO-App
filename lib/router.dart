@@ -6,6 +6,7 @@ import 'package:gogo_app/presentation/community/screen/community_main_screen.dar
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
+import 'package:gogo_app/presentation/match_list/screen/match_list_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/coin_toss_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/minigame_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/yavarwee_screen.dart';
@@ -41,6 +42,7 @@ class PageRouter {
   static const String ranking = "ranking";
   static const String community = "community";
   static const String communityWrite = "communityWrite";
+  static const String matchList = "matchList";
 
   static GoRoute _customGoRoute({
     required String name,
@@ -112,6 +114,7 @@ class PageRouter {
       _customGoRoute(name: coinToss, screen: CoinTossScreen()),
       _customGoRoute(name: yavarwee, screen: YavarweeScreen()),
       _customGoRoute(name: ranking, screen: RankingPage()),
+      _customGoRoute(name: matchList, screen: MatchListScreen()),
       _customGoRoute(
         name: community,
         screen: CommunityMainScreen(),
