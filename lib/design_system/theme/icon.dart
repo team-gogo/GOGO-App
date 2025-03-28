@@ -513,15 +513,8 @@ class GogoIcons {
     double height = 24,
     VoidCallback? onTap,
   }) =>
-      GestureDetector(
-        onTap: onTap,
-        child: Image.asset(
-          'assets/drawable/logo.png',
-          color: color,
-          width: width,
-          height: height,
-        ),
-      );
+      _buildIcon('logo.svg',
+          color: color, width: width, height: height, onTap: onTap);
 
   static Widget play({
     Color? color,
