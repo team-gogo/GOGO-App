@@ -50,7 +50,7 @@ class SexPage extends StatelessWidget {
             onTap: () => context.read<SexBloc>().sexController = Sex.MALE,
             text: "남성",
             color: state is EnableMaleSexState
-                ? GogoColors.main600
+                ? GogoColors.main500
                 : GogoColors.gray400,
           ),
           SizedBox(
@@ -60,7 +60,7 @@ class SexPage extends StatelessWidget {
             onTap: () => context.read<SexBloc>().sexController = Sex.FEMALE,
             text: "여성",
             color: state is EnableFemaleSexState
-                ? GogoColors.main600
+                ? GogoColors.main500
                 : GogoColors.gray400,
           ),
           Spacer(),
