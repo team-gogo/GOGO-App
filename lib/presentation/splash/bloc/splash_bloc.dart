@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/presentation/splash/bloc/splash_event.dart';
@@ -14,6 +12,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     on<LaunchSplashEvent>((event, emit) async {
       emit(AutoLoginLoading());
       try {
+        await Future.delayed(const Duration(seconds: 2));
         await _authRepository.tokenRefresh();
         emit(AutoLoginSuccess());
       } catch (e) {
