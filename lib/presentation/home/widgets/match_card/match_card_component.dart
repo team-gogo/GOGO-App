@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/data/models/stage/enum_type/match_round.dart';
 import 'package:gogo_app/data/models/stage/enum_type/system_type.dart';
@@ -14,11 +13,13 @@ import '../../../../design_system/component/tag/gogo_tag_component.dart';
 class MatchCard extends StatelessWidget {
   final MatchDto matchDto;
   final double width;
+  final VoidCallback onBattingClick;
 
   const MatchCard({
     super.key,
     required this.matchDto,
     this.width = 343,
+    required this.onBattingClick,
   });
 
   @override
@@ -245,7 +246,7 @@ class MatchCard extends StatelessWidget {
                   ],
                 )
               : GogoDefaultButton(
-                  onTap: () {},
+                  onTap: onBattingClick,
                   text: matchDto.betting.isBetting
                       ? "${matchDto.betting.bettingPoint}P 배팅"
                       : "배팅",

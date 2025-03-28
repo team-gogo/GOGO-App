@@ -14,6 +14,7 @@ class GogoTagComponent extends StatelessWidget {
   final String text;
   final TextStyle textStyle;
   final bool tagState;
+  final VoidCallback? ontap;
 
   const GogoTagComponent({
     super.key,
@@ -26,6 +27,7 @@ class GogoTagComponent extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     this.spacing = 8,
     this.textStyle = GogoTypography.caption1Semibold,
+    this.ontap,
   });
 
   const GogoTagComponent.small({
@@ -39,33 +41,37 @@ class GogoTagComponent extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     this.spacing = 4,
     this.textStyle = GogoTypography.caption3Semibold,
+    this.ontap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: padding,
-      decoration: BoxDecoration(
-          border: tagState
-              ? null
-              : Border.all(
-            color: color,
-            width: borderWidth,
-          ),
-          color: tagState ? color : null,
-          borderRadius: borderRadius),
-      child: Row(
-        spacing: spacing,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          icon == null ? SizedBox() : icon!,
-          Text(
-            text,
-            style: textStyle.copyWith(
-              color: tagState ? GogoColors.white : color,
-            ),
-          )
-        ],
+    return GestureDetector(
+      onTap: ontap,
+      child: Container(
+        padding: padding,
+        decoration: BoxDecoration(
+            border: tagState
+                ? null
+                : Border.all(
+                    color: color,
+                    width: borderWidth,
+                  ),
+            color: tagState ? color : null,
+            borderRadius: borderRadius),
+        child: Row(
+          spacing: spacing,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            icon == null ? SizedBox() : icon!,
+            Text(
+              text,
+              style: textStyle.copyWith(
+                color: tagState ? GogoColors.white : color,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
