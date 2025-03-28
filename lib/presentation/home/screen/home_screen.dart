@@ -11,7 +11,6 @@ import '../../../data/models/common/match_dto.dart';
 import '../../../data/models/stage/enum_type/match_round.dart';
 import '../../../data/models/stage/enum_type/system_type.dart';
 import '../../../data/models/stage/search_stage/search_betting_stage_response.dart';
-import '../../../design_system/component/tag/gogo_tag_component.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
 import '../widgets/match_card/match_card_component.dart';
@@ -19,65 +18,20 @@ import '../widgets/minigame/minigame_play_component.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  static final EdgeInsets padding = EdgeInsets.symmetric(horizontal: 16);
-
-  Widget _itemTopBar(
-    Widget gogoIcon, {
-    String? text,
-    DateTime? date,
-    VoidCallback? onTap,
-  }) =>
-      Padding(
-        padding: padding,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                gogoIcon,
-                SizedBox(width: 8),
-                Text(
-                  date != null
-                      ? '${DateFormat('MM-dd').format(date)} 매치'
-                      : '$text',
-                  style: GogoTypography.body2Extrabold.copyWith(
-                    color: GogoColors.white,
-                  ),
-                )
-              ],
-            ),
-            GestureDetector(
-              onTap: onTap ?? () {},
-              child: Container(
-                decoration: BoxDecoration(),
-                child: Row(
-                  children: [
-                    Text(
-                      '더보기',
-                      style: GogoTypography.caption1Semibold
-                          .copyWith(color: GogoColors.gray500),
-                    ),
-                    SizedBox(width: 8),
-                    GogoIcons.chevronRight(
-                      color: GogoColors.gray500,
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-
   @override
   Widget build(BuildContext context) {
+    var time=DateTime.now();
+
     return Scaffold(
       body: Column(
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
-            child: HomeAppbar(point: 1000),
+            child: HomeAppbar(
+              point: 1000,
+              selectedDate: time,
+              setSelectedDate: (DateTime date) => {time=date},
+            ),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -95,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                         date: DateTime.now(),
                       ),
                       SingleChildScrollView(
-                        padding: padding,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           spacing: 8,
@@ -322,4 +276,52 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget _itemTopBar(
+    Widget gogoIcon, {
+    String? text,
+    DateTime? date,
+    VoidCallback? onTap,
+  }) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                gogoIcon,
+                SizedBox(width: 8),
+                Text(
+                  date != null
+                      ? '${DateFormat('MM-dd').format(date)} 매치'
+                      : '$text',
+                  style: GogoTypography.body2Extrabold.copyWith(
+                    color: GogoColors.white,
+                  ),
+                )
+              ],
+            ),
+            GestureDetector(
+              onTap: onTap ?? () {},
+              child: Container(
+                decoration: BoxDecoration(),
+                child: Row(
+                  children: [
+                    Text(
+                      '더보기',
+                      style: GogoTypography.caption1Semibold
+                          .copyWith(color: GogoColors.gray500),
+                    ),
+                    SizedBox(width: 8),
+                    GogoIcons.chevronRight(
+                      color: GogoColors.gray500,
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      );
 }
