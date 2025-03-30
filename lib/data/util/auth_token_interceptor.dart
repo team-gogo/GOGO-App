@@ -5,7 +5,6 @@ import '../data_sources/token_data_source/token_data_source.dart';
 class AuthTokenInterceptor extends Interceptor {
   final List<String> excludedPaths = [
     '/user/auth/login',
-    '/user/auth/signup',
     '/user/auth/refresh',
   ];
 

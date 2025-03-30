@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gogo_app/data/models/search_school/search_school_response.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/school/school_bloc.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/school/school_event.dart';
 import 'package:gogo_app/presentation/sign_up/bloc/school/school_state.dart';
+
+import '../../../../../data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 
 class SchoolSearchComponent extends StatelessWidget {
   final double? height;
@@ -91,7 +92,7 @@ class SchoolSearchComponent extends StatelessWidget {
 }
 
 class _SchoolComponent extends StatelessWidget {
-  final SearchSchoolResponse searchSchoolResponse;
+  final School searchSchoolResponse;
 
   const _SchoolComponent({
     required this.searchSchoolResponse,
@@ -108,10 +109,16 @@ class _SchoolComponent extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(),
         child: Column(
+          spacing: 4,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${searchSchoolResponse.schulNm}\n${searchSchoolResponse.orgRdnma}",
+              searchSchoolResponse.name,
+              style: GogoTypography.caption2Semibold
+                  .copyWith(color: GogoColors.gray400),
+            ),
+            Text(
+              searchSchoolResponse.address,
               style: GogoTypography.caption2Semibold
                   .copyWith(color: GogoColors.gray400),
             ),

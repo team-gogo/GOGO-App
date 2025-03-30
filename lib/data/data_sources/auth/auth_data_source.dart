@@ -10,7 +10,7 @@ import '../../models/auth/user_info/user_info_response.dart';
 abstract class AuthDatasource {
   Future<LoginResponse> googleOAuthLogin(GoogleOAuthLoginRequest body);
 
-  Future<void> additionalSignUp(AdditionalSignUpRequest body);
+  Future<TokenDto> additionalSignUp(AdditionalSignUpRequest body);
 
   Future<TokenDto> tokenRefresh(String token);
 

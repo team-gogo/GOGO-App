@@ -23,6 +23,7 @@ void main() async {
   setupRepositoryLocator();
   setupApiLocator();
   setUpDio();
+  setUpStorage();
 
   // 가로모드 방지
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
