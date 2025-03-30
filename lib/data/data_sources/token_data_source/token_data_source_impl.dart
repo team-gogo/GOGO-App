@@ -37,7 +37,7 @@ class TokenDataSourceImpl implements TokenDataSource {
     print("🔄 saveToken: ${token.accessToken} ${token.refreshToken}");
     await _storage.write(key: _accessTokenKey, value: token.accessToken);
     await _storage.write(key: _refreshTokenKey, value: token.refreshToken);
-    if (token.authority != null && token.authority != '') {
+    if (token.authority?.isNotEmpty == true) {
       await _storage.write(key: _authority, value: token.authority);
     }
   }
