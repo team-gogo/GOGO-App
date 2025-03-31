@@ -20,6 +20,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   void _googleSignInHandler(LoginEvent event, Emitter<LoginState> emit) async {
     try {
+      await _googleSignIn.signOut();
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         emit(GoogleLoginFail(message: "구글 로그인을 취소 했습니다."));

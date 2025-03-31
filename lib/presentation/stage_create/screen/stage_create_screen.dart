@@ -16,6 +16,7 @@ class StageCreateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Padding(
           padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
           child: Column(

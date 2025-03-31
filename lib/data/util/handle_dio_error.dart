@@ -22,7 +22,7 @@ Exception handleDioError(DioException e) {
           case 500:
             return Exception('서버 내부 오류가 발생했습니다.');
           default:
-            return Exception('알 수 없는 서버 오류 (${e.response!.statusCode})');
+            return Exception(e.response!.data['message']);
         }
       }
       return Exception('잘못된 요청입니다.');

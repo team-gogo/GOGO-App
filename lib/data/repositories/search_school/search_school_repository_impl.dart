@@ -8,8 +8,6 @@ class SearchSchoolRepositoryImpl extends SearchSchoolRepository {
   SearchSchoolRepositoryImpl(this.searchSchoolDataSource);
 
   @override
-  Future<SearchSchoolRowModel> getSchoolInfo(String schulNm, String key,
-          String type, int pIndex, int pSize) async =>
-      await searchSchoolDataSource.getSchoolInfo(
-          schulNm, key, type, pIndex, pSize);
+  Future<SearchSchoolRowModel> getSchoolInfo(String schulNm) async =>
+      await searchSchoolDataSource.getSchoolInfo(schulNm);
 }

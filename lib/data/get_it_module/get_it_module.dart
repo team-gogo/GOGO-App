@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/api/auth/auth_api.dart';
 import 'package:gogo_app/data/api/search_school/search_school_api.dart';
@@ -16,8 +17,6 @@ import 'package:gogo_app/data/repositories/auth/auth_repository_impl.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository_impl.dart';
 import 'package:gogo_app/data/api/stage/stage_api.dart';
-import 'package:gogo_app/data/data_sources/ws/web_socket_data_source.dart';
-import 'package:gogo_app/data/data_sources/ws/web_socket_data_sources_impl.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository_impl.dart';
 import '../api/mini_game/mini_game_api.dart';
@@ -32,6 +31,11 @@ void setUpDio() {
   locator.registerLazySingleton<Dio>(() => settingDio());
 }
 
+void setUpStorage() {
+  locator.registerLazySingleton<FlutterSecureStorage>(
+      () => const FlutterSecureStorage());
+}
+
 void setupDataSourceLocator() {
   locator.registerLazySingleton<AuthDatasource>(
       () => AuthDatasourceImpl(locator<Dio>()));
@@ -42,8 +46,6 @@ void setupDataSourceLocator() {
   locator.registerLazySingleton<SearchSchoolDataSource>(
       () => SearchSchoolDataSourceImpl(locator<Dio>()));
   locator.registerLazySingleton<TokenDataSource>(() => TokenDataSourceImpl());
-
-  locator.registerFactory<WebSocketDataSource>(() => WebSocketDataSourceImpl());
 }
 
 void setupRepositoryLocator() {
