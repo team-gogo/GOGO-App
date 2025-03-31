@@ -5,7 +5,6 @@ import 'package:gogo_app/data/models/auth/google_oauth/google_oauth_login_reques
 import 'package:gogo_app/data/models/auth/student/student_response.dart';
 import 'package:gogo_app/data/models/auth/user_info/user_info_request.dart';
 import 'package:gogo_app/data/models/auth/user_info/user_info_response.dart';
-
 import '../../data_sources/auth/auth_data_source.dart';
 import '../../mapper/google_login_response_to_token_dto.dart';
 import '../../models/auth/google_oauth/token_dto.dart';
@@ -27,7 +26,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> additionalSignUp(AdditionalSignUpRequest body) async {
-    return await _authDatasource.additionalSignUp(body);
+    final TokenDto response = await _authDatasource.additionalSignUp(body);
+    _tokenRepository.saveToken(response);
   }
 
   @override

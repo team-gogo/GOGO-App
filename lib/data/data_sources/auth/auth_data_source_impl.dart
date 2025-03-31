@@ -21,7 +21,7 @@ class AuthDatasourceImpl implements AuthDatasource {
   }
 
   @override
-  Future<void> additionalSignUp(AdditionalSignUpRequest body) async {
+  Future<TokenDto> additionalSignUp(AdditionalSignUpRequest body) async {
     return await executeHandleApiCall(() => _authApi.additionalSignUp(body));
   }
 

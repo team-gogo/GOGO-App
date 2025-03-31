@@ -21,84 +21,87 @@ class NumberPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NumberBloc, NumberState>(builder: (context, state) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GogoIcons.chevronLeft(
-            color: GogoColors.white,
-            width: 40,
-            height: 40,
-            onTap: () => pageController.animateToPage(
-              1,
-              duration: Duration(milliseconds: 300),
-              curve: Curves.ease,
+      return Padding(                padding: const EdgeInsets.fromLTRB(16, 50, 16, 95),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GogoIcons.chevronLeft(
+              color: GogoColors.white,
+              width: 40,
+              height: 40,
+              onTap: () => pageController.animateToPage(
+                1,
+                duration: Duration(milliseconds: 300),
+                curve: Curves.ease,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Text(
-            '반과 번호를 알려주세요',
-            style: GogoTypography.title4Extrabold
-                .copyWith(color: GogoColors.white),
-          ),
-          SizedBox(
-            height: 36,
-          ),
-          GogoTextField(
-            controller: context.read<NumberBloc>().gradeController,
-            hintText: "학년",
-            validator: context.read<NumberBloc>().gradeValidator,
-            keyboardType: TextInputType.number,
-            inputFormatter: [
-              FilteringTextInputFormatter(RegExp('[1-6]'), allow: true),
-              LengthLimitingTextInputFormatter(1),
-              GradeSuffixInputFormatter(),
-            ],
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          GogoTextField(
-            controller: context.read<NumberBloc>().classController,
-            hintText: "반",
-            validator: context.read<NumberBloc>().classValidator,
-            keyboardType: TextInputType.number,
-            inputFormatter: [
-              FilteringTextInputFormatter(RegExp('[0-9]'), allow: true),
-              LengthLimitingTextInputFormatter(2),
-              ClassSuffixInputFormatter()
-            ],
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          GogoTextField(
-            controller: context.read<NumberBloc>().numberController,
-            hintText: "번호",
-            validator: context.read<NumberBloc>().numberValidator,
-            keyboardType: TextInputType.number,
-            inputFormatter: [
-              FilteringTextInputFormatter(RegExp('[0-9]'), allow: true),
-              LengthLimitingTextInputFormatter(2),
-              NumberSuffixInputFormatter()
-            ],
-          ),
-          Spacer(),
-          GogoDefaultButton(
-            onTap: () => state is EnableNumberState
-                ? pageController.animateToPage(
-                    3,
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.ease,
-                  )
-                : () {},
-            text: "다음",
-            color: state is EnableNumberState
-                ? GogoColors.main600
-                : GogoColors.gray400,
-          ),
-        ],
+            SizedBox(
+              height: 40,
+            ),
+            Text(
+              '반과 번호를 알려주세요',
+              style: GogoTypography.title4Extrabold
+                  .copyWith(color: GogoColors.white),
+            ),
+            SizedBox(
+              height: 36,
+            ),
+            GogoTextField(
+              controller: context.read<NumberBloc>().gradeController,
+              hintText: "학년",
+              validator: context.read<NumberBloc>().gradeValidator,
+              keyboardType: TextInputType.number,
+              inputFormatter: [
+                FilteringTextInputFormatter(RegExp('[1-6]'), allow: true),
+                LengthLimitingTextInputFormatter(1),
+                GradeSuffixInputFormatter(),
+              ],
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            GogoTextField(
+              controller: context.read<NumberBloc>().classController,
+              hintText: "반",
+              validator: context.read<NumberBloc>().classValidator,
+              keyboardType: TextInputType.number,
+              inputFormatter: [
+                FilteringTextInputFormatter(RegExp('[0-9]'), allow: true),
+                LengthLimitingTextInputFormatter(2),
+                ClassSuffixInputFormatter()
+              ],
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            GogoTextField(
+              controller: context.read<NumberBloc>().numberController,
+              hintText: "번호",
+              validator: context.read<NumberBloc>().numberValidator,
+              keyboardType: TextInputType.number,
+              inputFormatter: [
+                FilteringTextInputFormatter(RegExp('[0-9]'), allow: true),
+                LengthLimitingTextInputFormatter(2),
+                NumberSuffixInputFormatter()
+              ],
+            ),
+            Spacer(),
+            GogoDefaultButton(
+              onTap: () => state is EnableNumberState
+                  ? pageController.animateToPage(
+                      3,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.ease,
+                    )
+                  : () {},
+              text: "다음",
+              color: state is EnableNumberState
+                  ? GogoColors.main600
+                  : GogoColors.gray400,
+            ),
+          ],
+        ),
       );
     });
   }

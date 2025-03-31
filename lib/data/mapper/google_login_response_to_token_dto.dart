@@ -5,5 +5,6 @@ TokenDto toTokenDto(LoginResponse response) {
   return TokenDto(
     accessToken: response.accessToken,
     refreshToken: response.refreshToken,
+    authority: response.authority.toString(),
   );
 }
