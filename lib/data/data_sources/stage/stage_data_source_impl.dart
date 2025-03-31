@@ -41,12 +41,6 @@ class StageDataSourceImpl implements StageDataSource {
   }
 
   @override
-  Future<void> createOfficialStage(OfficialStageCreateRequest body) async {
-    return await executeHandleApiCall(
-        () => _stageApi.createOfficialStage(body));
-  }
-
-  @override
   Future<void> confirmStage(int stageId, StateConfirmRequest body) async {
     return await executeHandleApiCall(
         () => _stageApi.confirmStage(stageId, body));
