@@ -2,19 +2,20 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GogoIcons {
-  static Widget _buildIcon(
-    String fileName, {
+  static Widget _buildIcon(String fileName, {
+    Key? key,
     Color? color,
     required double width,
     required double height,
     VoidCallback? onTap,
   }) {
     return GestureDetector(
+      key:key,
       onTap: onTap,
       child: SvgPicture.asset(
         'assets/drawable/$fileName',
         colorFilter:
-            color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
+        color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
         width: width,
         height: height,
       ),
@@ -413,8 +414,10 @@ class GogoIcons {
     double width = 24,
     double height = 24,
     VoidCallback? onTap,
+    Key? key,
   }) =>
       _buildIcon('chevron_down.svg',
+          key: key,
           color: color, width: width, height: height, onTap: onTap);
 
   static Widget checkboxOutlined({
