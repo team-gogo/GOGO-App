@@ -28,8 +28,6 @@ import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 abstract class StageDataSource {
   Future<void> createFastStage(FastStageCreateRequest body);
 
-  Future<void> createOfficialStage(OfficialStageCreateRequest body);
-
   Future<void> confirmStage(int stageId, StateConfirmRequest body);
 
   Future<void> joinStage(int stageId, JoinStageRequest body);

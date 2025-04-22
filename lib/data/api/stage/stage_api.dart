@@ -43,12 +43,6 @@ abstract class StageApi {
     @Body() FastStageCreateRequest body,
   );
 
-  // 공식 스테이지 생성✅
-  @POST("/stage/official")
-  Future<void> createOfficialStage(
-    @Body() OfficialStageCreateRequest body,
-  );
-
   // 스테이지 확정 ✅
   @PATCH("/stage/confirm/{stage_id}")
   Future<void> confirmStage(

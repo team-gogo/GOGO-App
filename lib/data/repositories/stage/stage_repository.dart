@@ -29,8 +29,6 @@ import '../../models/stage/handle_stage/join_stage_request.dart';
 abstract class StageRepository {
   Future<void> createFastStage(FastStageCreateRequest body);
 
-  Future<void> createOfficialStage(OfficialStageCreateRequest body);
-
   Future<void> confirmStage(int stageId, StateConfirmRequest body);
 
   Future<void> joinStage(int stageId, JoinStageRequest body);

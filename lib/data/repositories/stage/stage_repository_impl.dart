@@ -39,11 +39,6 @@ class StageRepositoryImpl implements StageRepository {
   }
 
   @override
-  Future<void> createOfficialStage(OfficialStageCreateRequest body) async {
-    return await _stageDataSource.createOfficialStage(body);
-  }
-
-  @override
   Future<void> confirmStage(int stageId, StateConfirmRequest body) async {
     return await _stageDataSource.confirmStage(stageId, body);
   }

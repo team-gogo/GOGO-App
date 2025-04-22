@@ -6,8 +6,11 @@ class GogoColors {
   static const Color white = Color(0xFFFFFFFF);
 
   // system
-  static const Color error = Color(0xFFE30000);
+  static const Color error = Color(0xFFFF4646);
   static const Color success = Color(0xFF01C612);
+
+  static const Color teamBlue = Color(0xFF73B2FF);
+  static const Color teamRed = Color(0xFFFF8282);
 
   // main
   static const Color main600 = Color(0xFF2F52FE);

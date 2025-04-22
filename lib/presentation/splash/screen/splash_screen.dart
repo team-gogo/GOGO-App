@@ -30,7 +30,7 @@ class SplashScreen extends StatelessWidget {
               builder: (context, value, child) {
                 return Transform.scale(scale: value, child: child);
               },
-              child: GogoIcons.logo(width: double.infinity, height: 80),
+              child: GogoIcons.logo(width: double.infinity, height: 60),
             ),
           ),
         ),
