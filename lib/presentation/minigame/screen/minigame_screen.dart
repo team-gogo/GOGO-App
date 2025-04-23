@@ -37,8 +37,10 @@ class MinigameScreen extends StatelessWidget {
                         color: GogoColors.white,
                       ),
                     ),
-                    Divider(
+                    Container(
+                      color: GogoColors.gray600,
                       height: 21.h,
+                      width: 1,
                     ),
                     SizedBox(
                       child: Row(
