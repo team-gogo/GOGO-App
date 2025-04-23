@@ -29,7 +29,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
   int currentPage = 0;
   int resultPerPage = 15;
   GameType? gameType;
-  SortType? sortType;
+  SortType? sortType = SortType.LASTEST;
 
   void _onPageChanged(BuildContext context, int? newPage) {
     setState(() {
@@ -43,8 +43,8 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
             queryString: CommunitySearchRequestQueryString(
               page: currentPage,
               size: resultPerPage,
-              type: gameType,
-              sort: sortType,
+              type: null,
+              sort: null,
             ),
           ),
         );
@@ -55,9 +55,6 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
     return BlocProvider<CommunityBloc>(
       create: (BuildContext context) => CommunityBloc(
         stageId: 1,
-        page: currentPage,
-        sortType: null,
-        gameType: null,
       )
         ..add(
           FetchCommunityEvent(
@@ -214,8 +211,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                                       gameType:
                                           state.response.board[index].gameCategory,
                                       title: state.response.board[index].title,
-                                      name: state
-                                          .response.board[index].author.name,
+                                      name: "익명",
                                       commentNum: 10,
                                       likeNum:
                                           state.response.board[index].likeCount,
@@ -277,7 +273,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                         );
                         break;
                       case CommunityErrorState _:
-                        return Center(child: Text('Error: ${state.message}'));
+                        return Center(child: Text('Error: ${state.message} ${state}',style: TextStyle(color: Colors.white),));
                       default:
                         return const Center(child: Text('No data available'));
                     }
