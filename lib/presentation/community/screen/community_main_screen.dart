@@ -53,7 +53,12 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CommunityBloc>(
-      create: (BuildContext context) => CommunityBloc()
+      create: (BuildContext context) => CommunityBloc(
+        stageId: 1,
+        page: currentPage,
+        sortType: null,
+        gameType: null,
+      )
         ..add(
           FetchCommunityEvent(
             queryString: CommunitySearchRequestQueryString(
@@ -112,7 +117,6 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                                 resultPerPage: resultPerPage,
                                 gameType: gameType,
                                 sortType: sortType,
-                                scrollController: scrollController,
                               ),
                             );
                             if (result != null) {

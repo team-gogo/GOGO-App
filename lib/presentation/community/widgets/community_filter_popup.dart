@@ -15,13 +15,11 @@ import '../bloc/main/community_event.dart';
 class CommunityFilterPopup extends StatefulWidget {
   const CommunityFilterPopup({
     super.key,
-    required this.scrollController,
     required this.resultPerPage,
     required this.gameType,
     required this.sortType,
   });
 
-  final ScrollController scrollController;
   final int resultPerPage;
   final GameType? gameType;
   final SortType? sortType;
@@ -43,7 +41,6 @@ class _CommunityFilterPopupState extends State<CommunityFilterPopup> {
   }
 
   void _onPageChanged(BuildContext context) {
-    widget.scrollController.jumpTo(0);
     context.read<CommunityBloc>().add(
           FetchCommunityEvent(
             queryString: CommunitySearchRequestQueryString(
@@ -99,7 +96,10 @@ class _CommunityFilterPopupState extends State<CommunityFilterPopup> {
     final List<SortType> sortTypes = [SortType.LASTEST, SortType.LAST];
 
     return BlocProvider<CommunityBloc>(
-      create: (BuildContext context) => CommunityBloc(),
+      create: (BuildContext context) => CommunityBloc(
+        stageId: 1, 
+        page: 1,
+        ),
       child:
           BlocBuilder<CommunityBloc, CommunityState>(builder: (context, state) {
         return Dialog(
