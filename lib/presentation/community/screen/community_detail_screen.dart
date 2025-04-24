@@ -208,6 +208,7 @@ class CommunityDetailScreen extends StatelessWidget {
                                     color: GogoColors.gray400,
                                   ),
                                 ),
+                                Spacer(),
                                 SizedBox(height: 12),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
