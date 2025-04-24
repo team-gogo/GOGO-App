@@ -112,7 +112,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             : GogoColors.gray500,
                       ),
                     ),
-                    GestureDetector(
+                    GestureDetector (
                       onTap: () => setState(() {
                         profanityFilter = !profanityFilter;
                       }),
