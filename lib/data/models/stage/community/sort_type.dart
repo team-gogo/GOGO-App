@@ -4,6 +4,6 @@ import 'package:json_annotation/json_annotation.dart';
 enum SortType {
   @JsonValue("LAST")
   LAST,
-  @JsonValue("LATEST")
+  @JsonValue("LASTEST")
   LASTEST,
 }
