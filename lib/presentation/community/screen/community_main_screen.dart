@@ -8,6 +8,7 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_bloc.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_event.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_state.dart';
+import 'package:gogo_app/presentation/community/screen/community_detail_screen.dart';
 import 'package:gogo_app/presentation/community/widgets/community_filter_popup.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:go_router/go_router.dart';
@@ -193,6 +194,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                             child: CircularProgressIndicator(
                           color: GogoColors.main600,
                         ));
+                        break;
                       case CommunityLoadedState _:
                         int totalPage = state.response.info.totalPage;
                         int startPage = (currentPage / 5).floor() * 5;
@@ -209,6 +211,10 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                                   children: List.generate(
                                     state.response.board.length,
                                     (index) => CommunityItem(
+                                      ontap: () {
+                                        print('클릭');
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityDetailScreen(boardId: state.response.board[index].boardId)),);
+                                      },
                                       gameType:
                                           state.response.board[index].gameCategory,
                                       title: state.response.board[index].title,
@@ -272,7 +278,6 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                             ),
                           ),
                         );
-                        break; 
                       case CommunityErrorState _:
                         return Center(child: Text('Error: ${state.message} ',style: TextStyle(color: Colors.white),));
                       default:
