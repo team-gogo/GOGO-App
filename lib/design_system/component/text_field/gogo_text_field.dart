@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import '../../theme/color.dart';
 import '../../theme/typography.dart';
@@ -175,4 +176,26 @@ class ClassSuffixInputFormatter extends TextInputFormatter {
       ),
     );
   }
+}
+
+
+class CurrencyFormatter extends TextInputFormatter{
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    if(newValue.selection.baseOffset == 0){
+      return newValue;
+    }
+    else{
+      final int parsedValue = int.parse(newValue.text);
+      final formattedValue = NumberFormat.simpleCurrency(locale: 'ko_KR');
+      String newText = formattedValue.format(parsedValue);
+
+      return newValue.copyWith(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length),
+      );
+
+    }
+  }
+
 }

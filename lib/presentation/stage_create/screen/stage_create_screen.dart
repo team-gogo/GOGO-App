@@ -177,8 +177,8 @@ class _StageCreateScreenState extends State<StageCreateScreen> {
                             GogoTextField(
                               keyboardType: TextInputType.number,
                               inputFormatter: [
-                                FilteringTextInputFormatter(RegExp('[0-9]'),
-                                    allow: true),
+                                FilteringTextInputFormatter.digitsOnly,
+                                CurrencyFormatter()
                               ],
                               controller: _stageBettingPointController,
                               hintText: "초기 보유 포인트",
