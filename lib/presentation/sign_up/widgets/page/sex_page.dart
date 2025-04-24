@@ -55,7 +55,7 @@ class SexPage extends StatelessWidget {
               text: "남성",
               color: state is EnableMaleSexState
                   ? GogoColors.main500
-                  : GogoColors.gray400,
+                  : GogoColors.gray700,
             ),
             SizedBox(
               height: 12,
@@ -65,7 +65,7 @@ class SexPage extends StatelessWidget {
               text: "여성",
               color: state is EnableFemaleSexState
                   ? GogoColors.main500
-                  : GogoColors.gray400,
+                  : GogoColors.gray700,
             ),
             Spacer(),
             GogoDefaultButton(
@@ -75,7 +75,7 @@ class SexPage extends StatelessWidget {
               text: "확인",
               color: state is EnableSexState
                   ? GogoColors.main600
-                  : GogoColors.gray400,
+                  : GogoColors.gray700,
             ),
           ],
         ),
