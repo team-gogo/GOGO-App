@@ -11,6 +11,7 @@ class SearchCommunityDetailResponse {
   final int likeCount;
   final bool isLiked;
   final String createdAt;
+  final String imageUrl;
   final Stage stage;
   final int commentCount;
   final List<Comment> comment;
@@ -22,6 +23,7 @@ class SearchCommunityDetailResponse {
     required this.likeCount,
     required this.isLiked,
     required this.createdAt,
+    required this.imageUrl,
     required this.stage,
     required this.commentCount,
     required this.comment,
