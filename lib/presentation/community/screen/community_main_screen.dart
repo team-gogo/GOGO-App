@@ -219,7 +219,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                                           state.response.board[index].gameCategory,
                                       title: state.response.board[index].title,
                                       name: "익명",
-                                      commentNum: 10,
+                                      commentNum: state.response.board[index].commentCount,
                                       likeNum:
                                           state.response.board[index].likeCount,
                                     ),
