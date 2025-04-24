@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gogo_app/data/models/stage/enum_type/stage_type.dart';
+import 'package:gogo_app/data/models/stage/search_stage/search_stage_response.dart';
+import 'package:gogo_app/design_system/component/button/gogo_default_button.dart';
 import 'package:gogo_app/design_system/component/button/gogo_icon_button.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import '../../theme/color.dart';
@@ -7,28 +10,17 @@ import '../../theme/typography.dart';
 import '../tag/gogo_tag_component.dart';
 
 class GogoStageCardComponent extends StatelessWidget {
-  final String stageName;
   final Color color;
-  final bool official;
-  final bool recruiting;
-  final bool manager;
+  final Stage stage;
   final bool broadcast;
   final VoidCallback onTap;
-  final String buttonText;
-  final Widget buttonIcon;
 
-  const GogoStageCardComponent({
-    super.key,
-    required this.stageName,
-    required this.color,
-    required this.official,
-    required this.recruiting,
-    required this.manager,
-    required this.broadcast,
-    required this.onTap,
-    required this.buttonText,
-    required this.buttonIcon,
-  });
+  const GogoStageCardComponent(
+      {super.key,
+      this.color = GogoColors.gray700,
+      this.broadcast = false,
+      required this.onTap,
+      required this.stage});
 
   @override
   Widget build(BuildContext context) {
@@ -48,68 +40,82 @@ class GogoStageCardComponent extends StatelessWidget {
               Row(
                 spacing: 12,
                 children: [
-                  official
+                  stage.type == StageType.OFFICIAL
                       ? GogoTagComponent.small(
-                    color: GogoColors.white,
-                    text: '공식',
-                    textStyle: GogoTypography.caption3Semibold,
-                    icon: GogoIcons.trophy(
-                      width: 12,
-                      height: 12,
-                      color: GogoColors.white,
-                    ),
-                  )
+                          color: GogoColors.white,
+                          text: '공식',
+                          textStyle: GogoTypography.caption3Semibold,
+                          icon: GogoIcons.trophy(
+                            width: 12,
+                            height: 12,
+                            color: GogoColors.white,
+                          ),
+                        )
                       : SizedBox.shrink(),
                   GogoTagComponent.small(
-                    color: recruiting ? GogoColors.success : GogoColors.gray500,
-                    text: recruiting ? '모집 중' : '모집 확정',
+                    color: stage.status == StageStatus.RECRUITING
+                        ? GogoColors.success
+                        : GogoColors.gray500,
+                    text: stage.status == StageStatus.RECRUITING
+                        ? '모집 중'
+                        : '모집 확정',
                     textStyle: GogoTypography.caption3Semibold,
                     icon: GogoIcons.stage(
                       width: 12,
                       height: 12,
-                      color:
-                      recruiting ? GogoColors.success : GogoColors.gray500,
+                      color: stage.status == StageStatus.RECRUITING
+                          ? GogoColors.success
+                          : GogoColors.gray500,
                     ),
                   ),
-                  manager
+                  stage.isMaintainer
                       ? GogoTagComponent.small(
-                    color: GogoColors.main500,
-                    text: '관리자',
-                    textStyle: GogoTypography.caption3Semibold,
-                    icon: GogoIcons.person(
-                      width: 12,
-                      height: 12,
-                      color: GogoColors.main500,
-                    ),
-                  )
+                          color: GogoColors.main500,
+                          text: '관리자',
+                          textStyle: GogoTypography.caption3Semibold,
+                          icon: GogoIcons.person(
+                            width: 12,
+                            height: 12,
+                            color: GogoColors.main500,
+                          ),
+                        )
                       : SizedBox.shrink(),
                 ],
               ),
               broadcast
                   ? GogoTagComponent.small(
-                color: GogoColors.error,
-                text: '중계 설정',
-                textStyle: GogoTypography.caption3Semibold,
-                icon: GogoIcons.play(
-                  width: 12,
-                  height: 12,
-                  color: GogoColors.error,
-                ),
-              )
+                      color: GogoColors.error,
+                      text: '중계 설정',
+                      textStyle: GogoTypography.caption3Semibold,
+                      icon: GogoIcons.play(
+                        width: 12,
+                        height: 12,
+                        color: GogoColors.error,
+                      ),
+                    )
                   : SizedBox.shrink(),
             ],
           ),
           Text(
-            stageName,
+            stage.stageName,
             style:
-            GogoTypography.body2Extrabold.copyWith(color: GogoColors.white),
+                GogoTypography.body2Extrabold.copyWith(color: GogoColors.white),
           ),
-          GogoIconButton(
-            textStyle: GogoTypography.caption1Semibold,
-            icon: buttonIcon,
-            onTap: onTap,
-            text: buttonText,
-          ),
+          stage.isPassCode
+              ? GogoIconButton(
+                  textStyle: GogoTypography.caption1Semibold,
+                  icon: GogoIcons.lock(
+                    height: 20.sp,
+                    width: 20.sp,
+                    color: GogoColors.white,
+                  ),
+                  onTap: onTap,
+                  text: '인증번호로 참여하기')
+              : GogoDefaultButton(
+                  onTap: onTap,
+                  text: '참여하기',
+                  textStyle: GogoTypography.caption1Semibold,
+                ),
         ],
       ),
     );
