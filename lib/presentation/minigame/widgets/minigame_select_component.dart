@@ -101,9 +101,10 @@ class MinigameSelectComponent extends StatelessWidget {
               child: TextButton(
                 onPressed: onTap,
                 child: Text(
-                  info ? "게임하기" : '$ticketsCost',
+                  info ? "게임하기" : '${ticketsCost}P',
                   style: GogoTypography.caption1Semibold.copyWith(
                     color: GogoColors.white,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

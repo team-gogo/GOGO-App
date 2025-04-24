@@ -172,7 +172,7 @@ class _StageCreateScreenState extends State<StageCreateScreen> {
                           children: [
                             GogoTextField(
                               controller: _stageNameController,
-                              hintText: "이름을 입력해주세요.",
+                              hintText: "스테이지 이름을 입력해주세요.",
                             ),
                             GogoTextField(
                               keyboardType: TextInputType.number,
@@ -470,7 +470,7 @@ class _StageCreateScreenState extends State<StageCreateScreen> {
                             ),
                             GogoTextField(
                               controller: _coinTossBettingTicketController,
-                              hintText: "초기 보유 포인트",
+                              hintText: "초기 티켓",
                               endIcon:
                                   GogoIcons.ticket(color: GogoColors.gray400),
                             ),
@@ -499,7 +499,7 @@ class _StageCreateScreenState extends State<StageCreateScreen> {
                                   color: GogoColors.gray700,
                                   borderRadius: BorderRadius.circular(12)),
                               child: Text(
-                                '본인과 함께 스테이지를 관리할 학생',
+                                '학생을 입력해주세요',
                                 style: GogoTypography.body3Semibold
                                     .copyWith(color: GogoColors.gray400),
                               ),

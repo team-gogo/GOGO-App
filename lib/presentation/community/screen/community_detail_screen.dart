@@ -89,6 +89,7 @@ class CommunityDetailScreen extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GogoTopBar(
                       title: '뒤로가기',
@@ -194,7 +195,7 @@ class CommunityDetailScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 24),
                     Text(
                       '댓글',
                       style: GogoTypography.body2Extrabold.copyWith(
