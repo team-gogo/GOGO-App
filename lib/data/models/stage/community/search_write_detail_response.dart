@@ -11,7 +11,7 @@ class SearchCommunityDetailResponse {
   final int likeCount;
   final bool isLiked;
   final String createdAt;
-  final String imageUrl;
+  final String? imageUrl;
   final Stage stage;
   final int commentCount;
   final List<Comment> comment;
@@ -38,14 +38,14 @@ class SearchCommunityDetailResponse {
 @JsonSerializable()
 class Comment {
   final int commentId;
-  final String comment;
+  final String content;
   final DateTime createdAt;
   final int likeCount;
   final bool isLiked;
 
   Comment({
     required this.commentId,
-    required this.comment,
+    required this.content,
     required this.createdAt,
     required this.likeCount,
     required this.isLiked,
