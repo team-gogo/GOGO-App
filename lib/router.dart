@@ -117,7 +117,7 @@ class PageRouter {
       _customGoRoute(name: matchList, screen: MatchListScreen()),
       _customGoRoute(
         name: community,
-        screen: CommunityMainScreen(),
+        screen: CommunityMainScreen(stageId: 1,),
         routes: [
           _customGoRoute(name: communityWrite, screen: CommunityWriteScreen())
         ],

@@ -18,7 +18,10 @@ import '../../../design_system/component/top_bar/gogo_top_bar.dart';
 import '../../../design_system/theme/icon.dart';
 
 class CommunityMainScreen extends StatefulWidget {
-  const CommunityMainScreen({super.key});
+
+  final int stageId;
+
+  const CommunityMainScreen({super.key, required this.stageId});
 
   @override
   State<CommunityMainScreen> createState() => _CommunityMainScreenState();
@@ -29,7 +32,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
   int currentPage = 0;
   int resultPerPage = 15;
   GameType? gameType;
-  SortType? sortType = SortType.LASTEST;
+  SortType? sortType = SortType.LATEST;
 
   void _onPageChanged(BuildContext context, int? newPage) {
     setState(() {
@@ -43,8 +46,8 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
             queryString: CommunitySearchRequestQueryString(
               page: currentPage,
               size: resultPerPage,
-              type: null,
-              sort: null,
+              type: gameType,
+              sort: sortType,
             ),
           ),
         );
@@ -54,15 +57,15 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
   Widget build(BuildContext context) {
     return BlocProvider<CommunityBloc>(
       create: (BuildContext context) => CommunityBloc(
-        stageId: 1,
+        stageId: widget.stageId,
       )
         ..add(
           FetchCommunityEvent(
             queryString: CommunitySearchRequestQueryString(
               page: currentPage,
               size: resultPerPage,
-              type: null,
-              sort: null,
+              type: gameType,
+              sort: sortType,
             ),
           ),
         ),
@@ -111,18 +114,17 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                               barrierDismissible: false,
                               context: context,
                               builder: (_) => CommunityFilterPopup(
+                                stageId: widget.stageId,
                                 resultPerPage: resultPerPage,
                                 gameType: gameType,
                                 sortType: sortType,
                               ),
                             );
-                            if (result != null) {
                               setState(() {
-                                gameType = result['gameType'];
-                                sortType = result['sortType'];
+                                gameType = result?['gameType'];
+                                sortType = result?['sortType'];
                                 currentPage = 0;
                               });
-                            }
                           },
                           child: GogoTagComponent(
                             color: GogoColors.main500,
@@ -191,7 +193,6 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                             child: CircularProgressIndicator(
                           color: GogoColors.main600,
                         ));
-                        break;
                       case CommunityLoadedState _:
                         int totalPage = state.response.info.totalPage;
                         int startPage = (currentPage / 5).floor() * 5;
@@ -271,9 +272,9 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                             ),
                           ),
                         );
-                        break;
+                        break; 
                       case CommunityErrorState _:
-                        return Center(child: Text('Error: ${state.message} ${state}',style: TextStyle(color: Colors.white),));
+                        return Center(child: Text('Error: ${state.message} ',style: TextStyle(color: Colors.white),));
                       default:
                         return const Center(child: Text('No data available'));
                     }

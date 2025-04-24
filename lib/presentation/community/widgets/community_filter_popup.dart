@@ -18,11 +18,13 @@ class CommunityFilterPopup extends StatefulWidget {
     required this.resultPerPage,
     required this.gameType,
     required this.sortType,
+    required this.stageId,
   });
 
   final int resultPerPage;
   final GameType? gameType;
   final SortType? sortType;
+  final int stageId;
 
   @override
   _CommunityFilterPopupState createState() => _CommunityFilterPopupState();
@@ -93,12 +95,11 @@ class _CommunityFilterPopupState extends State<CommunityFilterPopup> {
     ];
 
     final List<String> sortTexts = ['최신 순', '오래된 순'];
-    final List<SortType> sortTypes = [SortType.LASTEST, SortType.LAST];
+    final List<SortType> sortTypes = [SortType.LATEST, SortType.LAST];
 
     return BlocProvider<CommunityBloc>(
       create: (BuildContext context) => CommunityBloc(
-        stageId: 1, 
-        page: 1,
+        stageId: widget.stageId, 
         ),
       child:
           BlocBuilder<CommunityBloc, CommunityState>(builder: (context, state) {
@@ -174,7 +175,7 @@ class _CommunityFilterPopupState extends State<CommunityFilterPopup> {
                         setState(() {
                           selectedSortType =
                               selectedSortType == sortTypes[index]
-                                  ? null
+                                  ? widget.sortType
                                   : sortTypes[index];
                         });
                       },
