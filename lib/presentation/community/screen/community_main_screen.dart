@@ -179,7 +179,7 @@ class _CommunityMainScreenState extends State<CommunityMainScreen> {
                 ),
                 const Divider(
                   color: GogoColors.gray600,
-                  thickness: 0,
+                  thickness: 1,
                   height: 1,
                 ),
                 BlocBuilder<CommunityBloc, CommunityState>(

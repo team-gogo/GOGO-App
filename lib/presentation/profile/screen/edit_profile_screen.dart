@@ -85,18 +85,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           _sexController = Sex.MALE;
                         }),
                         text: "남성",
+                        textColor: _sexController == Sex.MALE
+                            ? GogoColors.white
+                            : GogoColors.gray400,
                         color: _sexController == Sex.MALE
                             ? GogoColors.main500
-                            : GogoColors.gray400,
+                            : GogoColors.gray700,
                       ),
                       GogoDefaultButton(
                         onTap: () => setState(() {
                           _sexController = Sex.FEMALE;
                         }),
                         text: "여성",
+                        textColor: _sexController == Sex.FEMALE
+                            ? GogoColors.white
+                            : GogoColors.gray400,
                         color: _sexController == Sex.FEMALE
                             ? GogoColors.main500
-                            : GogoColors.gray400,
+                            : GogoColors.gray700,
                       ),
                     ],
                   ),
@@ -108,7 +114,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       '비속어 필터',
                       style: GogoTypography.body2Extrabold.copyWith(
                         color: profanityFilter
-                            ? GogoColors.main600
+                            ? GogoColors.error
                             : GogoColors.gray500,
                       ),
                     ),
@@ -120,7 +126,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ? GogoIcons.checkboxOutlined(
                               width: 36,
                               height: 36,
-                              color: GogoColors.main600,
+                              color: GogoColors.error,
                             )
                           : GogoIcons.checkboxOutlined(
                               width: 36,
