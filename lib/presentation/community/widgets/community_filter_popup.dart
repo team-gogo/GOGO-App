@@ -99,7 +99,7 @@ class _CommunityFilterPopupState extends State<CommunityFilterPopup> {
 
     return BlocProvider<CommunityBloc>(
       create: (BuildContext context) => CommunityBloc(
-        stageId: widget.stageId, 
+         stageId: widget.stageId,
         ),
       child:
           BlocBuilder<CommunityBloc, CommunityState>(builder: (context, state) {
