@@ -12,7 +12,6 @@ class SearchCommunityDetailResponse {
   final bool isLiked;
   final String createdAt;
   final Stage stage;
-  final Author author;
   final int commentCount;
   final List<Comment> comment;
 
@@ -24,7 +23,6 @@ class SearchCommunityDetailResponse {
     required this.isLiked,
     required this.createdAt,
     required this.stage,
-    required this.author,
     required this.commentCount,
     required this.comment,
   });
@@ -36,32 +34,12 @@ class SearchCommunityDetailResponse {
 }
 
 @JsonSerializable()
-class Author {
-  final int studentId;
-  final String name;
-  final int classNumber;
-  final int studentNumber;
-
-  Author({
-    required this.studentId,
-    required this.name,
-    required this.classNumber,
-    required this.studentNumber,
-  });
-
-  factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AuthorToJson(this);
-}
-
-@JsonSerializable()
 class Comment {
   final int commentId;
   final String comment;
   final DateTime createdAt;
   final int likeCount;
   final bool isLiked;
-  final Author author;
 
   Comment({
     required this.commentId,
@@ -69,7 +47,6 @@ class Comment {
     required this.createdAt,
     required this.likeCount,
     required this.isLiked,
-    required this.author,
   });
 
   factory Comment.fromJson(Map<String, dynamic> json) =>
