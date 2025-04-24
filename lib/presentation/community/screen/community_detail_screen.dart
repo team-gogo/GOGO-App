@@ -88,7 +88,7 @@ class CommunityDetailScreen extends StatelessWidget {
                 SizedBox(
                   width: 150,
                   child: Text(
-                    comment.comment,
+                    comment.content,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: GogoTypography.caption3Semibold.copyWith(
@@ -101,7 +101,7 @@ class CommunityDetailScreen extends StatelessWidget {
             Row(
               children: [
                 GogoIcons.heartOutlined(
-                  color: GogoColors.gray300,
+                  color: comment.isLiked  ? Colors.red : GogoColors.gray300,
                   width: 20,
                   height: 20,
                 ),
@@ -227,7 +227,8 @@ class CommunityDetailScreen extends StatelessWidget {
                                         ),
                                         SizedBox(width: 8),
                                         GogoIcons.heartOutlined(
-                                            color: GogoColors.gray300),
+                                            color: state.response.isLiked ? Colors.red: GogoColors.gray300,
+                                            ),
                                         SizedBox(width: 4),
                                         Text(
                                           state.response.likeCount.toString(),
