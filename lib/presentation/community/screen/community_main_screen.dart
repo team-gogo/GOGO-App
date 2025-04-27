@@ -17,7 +17,6 @@ import '../../../design_system/component/top_bar/gogo_top_bar.dart';
 import '../../../design_system/theme/icon.dart';
 import '../../../router.dart';
 
-/// ✅ 1. CommunityMainScreen은 BlocProvider만 담당
 class CommunityMainScreen extends StatelessWidget {
   final int stageId;
 
@@ -34,7 +33,6 @@ class CommunityMainScreen extends StatelessWidget {
   }
 }
 
-/// ✅ 2. 실질적인 화면은 CommunityMainScreenContent에서 담당
 class CommunityMainScreenContent extends StatefulWidget {
   final int stageId;
 
@@ -223,6 +221,7 @@ class _CommunityMainScreenContentState
                                   // 수정 필요하면 여기도
                                   likeNum:
                                       state.response.board[index].likeCount,
+                                  ontap: () {},
                                 ),
                               ),
                             ),
