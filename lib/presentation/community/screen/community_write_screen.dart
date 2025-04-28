@@ -15,7 +15,10 @@ import '../bloc/write/community_write_state.dart';
 class CommunityWriteScreen extends StatefulWidget {
   const CommunityWriteScreen({
     super.key,
+    required this.stageId,
   });
+
+  final int stageId;
 
   @override
   State<CommunityWriteScreen> createState() => _CommunityWriteScreenState();
@@ -27,7 +30,6 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
     '농구',
     '축구',
     '야구',
-    'LoL',
     '배드민턴',
     '기타'
   ];
@@ -37,7 +39,6 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
     GogoIcons.basketball,
     GogoIcons.football,
     GogoIcons.baseball,
-    GogoIcons.eSports,
     GogoIcons.badminton,
     GogoIcons.etc
   ];
@@ -47,7 +48,6 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
     GameType.BASKET_BALL,
     GameType.SOCCER,
     GameType.BASE_BALL,
-    GameType.LOL,
     GameType.BADMINTON,
     GameType.ETC,
   ];
@@ -57,7 +57,10 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CommunityWriteBloc(),
+      create: (_) => CommunityWriteBloc(
+        gameType: gameTypes.first, 
+        stageId: widget.stageId
+      ),
       child: BlocBuilder<CommunityWriteBloc, CommunityWriteState>(
           builder: (context, state) {
         return Scaffold(
@@ -149,7 +152,15 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                 GogoDefaultButton(
                   color:
                       state.isValid ? GogoColors.main500 : GogoColors.gray300,
-                  onTap: state.isValid ? () {} : () {},
+                  onTap: state.isValid ? () {
+                    context.read<CommunityWriteBloc>().add(PostWrite(
+                      title: state.title, 
+                      content: state.content,
+                      ));
+                      Navigator.pop(context);
+                  } : () {
+                    print('입력좀 해라'); 
+                  },
                   text: '확인하기',
                 ),
               ],
