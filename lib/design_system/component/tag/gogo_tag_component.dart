@@ -51,12 +51,10 @@ class GogoTagComponent extends StatelessWidget {
       child: Container(
         padding: padding,
         decoration: BoxDecoration(
-            border: tagState
-                ? null
-                : Border.all(
-                    color: color,
-                    width: borderWidth,
-                  ),
+            border: Border.all(
+              color: color,
+              width: borderWidth,
+            ),
             color: tagState ? color : null,
             borderRadius: borderRadius),
         child: Row(
