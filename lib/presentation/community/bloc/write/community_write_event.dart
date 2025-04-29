@@ -1,3 +1,5 @@
+import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
+
 abstract class CommunityWriteEvent {}
 
 class TitleChanged extends CommunityWriteEvent {
@@ -13,6 +15,7 @@ class ContentChanged extends CommunityWriteEvent {
 class PostWrite extends CommunityWriteEvent {
   final String title;
   final String content;
+  final GameType gameType;
 
-  PostWrite({required this.title, required this.content});
+  PostWrite({required this.title, required this.content,required this.gameType});
 }

@@ -58,7 +58,6 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CommunityWriteBloc(
-        gameType: GameType.VOLLEY_BALL, 
         stageId: widget.stageId
       ),
       child: BlocBuilder<CommunityWriteBloc, CommunityWriteState>(
@@ -156,7 +155,9 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                     context.read<CommunityWriteBloc>().add(PostWrite(
                       title: state.title, 
                       content: state.content,
+                      gameType: selectedGameType!,
                       ));
+                      selectedGameType = null;
                       Navigator.pop(context);
                   } : () {
                     print('입력좀 해라'); 

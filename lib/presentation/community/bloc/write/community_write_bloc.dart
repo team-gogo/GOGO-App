@@ -11,10 +11,9 @@ class CommunityWriteBloc
   static const int maxLength = 30;
 
   final StageRepository repository = GetIt.instance<StageRepository>();
-  GameType gameType;
   final int stageId;
 
-  CommunityWriteBloc({required this.gameType, required this.stageId})
+  CommunityWriteBloc({required this.stageId})
       : super(CommunityWriteState(title: '', content: '', isValid: false)) {
     on<TitleChanged>((event, emit) {
       final newTitle = event.title.length > maxLength
@@ -41,7 +40,7 @@ class CommunityWriteBloc
       CommunityWriteRequest(
         title: event.title, 
         content: event.content, 
-        gameCategory: gameType,
+        gameCategory: event.gameType,
         ),
       );
       emit(CommunityWriteState(title: '', content: '', isValid: false));
