@@ -58,7 +58,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CommunityWriteBloc(
-        gameType: gameTypes.first, 
+        gameType: GameType.VOLLEY_BALL, 
         stageId: widget.stageId
       ),
       child: BlocBuilder<CommunityWriteBloc, CommunityWriteState>(
@@ -151,7 +151,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                 Spacer(),
                 GogoDefaultButton(
                   color:
-                      state.isValid ? GogoColors.main500 : GogoColors.gray300,
+                      state.isValid && selectedGameType != null ? GogoColors.main500 : GogoColors.gray300,
                   onTap: state.isValid ? () {
                     context.read<CommunityWriteBloc>().add(PostWrite(
                       title: state.title, 
