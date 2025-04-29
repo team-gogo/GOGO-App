@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gogo_app/data/models/stage/enum_type/stage_type.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_stage_response.dart';
 import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
