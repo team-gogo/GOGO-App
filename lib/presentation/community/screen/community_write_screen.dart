@@ -20,6 +20,8 @@ class CommunityWriteScreen extends StatefulWidget {
 
   final int stageId;
 
+  final String titleHintText = '내용을 입력해주세요.';
+
   @override
   State<CommunityWriteScreen> createState() => _CommunityWriteScreenState();
 }
@@ -57,7 +59,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CommunityWriteBloc(
+      create: (BuildContext context) => CommunityWriteBloc(
         stageId: widget.stageId
       ),
       child: BlocBuilder<CommunityWriteBloc, CommunityWriteState>(
@@ -111,7 +113,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 12,
+                  height: 24,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -134,7 +136,7 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     GogoTextField(
-                      hintText: '내용을 입력해주세요.',
+                      hintText: widget.titleHintText,
                       onChanged: (value) => context
                           .read<CommunityWriteBloc>()
                           .add(ContentChanged(value)),
@@ -151,17 +153,15 @@ class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
                 GogoDefaultButton(
                   color:
                       state.isValid && selectedGameType != null ? GogoColors.main500 : GogoColors.gray300,
-                  onTap: state.isValid ? () {
+                  onTap: state.isValid ? () async{
                     context.read<CommunityWriteBloc>().add(PostWrite(
                       title: state.title, 
                       content: state.content,
                       gameType: selectedGameType!,
                       ));
                       selectedGameType = null;
-                      Navigator.pop(context);
-                  } : () {
-                    print('입력좀 해라'); 
-                  },
+                      Navigator.pop(context,true);
+                  } : () {},
                   text: '확인하기',
                 ),
               ],

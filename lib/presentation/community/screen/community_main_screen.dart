@@ -77,7 +77,6 @@ class _CommunityMainScreenContentState
     scrollController.jumpTo(0);
     _fetchCommunity();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,9 +104,12 @@ class _CommunityMainScreenContentState
                   Row(
                     children: [
                       GestureDetector(
-                        onTap: () => context.pushNamed(
-                          PageRouter.communityWrite,
-                        ),
+                        onTap: () async{
+                          final result = await context.pushNamed(PageRouter.communityWrite);
+                          if (result == true) {
+                            _fetchCommunity(); 
+                          }
+                        },
                         child: GogoTagComponent(
                           color: GogoColors.white,
                           text: '글 쓰기',
@@ -217,11 +219,12 @@ class _CommunityMainScreenContentState
                                       state.response.board[index].gameCategory,
                                   title: state.response.board[index].title,
                                   name: "익명",
-                                  commentNum: 10,
+                                  commentNum: state.response.board[index].commentCount,
                                   // 수정 필요하면 여기도
                                   likeNum:
                                       state.response.board[index].likeCount,
-                                  ontap: () {},
+                                  ontap: () {
+                                  },
                                 ),
                               ),
                             ),
