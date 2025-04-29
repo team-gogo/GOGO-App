@@ -30,6 +30,8 @@ class GogoTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatter;
   final Function(String)? onChanged;
+  final TextCapitalization textCapitalization;
+  final bool isAction;
 
   const GogoTextField({
     super.key,
@@ -61,6 +63,8 @@ class GogoTextField extends StatefulWidget {
         const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     this.passwordIconSize = 24,
     this.onChanged,
+    this.textCapitalization = TextCapitalization.none,
+    this.isAction = true,
   });
 
   @override
@@ -71,6 +75,8 @@ class _GogoTextFieldState extends State<GogoTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.isAction,
+      textCapitalization: widget.textCapitalization,
       onFieldSubmitted: (_) {
         widget.onEditingComplete;
         FocusScope.of(context).unfocus();
@@ -178,24 +184,21 @@ class ClassSuffixInputFormatter extends TextInputFormatter {
   }
 }
 
-
-class CurrencyFormatter extends TextInputFormatter{
+class CurrencyFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    if(newValue.selection.baseOffset == 0){
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
       return newValue;
-    }
-    else{
+    } else {
       final int parsedValue = int.parse(newValue.text);
-      final formattedValue = NumberFormat.simpleCurrency(locale: 'ko_KR');
+      final formattedValue = NumberFormat();
       String newText = formattedValue.format(parsedValue);
 
       return newValue.copyWith(
         text: newText,
         selection: TextSelection.collapsed(offset: newText.length),
       );
-
     }
   }
-
 }
