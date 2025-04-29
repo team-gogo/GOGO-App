@@ -119,7 +119,7 @@ class PageRouter {
         name: community,
         screen: CommunityMainScreen(stageId: 1,),
         routes: [
-          _customGoRoute(name: communityWrite, screen: CommunityWriteScreen())
+          _customGoRoute(name: communityWrite, screen: CommunityWriteScreen(stageId: 1,))
         ],
       )
     ],
