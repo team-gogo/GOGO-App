@@ -50,7 +50,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<List<Student>> searchStudent(String name) async {
+  Future<StudentResponse> searchStudent(String name) async {
     return await _authDatasource.searchStudent(name);
   }
 

@@ -16,7 +16,7 @@ abstract class AuthRepository {
 
   Future<void> logOut();
 
-  Future<List<Student>> searchStudent(String name);
+  Future<StudentResponse> searchStudent(String name);
 
   Future<void> updateUserInfo(UserInfoRequest body);
 
