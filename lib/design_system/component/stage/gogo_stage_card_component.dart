@@ -1,33 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gogo_app/data/models/stage/enum_type/stage_type.dart';
+import 'package:gogo_app/data/models/stage/search_stage/search_stage_response.dart';
+import 'package:gogo_app/design_system/component/button/gogo_default_button.dart';
 import 'package:gogo_app/design_system/component/button/gogo_icon_button.dart';
+import 'package:gogo_app/design_system/component/tag/gogo_borderless_tag_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import '../../theme/color.dart';
 import '../../theme/typography.dart';
-import '../tag/gogo_tag_component.dart';
 
 class GogoStageCardComponent extends StatelessWidget {
-  final String stageName;
-  final Color color;
-  final bool official;
-  final bool recruiting;
-  final bool manager;
-  final bool broadcast;
+  final Stage stage;
   final VoidCallback onTap;
-  final String buttonText;
-  final Widget buttonIcon;
 
   const GogoStageCardComponent({
     super.key,
-    required this.stageName,
-    required this.color,
-    required this.official,
-    required this.recruiting,
-    required this.manager,
-    required this.broadcast,
+    required this.stage,
     required this.onTap,
-    required this.buttonText,
-    required this.buttonIcon,
   });
 
   @override
@@ -36,80 +25,85 @@ class GogoStageCardComponent extends StatelessWidget {
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: color,
+        color: GogoColors.gray700,
       ),
       width: 343.w,
       child: Column(
         spacing: 28,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            spacing: 12,
             children: [
-              Row(
-                spacing: 12,
-                children: [
-                  official
-                      ? GogoTagComponent.small(
-                    color: GogoColors.white,
-                    text: '공식',
-                    textStyle: GogoTypography.caption3Semibold,
-                    icon: GogoIcons.trophy(
-                      width: 12,
-                      height: 12,
+              stage.type == StageType.OFFICIAL
+                  ? GogoBorderlessTagComponent(
                       color: GogoColors.white,
-                    ),
-                  )
-                      : SizedBox.shrink(),
-                  GogoTagComponent.small(
-                    color: recruiting ? GogoColors.success : GogoColors.gray500,
-                    text: recruiting ? '모집 중' : '모집 확정',
-                    textStyle: GogoTypography.caption3Semibold,
-                    icon: GogoIcons.stage(
-                      width: 12,
-                      height: 12,
-                      color:
-                      recruiting ? GogoColors.success : GogoColors.gray500,
-                    ),
-                  ),
-                  manager
-                      ? GogoTagComponent.small(
-                    color: GogoColors.main500,
-                    text: '관리자',
-                    textStyle: GogoTypography.caption3Semibold,
-                    icon: GogoIcons.person(
-                      width: 12,
-                      height: 12,
-                      color: GogoColors.main500,
-                    ),
-                  )
-                      : SizedBox.shrink(),
-                ],
-              ),
-              broadcast
-                  ? GogoTagComponent.small(
-                color: GogoColors.error,
-                text: '중계 설정',
-                textStyle: GogoTypography.caption3Semibold,
-                icon: GogoIcons.play(
-                  width: 12,
-                  height: 12,
-                  color: GogoColors.error,
+                      text: '공식',
+                      textStyle: GogoTypography.caption2Extrabold,
+                      icon: GogoIcons.trophy(
+                        width: 16,
+                        height: 16,
+                      ),
+                    )
+                  : SizedBox.shrink(),
+              GogoBorderlessTagComponent(
+                color: stage.isParticipating
+                    ? GogoColors.white
+                    : GogoColors.gray500,
+                text: stage.isParticipating ? '모집 중' : '모집 확정',
+                textStyle: GogoTypography.caption2Extrabold,
+                icon: GogoIcons.stage(
+                  width: 16,
+                  height: 16,
                 ),
-              )
+              ),
+              stage.isMaintainer
+                  ? GogoBorderlessTagComponent(
+                      color: GogoColors.main500,
+                      text: '관리자',
+                      textStyle: GogoTypography.caption2Extrabold,
+                      icon: GogoIcons.gearWheel(
+                        width: 16,
+                        height: 16,
+                      ),
+                    )
+                  : SizedBox.shrink(),
+              stage.participantCount != 0
+                  ? GogoBorderlessTagComponent(
+                      color: GogoColors.main500,
+                      text: '${stage.participantCount}',
+                      textStyle: GogoTypography.caption2Extrabold,
+                      icon: GogoIcons.person(
+                        width: 16,
+                        height: 16,
+                      ),
+                    )
                   : SizedBox.shrink(),
             ],
           ),
           Text(
-            stageName,
+            stage.stageName,
             style:
-            GogoTypography.body2Extrabold.copyWith(color: GogoColors.white),
+                GogoTypography.body2Extrabold.copyWith(color: GogoColors.white),
           ),
-          GogoIconButton(
-            textStyle: GogoTypography.caption1Semibold,
-            icon: buttonIcon,
-            onTap: onTap,
-            text: buttonText,
-          ),
+          stage.isPassCode
+              ? SizedBox(
+                  width: double.infinity,
+                  height: 45,
+                  child: GogoIconButton(
+                    textStyle: GogoTypography.caption1Semibold,
+                    icon: GogoIcons.lock(),
+                    onTap: onTap,
+                    text: '인증번호로 참여하기',
+                  ),
+                )
+              : SizedBox(
+                  width: double.infinity,
+                  height: 45,
+                  child: GogoDefaultButton(
+                    onTap: onTap,
+                    text: '참여하기',
+                    textStyle: GogoTypography.caption1Semibold,
+                  )),
         ],
       ),
     );
