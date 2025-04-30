@@ -89,7 +89,7 @@ abstract class StageApi {
   );
 
   // 스테이지 전체 조회 ✅
-  @GET("/stage/")
+  @GET("/stage")
   Future<SearchStageResponse> getAllStages();
 
   // 매치 상세 조회 ✅

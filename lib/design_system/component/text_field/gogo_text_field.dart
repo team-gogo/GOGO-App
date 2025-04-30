@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import '../../theme/color.dart';
 import '../../theme/typography.dart';
@@ -29,6 +30,8 @@ class GogoTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatter;
   final Function(String)? onChanged;
+  final TextCapitalization textCapitalization;
+  final bool isAction;
 
   const GogoTextField({
     super.key,
@@ -60,6 +63,8 @@ class GogoTextField extends StatefulWidget {
         const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     this.passwordIconSize = 24,
     this.onChanged,
+    this.textCapitalization = TextCapitalization.none,
+    this.isAction = true,
   });
 
   @override
@@ -70,6 +75,8 @@ class _GogoTextFieldState extends State<GogoTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.isAction,
+      textCapitalization: widget.textCapitalization,
       onFieldSubmitted: (_) {
         widget.onEditingComplete;
         FocusScope.of(context).unfocus();
@@ -174,5 +181,24 @@ class ClassSuffixInputFormatter extends TextInputFormatter {
         TextPosition(offset: newValue.text.length),
       ),
     );
+  }
+}
+
+class CurrencyFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    } else {
+      final int parsedValue = int.parse(newValue.text);
+      final formattedValue = NumberFormat();
+      String newText = formattedValue.format(parsedValue);
+
+      return newValue.copyWith(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length),
+      );
+    }
   }
 }

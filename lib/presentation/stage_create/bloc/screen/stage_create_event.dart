@@ -1,4 +1,4 @@
-import '../../../data/models/stage/create_stage/api/fast_stage_create_request.dart';
+import '../../../../data/models/stage/create_stage/api/fast_stage_create_request.dart';
 
 abstract class StageCreateEvent {}
 

@@ -67,20 +67,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Column(
                       spacing: 22,
-                      children: List.generate(
-                        10,
-                        (index) => GogoStageCardComponent(
-                          stageName: '스테이지 이름',
-                          official: true,
-                          recruiting: true,
-                          manager: false,
-                          broadcast: true,
-                          onTap: () {},
-                          buttonText: '상세보기',
-                          buttonIcon: GogoIcons.lock(),
-                          color: GogoColors.gray700,
-                        ),
-                      ),
+                      // children: List.generate(
+                      //   10,
+                      //   (index) => GogoStageCardComponent(
+                      //
+                      //     broadcast: true,
+                      //     onTap: () {},
+                      //     color: GogoColors.gray700,
+                      //   ),
+                      // ),
                     )
                   ],
                 ),
