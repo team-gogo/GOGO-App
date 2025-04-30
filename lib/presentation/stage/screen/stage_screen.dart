@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/data/models/stage/enum_type/stage_type.dart';
+import 'package:gogo_app/data/models/stage/search_stage/search_stage_response.dart';
 import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/router.dart';
@@ -35,7 +37,7 @@ class StageScreen extends StatelessWidget {
                             .copyWith(color: GogoColors.white),
                       ),
                       GestureDetector(
-                        onTap: ()=> context.pushNamed(PageRouter.createStage),
+                        onTap: () => context.pushNamed(PageRouter.createStage),
                         child: GogoTagComponent(
                           color: GogoColors.main400,
                           padding: const EdgeInsets.all(12.0),
@@ -59,26 +61,31 @@ class StageScreen extends StatelessWidget {
                     spacing: 16,
                     children: [
                       GogoStageCardComponent(
-                        stageName: '스테이지 이름',
-                        color: GogoColors.gray700,
-                        official: true,
-                        recruiting: true,
-                        manager: true,
-                        broadcast: true,
-                        onTap: () {},
-                        buttonText: '참여하기',
-                        buttonIcon: Container(),
+                        stage: Stage(
+                          stageId: 1,
+                          stageName: '스테이지 이름',
+                          type: StageType.OFFICIAL,
+                          status: StageStatus.CONFIRMED,
+                          participantCount: 2,
+                          isParticipating: true,
+                          isMaintainer: true,
+                          isPassCode: false,
+                        ),
+                        onTap: (){},
                       ),
                       GogoStageCardComponent(
-                        stageName: '스테이지 이름',
-                        color: GogoColors.gray700,
-                        official: true,
-                        recruiting: true,
-                        manager: true,
-                        broadcast: true,
-                        onTap: () {},
-                        buttonText: '참여하기',
-                        buttonIcon: Container(),
+                        stage: Stage(
+                          stageId: 1,
+                          stageName: '스테이지 이름',
+                          type: StageType.FAST,
+                          status: StageStatus.CONFIRMED,
+                          participantCount: 2,
+                          isParticipating: false,
+                          isMaintainer: false,
+                          isPassCode: false,
+                        ),
+
+                        onTap: (){},
                       ),
                     ],
                   ),
@@ -104,30 +111,31 @@ class StageScreen extends StatelessWidget {
                     spacing: 16,
                     children: [
                       GogoStageCardComponent(
-                        stageName: '스테이지 이름',
-                        color: GogoColors.gray700,
-                        official: true,
-                        recruiting: false,
-                        manager: false,
-                        broadcast: true,
-                        onTap: () {},
-                        buttonText: '인증번호로 참여하기',
-                        buttonIcon: GogoIcons.lock(
-                          height: 20.sp,
-                          width: 20.sp,
-                          color: GogoColors.white,
+                        stage: Stage(
+                          stageId: 1,
+                          stageName: '스테이지 이름',
+                          type: StageType.OFFICIAL,
+                          status: StageStatus.CONFIRMED,
+                          participantCount: 2,
+                          isParticipating: true,
+                          isMaintainer: true,
+                          isPassCode: true,
                         ),
-                      ),
-                      GogoStageCardComponent(
-                        stageName: '스테이지 이름',
-                        color: GogoColors.gray700,
-                        official: true,
-                        recruiting: false,
-                        manager: false,
-                        broadcast: true,
-                        onTap: () {},
-                        buttonText: '참여하기',
-                        buttonIcon: Container(),
+
+                        onTap: (){},
+                      ),GogoStageCardComponent(
+                        stage: Stage(
+                          stageId: 1,
+                          stageName: '스테이지 이름',
+                          type: StageType.OFFICIAL,
+                          status: StageStatus.CONFIRMED,
+                          participantCount: 2,
+                          isParticipating: true,
+                          isMaintainer: true,
+                          isPassCode: false,
+                        ),
+
+                        onTap: (){},
                       ),
                     ],
                   ),
@@ -153,26 +161,32 @@ class StageScreen extends StatelessWidget {
                     spacing: 16,
                     children: [
                       GogoStageCardComponent(
-                        stageName: '스테이지 이름',
-                        color: GogoColors.gray700,
-                        official: true,
-                        recruiting: true,
-                        manager: true,
-                        broadcast: false,
-                        onTap: () {},
-                        buttonText: '참여하기',
-                        buttonIcon: Container(),
+                        stage: Stage(
+                          stageId: 1,
+                          stageName: '스테이지 이름',
+                          type: StageType.OFFICIAL,
+                          status: StageStatus.CONFIRMED,
+                          participantCount: 2,
+                          isParticipating: true,
+                          isMaintainer: true,
+                          isPassCode: false,
+                        ),
+
+                        onTap: (){},
                       ),
                       GogoStageCardComponent(
-                        stageName: '스테이지 이름',
-                        color: GogoColors.gray700,
-                        official: true,
-                        recruiting: true,
-                        manager: true,
-                        broadcast: true,
-                        onTap: () {},
-                        buttonText: '참여하기',
-                        buttonIcon: Container(),
+                        stage: Stage(
+                          stageId: 1,
+                          stageName: '스테이지 이름',
+                          type: StageType.OFFICIAL,
+                          status: StageStatus.CONFIRMED,
+                          participantCount: 2,
+                          isParticipating: true,
+                          isMaintainer: true,
+                          isPassCode: true,
+                        ),
+
+                        onTap: (){},
                       ),
                     ],
                   ),

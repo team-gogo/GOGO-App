@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/router.dart';
+import '../../../data/models/stage/enum_type/stage_type.dart';
+import '../../../data/models/stage/search_stage/search_stage_response.dart';
 import '../../../design_system/component/stage/gogo_stage_card_component.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/typography.dart';
@@ -70,15 +72,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: List.generate(
                         10,
                         (index) => GogoStageCardComponent(
-                          stageName: '스테이지 이름',
-                          official: true,
-                          recruiting: true,
-                          manager: false,
-                          broadcast: true,
-                          onTap: () {},
-                          buttonText: '상세보기',
-                          buttonIcon: GogoIcons.lock(),
-                          color: GogoColors.gray700,
+                          stage: Stage(
+                            stageId: 1,
+                            stageName: '스테이지 이름',
+                            type: StageType.OFFICIAL,
+                            status: StageStatus.CONFIRMED,
+                            participantCount: 2,
+                            isParticipating: true,
+                            isMaintainer: true,
+                            isPassCode: false,
+                          ),
+
+                          onTap: (){},
                         ),
                       ),
                     )
