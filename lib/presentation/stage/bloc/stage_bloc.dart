@@ -7,10 +7,11 @@ import '../../../data/repositories/stage/stage_repository.dart';
 
 class StageBloc extends Bloc<StageEvent, StageState> {
   final StageRepository _stageRepository = GetIt.instance<StageRepository>();
-  StageBloc() : super(StageInitial()){
-    on<GetStageEvent>(_getStageEventHandler);
-  }
 
+  StageBloc() : super(StageInitial()) {
+    on<GetStageEvent>(_getStageEventHandler);
+    on<EnterStageEvent>(_enterStageEventHandler);
+  }
 
   void _getStageEventHandler(StageEvent event, Emitter<StageState> emit) async {
     emit(StageLoading());
@@ -20,5 +21,19 @@ class StageBloc extends Bloc<StageEvent, StageState> {
     } catch (e) {
       emit(StageError(message: e.toString()));
     }
+  }
+
+  void _enterStageEventHandler(
+      EnterStageEvent event, Emitter<StageState> emit) async {
+    try {
+      await _stageRepository.joinStage(event.stageId, event.body);
+    } catch (e) {
+      emit(StageError(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<void> close() {
+    return super.close();
   }
 }

@@ -1,7 +1,6 @@
-
 import '../../../data/models/stage/search_stage/search_stage_response.dart';
 
-class StageState{}
+class StageState {}
 
 class StageInitial extends StageState {}
 
