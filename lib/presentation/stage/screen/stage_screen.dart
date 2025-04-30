@@ -42,123 +42,127 @@ class StageScreen extends StatelessWidget {
               }
             }
             return Scaffold(
-              body: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 40,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 16,
-                      children: [
-                        Padding(
-                          padding: padding,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '참여한 스테이지',
-                                style: GogoTypography.body2Extrabold
-                                    .copyWith(color: GogoColors.white),
-                              ),
-                              GestureDetector(
-                                onTap: () =>
-                                    context.pushNamed(PageRouter.createStage),
-                                child: GogoTagComponent(
-                                  color: GogoColors.main400,
-                                  padding: const EdgeInsets.all(12.0),
-                                  borderRadius: BorderRadius.circular(8),
-                                  text: '스테이지 생성',
-                                  icon: GogoIcons.plusCircle(
-                                    color: GogoColors.main400,
-                                    width: 16,
-                                    height: 16,
-                                  ),
-                                  textStyle: GogoTypography.caption2Semibold,
+              body: RefreshIndicator(
+                color: GogoColors.main600,
+                backgroundColor: GogoColors.gray700,
+                onRefresh: () async {
+                  return context.read<StageBloc>().add(GetStageEvent());
+                },
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 40,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 16,
+                        children: [
+                          Padding(
+                            padding: padding,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '참여한 스테이지',
+                                  style: GogoTypography.body2Extrabold
+                                      .copyWith(color: GogoColors.white),
                                 ),
-                              )
-                            ],
+                                GestureDetector(
+                                  onTap: () =>
+                                      context.pushNamed(PageRouter.createStage),
+                                  child: GogoTagComponent(
+                                    color: GogoColors.main400,
+                                    padding: const EdgeInsets.all(12.0),
+                                    borderRadius: BorderRadius.circular(8),
+                                    text: '스테이지 생성',
+                                    icon: GogoIcons.plusCircle(
+                                      color: GogoColors.main400,
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                    textStyle: GogoTypography.caption2Semibold,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        SingleChildScrollView(
-                          padding: padding,
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            spacing: 16,
-                            children: List.generate(
-                              participatedStages.length,
-                              (index) => GogoStageCardComponent(
-                                stage: participatedStages[index],
-                                color: GogoColors.gray700,
-                                broadcast: false,
-                                onTap: () {},
+                          SingleChildScrollView(
+                            padding: padding,
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              spacing: 16,
+                              children: List.generate(
+                                participatedStages.length,
+                                (index) => GogoStageCardComponent(
+                                  stage: participatedStages[index],
+                                  color: GogoColors.gray700,
+                                  broadcast: false,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 16,
-                      children: [
-                        Padding(
-                          padding: padding,
-                          child: Text(
-                            '참여가능한 스테이지',
-                            style: GogoTypography.body2Extrabold
-                                .copyWith(color: GogoColors.white),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 16,
+                        children: [
+                          Padding(
+                            padding: padding,
+                            child: Text(
+                              '참여가능한 스테이지',
+                              style: GogoTypography.body2Extrabold
+                                  .copyWith(color: GogoColors.white),
+                            ),
                           ),
-                        ),
-                        SingleChildScrollView(
-                          padding: padding,
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            spacing: 16,
-                            children: List.generate(
-                              confirmedStages.length,
-                              (index) => GogoStageCardComponent(
-                                stage: confirmedStages[index],
-                                color: GogoColors.gray700,
-                                broadcast: false,
-                                onTap: () {},
+                          SingleChildScrollView(
+                            padding: padding,
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              spacing: 16,
+                              children: List.generate(
+                                confirmedStages.length,
+                                (index) => GogoStageCardComponent(
+                                  stage: confirmedStages[index],
+                                  color: GogoColors.gray700,
+                                  broadcast: false,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      spacing: 16,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: padding,
-                          child: Text(
-                            '모집중인 스테이지',
-                            style: GogoTypography.body2Extrabold
-                                .copyWith(color: GogoColors.white),
+                        ],
+                      ),
+                      Column(
+                        spacing: 16,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: padding,
+                            child: Text(
+                              '모집중인 스테이지',
+                              style: GogoTypography.body2Extrabold
+                                  .copyWith(color: GogoColors.white),
+                            ),
                           ),
-                        ),
-                        SingleChildScrollView(
-                          padding: padding,
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            spacing: 16,
-                            children: List.generate(
-                              recruitingStage.length,
-                              (index) => GogoStageCardComponent(
-                                stage: recruitingStage[index],
-                                color: GogoColors.gray700,
-                                broadcast: false,
-                                onTap: () {},
+                          SingleChildScrollView(
+                            padding: padding,
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              spacing: 16,
+                              children: List.generate(
+                                recruitingStage.length,
+                                (index) => GogoStageCardComponent(
+                                  stage: recruitingStage[index],
+                                  color: GogoColors.gray700,
+                                  broadcast: false,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
