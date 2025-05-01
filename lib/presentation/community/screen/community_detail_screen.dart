@@ -101,6 +101,11 @@ class CommunityDetailScreen extends StatelessWidget {
             Row(
               children: [
                 GogoIcons.heartOutlined(
+                  onTap: (){
+                                                                  context.read<CommunityDetailBloc>().add(
+                                                CommunityCommentLiked(commentId: comment.commentId),
+                                              );
+                  },
                   color: comment.isLiked  ? Colors.red : GogoColors.gray300,
                   width: 20,
                   height: 20,
@@ -227,6 +232,7 @@ class CommunityDetailScreen extends StatelessWidget {
                                         ),
                                         SizedBox(width: 8),
                                         GogoIcons.heartOutlined(
+                                            onTap: () {},
                                             color: state.response.isLiked ? Colors.red: GogoColors.gray300,
                                             ),
                                         SizedBox(width: 4),
