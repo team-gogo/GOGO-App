@@ -220,7 +220,6 @@ class _CommunityMainScreenContentState
                                   title: state.response.board[index].title,
                                   name: "익명",
                                   commentNum: state.response.board[index].commentCount,
-                                  // 수정 필요하면 여기도
                                   likeNum:
                                       state.response.board[index].likeCount,
                                   ontap: () {
