@@ -8,6 +8,7 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_bloc.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_event.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_state.dart';
+import 'package:gogo_app/presentation/community/screen/community_detail_screen.dart';
 import 'package:gogo_app/presentation/community/widgets/community_filter_popup.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:go_router/go_router.dart';
@@ -223,6 +224,7 @@ class _CommunityMainScreenContentState
                                   likeNum:
                                       state.response.board[index].likeCount,
                                   ontap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityDetailScreen(boardId: state.response.board[index].boardId)));
                                   },
                                 ),
                               ),

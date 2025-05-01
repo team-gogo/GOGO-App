@@ -30,12 +30,10 @@ class CommunityDetailBloc extends Bloc<CommunityDetailEvent,CommunityDetailState
   }
 
   Future<void> _onLikedComment(CommunityCommentLiked event, Emitter<CommunityDetailState> emit) async {
-    emit(CommunityDetailLoadingState());
     try {
-      final response = await repository.likeCommunityComment(
+      await repository.likeCommunityComment(
         event.commentId,
       );
-      emit(CommunityDetailPostLoadedState(response: response));
     } catch(e) {
       emit(CommunityDetailErrorState(message: e.toString()));
     }
