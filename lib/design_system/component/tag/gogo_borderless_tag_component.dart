@@ -21,23 +21,20 @@ class GogoBorderlessTagComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
-        shaderCallback: (bounds) => LinearGradient(
-          colors: [color,color],
-        ).createShader(bounds),
-        blendMode: BlendMode.srcIn,
-        child: Row(
-          children: [
-            icon,
-            SizedBox(width: spacing),
-            Text(
-              text,
-              style: textStyle.copyWith(
-                fontSize: 12,
-                color: null
-              ),
-            ),
-          ],
-        ),
+      shaderCallback: (bounds) => LinearGradient(
+        colors: [color, color],
+      ).createShader(bounds),
+      blendMode: BlendMode.srcIn,
+      child: Row(
+        spacing: spacing,
+        children: [
+          icon,
+          Text(
+            text,
+            style: textStyle.copyWith(fontSize: 12, color: null),
+          ),
+        ],
+      ),
     );
   }
 }
