@@ -36,7 +36,7 @@ class _LoadingPageState extends State<LoadingPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: GogoColors.black,
       body: Center(
         child: AnimatedBuilder(
             animation: _dotsAnimation,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gogo_app/presentation/stage/screen/stage_screen.dart';
 import 'package:gogo_app/router.dart';
 import 'data/get_it_module/get_it_module.dart';
 import 'design_system/theme/color.dart';
@@ -40,18 +41,15 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (_, child) => MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          scaffoldBackgroundColor: GogoColors.black,
-        ),
-        routerDelegate: PageRouter.router.routerDelegate,
-        routeInformationParser: PageRouter.router.routeInformationParser,
-        routeInformationProvider: PageRouter.router.routeInformationProvider,
-      ),
+      builder: (_, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            scaffoldBackgroundColor: GogoColors.black,
+          ),
+          home: StageScreen()),
     );
   }
 }

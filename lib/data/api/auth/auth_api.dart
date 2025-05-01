@@ -36,7 +36,7 @@ abstract class AuthApi {
 
   // 유저 검색 ✅
   @GET('/user/student/search')
-  Future<List<Student>> searchStudent(
+  Future<StudentResponse> searchStudent(
     @Query('name') String name,
   );
 
