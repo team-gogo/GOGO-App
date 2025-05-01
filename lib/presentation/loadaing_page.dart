@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -39,7 +36,7 @@ class _LoadingPageState extends State<LoadingPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: GogoColors.black,
       body: Center(
         child: AnimatedBuilder(
             animation: _dotsAnimation,

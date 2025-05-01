@@ -1,8 +1,6 @@
-import 'package:gogo_app/data/models/stage/create_stage/api/official_stage_create_request.dart';
 import 'package:gogo_app/data/models/stage/create_stage/api/fast_stage_create_request.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/stage_confirm_request.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/team_apply_request.dart';
-import 'package:gogo_app/data/models/stage/search_stage/search_match_query_string.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_match_response.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_stage_response.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_team_response.dart';
@@ -28,8 +26,6 @@ import '../../models/stage/handle_stage/join_stage_request.dart';
 
 abstract class StageRepository {
   Future<void> createFastStage(FastStageCreateRequest body);
-
-  Future<void> createOfficialStage(OfficialStageCreateRequest body);
 
   Future<void> confirmStage(int stageId, StateConfirmRequest body);
 

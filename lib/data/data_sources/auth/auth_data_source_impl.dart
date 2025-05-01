@@ -32,7 +32,7 @@ class AuthDatasourceImpl implements AuthDatasource {
   }
 
   @override
-  Future<List<Student>> searchStudent(String name) async {
+  Future<StudentResponse> searchStudent(String name) async {
     return await executeHandleApiCall(() => _authApi.searchStudent(name));
   }
 

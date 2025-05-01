@@ -27,7 +27,7 @@ class LogInScreen extends StatelessWidget {
           body: Stack(
             children: [
               Center(
-                child: GogoIcons.logo(width: double.infinity, height: 80),
+                child: GogoIcons.logo(width: double.infinity, height: 60),
               ),
               Positioned(
                 bottom: 111,

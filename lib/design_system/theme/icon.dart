@@ -2,19 +2,20 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GogoIcons {
-  static Widget _buildIcon(
-    String fileName, {
+  static Widget _buildIcon(String fileName, {
+    Key? key,
     Color? color,
     required double width,
     required double height,
     VoidCallback? onTap,
   }) {
     return GestureDetector(
+      key:key,
       onTap: onTap,
       child: SvgPicture.asset(
         'assets/drawable/$fileName',
         colorFilter:
-            color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
+        color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
         width: width,
         height: height,
       ),
@@ -354,6 +355,16 @@ class GogoIcons {
       _buildIcon('dollor_circle.svg',
           color: color, width: width, height: height, onTap: onTap);
 
+  static Widget communit({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('communit.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+
   static Widget community({
     Color? color,
     double width = 24,
@@ -413,8 +424,10 @@ class GogoIcons {
     double width = 24,
     double height = 24,
     VoidCallback? onTap,
+    Key? key,
   }) =>
       _buildIcon('chevron_down.svg',
+          key: key,
           color: color, width: width, height: height, onTap: onTap);
 
   static Widget checkboxOutlined({
@@ -513,15 +526,8 @@ class GogoIcons {
     double height = 24,
     VoidCallback? onTap,
   }) =>
-      GestureDetector(
-        onTap: onTap,
-        child: Image.asset(
-          'assets/drawable/logo.png',
-          color: color,
-          width: width,
-          height: height,
-        ),
-      );
+      _buildIcon('logo.svg',
+          color: color, width: width, height: height, onTap: onTap);
 
   static Widget play({
     Color? color,

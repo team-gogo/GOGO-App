@@ -14,7 +14,7 @@ abstract class AuthDatasource {
 
   Future<TokenDto> tokenRefresh(String token);
 
-  Future<List<Student>> searchStudent(String name);
+  Future<StudentResponse> searchStudent(String name);
 
   Future<void> updateUserInfo(UserInfoRequest body);
 

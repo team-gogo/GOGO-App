@@ -81,7 +81,7 @@ class CommunityItem extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    GogoIcons.community(
+                    GogoIcons.communit(
                         color: GogoColors.gray300, width: 12, height: 12),
                     SizedBox(width: 4),
                     Text(

@@ -10,6 +10,8 @@ enum GameSystem {
   FULL_LEAGUE,
   @JsonValue("SINGLE")
   SINGLE,
+  @JsonValue("NULL")
+  NULL
 }
 
 @JsonSerializable()

@@ -30,18 +30,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
   bool profanityFilter = false;
 
   Widget _editItem(String text, Widget child) => Column(
-    spacing: 16,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        text,
-        style: GogoTypography.body2Extrabold.copyWith(
-          color: GogoColors.white,
-        ),
-      ),
-      child
-    ],
-  );
+        spacing: 16,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            text,
+            style: GogoTypography.body2Extrabold.copyWith(
+              color: GogoColors.white,
+            ),
+          ),
+          child
+        ],
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -85,18 +85,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           _sexController = Sex.MALE;
                         }),
                         text: "남성",
-                        color: _sexController == Sex.MALE
-                            ? GogoColors.main600
+                        textColor: _sexController == Sex.MALE
+                            ? GogoColors.white
                             : GogoColors.gray400,
+                        color: _sexController == Sex.MALE
+                            ? GogoColors.main500
+                            : GogoColors.gray700,
                       ),
                       GogoDefaultButton(
                         onTap: () => setState(() {
                           _sexController = Sex.FEMALE;
                         }),
                         text: "여성",
-                        color: _sexController == Sex.FEMALE
-                            ? GogoColors.main600
+                        textColor: _sexController == Sex.FEMALE
+                            ? GogoColors.white
                             : GogoColors.gray400,
+                        color: _sexController == Sex.FEMALE
+                            ? GogoColors.main500
+                            : GogoColors.gray700,
                       ),
                     ],
                   ),
@@ -107,24 +113,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     Text(
                       '비속어 필터',
                       style: GogoTypography.body2Extrabold.copyWith(
-                        color: GogoColors.white,
+                        color: profanityFilter
+                            ? GogoColors.error
+                            : GogoColors.gray500,
                       ),
                     ),
-                    GestureDetector(
+                    GestureDetector (
                       onTap: () => setState(() {
                         profanityFilter = !profanityFilter;
                       }),
                       child: profanityFilter
                           ? GogoIcons.checkboxOutlined(
-                        width: 36,
-                        height: 36,
-                        color: GogoColors.main600,
-                      )
+                              width: 36,
+                              height: 36,
+                              color: GogoColors.error,
+                            )
                           : GogoIcons.checkboxOutlined(
-                        width: 36,
-                        height: 36,
-                        color: GogoColors.gray500,
-                      ),
+                              width: 36,
+                              height: 36,
+                              color: GogoColors.gray500,
+                            ),
                     )
                   ],
                 ),

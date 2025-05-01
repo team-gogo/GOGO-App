@@ -17,6 +17,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     on<LaunchSplashEvent>((event, emit) async {
       emit(AutoLoginLoading());
       try {
+        await Future.delayed(const Duration(seconds: 2));
         await _authRepository.tokenRefresh();
         final String? authority = await _storage.read(key: _authority);
         log(authority ?? "authority is null");
