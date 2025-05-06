@@ -33,8 +33,8 @@ class CommunityWriteBloc
         isValid: state.title.isNotEmpty && newContent.isNotEmpty,
       ));
     });
-    on<PostWrite> ((event,emit) async {
-    try {
+    on<PostWrite>((event, emit) async{
+      try {
       await repository.createCommunityPost(
       stageId, 
       CommunityWriteRequest(
@@ -44,9 +44,10 @@ class CommunityWriteBloc
         ),
       );
       emit(CommunityWriteState(title: '', content: '', isValid: false));
+      emit(PostWriteSuccessState());
     } catch(e) {
       emit(PostWriteErrorState(message: e.toString()));
     }
-  });
+    },);
 }
 }

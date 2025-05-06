@@ -22,6 +22,11 @@ class CommunityWriteState {
   }
 }
 
+class PostWriteSuccessState extends CommunityWriteState {
+  PostWriteSuccessState()
+      : super(title: '', content: '', isValid: false);
+}
+
 class PostWriteErrorState extends CommunityWriteState {
   final String message;
 
