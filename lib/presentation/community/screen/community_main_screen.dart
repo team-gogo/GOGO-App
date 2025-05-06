@@ -12,6 +12,7 @@ import 'package:gogo_app/presentation/community/screen/community_detail_screen.d
 import 'package:gogo_app/presentation/community/widgets/community_filter_popup.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/presentation/loadaing_page.dart';
 import 'dart:math';
 import '../../../design_system/component/tag/gogo_tag_component.dart';
 import '../../../design_system/component/top_bar/gogo_top_bar.dart';
@@ -192,14 +193,12 @@ class _CommunityMainScreenContentState
               ),
               const Divider(color: GogoColors.gray600, thickness: 0, height: 1),
               BlocBuilder<CommunityBloc, CommunityState>(
+                buildWhen: (previous, current) {
+                  return previous != current;
+                },
                 builder: (context, state) {
                   if (state is CommunityLoadingState) {
-                    return const Expanded(
-                      child: Center(
-                        child: CircularProgressIndicator(
-                            color: GogoColors.main600),
-                      ),
-                    );
+                    return LoadingPage();
                   } else if (state is CommunityLoadedState) {
                     final totalPage = state.response.info.totalPage;
                     final startPage = (currentPage / 5).floor() * 5;
