@@ -33,6 +33,32 @@ class SearchCommunityDetailResponse {
       _$SearchCommunityDetailResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SearchCommunityDetailResponseToJson(this);
+
+  SearchCommunityDetailResponse copyWith({
+    int? boardId,
+    String? title,
+    String? content,
+    int? likeCount,
+    bool? isLiked,
+    String? createdAt,
+    String? imageUrl,
+    Stage? stage,
+    int? commentCount,
+    List<Comment>? comment,
+  }) {
+    return SearchCommunityDetailResponse(
+      boardId: boardId ?? this.boardId,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      likeCount: likeCount ?? this.likeCount,
+      isLiked: isLiked ?? this.isLiked,
+      createdAt: createdAt ?? this.createdAt,
+      imageUrl: imageUrl ?? this.imageUrl,
+      stage: stage ?? this.stage,
+      commentCount: commentCount ?? this.commentCount,
+      comment: comment ?? this.comment,
+    );
+  }
 }
 
 @JsonSerializable()
@@ -55,6 +81,22 @@ class Comment {
       _$CommentFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommentToJson(this);
+
+  Comment copyWith({
+    int? commentId,
+    String? content,
+    DateTime? createdAt,
+    int? likeCount,
+    bool? isLiked,
+  }) {
+    return Comment(
+      commentId: commentId ?? this.commentId,
+      content: content ?? this.content,
+      createdAt: createdAt ?? this.createdAt,
+      likeCount: likeCount ?? this.likeCount,
+      isLiked: isLiked ?? this.isLiked,
+    );
+  }
 }
 
 @JsonSerializable()
@@ -70,4 +112,14 @@ class Stage {
   factory Stage.fromJson(Map<String, dynamic> json) => _$StageFromJson(json);
 
   Map<String, dynamic> toJson() => _$StageToJson(this);
+
+  Stage copyWith({
+    String? name,
+    GameType? category,
+  }) {
+    return Stage(
+      name: name ?? this.name,
+      category: category ?? this.category,
+    );
+  }
 }
