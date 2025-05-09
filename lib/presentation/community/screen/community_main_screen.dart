@@ -198,7 +198,7 @@ class _CommunityMainScreenContentState
                 },
                 builder: (context, state) {
                   if (state is CommunityLoadingState) {
-                    return LoadingPage();
+                    return SizedBox();
                   } else if (state is CommunityLoadedState) {
                     final totalPage = state.response.info.totalPage;
                     final startPage = (currentPage / 5).floor() * 5;
