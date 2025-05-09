@@ -58,6 +58,9 @@ class CommunityDetailScreen extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: BlocBuilder<CommunityDetailBloc, CommunityDetailState>(
+                    buildWhen: (previous, current) {
+                      return previous != current;
+                    },
                     builder: (context, state) {
                       switch (state) {
                         case CommunityDetailLoadingState _:
@@ -180,7 +183,8 @@ class CommunityDetailScreen extends StatelessWidget {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: state.response.comment.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return CommentItem(index: index);
+                                  final comment = state.response.comment[index];
+                                  return CommentList(comment: comment);
                                 },
                                 separatorBuilder: (BuildContext context, int index) {
                                   return SizedBox(height: 12);
@@ -216,85 +220,86 @@ class CommunityDetailScreen extends StatelessWidget {
   }
 }
 
-class CommentItem extends StatelessWidget {
-  final int index;
+class CommentList extends StatelessWidget {
+  final Comment comment;
 
-  const CommentItem({required this.index, super.key});
+  const CommentList({required this.comment, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<CommunityDetailBloc, CommunityDetailState, Comment?>(
-      selector: (state) {
-        if (state is CommunityDetailLoadedState && index < state.response.comment.length) {
-          return state.response.comment[index];
-        }
-        return null;
-      },
-      builder: (context, comment) {
-        if (comment == null) return const SizedBox();
+    final bool isLiked = comment.isLiked;
+    final int likeCount = comment.likeCount;
 
-        return Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: GogoColors.gray700,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    void onLikeTap() {
+      context.read<CommunityDetailBloc>().add(
+        CommunityCommentLiked(commentId: comment.commentId)
+      );
+    }
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: GogoColors.gray700,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  GogoIcons.person(width: 20, height: 20, color: GogoColors.gray300),
-                  SizedBox(width: 4),
-                  Text("익명", style: GogoTypography.caption1Semibold.copyWith(color: GogoColors.gray300)),
-                  SizedBox(width: 8),
-                  SizedBox(
-                    width: 150,
-                    child: Text(
-                      comment.content,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: GogoTypography.caption3Semibold.copyWith(color: GogoColors.white),
-                    ),
-                  ),
-                ],
+              GogoIcons.person(
+                width: 20,
+                height: 20,
+                color: GogoColors.gray300,
               ),
-              Row(
-                children: [
-                  comment.isLiked
-                      ? GogoIcons.heartFilled(
-                          onTap: () {
-                            context.read<CommunityDetailBloc>().add(
-                                  CommunityCommentLiked(commentId: comment.commentId),
-                                );
-                          },
-                          color: Colors.red,
-                          width: 20,
-                          height: 20,
-                        )
-                      : GogoIcons.heartOutlined(
-                          onTap: () {
-                            context.read<CommunityDetailBloc>().add(
-                                  CommunityCommentLiked(commentId: comment.commentId),
-                                );
-                          },
-                          color: GogoColors.gray300,
-                          width: 20,
-                          height: 20,
-                        ),
-                  SizedBox(width: 4),
-                  Text(
-                    comment.likeCount.toString(),
-                    style: GogoTypography.body3Semibold.copyWith(color: GogoColors.gray300),
+              SizedBox(width: 4),
+              Text(
+                "익명",
+                style: GogoTypography.caption1Semibold.copyWith(
+                  color: GogoColors.gray300,
+                ),
+              ),
+              SizedBox(width: 8),
+              SizedBox(
+                width: 150,
+                child: Text(
+                  comment.content,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: GogoTypography.caption3Semibold.copyWith(
+                    color: GogoColors.white,
                   ),
-                ],
+                ),
               ),
             ],
           ),
-        );
-      },
+          Row(
+            children: [
+              isLiked
+                  ? GogoIcons.heartFilled(
+                      onTap: onLikeTap,
+                      color: Colors.red,
+                      width: 20,
+                      height: 20,
+                    )
+                  : GogoIcons.heartOutlined(
+                      onTap: onLikeTap,
+                      color: GogoColors.gray300,
+                      width: 20,
+                      height: 20,
+                    ),
+              SizedBox(width: 4),
+              Text(
+                likeCount.toString(),
+                style: GogoTypography.body3Semibold.copyWith(
+                  color: GogoColors.gray300,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
-

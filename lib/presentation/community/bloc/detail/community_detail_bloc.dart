@@ -30,11 +30,31 @@ class CommunityDetailBloc extends Bloc<CommunityDetailEvent, CommunityDetailStat
     CommunityCommentLiked event,
     Emitter<CommunityDetailState> emit,
   ) async {
-      try {
-        final response = await repository.likeCommunityComment(event.commentId);
-        emit(CommunityDetailPostLoadedState(response: response));
-      } catch (e) {
-        emit(CommunityDetailErrorState(message: e.toString()));
+    if (state is! CommunityDetailLoadedState) return;
+
+    final currentState = state as CommunityDetailLoadedState;
+    final oldResponse = currentState.response;
+
+    final updatedComments = oldResponse.comment.map((comment) {
+      if (comment.commentId == event.commentId) {
+        final isLiked = !(comment.isLiked ?? false);
+        final likeCount = (comment.likeCount ?? 0) + (isLiked ? 1 : -1);
+        return comment.copyWith(
+          isLiked: isLiked,
+          likeCount: likeCount,
+        );
       }
+      return comment;
+    }).toList();
+
+    final updatedResponse = oldResponse.copyWith(comment: updatedComments);
+    emit(CommunityDetailLoadedState(response: updatedResponse));
+
+    try {
+      await repository.likeCommunityComment(event.commentId);
+    } catch (e) {
+      emit(CommunityDetailLoadedState(response: oldResponse));
+      emit(CommunityDetailErrorState(message: '댓글 좋아요 처리 중 오류 발생'));
     }
+  }
 }
