@@ -1,6 +1,7 @@
 // router.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
@@ -13,6 +14,8 @@ import 'package:gogo_app/presentation/minigame/screen/yavarwee_screen.dart';
 import 'package:gogo_app/presentation/navigation_view/widgets/bottom_navigation_bar/gogo_bottom_navigation_bar.dart';
 import 'package:gogo_app/presentation/profile/screen/edit_profile_screen.dart';
 import 'package:gogo_app/presentation/profile/screen/profile_screen.dart';
+import 'package:gogo_app/presentation/ranking/bloc/ranking_bloc.dart';
+import 'package:gogo_app/presentation/ranking/bloc/ranking_event.dart';
 import 'package:gogo_app/presentation/ranking/screens/ranking_page.dart';
 import 'package:gogo_app/presentation/sign_up/screen/sign_up_screen.dart';
 import 'package:gogo_app/presentation/splash/screen/splash_screen.dart';
@@ -97,9 +100,48 @@ class PageRouter {
         ),
         branches: [
           StatefulShellBranch(routes: [
-            _customGoRoute(name: home, screen: HomeScreen(), routes: [
-              _customGoRoute(name: miniGame, screen: MinigameScreen())
-            ])
+            GoRoute(
+                path: "/$home",
+                pageBuilder: (context, state) => CupertinoPage(
+                      child: Placeholder(), // 또는 적절한 기본 위젯
+                    ),
+                routes: [
+                  GoRoute(
+                      name: home,
+                      path: ":stageId",
+                      pageBuilder: (context, state) => CupertinoPage(
+                            child: HomeScreen(
+                              stageId: int.parse(
+                                state.pathParameters['stageId']!.isEmpty
+                                    ? '0'
+                                    : state.pathParameters['stageId']!,
+                              ),
+                            ),
+                          ),
+                      routes: [
+                        GoRoute(
+                            name: ranking,
+                            path: ranking,
+                            pageBuilder: (context, state) {
+                              final stageId =
+                                  int.parse(state.pathParameters['stageId']!);
+                              return CupertinoPage(
+                                  child: BlocProvider(
+                                create: (_) => RankingBloc()
+                                  ..add(GetRanking(stageId: stageId)),
+                                child: RankingPage(stageId: stageId),
+                              ));
+                            }),
+                        _customGoRoute(
+                            name: coinToss, screen: CoinTossScreen()),
+                        _customGoRoute(
+                            name: yavarwee, screen: YavarweeScreen()),
+                        _customGoRoute(
+                            name: matchList, screen: MatchListScreen()),
+                        _customGoRoute(
+                            name: miniGame, screen: MinigameScreen()),
+                      ])
+                ])
           ]),
           StatefulShellBranch(
               routes: [_customGoRoute(name: stage, screen: StageScreen())]),
@@ -111,10 +153,6 @@ class PageRouter {
       ),
       _customGoRoute(name: editProfile, screen: EditProfilePage()),
       _customGoRoute(name: createStage, screen: StageCreateScreen()),
-      _customGoRoute(name: coinToss, screen: CoinTossScreen()),
-      _customGoRoute(name: yavarwee, screen: YavarweeScreen()),
-      _customGoRoute(name: ranking, screen: RankingPage()),
-      _customGoRoute(name: matchList, screen: MatchListScreen()),
       _customGoRoute(
         name: community,
         screen: CommunityMainScreen(),
