@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
@@ -11,14 +12,17 @@ import '../../../data/models/common/match_dto.dart';
 import '../../../data/models/stage/enum_type/match_round.dart';
 import '../../../data/models/stage/enum_type/system_type.dart';
 import '../../../data/models/stage/search_stage/search_betting_stage_response.dart';
-import '../../../design_system/component/tag/gogo_tag_component.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
+import '../../ranking/bloc/ranking_bloc.dart';
+import '../../ranking/bloc/ranking_event.dart';
 import '../widgets/match_card/match_card_component.dart';
 import '../widgets/minigame/minigame_play_component.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.stageId});
+
+  final int stageId;
 
   static final EdgeInsets padding = EdgeInsets.symmetric(horizontal: 16);
 
@@ -262,16 +266,22 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       _itemTopBar(GogoIcons.arcade(color: GogoColors.white),
                           text: '미니게임',
-                          onTap: () => context.pushNamed(PageRouter.miniGame)),
+                          onTap: () =>
+                              context.pushNamed(PageRouter.miniGame)),
                       MinigamePlayComponent()
                     ],
                   ),
                   Column(
                     spacing: 16,
                     children: [
-                      _itemTopBar(GogoIcons.trophy(color: GogoColors.white),
-                          text: '포인트 랭킹',
-                          onTap: () => context.pushNamed(PageRouter.ranking)),
+                      _itemTopBar(
+                        GogoIcons.trophy(color: GogoColors.white),
+                        text: '포인트 랭킹',
+                        onTap: () => context.pushNamed(
+                          PageRouter.ranking,
+                          pathParameters: {'stageId': stageId.toString()},
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
