@@ -79,3 +79,6 @@ flutter:
           weight: 800
         - asset: assets/typo/SUIT-SemiBold.otf
           weight: 600
+    - family: GmarketSans
+      fonts:
+        - asset: assets/typo/GmarketSansBold.otf

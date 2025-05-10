@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import '../data_sources/token_data_source/token_data_source.dart';
 import '../models/auth/google_oauth/token_dto.dart';
@@ -17,7 +18,7 @@ class TokenRefreshInterceptor extends Interceptor {
       try {
 
         final refreshToken = await _tokenDataSource.getRefreshToken();
-        final newToken = await _interceptorDio.post('https://api.baseurl.com/''/user/auth/refresh');
+        final newToken = await _interceptorDio.post('${dotenv.env['BASE_URL']}/user/auth/refresh',);
         final tokenDto = TokenDto.fromJson(newToken.data);
         
         if (refreshToken != null && refreshToken.isNotEmpty) {

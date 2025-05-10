@@ -23,52 +23,55 @@ class SchoolPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SchoolBloc, SchoolState>(builder: (context, state) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GogoIcons.chevronLeft(
-              color: GogoColors.white,
-              width: 40,
-              height: 40,
-              onTap: () => context.goNamed(PageRouter.login)),
-          SizedBox(height: 40),
-          Text(
-            "학교를 알려주세요.",
-            style: GogoTypography.title3Extrabold
-                .copyWith(color: GogoColors.white),
-          ),
-          SizedBox(
-            height: 36,
-          ),
-          GogoTextField(
-            onEditingComplete: () => context.read<SchoolBloc>().add(
-                EnterSchoolEvent(
-                    context.read<SchoolBloc>().schoolController.text)),
-            controller: context.read<SchoolBloc>().schoolController,
-            hintText: "학교를 입력해주세요.",
-            endIcon: GogoIcons.search(),
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          state is InitSchoolState || state is ChooseSchoolState
-              ? SizedBox()
-              : SchoolSearchComponent(),
-          Spacer(),
-          GogoDefaultButton(
-            onTap: state is ChooseSchoolState
-                ? () => pageController.animateToPage(
-                      1,
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.ease,
-                    )
-                : () {},
-            text: "다음",
-            color: state is ChooseSchoolState
-                ? GogoColors.main600
-                : GogoColors.gray400,
-          ),
-        ],
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 50, 16, 95),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GogoIcons.chevronLeft(
+                color: GogoColors.white,
+                width: 40,
+                height: 40,
+                onTap: () => context.goNamed(PageRouter.login)),
+            SizedBox(height: 40),
+            Text(
+              "학교를 알려주세요.",
+              style: GogoTypography.title3Extrabold
+                  .copyWith(color: GogoColors.white),
+            ),
+            SizedBox(
+              height: 36,
+            ),
+            GogoTextField(
+              onEditingComplete: () => context.read<SchoolBloc>().add(
+                  EnterSchoolEvent(
+                      context.read<SchoolBloc>().schoolController.text)),
+              controller: context.read<SchoolBloc>().schoolController,
+              hintText: "학교를 입력해주세요.",
+              endIcon: GogoIcons.search(color: GogoColors.gray400),
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            state is InitSchoolState || state is ChooseSchoolState
+                ? SizedBox()
+                : SchoolSearchComponent(),
+            Spacer(),
+            GogoDefaultButton(
+              onTap: state is ChooseSchoolState
+                  ? () => pageController.animateToPage(
+                        1,
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.ease,
+                      )
+                  : () {},
+              text: "다음",
+              color: state is ChooseSchoolState
+                  ? GogoColors.main600
+                  : GogoColors.gray400,
+            ),
+          ],
+        ),
       );
     });
   }

@@ -1,27 +1,41 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../match_round.dart';
+import '../enum_type/match_round.dart';
 
 part 'stage_confirm_request.g.dart';
 
 @JsonSerializable()
 class StateConfirmRequest {
-  final int gameId;
-  final Single? single;
-  final List<Tournament>? tournament;
-  final List<FullLeague>? fullLeague;
+  final List<GameStateConfirmRequest> games;
 
   StateConfirmRequest({
-    required this.gameId,
-    this.single,
-    this.tournament,
-    this.fullLeague,
+    required this.games,
   });
 
   factory StateConfirmRequest.fromJson(Map<String, dynamic> json) =>
       _$StateConfirmRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$StateConfirmRequestToJson(this);
+}
+
+@JsonSerializable()
+class GameStateConfirmRequest {
+  final int gameId;
+  final Single? single;
+  final List<Tournament>? tournament;
+  final List<FullLeague>? fullLeague;
+
+  GameStateConfirmRequest({
+    required this.gameId,
+    this.single,
+    this.tournament,
+    this.fullLeague,
+  });
+
+  factory GameStateConfirmRequest.fromJson(Map<String, dynamic> json) =>
+      _$GameStateConfirmRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GameStateConfirmRequestToJson(this);
 }
 
 @JsonSerializable()

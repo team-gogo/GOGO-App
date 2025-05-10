@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
       child: BlocListener<SplashBloc, SplashState>(
         listener: (context, state) => {
           if (state is AutoLoginFailed) context.goNamed(PageRouter.login)
-          else if (state is AutoLoginSuccess) context.goNamed(PageRouter.main)
+          else if (state is AutoLoginSuccess) context.goNamed(PageRouter.home)
         },
         child: Scaffold(
           backgroundColor: GogoColors.black,
@@ -30,7 +30,7 @@ class SplashScreen extends StatelessWidget {
               builder: (context, value, child) {
                 return Transform.scale(scale: value, child: child);
               },
-              child: GogoIcons.logo(width: double.infinity, height: 80),
+              child: GogoIcons.logo(width: double.infinity, height: 60),
             ),
           ),
         ),

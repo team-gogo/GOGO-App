@@ -19,47 +19,50 @@ class NamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NameBloc, NameState>(builder: (context, state) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GogoIcons.chevronLeft(
-              color: GogoColors.white,
-              width: 40,
-              height: 40,
-              onTap: () => pageController.animateToPage(
-                    0,
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.ease,
-                  )),
-          SizedBox(height: 40),
-          Text(
-            "이름을 알려주세요.",
-            style: GogoTypography.title3Extrabold
-                .copyWith(color: GogoColors.white),
-          ),
-          SizedBox(
-            height: 36,
-          ),
-          GogoTextField(
-            controller: context.read<NameBloc>().nameController,
-            hintText: "이름를 입력해주세요.",
-            validator: context.read<NameBloc>().validateName,
-          ),
-          Spacer(),
-          GogoDefaultButton(
-            onTap: state is EnableNameState
-                ? () => pageController.animateToPage(
-                      2,
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 50, 16, 95),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GogoIcons.chevronLeft(
+                color: GogoColors.white,
+                width: 40,
+                height: 40,
+                onTap: () => pageController.animateToPage(
+                      0,
                       duration: Duration(milliseconds: 300),
                       curve: Curves.ease,
-                    )
-                : () {},
-            text: "다음",
-            color: state is EnableNameState
-                ? GogoColors.main600
-                : GogoColors.gray400,
-          ),
-        ],
+                    )),
+            SizedBox(height: 40),
+            Text(
+              "이름을 알려주세요.",
+              style: GogoTypography.title3Extrabold
+                  .copyWith(color: GogoColors.white),
+            ),
+            SizedBox(
+              height: 36,
+            ),
+            GogoTextField(
+              controller: context.read<NameBloc>().nameController,
+              hintText: "이름를 입력해주세요.",
+              validator: context.read<NameBloc>().validateName,
+            ),
+            Spacer(),
+            GogoDefaultButton(
+              onTap: state is EnableNameState
+                  ? () => pageController.animateToPage(
+                        2,
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.ease,
+                      )
+                  : () {},
+              text: "다음",
+              color: state is EnableNameState
+                  ? GogoColors.main600
+                  : GogoColors.gray400,
+            ),
+          ],
+        ),
       );
     });
   }

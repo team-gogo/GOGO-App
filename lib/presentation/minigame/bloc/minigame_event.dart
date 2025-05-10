@@ -1,6 +1,7 @@
-abstract class MiniGameEvent {}
+abstract class MinigameDescriptionEvent {}
 
-class SelectGame extends MiniGameEvent {
-  final String? game;
-  SelectGame(this.game);
+class ChangeCategory extends MinigameDescriptionEvent {
+  final String minigameName;
+
+  ChangeCategory({required this.minigameName});
 }

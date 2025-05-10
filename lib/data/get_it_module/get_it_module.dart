@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/api/auth/auth_api.dart';
 import 'package:gogo_app/data/api/search_school/search_school_api.dart';
@@ -13,29 +14,26 @@ import 'package:gogo_app/data/data_sources/stage/stage_data_source_impl.dart';
 import 'package:gogo_app/data/get_it_module/setup_dio.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository_impl.dart';
-import 'package:gogo_app/data/repositories/mini_game/ws/coin_toss/coin_toss_web_socket_repository.dart';
-import 'package:gogo_app/data/repositories/mini_game/ws/plinko/plinko_web_socket_repository.dart';
-import 'package:gogo_app/data/repositories/mini_game/ws/yavarwee/yavarwee_web_socket_repository.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository_impl.dart';
-import 'package:gogo_app/data/api/mini_game_api.dart';
 import 'package:gogo_app/data/api/stage/stage_api.dart';
-import 'package:gogo_app/data/data_sources/ws/web_socket_data_source.dart';
-import 'package:gogo_app/data/data_sources/ws/web_socket_data_sources_impl.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository_impl.dart';
+import '../api/mini_game/mini_game_api.dart';
 import '../data_sources/token_data_source/token_data_source.dart';
 import '../data_sources/token_data_source/token_data_source_impl.dart';
 import '../repositories/mini_game/mini_game_repository.dart';
 import '../repositories/mini_game/mini_game_repository_impl.dart';
-import '../repositories/mini_game/ws/coin_toss/coin_toss_web_socket_repository_impl.dart';
-import '../repositories/mini_game/ws/plinko/plinko_web_socket_repository_impl.dart';
-import '../repositories/mini_game/ws/yavarwee/yavarwee_web_socket_repository_impl.dart';
 
 final locator = GetIt.instance;
 
 void setUpDio() {
   locator.registerLazySingleton<Dio>(() => settingDio());
+}
+
+void setUpStorage() {
+  locator.registerLazySingleton<FlutterSecureStorage>(
+      () => const FlutterSecureStorage());
 }
 
 void setupDataSourceLocator() {
@@ -47,28 +45,18 @@ void setupDataSourceLocator() {
       () => MiniGameDataSourceImpl(locator<Dio>()));
   locator.registerLazySingleton<SearchSchoolDataSource>(
       () => SearchSchoolDataSourceImpl(locator<Dio>()));
-  locator.registerLazySingleton<TokenDataSource>(
-      () => TokenDataSourceImpl());
-
-  locator.registerFactory<WebSocketDataSource>(() => WebSocketDataSourceImpl());
+  locator.registerLazySingleton<TokenDataSource>(() => TokenDataSourceImpl());
 }
 
 void setupRepositoryLocator() {
-  locator.registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(locator<AuthDatasource>(), locator<TokenDataSource>()));
+  locator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
+      locator<AuthDatasource>(), locator<TokenDataSource>()));
   locator.registerLazySingleton<StageRepository>(
       () => StageRepositoryImpl(locator<StageDataSource>()));
   locator.registerLazySingleton<SearchSchoolRepository>(
       () => SearchSchoolRepositoryImpl(locator<SearchSchoolDataSource>()));
   locator.registerLazySingleton<MiniGameRepository>(
       () => MiniGameRepositoryImpl(locator<MiniGameDataSource>()));
-
-  locator.registerLazySingleton<CoinTossWebSocketRepository>(
-      () => CoinTossWebSocketRepositoryImpl(locator<WebSocketDataSource>()));
-  locator.registerLazySingleton<PlinkoWebSocketRepository>(
-      () => PlinkoWebSocketRepositoryImpl(locator<WebSocketDataSource>()));
-  locator.registerLazySingleton<YavarweeWebSocketRepository>(
-      () => YavarweeWebSocketRepositoryImpl(locator<WebSocketDataSource>()));
 }
 
 void setupApiLocator() {

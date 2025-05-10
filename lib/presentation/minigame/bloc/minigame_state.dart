@@ -1,8 +1,9 @@
-abstract class MiniGameState {}
+abstract class MinigameDescriptionState {}
 
-class MiniGameInitial extends MiniGameState {}
+class MinigameDescriptionInitial extends MinigameDescriptionState {}
 
-class MiniGameSelected extends MiniGameState {
-  final String? selectedGame;
-  MiniGameSelected(this.selectedGame);
+class MinigameDescriptionUpdated extends MinigameDescriptionState {
+  final String minigameName;
+
+  MinigameDescriptionUpdated({required this.minigameName});
 }
