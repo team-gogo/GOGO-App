@@ -609,4 +609,29 @@ class GogoIcons {
   }) =>
       _buildIcon('send.svg',
           color: color, width: width, height: height, onTap: onTap);
+  static Widget shakeFinger({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('shake_finger.svg',
+          color: color, width: width, height: height, onTap: onTap);
+  static Widget footballMap({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('football_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+  static Widget basketballMap({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('basketball_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
 }

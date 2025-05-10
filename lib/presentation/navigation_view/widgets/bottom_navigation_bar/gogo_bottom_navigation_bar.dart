@@ -1,5 +1,6 @@
 // gogo_bottom_navigation_bar.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
@@ -21,53 +22,64 @@ class GogoBottomNavigationBar extends StatelessWidget {
       Divider(
         thickness: 0.5,
         height: 0,
-        color: GogoColors.gray500,
+        color: GogoColors.gray700,
       ),
-      BottomNavigationBar(
-        backgroundColor: GogoColors.black,
-        elevation: 0,
-        currentIndex: currentIndex,
-        onTap: (index) {
-          onTap(index);
-        },
-        items: [
-          _buildNavItem(
-            icon: GogoIcons.home(
-              color: currentIndex == 0
-                  ? GogoColors.main600
-                  : GogoColors.gray500,
+      Theme(
+        data: ThemeData(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: GogoColors.black,
+          elevation: 0,
+          currentIndex: currentIndex,
+          onTap: (index) {
+            onTap(index);
+          },
+          items: [
+            _buildNavItem(
+              icon: GogoIcons.home(
+                height: 24.h,
+                width: 24.w,
+                color:
+                    currentIndex == 0 ? GogoColors.main600 : GogoColors.gray500,
+              ),
+              label: "홈",
+              isSelected: currentIndex == 0,
             ),
-            label: "홈",
-            isSelected: currentIndex == 0,
-          ),
-          _buildNavItem(
-            icon: GogoIcons.stage(
-              color: currentIndex == 1
-                  ? GogoColors.main600
-                  : GogoColors.gray500,
+            _buildNavItem(
+              icon: GogoIcons.stage(
+                height: 24.h,
+                width: 24.w,
+                color:
+                    currentIndex == 1 ? GogoColors.main600 : GogoColors.gray500,
+              ),
+              label: "스테이지",
+              isSelected: currentIndex == 1,
             ),
-            label: "스테이지",
-            isSelected: currentIndex == 1,
-          ),
-          _buildNavItem(
-            icon: GogoIcons.speakerPhone(
-              color: currentIndex == 2
-                  ? GogoColors.main600
-                  : GogoColors.gray500,
+            _buildNavItem(
+              icon: GogoIcons.bell(
+                height: 24.h,
+                width: 24.w,
+                color:
+                    currentIndex == 2 ? GogoColors.main600 : GogoColors.gray500,
+              ),
+              label: "공지",
+              isSelected: currentIndex == 2,
             ),
-            label: "공지",
-            isSelected: currentIndex == 2,
-          ),
-          _buildNavItem(
-            icon: GogoIcons.person(
-              color: currentIndex == 3
-                  ? GogoColors.main600
-                  : GogoColors.gray500,
+            _buildNavItem(
+              icon: GogoIcons.person(
+                height: 24.h,
+                width: 24.w,
+                color:
+                    currentIndex == 3 ? GogoColors.main600 : GogoColors.gray500,
+              ),
+              label: "프로필",
+              isSelected: currentIndex == 3,
             ),
-            label: "프로필",
-            isSelected: currentIndex == 3,
-          ),
-        ],
+          ],
+        ),
       )
     ]);
   }
@@ -83,11 +95,11 @@ class GogoBottomNavigationBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           icon,
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           Text(
             label,
             style: TextStyle(
-              fontSize: GogoTypography.caption2Semibold.fontSize,
+              fontSize: 11.sp,
               fontWeight: GogoTypography.caption2Semibold.fontWeight,
               color: isSelected ? GogoColors.main600 : GogoColors.gray500,
             ),

@@ -93,7 +93,7 @@ class StageScreen extends StatelessWidget {
                               spacing: 16,
                               children: List.generate(
                                 participatedStages.length,
-                                (index) => GogoStageCardComponent(
+                                    (index) => GogoStageCardComponent(
                                   stage: participatedStages[index],
                                   color: GogoColors.gray700,
                                   broadcast: false,
@@ -122,7 +122,7 @@ class StageScreen extends StatelessWidget {
                               spacing: 16,
                               children: List.generate(
                                 confirmedStages.length,
-                                (index) => GogoStageCardComponent(
+                                    (index) => GogoStageCardComponent(
                                   stage: confirmedStages[index],
                                   color: GogoColors.gray700,
                                   broadcast: false,
@@ -151,7 +151,7 @@ class StageScreen extends StatelessWidget {
                               spacing: 16,
                               children: List.generate(
                                 recruitingStage.length,
-                                (index) => GogoStageCardComponent(
+                                    (index) => GogoStageCardComponent(
                                   stage: recruitingStage[index],
                                   color: GogoColors.gray700,
                                   broadcast: false,

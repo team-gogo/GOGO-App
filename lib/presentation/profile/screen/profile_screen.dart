@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/router.dart';
+import '../../../data/models/stage/enum_type/stage_type.dart';
+import '../../../data/models/stage/search_stage/search_stage_response.dart';
 import '../../../design_system/component/stage/gogo_stage_card_component.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/typography.dart';
@@ -107,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               '설정',
                               style: selected
                                   ? subjectStyle.copyWith(
-                                      color: GogoColors.white)
+                                  color: GogoColors.white)
                                   : subjectStyle,
                             ),
                           ],
