@@ -10,6 +10,7 @@ import 'package:gogo_app/design_system/component/button/gogo_icon_button.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/presentation/stage/bloc/stage_bloc.dart';
 import 'package:gogo_app/presentation/stage/bloc/stage_event.dart';
+import 'package:gogo_app/router.dart';
 import '../../theme/color.dart';
 import '../../theme/typography.dart';
 import '../tag/gogo_tag_component.dart';
@@ -123,7 +124,10 @@ class GogoStageCardComponent extends StatelessWidget {
                       context.read<StageBloc>().add(EnterStageEvent(
                           stageId: stage.stageId, body: JoinStageRequest()));
                     }
-                    context.goNamed('home');
+                    context.goNamed(
+                      PageRouter.home,
+                      pathParameters: {'stageId': stage.stageId.toString()},
+                    );
                   },
                   text: '참여하기',
                   textStyle: GogoTypography.caption1Semibold,
