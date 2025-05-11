@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:gogo_app/presentation/home/bloc/home_bloc.dart';
@@ -10,11 +9,7 @@ import 'package:gogo_app/presentation/loadaing_page.dart';
 import 'package:gogo_app/presentation/ranking/widgets/ranking_list_item.dart';
 import 'package:gogo_app/router.dart';
 import 'package:intl/intl.dart';
-import '../../../data/models/common/match_dto.dart';
 import '../../../data/models/stage/community/search_board_response.dart';
-import '../../../data/models/stage/enum_type/match_round.dart';
-import '../../../data/models/stage/enum_type/system_type.dart';
-import '../../../data/models/stage/search_stage/search_betting_stage_response.dart';
 import '../../../data/models/stage/search_stage/search_ranking_response.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
@@ -24,17 +19,25 @@ import '../widgets/match_card/match_card_component.dart';
 import '../widgets/minigame/minigame_play_component.dart';
 
 class HomeScreen extends StatelessWidget {
-  final int stageId;
-
-  const HomeScreen({
-    super.key,
-    required this.stageId,
-  });
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final uuid = GoRouterState.of(context).extra as int?;
+
+    if (uuid == null) {
+      return const Scaffold(
+        body: Center(
+          child: Text(
+            '잘못된 접근입니다.',
+            style: TextStyle(color: Colors.red, fontSize: 18),
+          ),
+        ),
+      );
+    }
+
     return BlocProvider(
-      create: (context) => HomeBloc(stageId: stageId),
+      create: (context) => HomeBloc(stageId: uuid),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (BuildContext context, HomeState state) {
           if (state is LoadingHomeState) {
