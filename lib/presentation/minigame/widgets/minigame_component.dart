@@ -6,11 +6,12 @@ import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 
-class MinigameComponent extends StatelessWidget {
+class MinigameComponent extends StatefulWidget {
   final double width;
   final int point;
   final int ticketsCount;
   final String action;
+  final TextEditingController controller;
   final VoidCallback onTap;
 
   const MinigameComponent({
@@ -18,22 +19,31 @@ class MinigameComponent extends StatelessWidget {
     required this.point,
     required this.ticketsCount,
     required this.action,
+    required this.controller,
     required this.onTap,
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController controller =
-        TextEditingController(); // 삭제 해야할 값
+  State<MinigameComponent> createState() => _MinigameComponentState();
+}
 
+class _MinigameComponentState extends State<MinigameComponent> {
+  @override
+  void initState() {
+    widget.controller.addListener(() => setState(() {}));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
-      width: width.w,
+      width: widget.width.w,
       child: Column(
         spacing: 20,
         children: [
           SizedBox(
-            width: width.w,
+            width: widget.width.w,
             height: 32.h,
             child: Row(
               spacing: 12.w,
@@ -49,7 +59,7 @@ class MinigameComponent extends StatelessWidget {
                   color: GogoColors.white,
                 ),
                 Text(
-                  '$point',
+                  '${widget.point}',
                   style: GogoTypography.body2Semibold.copyWith(
                     color: GogoColors.white,
                   ),
@@ -67,7 +77,7 @@ class MinigameComponent extends StatelessWidget {
                   color: GogoColors.white,
                 ),
                 Text(
-                  "$ticketsCount",
+                  "${widget.ticketsCount}",
                   style: GogoTypography.body3Semibold.copyWith(
                     color: GogoColors.white,
                   ),
@@ -76,29 +86,33 @@ class MinigameComponent extends StatelessWidget {
             ),
           ),
           GogoTextField(
-            controller: controller,
+            controller: widget.controller,
             hintText: '포인트를 입력해주세요',
             backgroundColor: GogoColors.gray700,
             keyboardType: TextInputType.number,
             endIcon: GogoIcons.pointCircle(),
             inputFormatter: [
               FilteringTextInputFormatter.digitsOnly,
+              CurrencyFormatter()
             ],
           ),
           Container(
-            width: width.w,
+            width: widget.width.w,
             height: 56,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: GogoColors.gray400,
+              color: widget.controller.text.isNotEmpty
+                  ? GogoColors.main600
+                  : GogoColors.gray400,
             ),
             child: TextButton(
               style: TextButton.styleFrom(
                 minimumSize: Size.zero,
               ),
-              onPressed: onTap,
+              onPressed:
+                  widget.controller.text.isNotEmpty ? widget.onTap : null,
               child: Text(
-                action,
+                widget.action,
                 style: GogoTypography.body3Semibold.copyWith(
                   color: GogoColors.white,
                 ),

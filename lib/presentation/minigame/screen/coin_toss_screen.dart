@@ -14,6 +14,7 @@ class CoinTossScreen extends StatefulWidget {
 
 class _CoinTossScreenState extends State<CoinTossScreen> {
   late VideoPlayerController _videoPlayerController;
+  final TextEditingController _pointController = TextEditingController();
 
   @override
   void initState() {
@@ -62,8 +63,8 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
                                 ),
-                                border:
-                                    Border.all(color: GogoColors.white, width: 1),
+                                border: Border.all(
+                                    color: GogoColors.white, width: 1),
                               ),
                               child: Text(
                                 '앞면',
@@ -100,6 +101,7 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
                   point: 1,
                   ticketsCount: 1,
                   action: '뒤집기',
+                  controller: _pointController,
                   onTap: _runVideo,
                 ),
               ],
