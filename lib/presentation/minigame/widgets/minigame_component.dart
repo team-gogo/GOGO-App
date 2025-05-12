@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/design_system/component/text_field/gogo_text_field.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
@@ -10,12 +11,14 @@ class MinigameComponent extends StatelessWidget {
   final int point;
   final int ticketsCount;
   final String action;
+  final VoidCallback onTap;
 
   const MinigameComponent({
     this.width = 343,
     required this.point,
     required this.ticketsCount,
     required this.action,
+    required this.onTap,
     super.key,
   });
 
@@ -78,7 +81,9 @@ class MinigameComponent extends StatelessWidget {
             backgroundColor: GogoColors.gray700,
             keyboardType: TextInputType.number,
             endIcon: GogoIcons.pointCircle(),
-            inputFormatter: [NumericInputFormatter()],
+            inputFormatter: [
+              FilteringTextInputFormatter.digitsOnly,
+            ],
           ),
           Container(
             width: width.w,
@@ -91,7 +96,7 @@ class MinigameComponent extends StatelessWidget {
               style: TextButton.styleFrom(
                 minimumSize: Size.zero,
               ),
-              onPressed: () {},
+              onPressed: onTap,
               child: Text(
                 action,
                 style: GogoTypography.body3Semibold.copyWith(
