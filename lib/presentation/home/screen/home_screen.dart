@@ -19,7 +19,7 @@ import '../widgets/match_card/match_card_component.dart';
 import '../widgets/minigame/minigame_play_component.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.stageId});
 
   @override
   Widget build(BuildContext context) {
