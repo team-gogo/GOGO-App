@@ -21,11 +21,11 @@ import '../widgets/minigame/minigame_play_component.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key, required this.stageId});
 
+  final int stageId;
+
   @override
   Widget build(BuildContext context) {
-    final uuid = GoRouterState.of(context).extra as int?;
-
-    if (uuid == null) {
+    if (stageId == null) {
       return const Scaffold(
         body: Center(
           child: Text(
@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     return BlocProvider(
-      create: (context) => HomeBloc(stageId: uuid),
+      create: (context) => HomeBloc(stageId: stageId),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (BuildContext context, HomeState state) {
           if (state is LoadingHomeState) {
@@ -130,7 +130,7 @@ class HomeScreen extends StatelessWidget {
                                       return RankingListItem(
                                         index: index,
                                         name: rank.name,
-                                        point: rank.point.toDouble(),
+                                        point: rank.point,
                                       );
                                     }),
                                   ),
