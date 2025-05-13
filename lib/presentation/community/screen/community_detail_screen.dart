@@ -146,9 +146,18 @@ class CommunityDetailScreen extends StatelessWidget {
                                               ),
                                             ),
                                             SizedBox(width: 8),
+                                            state.response.isLiked ?
+                                            GogoIcons.heartFilled(
+                                              onTap: () {
+                                                context.read<CommunityDetailBloc>().add(CommunityPostLiked());
+                                              },
+                                              color: Colors.red,
+                                            ) :
                                             GogoIcons.heartOutlined(
-                                              onTap: () {},
-                                              color: state.response.isLiked ? Colors.red : GogoColors.gray300,
+                                              onTap: () {
+                                                context.read<CommunityDetailBloc>().add(CommunityPostLiked());
+                                              },
+                                              color:GogoColors.gray300,
                                             ),
                                             SizedBox(width: 4),
                                             Text(

@@ -13,3 +13,5 @@ class CommunityWriteComment extends CommunityDetailEvent {
 
   CommunityWriteComment({required this.content});
 }
+
+class CommunityPostLiked extends CommunityDetailEvent {}

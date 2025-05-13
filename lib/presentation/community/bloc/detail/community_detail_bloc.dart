@@ -11,8 +11,9 @@ class CommunityDetailBloc extends Bloc<CommunityDetailEvent, CommunityDetailStat
 
   CommunityDetailBloc({required this.boardId}) : super(CommunityDetailLoadingState()) {
     on<FetchCommunityDetailEvent>(_onFetchCommunityDetail);
-    on<CommunityCommentLiked>(_onLikedComment);
+    on<CommunityCommentLiked>(_onLikeComment);
     on<CommunityWriteComment>(_onWriteComment);
+    on<CommunityPostLiked>(_onLikePost);
   }
 
   Future<void> _onFetchCommunityDetail(
@@ -28,7 +29,7 @@ class CommunityDetailBloc extends Bloc<CommunityDetailEvent, CommunityDetailStat
     }
   }
 
-  Future<void> _onLikedComment(
+  Future<void> _onLikeComment(
     CommunityCommentLiked event,
     Emitter<CommunityDetailState> emit,
   ) async {
@@ -56,7 +57,7 @@ class CommunityDetailBloc extends Bloc<CommunityDetailEvent, CommunityDetailStat
       await repository.likeCommunityComment(event.commentId);
     } catch (e) {
       emit(CommunityDetailLoadedState(response: oldResponse));
-      emit(CommunityDetailErrorState(message: '댓글 좋아요 처리 중 오류 발생'));
+      emit(CommunityDetailErrorState(message: e.toString()));
     }
   }
 
@@ -75,4 +76,24 @@ class CommunityDetailBloc extends Bloc<CommunityDetailEvent, CommunityDetailStat
     emit(CommunityDetailErrorState(message: e.toString()));
   }
 }
+
+  Future<void> _onLikePost(
+    CommunityPostLiked event,
+    Emitter<CommunityDetailState> emit,
+  ) async {
+    if (state is! CommunityDetailLoadedState) return;
+    final current = (state as CommunityDetailLoadedState).response;
+
+    final newLiked = !current.isLiked;
+    final newLikeCount = newLiked ? current.likeCount + 1 : current.likeCount - 1;
+    final newResponse = current.copyWith(isLiked: newLiked, likeCount: newLikeCount);
+    emit(CommunityDetailLoadedState(response:newResponse));
+
+    try {
+      await repository.likeCommunityPost(current.boardId);
+    } catch (e) {
+      emit(CommunityDetailLoadedState(response:current)); 
+      emit(CommunityDetailErrorState(message: e.toString()));
+    }
+  }
 }
