@@ -7,3 +7,9 @@ class CommunityCommentLiked extends CommunityDetailEvent {
 
   CommunityCommentLiked({required this.commentId});
 }
+
+class CommunityWriteComment extends CommunityDetailEvent {
+  final String content;
+
+  CommunityWriteComment({required this.content});
+}

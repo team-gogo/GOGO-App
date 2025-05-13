@@ -64,7 +64,7 @@ class CommunityDetailScreen extends StatelessWidget {
                     builder: (context, state) {
                       switch (state) {
                         case CommunityDetailLoadingState _:
-                          return LoadingPage();
+                          return SizedBox();
 
                         case CommunityDetailLoadedState _:
                           return Column(
@@ -205,19 +205,30 @@ class CommunityDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              GogoTextField(
-                controller: controller,
-                hintText: '댓글을 입력해주세요',
-                endIcon: GogoIcons.send(
+              BlocBuilder<CommunityDetailBloc, CommunityDetailState>(
+                builder: (context,state) {
+                return GogoTextField(
+                  keyboardType: TextInputType.multiline,
+                  controller: controller,
+                  hintText: '댓글을 입력해주세요',
+                  endIcon: GogoIcons.send(
                   color: GogoColors.gray400,
+                  onTap: () {
+                    if (controller.value.text.isNotEmpty) {
+                      context.read<CommunityDetailBloc>().add(CommunityWriteComment(content: controller.value.text));
+                      controller.clear();
+                    }
+                  },
                 ),
-              ),
-            ],
-          ),
+              );
+                }
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 class CommentList extends StatelessWidget {
@@ -227,7 +238,7 @@ class CommentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isLiked = comment.isLiked;
+    final bool isLiked = comment.isLiked ?? false;
     final int likeCount = comment.likeCount;
 
     void onLikeTap() {
