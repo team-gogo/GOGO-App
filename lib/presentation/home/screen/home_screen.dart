@@ -19,9 +19,9 @@ import '../widgets/match_card/match_card_component.dart';
 import '../widgets/minigame/minigame_play_component.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key, required this.stageId});
+  const HomeScreen({super.key, this.stageId});
 
-  final int stageId;
+  final int? stageId;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     return BlocProvider(
-      create: (context) => HomeBloc(stageId: stageId),
+      create: (context) => HomeBloc(stageId: stageId!),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (BuildContext context, HomeState state) {
           if (state is LoadingHomeState) {
