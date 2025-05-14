@@ -35,11 +35,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       points = SearchMyPointResponse(point: point.point);
 
       final rankingResponse =
-          await _stageRepository.searchRanking(stageId, 1, 5);
+          await _stageRepository.searchRanking(stageId, 0, 5);
       ranking = rankingResponse.rank;
 
       final postsResponse =
-          await _stageRepository.getCommunityPosts(stageId, 1, 5, null, null);
+          await _stageRepository.getCommunityPosts(stageId, 0, 5, null, null);
       communityPosts = postsResponse.board;
     } catch (e) {
       emit(ErrorHomeState());
