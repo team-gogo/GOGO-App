@@ -171,7 +171,19 @@ class HomeScreen extends StatelessWidget {
                                           title: board.title,
                                           commentNum: board.commentCount,
                                           likeNum: board.likeCount,
-                                          ontap: () {},
+                                          ontap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CommunityDetailScreen(
+                                                        boardId: state
+                                                            .communityPosts[
+                                                                index]
+                                                            .boardId),
+                                              ),
+                                            );
+                                          },
                                         );
                                       },
                                     ),
