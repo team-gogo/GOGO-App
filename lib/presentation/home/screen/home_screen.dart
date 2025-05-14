@@ -24,24 +24,14 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (stageId == null) {
-      return const Scaffold(
-        body: Center(
-          child: Text(
-            '잘못된 접근입니다.',
-            style: TextStyle(color: Colors.red, fontSize: 18),
-          ),
-        ),
-      );
-    }
-
     return BlocProvider(
       create: (context) => HomeBloc(stageId: stageId!),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (BuildContext context, HomeState state) {
+          print(state);
           if (state is LoadingHomeState) {
             return LoadingPage();
-          } else {
+          } else if (state is LoadedHomeState) {
             return Scaffold(
               body: RefreshIndicator(
                 onRefresh: () async {
@@ -53,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
                       child: HomeAppbar(
-                        point: context.read<HomeBloc>().points.point,
+                        point: state.points.point,
                         selectedDate: context.read<HomeBloc>().selectedDate,
                         setSelectedDate: (DateTime date) => {
                           context.read<HomeBloc>().add(LoadMatchesByDate(date))
@@ -131,16 +121,9 @@ class HomeScreen extends StatelessWidget {
                                   child: Column(
                                     spacing: 8,
                                     children: List.generate(
-                                      min(
-                                          context
-                                              .read<HomeBloc>()
-                                              .ranking
-                                              .length,
-                                          5),
+                                      min(state.ranking.length, 5),
                                       (index) {
-                                        final rank = context
-                                            .read<HomeBloc>()
-                                            .ranking[index];
+                                        final rank = state.ranking[index];
                                         return RankingListItem(
                                           index: index,
                                           name: rank.name,
@@ -171,16 +154,11 @@ class HomeScreen extends StatelessWidget {
                                   child: Column(
                                     spacing: 8,
                                     children: List.generate(
-                                      min(
-                                          context
-                                              .read<HomeBloc>()
-                                              .communityPosts
-                                              .length,
-                                          5),
+                                      min(state.communityPosts.length, 5),
                                       (index) {
-                                        final board = context
-                                            .read<HomeBloc>()
-                                            .communityPosts[index];
+                                        final board =
+                                            state.communityPosts[index];
+                                        print(board.title);
                                         return CommunityItem(
                                           name: board.author.name,
                                           gameType: board.gameCategory,
@@ -200,6 +178,15 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+              ),
+            );
+          } else {
+            return const Scaffold(
+              body: Center(
+                child: Text(
+                  '잘못된 접근입니다.',
+                  style: TextStyle(color: Colors.red, fontSize: 18),
                 ),
               ),
             );
