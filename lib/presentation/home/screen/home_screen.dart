@@ -34,7 +34,6 @@ class HomeScreen extends StatelessWidget {
       create: (context) => HomeBloc(stageId: stageId!),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (BuildContext context, HomeState state) {
-          print(state);
           if (state is LoadingHomeState) {
             return LoadingPage();
           } else if (state is LoadedHomeState) {
@@ -73,25 +72,60 @@ class HomeScreen extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16),
                                   scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    spacing: 8,
-                                    children: List.generate(
-                                      min(
-                                          context
-                                              .read<HomeBloc>()
-                                              .matches
-                                              .length,
-                                          5),
-                                      (index) {
-                                        final match = context
-                                            .read<HomeBloc>()
-                                            .matches[index];
-                                        return MatchCard(
-                                          matchDto: match,
-                                          onBattingClick: () {},
+                                  child: Builder(
+                                    builder: (context) {
+                                      final matches =
+                                          context.read<HomeBloc>().matches;
+                                      if (matches.isEmpty) {
+                                        return Center(
+                                          child: Stack(
+                                            children: [
+                                              Text(
+                                                "오늘\n매치가 없습니다",
+                                                style: TextStyle(
+                                                  fontFamily: 'GmarketSans',
+                                                  fontSize: 48,
+                                                  foreground: Paint()
+                                                    ..style =
+                                                        PaintingStyle.stroke
+                                                    ..strokeWidth = 1
+                                                    ..color =
+                                                        GogoColors.main600,
+                                                ),
+                                              ),
+                                              Transform.translate(
+                                                offset: Offset(5, -3),
+                                                child: Text(
+                                                  "오늘\n매치가 없습니다",
+                                                  style: TextStyle(
+                                                    fontFamily: 'GmarketSans',
+                                                    fontSize: 48,
+                                                    color: GogoColors.main600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         );
-                                      },
-                                    ),
+                                      }
+
+                                      return Row(
+                                        children: List.generate(
+                                          min(matches.length, 5),
+                                          (index) {
+                                            final match = matches[index];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8),
+                                              child: MatchCard(
+                                                matchDto: match,
+                                                onBattingClick: () {},
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
@@ -164,7 +198,6 @@ class HomeScreen extends StatelessWidget {
                                       (index) {
                                         final board =
                                             state.communityPosts[index];
-                                        print(board.title);
                                         return CommunityItem(
                                           name: '역명',
                                           gameType: board.gameCategory,
