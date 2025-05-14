@@ -166,11 +166,12 @@ class HomeScreen extends StatelessWidget {
                                             state.communityPosts[index];
                                         print(board.title);
                                         return CommunityItem(
-                                          name: board.author.name,
+                                          name: '역명',
                                           gameType: board.gameCategory,
                                           title: board.title,
                                           commentNum: board.commentCount,
                                           likeNum: board.likeCount,
+                                          ontap: () {},
                                         );
                                       },
                                     ),
