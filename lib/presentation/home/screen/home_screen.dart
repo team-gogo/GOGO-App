@@ -38,24 +38,24 @@ class HomeScreen extends StatelessWidget {
             return LoadingPage();
           } else if (state is LoadedHomeState) {
             return Scaffold(
-              body: RefreshIndicator(
-                onRefresh: () async {
-                  context.read<HomeBloc>().add(LoadHome());
-                  await Future.delayed(Duration(seconds: 1));
-                },
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
-                      child: HomeAppbar(
-                        point: state.points.point,
-                        selectedDate: context.read<HomeBloc>().selectedDate,
-                        setSelectedDate: (DateTime date) => {
-                          context.read<HomeBloc>().add(LoadMatchesByDate(date))
-                        },
-                      ),
+              body: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
+                    child: HomeAppbar(
+                      point: state.points.point,
+                      selectedDate: context.read<HomeBloc>().selectedDate,
+                      setSelectedDate: (DateTime date) => {
+                        context.read<HomeBloc>().add(LoadMatchesByDate(date))
+                      },
                     ),
-                    Expanded(
+                  ),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        context.read<HomeBloc>().add(LoadHome());
+                        await Future.delayed(Duration(seconds: 1));
+                      },
                       child: SingleChildScrollView(
                         child: Column(
                           spacing: 40,
@@ -78,33 +78,39 @@ class HomeScreen extends StatelessWidget {
                                           context.read<HomeBloc>().matches;
                                       if (matches.isEmpty) {
                                         return Center(
-                                          child: Stack(
-                                            children: [
-                                              Text(
-                                                "오늘\n매치가 없습니다",
-                                                style: TextStyle(
-                                                  fontFamily: 'GmarketSans',
-                                                  fontSize: 48,
-                                                  foreground: Paint()
-                                                    ..style =
-                                                        PaintingStyle.stroke
-                                                    ..strokeWidth = 1
-                                                    ..color =
-                                                        GogoColors.main600,
-                                                ),
-                                              ),
-                                              Transform.translate(
-                                                offset: Offset(5, -3),
-                                                child: Text(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 30),
+                                            child: Stack(
+                                              children: [
+                                                Text(
                                                   "오늘\n매치가 없습니다",
                                                   style: TextStyle(
                                                     fontFamily: 'GmarketSans',
                                                     fontSize: 48,
-                                                    color: GogoColors.main600,
+                                                    foreground: Paint()
+                                                      ..style =
+                                                          PaintingStyle.stroke
+                                                      ..strokeWidth = 1
+                                                      ..color =
+                                                          GogoColors.main600,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                Transform.translate(
+                                                  offset: Offset(5, -3),
+                                                  child: Text(
+                                                    "오늘\n매치가 없습니다",
+                                                    style: TextStyle(
+                                                      fontFamily: 'GmarketSans',
+                                                      fontSize: 48,
+                                                      color: GogoColors.main600,
+                                                    ),
+                                                    textAlign: TextAlign.center,
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         );
                                       }
@@ -136,10 +142,15 @@ class HomeScreen extends StatelessWidget {
                                 _itemTopBar(
                                   GogoIcons.arcade(color: GogoColors.white),
                                   text: '미니게임',
-                                  onTap: () =>
-                                      context.pushNamed(PageRouter.miniGame),
+                                  onTap: () => context.pushNamed(
+                                      PageRouter.miniGame,
+                                      pathParameters: {
+                                        'stageId': stageId.toString()
+                                      }),
                                 ),
-                                MinigamePlayComponent()
+                                MinigamePlayComponent(
+                                  activeGameResponse: state.activeGameResponse,
+                                )
                               ],
                             ),
                             Column(
@@ -229,8 +240,8 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           } else {
