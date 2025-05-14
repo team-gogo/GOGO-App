@@ -13,17 +13,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   final int stageId;
   bool isLoading = false;
-  SearchMyPointResponse points = SearchMyPointResponse(point: 0);
-  List<Board> communityPosts = [];
-  List<Rank> ranking = [];
-  List<MatchDto> matches = [];
   DateTime selectedDate = DateTime.now();
-  String errorMessage = '';
+  List<MatchDto> matches = [];
 
   HomeBloc({required this.stageId}) : super(InitialHomeState()) {
     on<LoadHome>(_onLoadHome);
     on<LoadMatchesByDate>(_onLoadMatchesByDate);
-
     add(LoadHome());
     add(LoadMatchesByDate(selectedDate));
   }
@@ -31,24 +26,29 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _onLoadHome(LoadHome event, Emitter<HomeState> emit) async {
     emit(LoadingHomeState());
     try {
-      final point = await _stageRepository.getMyPoint(stageId);
-      points = SearchMyPointResponse(point: point.point);
+      final pointResponse = await _stageRepository.getMyPoint(stageId);
+      final point = SearchMyPointResponse(point: pointResponse.point);
 
       final rankingResponse =
           await _stageRepository.searchRanking(stageId, 0, 5);
-      ranking = rankingResponse.rank;
+      final ranking = rankingResponse.rank;
 
       final postsResponse =
           await _stageRepository.getCommunityPosts(stageId, 0, 5, null, null);
-      communityPosts = postsResponse.board;
+      final communityPosts = postsResponse.board;
+      emit(LoadedHomeState(
+        communityPosts: communityPosts,
+        ranking: ranking,
+        points: point,
+      ));
     } catch (e) {
+      print(e);
       emit(ErrorHomeState());
     }
   }
 
   Future<void> _onLoadMatchesByDate(
       LoadMatchesByDate event, Emitter<HomeState> emit) async {
-    emit(LoadingMatchHomeState());
     try {
       final matchesResponse = await _stageRepository.searchMatch(
           stageId, selectedDate.year, selectedDate.month, selectedDate.day);
