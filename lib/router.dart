@@ -108,7 +108,7 @@ class PageRouter {
                 routes: [
                   GoRoute(
                       name: home,
-                      path: ":stageId",
+                      path: '/:stageId',
                       pageBuilder: (context, state) => CupertinoPage(
                             child: HomeScreen(
                               stageId: int.parse(
