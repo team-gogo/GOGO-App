@@ -132,6 +132,27 @@ class PageRouter {
                                 child: RankingPage(stageId: stageId),
                               ));
                             }),
+                        GoRoute(
+                            name: community,
+                            path: community,
+                            pageBuilder: (context, state) {
+                              final stageId =
+                                  int.parse(state.pathParameters['stageId']!);
+                              return CupertinoPage(
+                                  child: CommunityMainScreen(stageId: stageId));
+                            },
+                            routes: [
+                              GoRoute(
+                                name: communityWrite,
+                                path: communityWrite,
+                                pageBuilder: (context, state) {
+                                  final stageId = int.parse(
+                                      state.pathParameters['stageId']!);
+                                  return CupertinoPage(
+                                      child: CommunityWriteScreen(stageId: stageId));
+                                },
+                              ),
+                            ]),
                         _customGoRoute(
                             name: coinToss, screen: CoinTossScreen()),
                         _customGoRoute(
@@ -153,13 +174,6 @@ class PageRouter {
       ),
       _customGoRoute(name: editProfile, screen: EditProfilePage()),
       _customGoRoute(name: createStage, screen: StageCreateScreen()),
-      _customGoRoute(
-        name: community,
-        screen: CommunityMainScreen(stageId: 1,),
-        routes: [
-          _customGoRoute(name: communityWrite, screen: CommunityWriteScreen(stageId: 1, ))
-        ],
-      )
     ],
   );
 }
