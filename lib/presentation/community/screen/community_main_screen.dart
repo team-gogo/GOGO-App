@@ -191,7 +191,7 @@ class _CommunityMainScreenContentState
                   ),
                 ],
               ),
-              const Divider(color: GogoColors.gray600, thickness: 0, height: 1),
+              const Divider(color: GogoColors.gray600, thickness: 0.5, height: 1),
               BlocBuilder<CommunityBloc, CommunityState>(
                 buildWhen: (previous, current) {
                   return previous != current;
@@ -304,8 +304,9 @@ class _CommunityMainScreenContentState
                     return const Expanded(
                       child: Center(
                         child: Text('No data available',
-                            style: TextStyle(color: Colors.white)),
+                            style: TextStyle(color: Colors.white,fontSize: 40),
                       ),
+                      )
                     );
                   }
                 },
