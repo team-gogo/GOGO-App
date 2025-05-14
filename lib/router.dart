@@ -155,9 +155,9 @@ class PageRouter {
       _customGoRoute(name: createStage, screen: StageCreateScreen()),
       _customGoRoute(
         name: community,
-        screen: CommunityMainScreen(),
+        screen: CommunityMainScreen(stageId: 1,),
         routes: [
-          _customGoRoute(name: communityWrite, screen: CommunityWriteScreen())
+          _customGoRoute(name: communityWrite, screen: CommunityWriteScreen(stageId: 1, ))
         ],
       )
     ],
