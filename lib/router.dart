@@ -97,7 +97,7 @@ class PageRouter {
         ),
         branches: [
           StatefulShellBranch(routes: [
-            _customGoRoute(name: home, screen: HomeScreen(), routes: [
+            _customGoRoute(name: home, screen: HomeScreen(stageId: 1,), routes: [
               _customGoRoute(name: miniGame, screen: MinigameScreen())
             ])
           ]),
@@ -117,9 +117,9 @@ class PageRouter {
       _customGoRoute(name: matchList, screen: MatchListScreen()),
       _customGoRoute(
         name: community,
-        screen: CommunityMainScreen(),
+        screen: CommunityMainScreen(stageId: 1,),
         routes: [
-          _customGoRoute(name: communityWrite, screen: CommunityWriteScreen())
+          _customGoRoute(name: communityWrite, screen: CommunityWriteScreen(stageId: 1, ))
         ],
       )
     ],

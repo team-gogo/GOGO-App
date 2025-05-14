@@ -43,7 +43,6 @@ class Board {
   final DateTime createdAt;
   final StageType stageType;
   final int commentCount;
-  final Author author;
 
   Board({
     required this.boardId,
@@ -53,27 +52,8 @@ class Board {
     required this.createdAt,
     required this.commentCount,
     required this.stageType,
-    required this.author,
   });
 
   factory Board.fromJson(Map<String, dynamic> json) => _$BoardFromJson(json);
   Map<String, dynamic> toJson() => _$BoardToJson(this);
-}
-
-@JsonSerializable()
-class Author {
-  final int studentId;
-  final String name;
-  final int classNumber;
-  final int studentNumber;
-
-  Author({
-    required this.studentId,
-    required this.name,
-    required this.classNumber,
-    required this.studentNumber,
-  });
-
-  factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
-  Map<String, dynamic> toJson() => _$AuthorToJson(this);
 }
