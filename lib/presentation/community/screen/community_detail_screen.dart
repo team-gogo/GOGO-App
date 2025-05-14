@@ -169,7 +169,7 @@ class CommunityDetailScreen extends StatelessWidget {
                                           ],
                                         ),
                                         Text(
-                                          state.response.createdAt.toString(),
+                                          DateTime.parse(state.response.createdAt).toIso8601String().substring(0, 10),
                                           style: GogoTypography.caption2Semibold.copyWith(
                                             color: GogoColors.gray500,
                                           ),
