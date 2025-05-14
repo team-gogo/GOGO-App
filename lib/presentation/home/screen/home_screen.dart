@@ -116,10 +116,15 @@ class HomeScreen extends StatelessWidget {
                               spacing: 16,
                               children: [
                                 _itemTopBar(
-                                    GogoIcons.trophy(color: GogoColors.white),
-                                    text: '포인트 랭킹',
-                                    onTap: () =>
-                                        context.pushNamed(PageRouter.ranking)),
+                                  GogoIcons.trophy(color: GogoColors.white),
+                                  text: '포인트 랭킹',
+                                  onTap: () => context.pushNamed(
+                                    PageRouter.ranking,
+                                    pathParameters: {
+                                      'stageId': stageId.toString()
+                                    },
+                                  ),
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16),
@@ -153,8 +158,12 @@ class HomeScreen extends StatelessWidget {
                                 _itemTopBar(
                                   GogoIcons.community(color: GogoColors.white),
                                   text: '커뮤니티',
-                                  onTap: () =>
-                                      context.pushNamed(PageRouter.community),
+                                  onTap: () => context.pushNamed(
+                                    PageRouter.community,
+                                    pathParameters: {
+                                      'stageId': stageId.toString()
+                                    },
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
