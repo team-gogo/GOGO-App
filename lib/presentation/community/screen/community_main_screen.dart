@@ -198,7 +198,11 @@ class _CommunityMainScreenContentState
                 },
                 builder: (context, state) {
                   if (state is CommunityLoadingState) {
-                    return SizedBox();
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: GogoColors.main500,
+                      ),
+                    );
                   } else if (state is CommunityLoadedState) {
                     final totalPage = state.response.info.totalPage;
                     final startPage = (currentPage / 5).floor() * 5;
