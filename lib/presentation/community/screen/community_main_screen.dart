@@ -205,79 +205,86 @@ class _CommunityMainScreenContentState
                     final endPage = min(startPage + 5, totalPage);
 
                     return Expanded(
-                      child: SingleChildScrollView(
-                        controller: scrollController,
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 16),
-                            Column(
-                              spacing: 8,
-                              children: List.generate(
-                                state.response.board.length,
-                                (index) => CommunityItem(
-                                  gameType:
-                                      state.response.board[index].gameCategory,
-                                  title: state.response.board[index].title,
-                                  name: "익명",
-                                  commentNum: state.response.board[index].commentCount,
-                                  likeNum:
-                                      state.response.board[index].likeCount,
-                                  ontap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityDetailScreen(boardId: state.response.board[index].boardId)));
-                                  },
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                currentPage > 0
-                                    ? InkWell(
-                                        onTap: () =>
-                                            _onPageChanged(currentPage - 1),
-                                        child: GogoIcons.chevronLeft(
-                                          color: GogoColors.gray500,
-                                          width: 16,
-                                          height: 16,
-                                        ),
-                                      )
-                                    : const SizedBox(width: 16),
-                                for (int i = startPage; i < endPage; i++)
-                                  TextButton(
-                                    style: TextButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8),
-                                      minimumSize: const Size(16, 16),
-                                    ),
-                                    onPressed: () => _onPageChanged(i),
-                                    child: Text(
-                                      (i + 1).toString(),
-                                      style: GogoTypography.caption1Extrabold
-                                          .copyWith(
-                                        color: currentPage == i
-                                            ? GogoColors.main600
-                                            : GogoColors.gray500,
-                                      ),
-                                    ),
-                                  ),
-                                currentPage < totalPage - 1
-                                    ? InkWell(
-                                        onTap: () =>
-                                            _onPageChanged(currentPage + 1),
-                                        child: GogoIcons.chevronRight(
-                                          color: GogoColors.gray500,
-                                          width: 16,
-                                          height: 16,
-                                        ),
-                                      )
-                                    : const SizedBox(width: 16),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          _fetchCommunity();
+                        },
+                        child: ListView(
+      controller: scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
+      children: [
+        const SizedBox(height: 16),
+        ...List.generate(
+          state.response.board.length,
+          (index) => Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: CommunityItem(
+              gameType: state.response.board[index].gameCategory,
+              title: state.response.board[index].title,
+              name: "익명",
+              commentNum: state.response.board[index].commentCount,
+              likeNum: state.response.board[index].likeCount,
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CommunityDetailScreen(
+                      boardId: state.response.board[index].boardId,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            currentPage > 0
+                ? InkWell(
+                    onTap: () => _onPageChanged(currentPage - 1),
+                    child: GogoIcons.chevronLeft(
+                      color: GogoColors.gray500,
+                      width: 16,
+                      height: 16,
+                    ),
+                  )
+                : const SizedBox(width: 16),
+            for (int i = startPage; i < endPage; i++)
+              TextButton(
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  minimumSize: const Size(16, 16),
+                ),
+                onPressed: () => _onPageChanged(i),
+                child: Text(
+                  (i + 1).toString(),
+                  style: GogoTypography.caption1Extrabold.copyWith(
+                    color: currentPage == i
+                        ? GogoColors.main600
+                        : GogoColors.gray500,
+                  ),
+                ),
+              ),
+            currentPage < totalPage - 1
+                ? InkWell(
+                    onTap: () => _onPageChanged(currentPage + 1),
+                    child: GogoIcons.chevronRight(
+                      color: GogoColors.gray500,
+                      width: 16,
+                      height: 16,
+                    ),
+                  )
+                : const SizedBox(width: 16),
+          ],
+        ),
+        const SizedBox(height: 24),
+      ],
+    ),
+  ),
+);
+
                   } else if (state is CommunityErrorState) {
                     return Expanded(
                       child: Center(
