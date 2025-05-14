@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,8 +10,6 @@ import 'package:gogo_app/presentation/loadaing_page.dart';
 import 'package:gogo_app/presentation/ranking/widgets/ranking_list_item.dart';
 import 'package:gogo_app/router.dart';
 import 'package:intl/intl.dart';
-import '../../../data/models/stage/community/search_board_response.dart';
-import '../../../data/models/stage/search_stage/search_ranking_response.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
 import '../bloc/home_event.dart';
@@ -69,9 +68,7 @@ class HomeScreen extends StatelessWidget {
                             Column(
                               spacing: 16,
                               children: [
-                                SizedBox(
-                                  height: 8,
-                                ),
+                                SizedBox(height: 8),
                                 _itemTopBar(
                                   GogoIcons.clock(color: GogoColors.white),
                                   date: context.read<HomeBloc>().selectedDate,
@@ -83,12 +80,16 @@ class HomeScreen extends StatelessWidget {
                                   child: Row(
                                     spacing: 8,
                                     children: List.generate(
-                                      5,
+                                      min(
+                                          context
+                                              .read<HomeBloc>()
+                                              .matches
+                                              .length,
+                                          5),
                                       (index) {
                                         final match = context
                                             .read<HomeBloc>()
                                             .matches[index];
-
                                         return MatchCard(
                                           matchDto: match,
                                           onBattingClick: () {},
@@ -103,10 +104,11 @@ class HomeScreen extends StatelessWidget {
                               spacing: 16,
                               children: [
                                 _itemTopBar(
-                                    GogoIcons.arcade(color: GogoColors.white),
-                                    text: '미니게임',
-                                    onTap: () =>
-                                        context.pushNamed(PageRouter.miniGame)),
+                                  GogoIcons.arcade(color: GogoColors.white),
+                                  text: '미니게임',
+                                  onTap: () =>
+                                      context.pushNamed(PageRouter.miniGame),
+                                ),
                                 MinigamePlayComponent()
                               ],
                             ),
@@ -123,16 +125,24 @@ class HomeScreen extends StatelessWidget {
                                       horizontal: 16),
                                   child: Column(
                                     spacing: 8,
-                                    children: List.generate(5, (index) {
-                                      Rank rank = context
-                                          .read<HomeBloc>()
-                                          .ranking[index];
-                                      return RankingListItem(
-                                        index: index,
-                                        name: rank.name,
-                                        point: rank.point,
-                                      );
-                                    }),
+                                    children: List.generate(
+                                      min(
+                                          context
+                                              .read<HomeBloc>()
+                                              .ranking
+                                              .length,
+                                          5),
+                                      (index) {
+                                        final rank = context
+                                            .read<HomeBloc>()
+                                            .ranking[index];
+                                        return RankingListItem(
+                                          index: index,
+                                          name: rank.name,
+                                          point: rank.point,
+                                        );
+                                      },
+                                    ),
                                   ),
                                 )
                               ],
@@ -151,25 +161,31 @@ class HomeScreen extends StatelessWidget {
                                       horizontal: 16),
                                   child: Column(
                                     spacing: 8,
-                                    children: List.generate(5, (index) {
-                                      Board board = context
-                                          .read<HomeBloc>()
-                                          .communityPosts[index];
-                                      return CommunityItem(
-                                        name: board.author.name,
-                                        gameType: board.gameCategory,
-                                        title: board.title,
-                                        commentNum: board.commentCount,
-                                        likeNum: board.likeCount,
-                                      );
-                                    }),
+                                    children: List.generate(
+                                      min(
+                                          context
+                                              .read<HomeBloc>()
+                                              .communityPosts
+                                              .length,
+                                          5),
+                                      (index) {
+                                        final board = context
+                                            .read<HomeBloc>()
+                                            .communityPosts[index];
+                                        return CommunityItem(
+                                          name: board.author.name,
+                                          gameType: board.gameCategory,
+                                          title: board.title,
+                                          commentNum: board.commentCount,
+                                          likeNum: board.likeCount,
+                                        );
+                                      },
+                                    ),
                                   ),
                                 )
                               ],
                             ),
-                            SizedBox(
-                              height: 20,
-                            )
+                            SizedBox(height: 20)
                           ],
                         ),
                       ),
