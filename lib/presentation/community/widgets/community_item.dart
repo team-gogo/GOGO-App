@@ -13,6 +13,7 @@ class CommunityItem extends StatelessWidget {
     required this.name,
     required this.commentNum,
     required this.likeNum,
+    required this.ontap
   });
 
   final GameType gameType;
@@ -20,6 +21,7 @@ class CommunityItem extends StatelessWidget {
   final String name;
   final int commentNum;
   final int likeNum;
+  VoidCallback ontap;
 
   Map<GameType, Widget> gameTypeIcons = {
     GameType.SOCCER:
@@ -40,76 +42,79 @@ class CommunityItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 8),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: GogoColors.gray700,
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
-        ),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-              flex: 1,
-              child: gameTypeIcons[gameType] ??
-                  GogoIcons.etc(
-                      color: GogoColors.main500, height: 16, width: 16)),
-          Expanded(
-            flex: 2,
-            child: Text(
-              title,
-              style: GogoTypography.caption3Semibold.copyWith(
-                  color: GogoColors.white, overflow: TextOverflow.ellipsis),
-            ),
+    return GestureDetector(
+      onTap: ontap,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 8),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: GogoColors.gray700,
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
           ),
-          Expanded(
-            flex: 1,
-            child: Align(
-              alignment: Alignment.center,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: gameTypeIcons[gameType] ??
+                    GogoIcons.etc(
+                        color: GogoColors.main500, height: 16, width: 16)),
+            Expanded(
+              flex: 2,
               child: Text(
-                name,
+                title,
                 style: GogoTypography.caption3Semibold.copyWith(
-                    color: GogoColors.gray300, overflow: TextOverflow.ellipsis),
+                    color: GogoColors.white, overflow: TextOverflow.ellipsis),
               ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Row(
-              children: [
-                Row(
-                  children: [
-                    GogoIcons.communit(
-                        color: GogoColors.gray300, width: 12, height: 12),
-                    SizedBox(width: 4),
-                    Text(
-                      commentNum.toString(),
-                      style: GogoTypography.caption3Semibold.copyWith(
-                        color: GogoColors.gray300,
-                      ),
-                    ),
-                  ],
+            Expanded(
+              flex: 1,
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  name,
+                  style: GogoTypography.caption3Semibold.copyWith(
+                      color: GogoColors.gray300, overflow: TextOverflow.ellipsis),
                 ),
-                SizedBox(width: 8),
-                Row(
-                  children: [
-                    GogoIcons.heartOutlined(
-                        color: GogoColors.gray300, width: 12, height: 12),
-                    SizedBox(width: 4),
-                    Text(
-                      likeNum.toString(),
-                      style: GogoTypography.caption3Semibold.copyWith(
-                        color: GogoColors.gray300,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+            Expanded(
+              flex: 1,
+              child: Row(
+                children: [
+                  Row(
+                    children: [
+                      GogoIcons.communit(
+                          color: GogoColors.gray300, width: 12, height: 12),
+                      SizedBox(width: 4),
+                      Text(
+                        commentNum.toString(),
+                        style: GogoTypography.caption3Semibold.copyWith(
+                          color: GogoColors.gray300,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 8),
+                  Row(
+                    children: [
+                      GogoIcons.heartOutlined(
+                          color: GogoColors.gray300, width: 12, height: 12),
+                      SizedBox(width: 4),
+                      Text(
+                        likeNum.toString(),
+                        style: GogoTypography.caption3Semibold.copyWith(
+                          color: GogoColors.gray300,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

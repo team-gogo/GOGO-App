@@ -1,6 +1,3 @@
-import 'package:gogo_app/data/models/stage/community/sort_type.dart';
-import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
-
 class CommunityWriteState {
   final String title;
   final String content;
@@ -23,4 +20,15 @@ class CommunityWriteState {
       isValid: isValid ?? this.isValid,
     );
   }
+}
+
+class PostWriteSuccessState extends CommunityWriteState {
+  PostWriteSuccessState()
+      : super(title: '', content: '', isValid: false);
+}
+
+class PostWriteErrorState extends CommunityWriteState {
+  final String message;
+
+  PostWriteErrorState({required this.message}) : super(title: '', content: '', isValid: false);
 }

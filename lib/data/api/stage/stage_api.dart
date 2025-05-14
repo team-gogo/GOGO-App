@@ -145,7 +145,7 @@ abstract class StageApi {
   );
 
   // 경기 게시글 좋아요 ✅
-  @POST("/stage/community/{board_id}")
+  @POST("/stage/community/board/like/{board_id}")
   Future<CommunityLikeResponse> likeCommunityPost(
     @Path("board_id") int boardId,
   );
