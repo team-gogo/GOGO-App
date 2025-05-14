@@ -20,7 +20,7 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
   void initState() {
     super.initState();
     _videoPlayerController =
-        VideoPlayerController.asset('assets/media/coin_b.mp4')..initialize();
+        VideoPlayerController.asset('assets/media/coin_f.mp4')..initialize();
     _videoPlayerController.setPlaybackSpeed(2.0);
   }
 
@@ -46,9 +46,17 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
                 Column(
                   spacing: 24,
                   children: [
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: VideoPlayer(_videoPlayerController),
+                    ClipRect(
+                      child: Transform.scale(
+                        scale: 1.5,
+                        child: Transform.translate(
+                          offset: Offset(0, -80),
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                            child: VideoPlayer(_videoPlayerController),
+                          ),
+                        ),
+                      ),
                     ),
                     Row(
                       spacing: 15,
