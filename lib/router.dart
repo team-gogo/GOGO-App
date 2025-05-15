@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
@@ -148,8 +149,13 @@ class PageRouter {
                                 pageBuilder: (context, state) {
                                   final stageId = int.parse(
                                       state.pathParameters['stageId']!);
+                                  final List<GameType>gameTypeList = state.extra
+                                      as List<GameType>;
                                   return CupertinoPage(
-                                      child: CommunityWriteScreen(stageId: stageId));
+                                      child: CommunityWriteScreen(
+                                    stageId: stageId,
+                                    gameTypeList: gameTypeList,
+                                  ));
                                 },
                               ),
                             ]),
