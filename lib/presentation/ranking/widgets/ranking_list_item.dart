@@ -5,7 +5,7 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 class RankingListItem extends StatelessWidget {
   final int index;
   final String name;
-  final double point;
+  final int point;
 
   const RankingListItem(
       {super.key,
@@ -30,7 +30,7 @@ class RankingListItem extends StatelessWidget {
             spacing: 24,
             children: [
               Text(
-                "${index + 1}등",
+                "${index + 4}등",
                 style: GogoTypography.caption1Extrabold.copyWith(
                   color: GogoColors.white,
                 ),

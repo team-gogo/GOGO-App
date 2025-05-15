@@ -32,8 +32,4 @@ class StageBloc extends Bloc<StageEvent, StageState> {
     }
   }
 
-  @override
-  Future<void> close() {
-    return super.close();
-  }
 }
