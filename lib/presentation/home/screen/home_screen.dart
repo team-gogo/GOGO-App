@@ -5,8 +5,6 @@ import 'package:gogo_app/data/models/stage/community/community_search_request_qu
 import 'package:gogo_app/data/models/stage/community/sort_type.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/community/bloc/detail/community_detail_bloc.dart';
-import 'package:gogo_app/presentation/community/bloc/detail/community_detail_state.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_bloc.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_event.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_state.dart';
@@ -22,8 +20,6 @@ import '../../../data/models/stage/enum_type/system_type.dart';
 import '../../../data/models/stage/search_stage/search_betting_stage_response.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
-import '../../ranking/bloc/ranking_bloc.dart';
-import '../../ranking/bloc/ranking_event.dart';
 import '../widgets/match_card/match_card_component.dart';
 import '../widgets/minigame/minigame_play_component.dart';
 
@@ -86,19 +82,20 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => CommunityBloc(
-        stageId: stageId,
-      )
-        ..add(
-          FetchCommunityEvent(
-            queryString: CommunitySearchRequestQueryString(
-              page: 0,
-              size: 15,
-              type: null,
-              sort: SortType.LATEST,
+        BlocProvider(
+          create: (BuildContext context) => CommunityBloc(
+            stageId: stageId,
+          )..add(
+              FetchCommunityEvent(
+                queryString: CommunitySearchRequestQueryString(
+                  page: 0,
+                  size: 15,
+                  type: null,
+                  sort: SortType.LATEST,
+                ),
+              ),
             ),
-          ),
-        ),)
+        )
       ],
       child: Scaffold(
         body: Column(
@@ -280,42 +277,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                                 onBattingClick: () {},
                               ),
-                              onBattingClick: () {},
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    spacing: 16,
-                    children: [
-                      _itemTopBar(GogoIcons.arcade(color: GogoColors.white),
-                          text: '미니게임',
-                          onTap: () =>
-                              context.pushNamed(PageRouter.miniGame)),
-                      MinigamePlayComponent()
-                    ],
-                  ),
-                  Column(
-                    spacing: 16,
-                    children: [
-                      _itemTopBar(
-                        GogoIcons.trophy(color: GogoColors.white),
-                        text: '포인트 랭킹',
-                        onTap: () => context.pushNamed(
-                          PageRouter.ranking,
-                          pathParameters: {'stageId': stageId.toString()},
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          spacing: 8,
-                          children: List.generate(
-                            5,
-                            (index) => RankingListItem(
-                                index: index, name: '홍길동', point: 100),
+                            ],
                           ),
                         ),
                       ],
@@ -325,16 +287,22 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         _itemTopBar(GogoIcons.arcade(color: GogoColors.white),
                             text: '미니게임',
-                            onTap: () => context.pushNamed(PageRouter.miniGame)),
+                            onTap: () =>
+                                context.pushNamed(PageRouter.miniGame)),
                         MinigamePlayComponent()
                       ],
                     ),
                     Column(
                       spacing: 16,
                       children: [
-                        _itemTopBar(GogoIcons.trophy(color: GogoColors.white),
-                            text: '포인트 랭킹',
-                            onTap: () => context.pushNamed(PageRouter.ranking)),
+                        _itemTopBar(
+                          GogoIcons.trophy(color: GogoColors.white),
+                          text: '포인트 랭킹',
+                          onTap: () => context.pushNamed(
+                            PageRouter.ranking,
+                            pathParameters: {'stageId': stageId.toString()},
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Column(
@@ -345,60 +313,77 @@ class HomeScreen extends StatelessWidget {
                                   index: index, name: '홍길동', point: 100),
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                    Column(
+                        ),
+                        Column(
                           spacing: 16,
                           children: [
                             _itemTopBar(
                               GogoIcons.community(color: GogoColors.white),
                               text: '커뮤니티',
-                              onTap: () => context.pushNamed(PageRouter.community),
+                              onTap: () =>
+                                  context.pushNamed(PageRouter.community),
                             ),
-                            BlocBuilder<CommunityBloc,CommunityState>(
-                              builder: (context,state) {
-                                switch (state){
-                                  case CommunityLoadingState _:
+                            BlocBuilder<CommunityBloc, CommunityState>(
+                                builder: (context, state) {
+                              switch (state) {
+                                case CommunityLoadingState _:
                                   return Center(
                                     child: CircularProgressIndicator(
                                       color: GogoColors.main600,
                                     ),
                                   );
                                   break;
-                                  case CommunityLoadedState _:
+                                case CommunityLoadedState _:
                                   return Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                                      child: Column(
-                                        spacing: 8,
-                                        children: List.generate(
-                                          5,
-                                          (index) => CommunityItem(
-                                            ontap: () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityDetailScreen(boardId: state.response.board[index].boardId)),);
-                                            },
-                                            name: "익명",
-                                            gameType: state.response.board[index].gameCategory,
-                                            title: state.response.board[index].title,
-                                            commentNum: state.response.board[index].commentCount,
-                                            likeNum: state.response.board[index].likeCount,
-                                          ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Column(
+                                      spacing: 8,
+                                      children: List.generate(
+                                        5,
+                                        (index) => CommunityItem(
+                                          ontap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CommunityDetailScreen(
+                                                          boardId: state
+                                                              .response
+                                                              .board[index]
+                                                              .boardId)),
+                                            );
+                                          },
+                                          name: "익명",
+                                          gameType: state.response.board[index]
+                                              .gameCategory,
+                                          title:
+                                              state.response.board[index].title,
+                                          commentNum: state.response
+                                              .board[index].commentCount,
+                                          likeNum: state
+                                              .response.board[index].likeCount,
                                         ),
                                       ),
-                                    );
-                                    case CommunityErrorState _:
-                                    return Text(state.message,style: TextStyle(color: Colors.white),);
+                                    ),
+                                  );
+                                case CommunityErrorState _:
+                                  return Text(
+                                    state.message,
+                                    style: TextStyle(color: Colors.white),
+                                  );
 
-                                    default:
-                                    return Text("값 없음");
-                                } 
+                                default:
+                                  return Text("값 없음");
                               }
-                            ),
+                            }),
                           ],
                         ),
-                    SizedBox(
-                      height: 20,
-                    )
+                        SizedBox(
+                          height: 20,
+                        )
+                      ],
+                    ),
                   ],
                 ),
               ),
