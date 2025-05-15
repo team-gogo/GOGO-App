@@ -29,9 +29,10 @@ class RankingBloc extends Bloc<RankingEvent, RankingState> {
       GetRanking event, Emitter<RankingState> emit) async {
     if (state.hasReachedMax) return;
     try {
-      currentPage ++;
       final response = await _rankingRepository.searchRanking(
           event.stageId, currentPage, _postLimit);
+      currentPage++;
+
       if (response.rank.isEmpty) {
         return emit(state.copyWith(hasReachedMax: true));
       }
