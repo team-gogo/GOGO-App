@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/community/bloc/detail/community_detail_bloc.dart';
-import 'package:gogo_app/presentation/community/bloc/detail/community_detail_state.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_bloc.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_event.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_state.dart';
