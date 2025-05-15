@@ -108,7 +108,7 @@ abstract class StageApi {
   );
 
   //포인트 랭킹 조회 ✅
-  @GET('/stage/ranking/{stage_id}')
+  @GET('/stage/rank/{stage_id}')
   Future<SearchRankingResponse> searchRanking(
     @Path('stage_id') int stageId,
     @Query('page') int page,
