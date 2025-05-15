@@ -56,7 +56,7 @@ class _RankingPageState extends State<RankingPage> {
       create: (BuildContext context) =>
           RankingBloc()..add(GetRanking(stageId: widget.stageId)),
       child: BlocBuilder<RankingBloc, RankingState>(builder: (context, state) {
-        if(state.status == RankingStatus.loaded) {
+        if (state.status == RankingStatus.loaded) {
           return Scaffold(
             backgroundColor: GogoColors.black,
             body: SafeArea(
@@ -137,8 +137,8 @@ class _RankingPageState extends State<RankingPage> {
                             state.rank.length - 3,
                             (index) => RankingListItem(
                                 index: index,
-                                name: state.rank[index].name,
-                                point: state.rank[index].point),
+                                name: state.rank[index + 3].name,
+                                point: state.rank[index + 3].point),
                           ),
                         ),
                       ),
@@ -148,8 +148,7 @@ class _RankingPageState extends State<RankingPage> {
               ),
             ),
           );
-        }
-        else{
+        } else {
           return LoadingPage();
         }
       }),
