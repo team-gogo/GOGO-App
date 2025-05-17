@@ -149,8 +149,8 @@ class PageRouter {
                                 pageBuilder: (context, state) {
                                   final stageId = int.parse(
                                       state.pathParameters['stageId']!);
-                                  final List<GameType>gameTypeList = state.extra
-                                      as List<GameType>;
+                                  final List<GameType> gameTypeList =
+                                      state.extra as List<GameType>;
                                   return CupertinoPage(
                                       child: CommunityWriteScreen(
                                     stageId: stageId,
