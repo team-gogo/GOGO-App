@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/common/match_dto.dart';
 import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
@@ -17,110 +18,12 @@ class MatchListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<MatchDto> list = [
-      MatchDto(
-          matchId: 1,
-          aTeam: MatchTeam(
-              teamId: 101, teamName: "Team A", bettingPoint: 500, winCount: 10),
-          bTeam: MatchTeam(
-              teamId: 102, teamName: "Team B", bettingPoint: 600, winCount: 12),
-          startDate: DateTime(2024, 3, 25, 18, 30),
-          endDate: DateTime(2024, 3, 25, 20, 30),
-          isEnd: true,
-          round: MatchRound.SEMI_FINALS,
-          category: GameType.LOL,
-          gameName: "Champions League",
-          system: System.TOURNAMENT,
-          turn: 1,
-          isNotice: true,
-          betting: Betting(
-              isBetting: true, bettingPoint: 2001, predictedWinTeamId: 101),
-          result: MatchResult(
-              victoryTeamId: 102,
-              aTeamScore: 1,
-              bTeamScore: 2,
-              isPredictionSuccess: false,
-              earnedPoint: 300,
-              tempPointExpiredDate: DateTime(2024, 6, 1))),
-      MatchDto(
-          matchId: 1,
-          aTeam: MatchTeam(
-              teamId: 101, teamName: "Team A", bettingPoint: 500, winCount: 10),
-          bTeam: MatchTeam(
-              teamId: 102, teamName: "Team B", bettingPoint: 600, winCount: 12),
-          startDate: DateTime(2024, 3, 25, 18, 30),
-          endDate: DateTime(2024, 3, 25, 20, 30),
-          isEnd: true,
-          round: MatchRound.SEMI_FINALS,
-          category: GameType.LOL,
-          gameName: "Champions League",
-          system: System.TOURNAMENT,
-          turn: 1,
-          isNotice: true,
-          betting: Betting(
-              isBetting: true, bettingPoint: 2001, predictedWinTeamId: 101),
-          result: MatchResult(
-              victoryTeamId: 102,
-              aTeamScore: 1,
-              bTeamScore: 2,
-              isPredictionSuccess: false,
-              earnedPoint: 300,
-              tempPointExpiredDate: DateTime(2024, 6, 1))),
-      MatchDto(
-          matchId: 1,
-          aTeam: MatchTeam(
-              teamId: 101, teamName: "Team A", bettingPoint: 500, winCount: 10),
-          bTeam: MatchTeam(
-              teamId: 102, teamName: "Team B", bettingPoint: 600, winCount: 12),
-          startDate: DateTime(2024, 3, 25, 18, 30),
-          endDate: DateTime(2024, 3, 25, 20, 30),
-          isEnd: false,
-          round: MatchRound.SEMI_FINALS,
-          category: GameType.LOL,
-          gameName: "Champions League",
-          system: System.TOURNAMENT,
-          turn: 1,
-          isNotice: true,
-          betting: Betting(
-              isBetting: true, bettingPoint: 2001, predictedWinTeamId: 101),
-          result: MatchResult(
-              victoryTeamId: 102,
-              aTeamScore: 1,
-              bTeamScore: 2,
-              isPredictionSuccess: true,
-              earnedPoint: 300,
-              tempPointExpiredDate: DateTime(2024, 6, 1))),
-      MatchDto(
-          matchId: 1,
-          aTeam: MatchTeam(
-              teamId: 101,
-              teamName: "Team A",
-              bettingPoint: 2001,
-              winCount: 10),
-          bTeam: MatchTeam(
-              teamId: 102,
-              teamName: "Team B",
-              bettingPoint: 2001,
-              winCount: 12),
-          startDate: DateTime(2024, 3, 25, 18, 30),
-          endDate: DateTime(2024, 3, 25, 20, 30),
-          isEnd: false,
-          round: MatchRound.SEMI_FINALS,
-          category: GameType.LOL,
-          gameName: "Champions League",
-          system: System.TOURNAMENT,
-          turn: 1,
-          isNotice: true,
-          betting: Betting(
-              isBetting: false, bettingPoint: 2001, predictedWinTeamId: 101))
-    ];
-
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 40, 16, 0),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Column(
           children: [
-            GogoTopBar(title: "매치 목록", onBackTap: () {}),
+            GogoTopBar(title: "매치 목록", onBackTap: ()=> context.pop()),
             SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
@@ -140,23 +43,23 @@ class MatchListScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 25),
-            Expanded(
-              child: ListView.separated(
-                itemCount: list.length,
-                separatorBuilder: (context, index) =>
-                    SizedBox(height: 12), // 간격 추가
-                itemBuilder: (context, index) {
-                  final matchDto = list[index];
-                  return MatchCard(
-                    matchDto: matchDto,
-                    width: double.infinity,
-                    onBattingClick: () {
-                      showDialogMatchBatting(context, matchDto);
-                    },
-                  );
-                },
-              ),
-            )
+            // Expanded(
+            //   child: ListView.separated(
+            //     itemCount: list.length,
+            //     separatorBuilder: (context, index) =>
+            //         SizedBox(height: 12), // 간격 추가
+            //     itemBuilder: (context, index) {
+            //       final matchDto = list[index];
+            //       return MatchCard(
+            //         matchDto: matchDto,
+            //         width: double.infinity,
+            //         onBattingClick: () {
+            //           showDialogMatchBatting(context, matchDto);
+            //         },
+            //       );
+            //     },
+            //   ),
+            // )
           ],
         ),
       ),
