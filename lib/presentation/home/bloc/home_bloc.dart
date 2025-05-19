@@ -1,12 +1,11 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/repositories/mini_game/mini_game_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 import '../../../data/models/common/match_dto.dart';
-import '../../../data/models/stage/community/search_board_response.dart';
 import '../../../data/models/stage/search_stage/search_my_point_response.dart';
-import '../../../data/models/stage/search_stage/search_ranking_response.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 
@@ -19,6 +18,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   bool isLoading = false;
   DateTime selectedDate = DateTime.now();
   List<MatchDto> matches = [];
+
   HomeBloc({required this.stageId}) : super(InitialHomeState()) {
     on<LoadHome>(_onLoadHome);
     on<LoadMatchesByDate>(_onLoadMatchesByDate);
