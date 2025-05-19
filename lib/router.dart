@@ -7,6 +7,7 @@ import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
+import 'package:gogo_app/presentation/loading/join_stage_page.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
 import 'package:gogo_app/presentation/match_list/screen/match_list_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/coin_toss_screen.dart';
@@ -104,7 +105,7 @@ class PageRouter {
             GoRoute(
                 path: "/$home",
                 pageBuilder: (context, state) => CupertinoPage(
-                      child: Placeholder(), // 또는 적절한 기본 위젯
+                      child: JoinStagePage(),
                     ),
                 routes: [
                   GoRoute(
