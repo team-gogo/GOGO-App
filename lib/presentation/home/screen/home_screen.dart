@@ -8,7 +8,7 @@ import 'package:gogo_app/presentation/community/screen/community_detail_screen.d
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:gogo_app/presentation/home/bloc/home_bloc.dart';
 import 'package:gogo_app/presentation/home/widgets/appbar/home_appbar.dart';
-import 'package:gogo_app/presentation/loadaing_page.dart';
+import 'package:gogo_app/presentation/loading/loadaing_page.dart';
 import 'package:gogo_app/presentation/ranking/widgets/ranking_list_item.dart';
 import 'package:gogo_app/router.dart';
 import 'package:intl/intl.dart';

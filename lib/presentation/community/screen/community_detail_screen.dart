@@ -12,7 +12,7 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/bloc/detail/community_detail_bloc.dart';
 import 'package:gogo_app/presentation/community/bloc/detail/community_detail_event.dart';
 import 'package:gogo_app/presentation/community/bloc/detail/community_detail_state.dart';
-import 'package:gogo_app/presentation/loadaing_page.dart';
+import 'package:gogo_app/presentation/loading/loadaing_page.dart';
 
 class CommunityDetailScreen extends StatelessWidget {
   final int boardId;
