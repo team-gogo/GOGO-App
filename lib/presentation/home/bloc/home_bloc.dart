@@ -49,7 +49,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           points: point,
           activeGameResponse: activeGameResponse));
     } catch (e) {
-      print(e);
+      log(e.toString(), name: 'HomeBloc');
       emit(ErrorHomeState());
     }
   }
