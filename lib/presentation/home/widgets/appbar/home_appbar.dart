@@ -6,14 +6,12 @@ import 'package:gogo_app/design_system/component/tag/gogo_date_tag_component.dar
 class HomeAppbar extends StatefulWidget {
   final int point;
   final DateTime selectedDate;
-  final ScrollController scrollController;
   final void Function(DateTime) setSelectedDate;
 
   const HomeAppbar({
     super.key,
     required this.point,
     required this.selectedDate,
-    required this.scrollController,
     required this.setSelectedDate,
   });
 
@@ -23,6 +21,7 @@ class HomeAppbar extends StatefulWidget {
 
 class _HomeAppbarState extends State<HomeAppbar> {
   final now = DateTime.now();
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -35,9 +34,9 @@ class _HomeAppbarState extends State<HomeAppbar> {
     final int index = widget.selectedDate.difference(now).inDays + 7;
     const double itemWidth = 68.8; // 날짜 태그의 가로 크기 + 간격
     final double scrollTo = (index * itemWidth).toDouble();
-    widget.scrollController.jumpTo(scrollTo.clamp(
-      widget.scrollController.position.minScrollExtent,
-      widget.scrollController.position.maxScrollExtent,
+    scrollController.jumpTo(scrollTo.clamp(
+      scrollController.position.minScrollExtent,
+      scrollController.position.maxScrollExtent,
     ));
   }
 
@@ -63,7 +62,7 @@ class _HomeAppbarState extends State<HomeAppbar> {
             children: [
               // 날짜 태그 스크롤
               SingleChildScrollView(
-                controller: widget.scrollController,
+                controller: scrollController,
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   spacing: 7,

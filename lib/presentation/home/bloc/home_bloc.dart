@@ -19,8 +19,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   bool isLoading = false;
   DateTime selectedDate = DateTime.now();
   List<MatchDto> matches = [];
-  final ScrollController scrollController = ScrollController();
-
   HomeBloc({required this.stageId}) : super(InitialHomeState()) {
     on<LoadHome>(_onLoadHome);
     on<LoadMatchesByDate>(_onLoadMatchesByDate);
@@ -62,8 +60,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final matchesResponse = await _stageRepository.searchMatch(
           stageId, selectedDate.year, selectedDate.month, selectedDate.day);
       matches = matchesResponse.matches;
-      scrollController.animateTo(100,
-          duration: Duration(milliseconds: 500), curve: Curves.easeIn);
       add(LoadHome());
     } catch (e) {
       print(e);

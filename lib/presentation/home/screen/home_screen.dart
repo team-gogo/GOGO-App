@@ -46,8 +46,6 @@ class HomeScreen extends StatelessWidget {
                       setSelectedDate: (DateTime date) => {
                         context.read<HomeBloc>().add(LoadMatchesByDate(date))
                       },
-                      scrollController:
-                          context.read<HomeBloc>().scrollController,
                     ),
                   ),
                   Expanded(
