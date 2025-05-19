@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gogo_app/data/models/stage/community/community_search_request_query_string.dart';
 import 'package:gogo_app/data/models/stage/community/sort_type.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
+import 'package:gogo_app/design_system/component/indicator/refresh_indicator.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/bloc/main/community_bloc.dart';
@@ -12,7 +13,6 @@ import 'package:gogo_app/presentation/community/screen/community_detail_screen.d
 import 'package:gogo_app/presentation/community/widgets/community_filter_popup.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gogo_app/presentation/loadaing_page.dart';
 import 'dart:math';
 import '../../../design_system/component/tag/gogo_tag_component.dart';
 import '../../../design_system/component/top_bar/gogo_top_bar.dart';
@@ -90,63 +90,74 @@ class _CommunityMainScreenContentState
             children: [
               GogoTopBar(title: '뒤로가기', onBackTap: () => context.pop()),
               const SizedBox(height: 36),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      GogoIcons.community(color: GogoColors.white),
-                      const SizedBox(width: 12),
-                      Text(
-                        '커뮤니티',
-                        style: GogoTypography.body2Extrabold
-                            .copyWith(color: GogoColors.white),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          final result = await context.pushNamed(
-                            PageRouter.communityWrite,
-                            pathParameters: {
-                              'stageId': widget.stageId.toString()
-                            },
-                          );
-                          if (result == true) {
+              BlocBuilder<CommunityBloc, CommunityState>(
+                  builder: (context, state) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        GogoIcons.community(color: GogoColors.white),
+                        const SizedBox(width: 12),
+                        Text(
+                          '커뮤니티',
+                          style: GogoTypography.body2Extrabold
+                              .copyWith(color: GogoColors.white),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: state is CommunityLoadedState
+                              ? () async {
+                                  final result = await context.pushNamed(
+                                      PageRouter.communityWrite,
+                                      pathParameters: {
+                                        'stageId': widget.stageId.toString()
+                                      },
+                                      extra: state.gameTypes);
+                                  if (result == true) {
+                                    _fetchCommunity();
+                                  }
+                                }
+                              : null,
+                          child: GogoTagComponent(
+                            color: GogoColors.white,
+                            text: '글 쓰기',
+                            icon: GogoIcons.plusCircle(color: GogoColors.white),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        GestureDetector(
+                          onTap: state is CommunityLoadedState ? () async {
+                            final result = await filterDialog(
+                              context,
+                              gameType,
+                              sortType,
+                              state is CommunityLoadedState
+                                  ? state.gameTypes
+                                  : [],
+                            );
+                            if (gameType == result['gameType'] &&
+                                sortType == result['sortType']) {
+                              return;
+                            }
+                            gameType = result['gameType'];
+                            sortType = result['sortType'];
                             _fetchCommunity();
-                          }
-                        },
-                        child: GogoTagComponent(
-                          color: GogoColors.white,
-                          text: '글 쓰기',
-                          icon: GogoIcons.plusCircle(color: GogoColors.white),
+                          } : null,
+                          child: GogoTagComponent(
+                            color: GogoColors.main500,
+                            text: '필터',
+                            icon: GogoIcons.filter(color: GogoColors.main500),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      GestureDetector(
-                        onTap: () async {
-                          final result =
-                              await filterDialog(context, gameType, sortType);
-                          if (gameType == result['gameType'] &&
-                              sortType == result['sortType']) {
-                            return;
-                          }
-                          gameType = result['gameType'];
-                          sortType = result['sortType'];
-                          _fetchCommunity();
-                        },
-                        child: GogoTagComponent(
-                          color: GogoColors.main500,
-                          text: '필터',
-                          icon: GogoIcons.filter(color: GogoColors.main500),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                      ],
+                    ),
+                  ],
+                );
+              }),
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -218,7 +229,7 @@ class _CommunityMainScreenContentState
                     final endPage = min(startPage + 4, totalPage);
 
                     return Expanded(
-                      child: RefreshIndicator(
+                      child: GogoRefreshIndicator(
                         onRefresh: () async {
                           _fetchCommunity();
                         },
