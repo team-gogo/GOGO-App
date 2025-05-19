@@ -1,4 +1,3 @@
-import '../../../data/models/common/match_dto.dart';
 import '../../../data/models/mini_game/active_game_response.dart';
 import '../../../data/models/stage/community/search_board_response.dart';
 import '../../../data/models/stage/search_stage/search_my_point_response.dart';

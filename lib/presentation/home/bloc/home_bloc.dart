@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/repositories/mini_game/mini_game_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
@@ -11,17 +12,18 @@ import 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final StageRepository _stageRepository = GetIt.instance<StageRepository>();
-  final MiniGameRepository _miniGameRepository = GetIt.instance<MiniGameRepository>();
+  final MiniGameRepository _miniGameRepository =
+      GetIt.instance<MiniGameRepository>();
 
   final int stageId;
   bool isLoading = false;
   DateTime selectedDate = DateTime.now();
   List<MatchDto> matches = [];
+  final ScrollController scrollController = ScrollController();
 
   HomeBloc({required this.stageId}) : super(InitialHomeState()) {
     on<LoadHome>(_onLoadHome);
     on<LoadMatchesByDate>(_onLoadMatchesByDate);
-    add(LoadHome());
     add(LoadMatchesByDate(selectedDate));
   }
 
@@ -39,13 +41,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           await _stageRepository.getCommunityPosts(stageId, 0, 5, null, null);
       final communityPosts = postsResponse.board;
 
-      final activeGameResponse = await _miniGameRepository.getActiveGame(stageId);
+      final activeGameResponse =
+          await _miniGameRepository.getActiveGame(stageId);
       emit(LoadedHomeState(
-        communityPosts: communityPosts,
-        ranking: ranking,
-        points: point,
-        activeGameResponse: activeGameResponse
-      ));
+          communityPosts: communityPosts,
+          ranking: ranking,
+          points: point,
+          activeGameResponse: activeGameResponse));
     } catch (e) {
       print(e);
       emit(ErrorHomeState());
@@ -55,10 +57,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _onLoadMatchesByDate(
       LoadMatchesByDate event, Emitter<HomeState> emit) async {
     try {
+      emit(LoadingMatchHomeState());
+      selectedDate = event.selectedDate;
       final matchesResponse = await _stageRepository.searchMatch(
           stageId, selectedDate.year, selectedDate.month, selectedDate.day);
       matches = matchesResponse.matches;
+      scrollController.animateTo(100,
+          duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+      add(LoadHome());
     } catch (e) {
+      print(e);
       emit(ErrorHomeState());
     }
   }

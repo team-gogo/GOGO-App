@@ -2,10 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/design_system/component/indicator/refresh_indicator.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/community/bloc/main/community_bloc.dart';
-import 'package:gogo_app/presentation/community/bloc/main/community_event.dart';
-import 'package:gogo_app/presentation/community/bloc/main/community_state.dart';
 import 'package:gogo_app/presentation/community/screen/community_detail_screen.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:gogo_app/presentation/home/bloc/home_bloc.dart';
@@ -32,7 +30,9 @@ class HomeScreen extends StatelessWidget {
       create: (context) => HomeBloc(stageId: stageId!),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (BuildContext context, HomeState state) {
-          if (state is LoadingHomeState) {
+          if (state is LoadingHomeState ||
+              state is InitialHomeState ||
+              state is LoadingMatchHomeState) {
             return LoadingPage();
           } else if (state is LoadedHomeState) {
             return Scaffold(
@@ -46,10 +46,12 @@ class HomeScreen extends StatelessWidget {
                       setSelectedDate: (DateTime date) => {
                         context.read<HomeBloc>().add(LoadMatchesByDate(date))
                       },
+                      scrollController:
+                          context.read<HomeBloc>().scrollController,
                     ),
                   ),
                   Expanded(
-                    child: RefreshIndicator(
+                    child: GogoRefreshIndicator(
                       onRefresh: () async {
                         context.read<HomeBloc>().add(LoadHome());
                         await Future.delayed(Duration(seconds: 1));
@@ -65,6 +67,12 @@ class HomeScreen extends StatelessWidget {
                                 _itemTopBar(
                                   GogoIcons.clock(color: GogoColors.white),
                                   date: context.read<HomeBloc>().selectedDate,
+                                  onTap: () => context.pushNamed(
+                                    PageRouter.matchList,
+                                    pathParameters: {
+                                      'stageId': stageId.toString()
+                                    },
+                                  ),
                                 ),
                                 SingleChildScrollView(
                                   padding: const EdgeInsets.symmetric(
@@ -188,15 +196,16 @@ class HomeScreen extends StatelessWidget {
                               spacing: 16,
                               children: [
                                 _itemTopBar(
-                                  GogoIcons.community(color: GogoColors.white),
-                                  text: '커뮤니티',
-                                  onTap: () => context.pushNamed(
+                                    GogoIcons.community(
+                                        color: GogoColors.white),
+                                    text: '커뮤니티', onTap: () {
+                                  context.pushNamed(
                                     PageRouter.community,
                                     pathParameters: {
                                       'stageId': stageId.toString()
                                     },
-                                  ),
-                                ),
+                                  );
+                                }),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16),
@@ -231,6 +240,14 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   ),
                                 )
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                _itemTopBar(
+                                    GogoIcons.trophy(color: GogoColors.white),
+                                    text: '경기',
+                                    onTap: () {}),
                               ],
                             ),
                             SizedBox(height: 20)
