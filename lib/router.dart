@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
@@ -108,7 +109,7 @@ class PageRouter {
                 routes: [
                   GoRoute(
                       name: home,
-                      path: ":stageId",
+                      path: '/:stageId',
                       pageBuilder: (context, state) => CupertinoPage(
                             child: HomeScreen(
                               stageId: int.parse(
@@ -132,6 +133,32 @@ class PageRouter {
                                 child: RankingPage(stageId: stageId),
                               ));
                             }),
+                        GoRoute(
+                            name: community,
+                            path: community,
+                            pageBuilder: (context, state) {
+                              final stageId =
+                                  int.parse(state.pathParameters['stageId']!);
+                              return CupertinoPage(
+                                  child: CommunityMainScreen(stageId: stageId));
+                            },
+                            routes: [
+                              GoRoute(
+                                name: communityWrite,
+                                path: communityWrite,
+                                pageBuilder: (context, state) {
+                                  final stageId = int.parse(
+                                      state.pathParameters['stageId']!);
+                                  final List<GameType> gameTypeList =
+                                      state.extra as List<GameType>;
+                                  return CupertinoPage(
+                                      child: CommunityWriteScreen(
+                                    stageId: stageId,
+                                    gameTypeList: gameTypeList,
+                                  ));
+                                },
+                              ),
+                            ]),
                         _customGoRoute(
                             name: coinToss, screen: CoinTossScreen()),
                         _customGoRoute(
@@ -153,13 +180,6 @@ class PageRouter {
       ),
       _customGoRoute(name: editProfile, screen: EditProfilePage()),
       _customGoRoute(name: createStage, screen: StageCreateScreen()),
-      _customGoRoute(
-        name: community,
-        screen: CommunityMainScreen(stageId: 1,),
-        routes: [
-          _customGoRoute(name: communityWrite, screen: CommunityWriteScreen(stageId: 1, ))
-        ],
-      )
     ],
   );
 }

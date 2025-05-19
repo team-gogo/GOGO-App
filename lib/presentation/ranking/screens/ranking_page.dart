@@ -146,7 +146,7 @@ class _RankingPageState extends State<RankingPage> {
                             children: List.generate(
                               rank.length - 3,
                               (index) => RankingListItem(
-                                  index: index,
+                                  index: index+3,
                                   name: rank[index + 3].name,
                                   point: rank[index + 3].point),
                             ),

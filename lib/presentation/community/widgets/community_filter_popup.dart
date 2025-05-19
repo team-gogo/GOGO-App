@@ -6,16 +6,16 @@ import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 
-Future<Map<String, dynamic>> filterDialog(
-    BuildContext context, GameType? gameType, SortType? sortType) async {
+Future<Map<String, dynamic>> filterDialog(BuildContext context,
+    GameType? gameType, SortType? sortType, List<GameType> gameTypeList) async {
   final result = {'gameType': gameType, 'sortType': sortType};
-
   final dialogResult = await showDialog<Map<String, dynamic>>(
     barrierDismissible: false,
     context: context,
     builder: (_) => CommunityFilterPopup(
       gameType: gameType,
       sortType: sortType,
+      gameTypeList: gameTypeList,
     ),
   );
 
@@ -28,10 +28,12 @@ Future<Map<String, dynamic>> filterDialog(
 }
 
 class CommunityFilterPopup extends StatefulWidget {
-  const CommunityFilterPopup({super.key, this.gameType, this.sortType});
+  const CommunityFilterPopup(
+      {super.key, this.gameType, this.sortType, required this.gameTypeList});
 
   final GameType? gameType;
   final SortType? sortType;
+  final List<GameType> gameTypeList;
 
   @override
   State<CommunityFilterPopup> createState() => _CommunityFilterPopupState();
@@ -41,27 +43,43 @@ class _CommunityFilterPopupState extends State<CommunityFilterPopup> {
   late GameType? selectedGameType = widget.gameType;
   late SortType? selectedSortType = widget.sortType;
 
-  static const categoryTexts = ['배구', '농구', '축구', '야구', 'LoL', '배드민턴', '기타'];
+  static categoryTexts(GameType gameType) {
+    switch (gameType) {
+      case GameType.VOLLEY_BALL:
+        return '배구';
+      case GameType.BASKET_BALL:
+        return '농구';
+      case GameType.SOCCER:
+        return '축구';
+      case GameType.BASE_BALL:
+        return '야구';
+      case GameType.LOL:
+        return 'LOL';
+      case GameType.BADMINTON:
+        return '배드민턴';
+      default:
+        return '기타';
+    }
+  }
 
-  static final categoryIcons = [
-    GogoIcons.volleyball,
-    GogoIcons.basketball,
-    GogoIcons.football,
-    GogoIcons.baseball,
-    GogoIcons.eSports,
-    GogoIcons.badminton,
-    GogoIcons.etc
-  ];
-
-  static const gameTypes = [
-    GameType.VOLLEY_BALL,
-    GameType.BASKET_BALL,
-    GameType.SOCCER,
-    GameType.BASE_BALL,
-    GameType.LOL,
-    GameType.BADMINTON,
-    GameType.ETC,
-  ];
+  static categoryIcons(GameType gameType) {
+    switch (gameType) {
+      case GameType.VOLLEY_BALL:
+        return GogoIcons.volleyball;
+      case GameType.BASKET_BALL:
+        return GogoIcons.basketball;
+      case GameType.SOCCER:
+        return GogoIcons.football;
+      case GameType.BASE_BALL:
+        return GogoIcons.baseball;
+      case GameType.LOL:
+        return GogoIcons.eSports;
+      case GameType.BADMINTON:
+        return GogoIcons.badminton;
+      default:
+        return GogoIcons.etc;
+    }
+  }
 
   static const sortTexts = ['최신 순', '오래된 순'];
   static const sortTypes = [SortType.LATEST, SortType.LAST];
@@ -117,22 +135,22 @@ class _CommunityFilterPopupState extends State<CommunityFilterPopup> {
     return Wrap(
       spacing: 12,
       runSpacing: 14,
-      children: List.generate(categoryTexts.length, (index) {
-        final isSelected = selectedGameType == gameTypes[index];
+      children: List.generate(widget.gameTypeList.length, (index) {
+        final isSelected = selectedGameType == widget.gameTypeList[index];
         return GestureDetector(
           onTap: () {
             setState(() {
-              selectedGameType = isSelected ? null : gameTypes[index];
+              selectedGameType = isSelected ? null : widget.gameTypeList[index];
             });
           },
           child: GogoTagComponent.small(
             tagState: isSelected,
             color: GogoColors.main500,
-            text: categoryTexts[index],
-            icon: categoryIcons[index](
+            text: categoryTexts(widget.gameTypeList[index]),
+            icon: categoryIcons(widget.gameTypeList[index])(
               color: isSelected ? Colors.white : GogoColors.main500,
-              width: 12,
-              height: 12,
+              width: 12.0,
+              height: 12.0,
             ),
           ),
         );

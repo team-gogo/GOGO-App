@@ -7,11 +7,12 @@ class RankingListItem extends StatelessWidget {
   final String name;
   final int point;
 
-  const RankingListItem(
-      {super.key,
-      required this.index,
-      required this.name,
-      required this.point});
+  const RankingListItem({
+    super.key,
+    required this.index,
+    required this.name,
+    required this.point,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class RankingListItem extends StatelessWidget {
             spacing: 24,
             children: [
               Text(
-                "${index + 4}등",
+                "${index + 1}등",
                 style: GogoTypography.caption1Extrabold.copyWith(
                   color: GogoColors.white,
                 ),
