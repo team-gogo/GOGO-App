@@ -9,7 +9,6 @@ import 'community_event.dart';
 import 'community_state.dart';
 
 class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
-
   final StageRepository repository = GetIt.instance<StageRepository>();
 
   final int stageId;
@@ -22,22 +21,25 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
       FetchCommunityEvent event, Emitter<CommunityState> emit) async {
     emit(CommunityLoadingState());
     try {
+      final _gameTypeResponse = await repository.getGame(stageId);
+      final List<GameType> gameTypeList = [];
+      for (var gameType in _gameTypeResponse.games) {
+        gameTypeList.add(gameType.category);
+      }
       final response = await repository.getCommunityPosts(
-        stageId, 
+        stageId,
         event.queryString.page,
         event.queryString.size,
         event.queryString.type,
         event.queryString.sort,
-        );
-        emit(CommunityLoadedState(response: response));
+      );
+      emit(CommunityLoadedState(response: response, gameTypes: gameTypeList));
     } catch (e) {
       emit(CommunityErrorState(message: e.toString()));
     }
   }
 }
 
-class CommunityFilterBloc extends Bloc<CommunityEvent,CommunityState>{
+class CommunityFilterBloc extends Bloc<CommunityEvent, CommunityState> {
   CommunityFilterBloc(super.initialState);
-
-  
 }

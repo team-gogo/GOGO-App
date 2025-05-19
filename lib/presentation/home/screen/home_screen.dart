@@ -1,34 +1,276 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gogo_app/data/models/stage/community/community_search_request_query_string.dart';
-import 'package:gogo_app/data/models/stage/community/sort_type.dart';
-import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
+import 'package:gogo_app/design_system/component/indicator/refresh_indicator.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/community/bloc/main/community_bloc.dart';
-import 'package:gogo_app/presentation/community/bloc/main/community_event.dart';
-import 'package:gogo_app/presentation/community/bloc/main/community_state.dart';
 import 'package:gogo_app/presentation/community/screen/community_detail_screen.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
+import 'package:gogo_app/presentation/home/bloc/home_bloc.dart';
 import 'package:gogo_app/presentation/home/widgets/appbar/home_appbar.dart';
+import 'package:gogo_app/presentation/loading/loadaing_page.dart';
 import 'package:gogo_app/presentation/ranking/widgets/ranking_list_item.dart';
 import 'package:gogo_app/router.dart';
 import 'package:intl/intl.dart';
-import '../../../data/models/common/match_dto.dart';
-import '../../../data/models/stage/enum_type/match_round.dart';
-import '../../../data/models/stage/enum_type/system_type.dart';
-import '../../../data/models/stage/search_stage/search_betting_stage_response.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
+import '../bloc/home_event.dart';
+import '../bloc/home_state.dart';
 import '../widgets/match_card/match_card_component.dart';
 import '../widgets/minigame/minigame_play_component.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key, required this.stageId});
+  const HomeScreen({super.key, this.stageId});
 
-  final int stageId;
+  final int? stageId;
 
-  static final EdgeInsets padding = EdgeInsets.symmetric(horizontal: 16);
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => HomeBloc(stageId: stageId!),
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (BuildContext context, HomeState state) {
+          if (state is LoadingHomeState ||
+              state is InitialHomeState ||
+              state is LoadingMatchHomeState) {
+            return LoadingPage();
+          } else if (state is LoadedHomeState) {
+            return Scaffold(
+              body: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
+                    child: HomeAppbar(
+                      point: state.points.point,
+                      selectedDate: context.read<HomeBloc>().selectedDate,
+                      setSelectedDate: (DateTime date) => {
+                        context.read<HomeBloc>().add(LoadMatchesByDate(date))
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: GogoRefreshIndicator(
+                      onRefresh: () async {
+                        context.read<HomeBloc>().add(LoadHome());
+                        await Future.delayed(Duration(seconds: 1));
+                      },
+                      child: SingleChildScrollView(
+                        child: Column(
+                          spacing: 40,
+                          children: [
+                            Column(
+                              spacing: 16,
+                              children: [
+                                SizedBox(height: 8),
+                                _itemTopBar(
+                                  GogoIcons.clock(color: GogoColors.white),
+                                  date: context.read<HomeBloc>().selectedDate,
+                                  onTap: () => context.pushNamed(
+                                    PageRouter.matchList,
+                                    pathParameters: {
+                                      'stageId': stageId.toString()
+                                    },
+                                  ),
+                                ),
+                                SingleChildScrollView(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  scrollDirection: Axis.horizontal,
+                                  child: Builder(
+                                    builder: (context) {
+                                      final matches =
+                                          context.read<HomeBloc>().matches;
+                                      if (matches.isEmpty) {
+                                        return Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 30),
+                                            child: Stack(
+                                              children: [
+                                                Text(
+                                                  "오늘\n매치가 없습니다",
+                                                  style: TextStyle(
+                                                    fontFamily: 'GmarketSans',
+                                                    fontSize: 48,
+                                                    foreground: Paint()
+                                                      ..style =
+                                                          PaintingStyle.stroke
+                                                      ..strokeWidth = 1
+                                                      ..color =
+                                                          GogoColors.main600,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                Transform.translate(
+                                                  offset: Offset(5, -3),
+                                                  child: Text(
+                                                    "오늘\n매치가 없습니다",
+                                                    style: TextStyle(
+                                                      fontFamily: 'GmarketSans',
+                                                      fontSize: 48,
+                                                      color: GogoColors.main600,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }
+
+                                      return Row(
+                                        children: List.generate(
+                                          min(matches.length, 5),
+                                          (index) {
+                                            final match = matches[index];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8),
+                                              child: MatchCard(
+                                                matchDto: match,
+                                                onBattingClick: () {},
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              spacing: 16,
+                              children: [
+                                _itemTopBar(
+                                  GogoIcons.arcade(color: GogoColors.white),
+                                  text: '미니게임',
+                                  onTap: () => context.pushNamed(
+                                      PageRouter.miniGame,
+                                      pathParameters: {
+                                        'stageId': stageId.toString()
+                                      }),
+                                ),
+                                MinigamePlayComponent(
+                                  activeGameResponse: state.activeGameResponse,
+                                )
+                              ],
+                            ),
+                            Column(
+                              spacing: 16,
+                              children: [
+                                _itemTopBar(
+                                  GogoIcons.trophy(color: GogoColors.white),
+                                  text: '포인트 랭킹',
+                                  onTap: () => context.pushNamed(
+                                    PageRouter.ranking,
+                                    pathParameters: {
+                                      'stageId': stageId.toString()
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Column(
+                                    spacing: 8,
+                                    children: List.generate(
+                                      min(state.ranking.length, 5),
+                                      (index) {
+                                        final rank = state.ranking[index];
+                                        return RankingListItem(
+                                          index: index,
+                                          name: rank.name,
+                                          point: rank.point,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Column(
+                              spacing: 16,
+                              children: [
+                                _itemTopBar(
+                                    GogoIcons.community(
+                                        color: GogoColors.white),
+                                    text: '커뮤니티', onTap: () {
+                                  context.pushNamed(
+                                    PageRouter.community,
+                                    pathParameters: {
+                                      'stageId': stageId.toString()
+                                    },
+                                  );
+                                }),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Column(
+                                    spacing: 8,
+                                    children: List.generate(
+                                      min(state.communityPosts.length, 5),
+                                      (index) {
+                                        final board =
+                                            state.communityPosts[index];
+                                        return CommunityItem(
+                                          name: '역명',
+                                          gameType: board.gameCategory,
+                                          title: board.title,
+                                          commentNum: board.commentCount,
+                                          likeNum: board.likeCount,
+                                          ontap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CommunityDetailScreen(
+                                                        boardId: state
+                                                            .communityPosts[
+                                                                index]
+                                                            .boardId),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                _itemTopBar(
+                                    GogoIcons.trophy(color: GogoColors.white),
+                                    text: '경기',
+                                    onTap: () {}),
+                              ],
+                            ),
+                            SizedBox(height: 20)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return const Scaffold(
+              body: Center(
+                child: Text(
+                  '잘못된 접근입니다.',
+                  style: TextStyle(color: Colors.red, fontSize: 18),
+                ),
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
 
   Widget _itemTopBar(
     Widget gogoIcon, {
@@ -37,7 +279,7 @@ class HomeScreen extends StatelessWidget {
     VoidCallback? onTap,
   }) =>
       Padding(
-        padding: padding,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -77,320 +319,4 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       );
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (BuildContext context) => CommunityBloc(
-            stageId: stageId,
-          )..add(
-              FetchCommunityEvent(
-                queryString: CommunitySearchRequestQueryString(
-                  page: 0,
-                  size: 15,
-                  type: null,
-                  sort: SortType.LATEST,
-                ),
-              ),
-            ),
-        )
-      ],
-      child: Scaffold(
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
-              child: HomeAppbar(point: 1000),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  spacing: 40,
-                  children: [
-                    Column(
-                      spacing: 16,
-                      children: [
-                        SizedBox(
-                          height: 8,
-                        ),
-                        _itemTopBar(
-                          GogoIcons.clock(color: GogoColors.white),
-                          date: DateTime.now(),
-                        ),
-                        SingleChildScrollView(
-                          padding: padding,
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            spacing: 8,
-                            children: [
-                              MatchCard(
-                                matchDto: MatchDto(
-                                  matchId: 1,
-                                  aTeam: MatchTeam(
-                                    teamId: 101,
-                                    teamName: "Team A",
-                                    bettingPoint: 500,
-                                    winCount: 10,
-                                  ),
-                                  bTeam: MatchTeam(
-                                    teamId: 102,
-                                    teamName: "Team B",
-                                    bettingPoint: 600,
-                                    winCount: 12,
-                                  ),
-                                  startDate: DateTime(2024, 3, 25, 18, 30),
-                                  endDate: DateTime(2024, 3, 25, 20, 30),
-                                  isEnd: true,
-                                  round: MatchRound.SEMI_FINALS,
-                                  category: GameType.LOL,
-                                  gameName: "Champions League",
-                                  system: System.TOURNAMENT,
-                                  turn: 1,
-                                  isNotice: true,
-                                  betting: Betting(
-                                    isBetting: true,
-                                    bettingPoint: 2001,
-                                    predictedWinTeamId: 101,
-                                  ),
-                                  result: MatchResult(
-                                    victoryTeamId: 102,
-                                    aTeamScore: 1,
-                                    bTeamScore: 2,
-                                    isPredictionSuccess: true,
-                                    earnedPoint: 300,
-                                    tempPointExpiredDate: DateTime(2024, 6, 1),
-                                  ),
-                                ),
-                                onBattingClick: () {},
-                              ),
-                              MatchCard(
-                                matchDto: MatchDto(
-                                  matchId: 1,
-                                  aTeam: MatchTeam(
-                                    teamId: 101,
-                                    teamName: "Team A",
-                                    bettingPoint: 500,
-                                    winCount: 10,
-                                  ),
-                                  bTeam: MatchTeam(
-                                    teamId: 102,
-                                    teamName: "Team B",
-                                    bettingPoint: 600,
-                                    winCount: 12,
-                                  ),
-                                  startDate: DateTime(2024, 3, 25, 18, 30),
-                                  endDate: DateTime(2024, 3, 25, 20, 30),
-                                  isEnd: true,
-                                  round: MatchRound.SEMI_FINALS,
-                                  category: GameType.LOL,
-                                  gameName: "Champions League",
-                                  system: System.TOURNAMENT,
-                                  turn: 1,
-                                  isNotice: true,
-                                  betting: Betting(
-                                    isBetting: true,
-                                    bettingPoint: 2001,
-                                    predictedWinTeamId: 101,
-                                  ),
-                                  result: MatchResult(
-                                    victoryTeamId: 102,
-                                    aTeamScore: 1,
-                                    bTeamScore: 2,
-                                    isPredictionSuccess: false,
-                                    earnedPoint: 300,
-                                    tempPointExpiredDate: DateTime(2024, 6, 1),
-                                  ),
-                                ),
-                                onBattingClick: () {},
-                              ),
-                              MatchCard(
-                                matchDto: MatchDto(
-                                  matchId: 1,
-                                  aTeam: MatchTeam(
-                                    teamId: 101,
-                                    teamName: "Team A",
-                                    bettingPoint: 500,
-                                    winCount: 10,
-                                  ),
-                                  bTeam: MatchTeam(
-                                    teamId: 102,
-                                    teamName: "Team B",
-                                    bettingPoint: 600,
-                                    winCount: 12,
-                                  ),
-                                  startDate: DateTime(2024, 3, 25, 18, 30),
-                                  endDate: DateTime(2024, 3, 25, 20, 30),
-                                  isEnd: false,
-                                  round: MatchRound.SEMI_FINALS,
-                                  category: GameType.LOL,
-                                  gameName: "Champions League",
-                                  system: System.TOURNAMENT,
-                                  turn: 1,
-                                  isNotice: true,
-                                  betting: Betting(
-                                    isBetting: true,
-                                    bettingPoint: 2001,
-                                    predictedWinTeamId: 101,
-                                  ),
-                                  result: MatchResult(
-                                    victoryTeamId: 102,
-                                    aTeamScore: 1,
-                                    bTeamScore: 2,
-                                    isPredictionSuccess: true,
-                                    earnedPoint: 300,
-                                    tempPointExpiredDate: DateTime(2024, 6, 1),
-                                  ),
-                                ),
-                                onBattingClick: () {},
-                              ),
-                              MatchCard(
-                                matchDto: MatchDto(
-                                  matchId: 1,
-                                  aTeam: MatchTeam(
-                                    teamId: 101,
-                                    teamName: "Team A",
-                                    bettingPoint: 2001,
-                                    winCount: 10,
-                                  ),
-                                  bTeam: MatchTeam(
-                                    teamId: 102,
-                                    teamName: "Team B",
-                                    bettingPoint: 2001,
-                                    winCount: 12,
-                                  ),
-                                  startDate: DateTime(2024, 3, 25, 18, 30),
-                                  endDate: DateTime(2024, 3, 25, 20, 30),
-                                  isEnd: false,
-                                  round: MatchRound.SEMI_FINALS,
-                                  category: GameType.LOL,
-                                  gameName: "Champions League",
-                                  system: System.TOURNAMENT,
-                                  turn: 1,
-                                  isNotice: true,
-                                  betting: Betting(
-                                    isBetting: false,
-                                    bettingPoint: 2001,
-                                    predictedWinTeamId: 101,
-                                  ),
-                                ),
-                                onBattingClick: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      spacing: 16,
-                      children: [
-                        _itemTopBar(GogoIcons.arcade(color: GogoColors.white),
-                            text: '미니게임',
-                            onTap: () =>
-                                context.pushNamed(PageRouter.miniGame)),
-                        MinigamePlayComponent()
-                      ],
-                    ),
-                    Column(
-                      spacing: 16,
-                      children: [
-                        _itemTopBar(
-                          GogoIcons.trophy(color: GogoColors.white),
-                          text: '포인트 랭킹',
-                          onTap: () => context.pushNamed(
-                            PageRouter.ranking,
-                            pathParameters: {'stageId': stageId.toString()},
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Column(
-                            spacing: 8,
-                            children: List.generate(
-                              5,
-                              (index) => RankingListItem(
-                                  index: index, name: '홍길동', point: 100),
-                            ),
-                          ),
-                        ),
-                        Column(
-                          spacing: 16,
-                          children: [
-                            _itemTopBar(
-                              GogoIcons.community(color: GogoColors.white),
-                              text: '커뮤니티',
-                              onTap: () =>
-                                  context.pushNamed(PageRouter.community),
-                            ),
-                            BlocBuilder<CommunityBloc, CommunityState>(
-                                builder: (context, state) {
-                              switch (state) {
-                                case CommunityLoadingState _:
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      color: GogoColors.main600,
-                                    ),
-                                  );
-                                  break;
-                                case CommunityLoadedState _:
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    child: Column(
-                                      spacing: 8,
-                                      children: List.generate(
-                                        5,
-                                        (index) => CommunityItem(
-                                          ontap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      CommunityDetailScreen(
-                                                          boardId: state
-                                                              .response
-                                                              .board[index]
-                                                              .boardId)),
-                                            );
-                                          },
-                                          name: "익명",
-                                          gameType: state.response.board[index]
-                                              .gameCategory,
-                                          title:
-                                              state.response.board[index].title,
-                                          commentNum: state.response
-                                              .board[index].commentCount,
-                                          likeNum: state
-                                              .response.board[index].likeCount,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                case CommunityErrorState _:
-                                  return Text(
-                                    state.message,
-                                    style: TextStyle(color: Colors.white),
-                                  );
-
-                                default:
-                                  return Text("값 없음");
-                              }
-                            }),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }

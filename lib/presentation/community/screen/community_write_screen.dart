@@ -15,10 +15,11 @@ import '../bloc/write/community_write_state.dart';
 class CommunityWriteScreen extends StatefulWidget {
   const CommunityWriteScreen({
     super.key,
-    required this.stageId,
+    required this.stageId, required this.gameTypeList,
   });
 
   final int stageId;
+  final List<GameType> gameTypeList;
 
   final String titleHintText = '내용을 입력해주세요.';
 
@@ -27,32 +28,43 @@ class CommunityWriteScreen extends StatefulWidget {
 }
 
 class _CommunityWriteScreenState extends State<CommunityWriteScreen> {
-  final List<String> categoryTexts = [
-    '배구',
-    '농구',
-    '축구',
-    '야구',
-    '배드민턴',
-    '기타'
-  ];
-  final List<Widget Function({Color color, double height, double width})>
-      categoryIcons = [
-    GogoIcons.volleyball,
-    GogoIcons.basketball,
-    GogoIcons.football,
-    GogoIcons.baseball,
-    GogoIcons.badminton,
-    GogoIcons.etc
-  ];
+  static categoryTexts(GameType gameType) {
+    switch (gameType) {
+      case GameType.VOLLEY_BALL:
+        return '배구';
+      case GameType.BASKET_BALL:
+        return '농구';
+      case GameType.SOCCER:
+        return '축구';
+      case GameType.BASE_BALL:
+        return '야구';
+      case GameType.LOL:
+        return 'LOL';
+      case GameType.BADMINTON:
+        return '배드민턴';
+      default:
+        return '기타';
+    }
+  }
 
-  final List<GameType> gameTypes = [
-    GameType.VOLLEY_BALL,
-    GameType.BASKET_BALL,
-    GameType.SOCCER,
-    GameType.BASE_BALL,
-    GameType.BADMINTON,
-    GameType.ETC,
-  ];
+  static categoryIcons(GameType gameType) {
+    switch (gameType) {
+      case GameType.VOLLEY_BALL:
+        return GogoIcons.volleyball;
+      case GameType.BASKET_BALL:
+        return GogoIcons.basketball;
+      case GameType.SOCCER:
+        return GogoIcons.football;
+      case GameType.BASE_BALL:
+        return GogoIcons.baseball;
+      case GameType.LOL:
+        return GogoIcons.eSports;
+      case GameType.BADMINTON:
+        return GogoIcons.badminton;
+      default:
+        return GogoIcons.etc;
+    }
+  }
 
   GameType? selectedGameType;
 
@@ -90,27 +102,27 @@ Widget build(BuildContext context) {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: List.generate(
-                        categoryTexts.length,
+                        widget.gameTypeList.length,
                         (index) => GestureDetector(
                           onTap: () {
                             setState(() {
-                              selectedGameType = gameTypes[index];
+                              selectedGameType = widget.gameTypeList[index];
                             });
                           },
                           child: Padding(
                             padding: EdgeInsets.only(
-                              right: index == categoryTexts.length - 1 ? 0 : 12,
+                              right: index == widget.gameTypeList.length - 1 ? 0 : 12,
                             ),
                             child: GogoTagComponent(
-                              tagState: selectedGameType == gameTypes[index],
+                              tagState: selectedGameType == widget.gameTypeList[index],
                               color: GogoColors.main500,
-                              text: categoryTexts[index],
-                              icon: categoryIcons[index](
-                                color: selectedGameType == gameTypes[index]
+                              text: categoryTexts(widget.gameTypeList[index]),
+                              icon: categoryIcons(widget.gameTypeList[index])(
+                                color: selectedGameType == widget.gameTypeList[index]
                                     ? Colors.white
                                     : GogoColors.main500,
-                                height: 12,
-                                width: 12,
+                                height: 12.0,
+                                width: 12.0,
                               ),
                             ),
                           ),

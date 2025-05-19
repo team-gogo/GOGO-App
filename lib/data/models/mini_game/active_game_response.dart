@@ -8,7 +8,7 @@ class ActiveGameResponse {
   final bool isCoinTossActive;
   final bool isYavarweeActive;
 
-  ActiveGameResponse({
+  const ActiveGameResponse({
     required this.isPlinkoActive,
     required this.isCoinTossActive,
     required this.isYavarweeActive,

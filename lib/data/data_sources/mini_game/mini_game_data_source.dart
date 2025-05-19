@@ -21,7 +21,7 @@ abstract class MiniGameDataSource {
     YavarweeRequest body,
   );
 
-  Future<TicketCountsResponse> getTicketCount(String stageId);
+  Future<TicketCountsResponse> getTicketCount(int stageId);
 
-  Future<ActiveGameResponse> getActiveGame(String stageId);
+  Future<ActiveGameResponse> getActiveGame(int stageId);
 }

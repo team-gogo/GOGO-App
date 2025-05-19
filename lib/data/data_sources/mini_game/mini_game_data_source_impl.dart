@@ -39,13 +39,13 @@ class MiniGameDataSourceImpl implements MiniGameDataSource {
   }
 
   @override
-  Future<TicketCountsResponse> getTicketCount(String stageId) async {
+  Future<TicketCountsResponse> getTicketCount(int stageId) async {
     return await executeHandleApiCall(
         () => _miniGameApi.getTicketCount(stageId));
   }
 
   @override
-  Future<ActiveGameResponse> getActiveGame(String stageId) async {
+  Future<ActiveGameResponse> getActiveGame(int stageId) async {
     return await executeHandleApiCall(
         () => _miniGameApi.getActiveGame(stageId));
   }

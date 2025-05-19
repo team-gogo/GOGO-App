@@ -22,6 +22,7 @@ class MatchDto {
   final bool isNotice;
   final Betting betting;
   final MatchResult? result;
+  final bool isPlayer;
 
   MatchDto({
     required this.matchId,
@@ -38,6 +39,7 @@ class MatchDto {
     required this.isNotice,
     required this.betting,
     this.result,
+    required this.isPlayer,
   });
 
   factory MatchDto.fromJson(Map<String, dynamic> json) =>
@@ -72,16 +74,16 @@ class MatchResult {
 
 @JsonSerializable()
 class MatchTeam {
-  final int teamId;
+  final int? teamId;
   final String teamName;
   final int bettingPoint;
-  final int winCount;
+  final int? winCount;
 
   MatchTeam({
-    required this.teamId,
+    this.teamId,
     required this.teamName,
     required this.bettingPoint,
-    required this.winCount,
+    this.winCount,
   });
 
   factory MatchTeam.fromJson(Map<String, dynamic> json) =>
