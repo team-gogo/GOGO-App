@@ -79,7 +79,7 @@ class MinigameSelectButton extends StatelessWidget {
       height: 104.sp,
       width: 104.sp,
       child: ElevatedButton(
-        onPressed: isActive ? _gameOnTap[minigameImage] : null,
+        onPressed: isActive ? _gameOnTap[minigameImage] : (){},
         style: ElevatedButton.styleFrom(
           backgroundColor: bgColor,
           shape: RoundedRectangleBorder(
