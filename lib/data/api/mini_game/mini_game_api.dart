@@ -35,8 +35,8 @@ abstract class MiniGameApi {
   );
 
   @GET("/minigame/ticket/{stage_id}")
-  Future<TicketCountsResponse> getTicketCount(@Path("stage_id") String stageId);
+  Future<TicketCountsResponse> getTicketCount(@Path("stage_id") int stageId);
 
   @GET("/minigame/active-game/{stage_id}")
-  Future<ActiveGameResponse> getActiveGame(@Path("stage_id") String stageId);
+  Future<ActiveGameResponse> getActiveGame(@Path("stage_id") int stageId);
 }

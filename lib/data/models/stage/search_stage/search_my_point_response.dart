@@ -5,7 +5,7 @@ part 'search_my_point_response.g.dart';
 class SearchMyPointResponse {
   final int point;
 
-  SearchMyPointResponse({
+  const SearchMyPointResponse({
     required this.point,
   });
 

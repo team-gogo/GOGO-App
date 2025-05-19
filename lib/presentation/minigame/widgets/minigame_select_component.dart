@@ -7,7 +7,7 @@ import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc.dart';
 import 'package:gogo_app/presentation/minigame/bloc/minigame_event.dart';
-import 'package:gogo_app/presentation/minigame/widgets/Minigame_description_popup.dart';
+import 'package:gogo_app/presentation/minigame/widgets/minigame_description_popup.dart';
 import 'package:gogo_app/presentation/minigame/widgets/minigame_topbar.dart';
 import 'package:gogo_app/router.dart';
 

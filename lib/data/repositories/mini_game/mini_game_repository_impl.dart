@@ -28,12 +28,12 @@ class MiniGameRepositoryImpl implements MiniGameRepository {
   }
 
   @override
-  Future<TicketCountsResponse> getTicketCount(String stageId) {
+  Future<TicketCountsResponse> getTicketCount(int stageId) {
     return _miniGameDataSource.getTicketCount(stageId);
   }
 
   @override
-  Future<ActiveGameResponse> getActiveGame(String stageId) {
+  Future<ActiveGameResponse> getActiveGame(int stageId) {
     return _miniGameDataSource.getActiveGame(stageId);
   }
 }

@@ -6,7 +6,7 @@ part 'search_point_response.g.dart';
 class SearchPointResponse {
   final int point;
 
-  SearchPointResponse({required this.point});
+  const SearchPointResponse({required this.point});
 
   factory SearchPointResponse.fromJson(Map<String, dynamic> json) => _$SearchPointResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SearchPointResponseToJson(this);

@@ -54,6 +54,12 @@ dependencies:
 
   flutter_secure_storage: ^9.2.4 # 보안을 위한 aos: keystore, ios: keychain 사용하도록 해주는 라이브러리
 
+  equatable: ^2.0.7 # 객체 비교를 쉽게 해주는 라이브러리
+
+  bloc_concurrency: ^0.3.0 # bloc의 concurrency를 도와주는 라이브러리
+
+  stream_transform: ^2.1.1 # stream의 concurrency를 도와주는 라이브러리
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
