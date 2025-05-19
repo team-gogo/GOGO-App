@@ -108,7 +108,7 @@ abstract class StageApi {
   );
 
   //포인트 랭킹 조회 ✅
-  @GET('/stage/ranking/{stage_id}')
+  @GET('/stage/rank/{stage_id}')
   Future<SearchRankingResponse> searchRanking(
     @Path('stage_id') int stageId,
     @Query('page') int page,
@@ -145,7 +145,7 @@ abstract class StageApi {
   );
 
   // 경기 게시글 좋아요 ✅
-  @POST("/stage/community/{board_id}")
+  @POST("/stage/community/board/like/{board_id}")
   Future<CommunityLikeResponse> likeCommunityPost(
     @Path("board_id") int boardId,
   );

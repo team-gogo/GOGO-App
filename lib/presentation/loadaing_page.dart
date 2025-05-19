@@ -36,38 +36,37 @@ class _LoadingPageState extends State<LoadingPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: GogoColors.black,
       body: Center(
-        child: AnimatedBuilder(
-            animation: _dotsAnimation,
-            builder: (context, child) {
-              return Stack(
-                children: [
-                  Text(
-                    "로딩 중${'.' * _dotsAnimation.value}",
-                    style: TextStyle(
-                      fontFamily: 'GmarketSans',
-                      fontSize: 48.sp,
-                      foreground: Paint()
-                        ..style = PaintingStyle.stroke
-                        ..strokeWidth = 1
-                        ..color = GogoColors.main600,
-                    ),
-                  ),
-                  Transform.translate(
-                    offset: Offset(5, -3),
-                    child: Text(
+          child: AnimatedBuilder(
+              animation: _dotsAnimation,
+              builder: (context, child) {
+                return Stack(
+                  children: [
+                    Text(
                       "로딩 중${'.' * _dotsAnimation.value}",
                       style: TextStyle(
                         fontFamily: 'GmarketSans',
                         fontSize: 48.sp,
-                        color: GogoColors.main600,
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = 1
+                          ..color = GogoColors.main600,
                       ),
                     ),
-                  ),
-                ],
-              );
-            }),
+                    Transform.translate(
+                      offset: Offset(5, -3),
+                      child: Text(
+                        "로딩 중${'.' * _dotsAnimation.value}",
+                        style: TextStyle(
+                          fontFamily: 'GmarketSans',
+                          fontSize: 48.sp,
+                          color: GogoColors.main600,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }),
       ),
     );
   }
