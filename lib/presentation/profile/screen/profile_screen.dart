@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
+import 'package:gogo_app/presentation/profile/bloc/profile_bloc.dart';
+import 'package:gogo_app/presentation/profile/bloc/profile_event.dart';
+import 'package:gogo_app/presentation/profile/bloc/profile_state.dart';
 import 'package:gogo_app/router.dart';
-import '../../../data/models/stage/enum_type/stage_type.dart';
-import '../../../data/models/stage/search_stage/search_stage_response.dart';
-import '../../../design_system/component/stage/gogo_stage_card_component.dart';
+
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/typography.dart';
 import '../widget/profile_card_component.dart';
 
-class ProfileScreen extends StatefulWidget {
+
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider<ProfileBloc>(
+      create: (BuildContext context) => ProfileBloc(),
+      child: ProfileContentScreen(),
+      );
+  }
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class ProfileContentScreen extends StatefulWidget {
+  const ProfileContentScreen({super.key});
+
+  @override
+  State<ProfileContentScreen> createState() => _ProfileContentState();
+}
+
+class _ProfileContentState extends State<ProfileContentScreen> {
   bool selected = false;
 
   final TextStyle subjectStyle = GogoTypography.body3Semibold.copyWith(
@@ -26,6 +42,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextStyle mainStyle = GogoTypography.caption1Extrabold.copyWith(
     color: GogoColors.white,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(FetchUserInfo());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +73,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: 22,
                     ),
-                    ProfileCardComponent(
-                      name: '박유현',
-                      school: '광주소프트웨어마이스터그동학교',
-                      male: '남자',
-                    ),
+                    BlocBuilder<ProfileBloc,ProfileState>(
+                      builder: (context, state) {
+                        if(state is UserInfoLoadingState) {
+                          return Center(
+                            child: CircularProgressIndicator(color: GogoColors.main500,),
+                          );
+                        }
+    
+                        else if(state is UserInfoLoadedState) {
+                          return ProfileCardComponent(
+                      name: state.response.name,
+                      school: state.response.schoolName,
+                      male: state.response.sex == Sex.MALE ? "남자" : "여자",
+                    );
+                        }
+    
+                        else if(state is UserInfoErrorState) {
+                          return Center(
+                            child: Text(state.message,style: TextStyle(color: Colors.white),),
+                          );
+                        }
+    
+                        else {
+                          return Text("데이터 없음",style: TextStyle(color: Colors.white),);
+                        }
+                      }
+                      ),
                     SizedBox(
                       height: 40,
                     ),
