@@ -7,6 +7,7 @@ import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
+import 'package:gogo_app/presentation/loading/loadaing_page.dart';
 import 'package:gogo_app/presentation/match_detail/widget/match_participant_widget.dart';
 import 'package:gogo_app/presentation/match_detail/widget/match_point_widget.dart';
 import 'package:gogo_app/presentation/match_detail/widget/match_state_widget.dart';
@@ -49,10 +50,7 @@ class MatchDetailScreen extends StatelessWidget {
         child: BlocBuilder<SearchMatchBloc, SearchMatchState>(
           builder: (context, state) {
             if (state is SearchMatchLoading) {
-              return const Center(
-                  child: CircularProgressIndicator(
-                color: GogoColors.main500,
-              ));
+              return const LoadingPage();
             } else if (state is SearchMatchSuccess) {
               final matchInfo = state.matchInfo;
               return SafeArea(
