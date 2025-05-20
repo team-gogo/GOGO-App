@@ -24,14 +24,15 @@ class MatchParticipantWidget extends StatelessWidget {
       right: redOrBlue ? x : null,
       top: y,
       child: Column(
-        spacing: 8,
         children: [
           GogoIcons.person(
+              height: 20,
+              width: 20,
               color: redOrBlue ? GogoColors.teamRed : GogoColors.teamBlue),
           Text(
             name,
-            style: GogoTypography.body3Semibold
-                .copyWith(color: redOrBlue ? GogoColors.teamRed : GogoColors.teamBlue),
+            style: GogoTypography.body3Semibold.copyWith(
+                color: redOrBlue ? GogoColors.teamRed : GogoColors.teamBlue),
           )
         ],
       ),
