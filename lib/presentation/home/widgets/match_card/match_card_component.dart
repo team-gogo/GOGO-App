@@ -166,7 +166,7 @@ class MatchCard extends StatelessWidget {
                 children: [
                   GogoIcons.pointCircle(height: 20, width: 20),
                   Text(
-                    '${matchDto.aTeam.bettingPoint + matchDto.bTeam.bettingPoint}',
+                    '${matchDto.ateam.bettingPoint + matchDto.bteam.bettingPoint}',
                     style: GogoTypography.caption1Semibold.copyWith(
                       color: GogoColors.gray300,
                     ),
@@ -175,7 +175,7 @@ class MatchCard extends StatelessWidget {
               ),
               matchDto.isEnd
                   ? Text(
-                      "${matchDto.result?.victoryTeamId == matchDto.aTeam.teamId ? matchDto.aTeam.teamName : matchDto.bTeam.teamName}팀 승리",
+                      "${matchDto.result?.victoryTeamId == matchDto.ateam.teamId ? matchDto.ateam.teamName : matchDto.bteam.teamName}팀 승리",
                       style: GogoTypography.body1Extrabold
                           .copyWith(color: GogoColors.white),
                     )
@@ -184,11 +184,11 @@ class MatchCard extends StatelessWidget {
                       spacing: 16,
                       children: [
                         Text(
-                          "${matchDto.aTeam.teamName}팀",
+                          "${matchDto.ateam.teamName}팀",
                           style: GogoTypography.body1Extrabold.copyWith(
                               color: matchDto.betting.isBetting &&
                                       matchDto.betting.predictedWinTeamId ==
-                                          matchDto.aTeam.teamId
+                                          matchDto.ateam.teamId
                                   ? GogoColors.main500
                                   : GogoColors.white),
                         ),
@@ -198,11 +198,11 @@ class MatchCard extends StatelessWidget {
                               .copyWith(color: GogoColors.gray500),
                         ),
                         Text(
-                          "${matchDto.bTeam.teamName}팀",
+                          "${matchDto.bteam.teamName}팀",
                           style: GogoTypography.body1Extrabold.copyWith(
                             color: matchDto.betting.isBetting &&
                                     matchDto.betting.predictedWinTeamId ==
-                                        matchDto.bTeam.teamId
+                                        matchDto.bteam.teamId
                                 ? GogoColors.main500
                                 : GogoColors.white,
                           ),

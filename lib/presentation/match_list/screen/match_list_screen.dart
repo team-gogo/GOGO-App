@@ -78,10 +78,10 @@ class MatchListScreen extends StatelessWidget {
           system: data.system,
           gameType: data.category,
           round: data.round,
-          teamAPoint: data.aTeam.bettingPoint,
-          teamBPoint: data.bTeam.bettingPoint,
-          teamA: data.aTeam.teamName,
-          teamB: data.bTeam.teamName,
+          teamAPoint: data.ateam.bettingPoint,
+          teamBPoint: data.bteam.bettingPoint,
+          teamA: data.ateam.teamName,
+          teamB: data.bteam.teamName,
           enableBetting: !data.isEnd && data.startDate.isBefore(DateTime.now()),
           closeDialog: () {
             Navigator.pop(context);

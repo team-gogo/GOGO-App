@@ -117,24 +117,24 @@ class HomeScreen extends StatelessWidget {
                                             ),
                                           ),
                                         );
+                                      } else {
+                                        return Row(
+                                          children: List.generate(
+                                            min(matches.length, 5),
+                                            (index) {
+                                              final match = matches[index];
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8),
+                                                child: MatchCard(
+                                                  matchDto: match,
+                                                  onBattingClick: () {},
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        );
                                       }
-
-                                      return Row(
-                                        children: List.generate(
-                                          min(matches.length, 5),
-                                          (index) {
-                                            final match = matches[index];
-                                            return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 8),
-                                              child: MatchCard(
-                                                matchDto: match,
-                                                onBattingClick: () {},
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      );
                                     },
                                   ),
                                 ),
