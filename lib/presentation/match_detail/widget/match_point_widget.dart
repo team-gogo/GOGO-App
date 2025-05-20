@@ -29,20 +29,20 @@ class MatchPointWidget extends StatelessWidget {
                 spacing: 12,
                 children: [
                   GogoBorderlessTagComponent(
-                    color: matchDto.aTeam.teamId ==
+                    color: matchDto.ateam.teamId ==
                             matchDto.betting.predictedWinTeamId
                         ? GogoColors.main500
                         : GogoColors.gray300,
-                    text: '${matchDto.aTeam.bettingPoint}',
+                    text: '${matchDto.ateam.bettingPoint}',
                     icon: GogoIcons.pointCircle(height: 16.sp, width: 16.sp),
                   ),
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      '${matchDto.aTeam.teamName}팀',
+                      '${matchDto.ateam.teamName}팀',
                       overflow: TextOverflow.ellipsis,
                       style: GogoTypography.body2Extrabold.copyWith(
-                        color: matchDto.aTeam.teamId ==
+                        color: matchDto.ateam.teamId ==
                                 matchDto.betting.predictedWinTeamId
                             ? GogoColors.main500
                             : GogoColors.white,
@@ -69,7 +69,7 @@ class MatchPointWidget extends StatelessWidget {
                     spacing: 8,
                     color: GogoColors.white,
                     text:
-                        '${matchDto.aTeam.bettingPoint + matchDto.bTeam.bettingPoint}',
+                        '${matchDto.ateam.bettingPoint + matchDto.bteam.bettingPoint}',
                     icon: GogoIcons.pointCircle(height: 16.sp, width: 16.sp),
                   )
                 ],
@@ -85,20 +85,20 @@ class MatchPointWidget extends StatelessWidget {
                 spacing: 12,
                 children: [
                   GogoBorderlessTagComponent(
-                    color: matchDto.bTeam.teamId ==
+                    color: matchDto.bteam.teamId ==
                             matchDto.betting.predictedWinTeamId
                         ? GogoColors.main500
                         : GogoColors.gray300,
-                    text: '${matchDto.bTeam.bettingPoint}',
+                    text: '${matchDto.bteam.bettingPoint}',
                     icon: GogoIcons.pointCircle(height: 16.sp, width: 16.sp),
                   ),
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      '${matchDto.bTeam.teamName}팀',
+                      '${matchDto.bteam.teamName}팀',
                       overflow: TextOverflow.ellipsis,
                       style: GogoTypography.body2Extrabold.copyWith(
-                        color: matchDto.bTeam.teamId ==
+                        color: matchDto.bteam.teamId ==
                                 matchDto.betting.predictedWinTeamId
                             ? GogoColors.main500
                             : GogoColors.white,

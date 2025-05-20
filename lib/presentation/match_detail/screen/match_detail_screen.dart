@@ -61,7 +61,7 @@ class MatchDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(15.0),
                       child: GogoTopBar(
                         title:
-                            '${matchInfo.aTeam.teamName} vs ${matchInfo.bTeam.teamName}',
+                            '${matchInfo.ateam.teamName} vs ${matchInfo.bteam.teamName}',
                         onBackTap: () => context.pop(),
                       ),
                     ),
@@ -94,7 +94,7 @@ class MatchDetailScreen extends StatelessWidget {
                                       ),
                                       SizedBox(width: 8.w),
                                       Text(
-                                        '${matchInfo.aTeam.teamName}팀',
+                                        '${matchInfo.ateam.teamName}팀',
                                         style: GogoTypography.body3Extrabold
                                             .copyWith(color: GogoColors.white),
                                       ),
@@ -114,7 +114,7 @@ class MatchDetailScreen extends StatelessWidget {
                                       ),
                                       SizedBox(width: 8.w),
                                       Text(
-                                        '${matchInfo.bTeam.teamName}팀',
+                                        '${matchInfo.bteam.teamName}팀',
                                         style: GogoTypography.body3Extrabold
                                             .copyWith(color: GogoColors.white),
                                       ),
@@ -132,9 +132,9 @@ class MatchDetailScreen extends StatelessWidget {
                               PageIndicatorState>(
                             builder: (context, pageState) {
                               final List<Participant> aTeamParticipant =
-                                  matchInfo.aTeam.participants;
+                                  matchInfo.ateam.participants;
                               final List<Participant> bTeamParticipant =
-                                  matchInfo.bTeam.participants;
+                                  matchInfo.bteam.participants;
                               return PageView(
                                 onPageChanged: (index) {
                                   context
@@ -248,13 +248,13 @@ class MatchDetailScreen extends StatelessWidget {
       GameType.SOCCER => GogoIcons.footballFullMap(),
       GameType.BASKET_BALL => GogoIcons.basketballFullMap(),
       GameType.BASE_BALL => GogoIcons.baseballFullMap(),
-      GameType.VOLLEY_BALL => Container(color: GogoColors.gray600),
+      GameType.VOLLEY_BALL => GogoIcons.volleyBallFullMap(),
       GameType.BADMINTON => GogoIcons.badmintonFullMap(),
       GameType.LOL => Container(color: GogoColors.gray600),
       GameType.ETC => Container(color: GogoColors.gray600),
     };
     final fullWidth = MediaQuery.of(context).size.width * 2;
-    final fullHeight = fullWidth / (1320 / 464);
+    final fullHeight = fullWidth;
     return SizedBox(
       height: fullHeight,
       width: fullWidth,
