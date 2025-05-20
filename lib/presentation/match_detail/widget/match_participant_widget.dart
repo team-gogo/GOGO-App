@@ -31,7 +31,7 @@ class MatchParticipantWidget extends StatelessWidget {
           Text(
             name,
             style: GogoTypography.body3Semibold
-                .copyWith(color: GogoColors.teamBlue),
+                .copyWith(color: redOrBlue ? GogoColors.teamRed : GogoColors.teamBlue),
           )
         ],
       ),
