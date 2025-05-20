@@ -17,69 +17,97 @@ class MatchPointWidget extends StatelessWidget {
     return SizedBox(
       width: 240.w,
       height: 58.h,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Stack(
         children: [
-          Column(
-            spacing: 12,
-            children: [
-              GogoBorderlessTagComponent(
-                color:
-                    matchDto.aTeam.teamId == matchDto.betting.predictedWinTeamId
+          Align(
+            alignment: Alignment.centerLeft,
+            child: SizedBox(
+              width: 70.w,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: 12,
+                children: [
+                  GogoBorderlessTagComponent(
+                    color: matchDto.aTeam.teamId ==
+                            matchDto.betting.predictedWinTeamId
                         ? GogoColors.main500
                         : GogoColors.gray300,
-                text: '${matchDto.aTeam.bettingPoint}',
-                icon: GogoIcons.pointCircle(height: 16.sp, width: 16.sp),
+                    text: '${matchDto.aTeam.bettingPoint}',
+                    icon: GogoIcons.pointCircle(height: 16.sp, width: 16.sp),
+                  ),
+                  SizedBox(
+                    width: 70.w,
+                    child: Text(
+                      '${matchDto.aTeam.teamName}팀',
+                      overflow: TextOverflow.ellipsis,
+                      style: GogoTypography.body2Extrabold.copyWith(
+                        color: matchDto.aTeam.teamId ==
+                                matchDto.betting.predictedWinTeamId
+                            ? GogoColors.main500
+                            : GogoColors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                '${matchDto.aTeam.teamName}팀',
-                style: GogoTypography.body2Extrabold.copyWith(
-                  color: matchDto.aTeam.teamId ==
-                          matchDto.betting.predictedWinTeamId
-                      ? GogoColors.main500
-                      : GogoColors.white,
-                ),
-              ),
-            ],
+            ),
           ),
-          Column(
-            spacing: 8,
-            children: [
-              Text(
-                '총 포인트',
-                style: GogoTypography.body3Semibold
-                    .copyWith(color: GogoColors.white),
-              ),
-              GogoBorderlessTagComponent(
+          Align(
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: 60.w,
+              child: Column(
                 spacing: 8,
-                color: GogoColors.white,
-                text:
-                    '${matchDto.aTeam.bettingPoint + matchDto.bTeam.bettingPoint}',
-                icon: GogoIcons.pointCircle(height: 16.sp, width: 16.sp),
-              )
-            ],
+                children: [
+                  Text(
+                    '총 포인트',
+                    style: GogoTypography.body3Semibold
+                        .copyWith(color: GogoColors.white),
+                  ),
+                  GogoBorderlessTagComponent(
+                    spacing: 8,
+                    color: GogoColors.white,
+                    text:
+                        '${matchDto.aTeam.bettingPoint + matchDto.bTeam.bettingPoint}',
+                    icon: GogoIcons.pointCircle(height: 16.sp, width: 16.sp),
+                  )
+                ],
+              ),
+            ),
           ),
-          Column(
-            spacing: 12,
-            children: [
-              GogoBorderlessTagComponent(
-                color:
-                    matchDto.bTeam.teamId == matchDto.betting.predictedWinTeamId
+          Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              width: 70.w,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 12,
+                children: [
+                  GogoBorderlessTagComponent(
+                    color: matchDto.bTeam.teamId ==
+                            matchDto.betting.predictedWinTeamId
                         ? GogoColors.main500
                         : GogoColors.gray300,
-                text: '${matchDto.bTeam.bettingPoint}',
-                icon: GogoIcons.pointCircle(height: 16.sp, width: 16.sp),
+                    text: '${matchDto.bTeam.bettingPoint}',
+                    icon: GogoIcons.pointCircle(height: 16.sp, width: 16.sp),
+                  ),
+                  SizedBox(
+                    width: 70.w,
+                    child: Text(
+                      '${matchDto.bTeam.teamName}팀',
+                      overflow: TextOverflow.ellipsis,
+                      style: GogoTypography.body2Extrabold.copyWith(
+                        color: matchDto.bTeam.teamId ==
+                                matchDto.betting.predictedWinTeamId
+                            ? GogoColors.main500
+                            : GogoColors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                '${matchDto.bTeam.teamName}팀',
-                style: GogoTypography.body2Extrabold.copyWith(
-                  color: matchDto.bTeam.teamId ==
-                          matchDto.betting.predictedWinTeamId
-                      ? GogoColors.main500
-                      : GogoColors.white,
-                ),
-              ),
-            ],
+            ),
           ),
         ],
       ),
