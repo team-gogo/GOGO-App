@@ -1,14 +1,18 @@
 // router.dart
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/data/models/common/match_dto.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
 import 'package:gogo_app/presentation/loading/join_stage_page.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
+import 'package:gogo_app/presentation/match_detail/bloc/match_info_bloc.dart';
+import 'package:gogo_app/presentation/match_detail/screen/match_detail_screen.dart';
 import 'package:gogo_app/presentation/match_list/screen/match_list_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/coin_toss_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/minigame_screen.dart';
@@ -23,7 +27,13 @@ import 'package:gogo_app/presentation/sign_up/screen/sign_up_screen.dart';
 import 'package:gogo_app/presentation/splash/screen/splash_screen.dart';
 import 'package:gogo_app/presentation/stage/screen/stage_screen.dart';
 import 'package:gogo_app/presentation/stage_create/screen/stage_create_screen.dart';
+import 'data/api/stage/stage_api.dart';
+import 'data/data_sources/stage/stage_data_source.dart';
+import 'data/data_sources/stage/stage_data_source_impl.dart';
+import 'data/repositories/stage/stage_repository.dart';
+import 'data/repositories/stage/stage_repository_impl.dart';
 import 'design_system/theme/color.dart';
+import 'package:provider/provider.dart';
 
 class PageRouter {
   static final PageRouter _pageRouter = PageRouter.init();
@@ -48,6 +58,7 @@ class PageRouter {
   static const String community = "community";
   static const String communityWrite = "communityWrite";
   static const String matchList = "matchList";
+  static const String matchDetail = "matchDetail";
 
   static GoRoute _customGoRoute({
     required String name,
@@ -159,6 +170,7 @@ class PageRouter {
                                   ));
                                 },
                               ),
+
                             ]),
                         _customGoRoute(
                             name: coinToss, screen: CoinTossScreen()),
@@ -168,7 +180,7 @@ class PageRouter {
                             name: matchList, screen: MatchListScreen()),
                         _customGoRoute(
                             name: miniGame, screen: MinigameScreen()),
-                      ])
+                      ]),
                 ])
           ]),
           StatefulShellBranch(
@@ -178,6 +190,25 @@ class PageRouter {
           StatefulShellBranch(
               routes: [_customGoRoute(name: profile, screen: ProfileScreen())]),
         ],
+      ),
+      GoRoute(
+        name: matchDetail,
+        path: '/$matchDetail/:matchId',
+        pageBuilder: (context, state) {
+          final matchId = int.parse(state.pathParameters['matchId']!);
+          final MatchDto matchDto = state.extra as MatchDto;
+          return CustomTransitionPage(
+            transitionDuration: Duration(milliseconds: 300),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+            child: MatchDetailScreen(
+              matchDto: matchDto,
+              matchId: matchId,
+            ),
+          );
+        },
       ),
       _customGoRoute(name: editProfile, screen: EditProfilePage()),
       _customGoRoute(name: createStage, screen: StageCreateScreen()),
