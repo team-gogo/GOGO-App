@@ -4,214 +4,271 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/common/match_dto.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
-import 'package:gogo_app/data/models/stage/enum_type/match_round.dart';
-import 'package:gogo_app/data/models/stage/enum_type/system_type.dart';
-import 'package:gogo_app/data/models/stage/search_stage/search_betting_stage_response.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
+import 'package:gogo_app/presentation/match_detail/widget/match_participant_widget.dart';
 import 'package:gogo_app/presentation/match_detail/widget/match_point_widget.dart';
 import 'package:gogo_app/presentation/match_detail/widget/match_state_widget.dart';
 
+import '../../../data/models/common/team_response.dart';
+import '../../../data/models/stage/search_stage/search_match_info_response.dart';
 import '../../../design_system/component/top_bar/gogo_top_bar.dart';
-import '../bloc/page_indicator_bloc.dart';
-import '../bloc/page_indicator_event.dart';
-import '../bloc/page_indicator_state.dart';
+import '../bloc/match_info_bloc.dart';
+import '../bloc/match_info_event.dart';
+import '../bloc/match_info_state.dart';
+import '../bloc/widget/page_indicator_bloc.dart';
+import '../bloc/widget/page_indicator_event.dart';
+import '../bloc/widget/page_indicator_state.dart';
 
 class MatchDetailScreen extends StatelessWidget {
-  MatchDetailScreen({super.key});
+  final MatchDto matchDto;
+  final int matchId;
 
-  final PageController _pageController = PageController();
-
-  final MatchDto matchDto = MatchDto(
-    matchId: 1,
-    aTeam: MatchTeam(teamId: 1, teamName: 'A', bettingPoint: 5000, winCount: 1),
-    bTeam: MatchTeam(teamId: 2, teamName: 'B', bettingPoint: 5000, winCount: 0),
-    startDate: DateTime(1),
-    endDate: DateTime(2),
-    isEnd: false,
-    category: GameType.SOCCER,
-    gameName: 'A팀 vs B팀',
-    system: System.TOURNAMENT,
-    isNotice: true,
-    betting: Betting(isBetting: true, predictedWinTeamId: 1, bettingPoint: 500),
-    round: MatchRound.FINALS,
-  );
+  MatchDetailScreen({super.key, required this.matchDto, required this.matchId});
 
   @override
   Widget build(BuildContext context) {
-    Widget halfImage({required bool isLeft}) {
-      final image = switch (matchDto.category) {
-        GameType.SOCCER => GogoIcons.footballFullMap(),
-        GameType.BASKET_BALL => GogoIcons.basketballFullMap(),
-        GameType.BASE_BALL => GogoIcons.baseballFullMap(),
-        GameType.VOLLEY_BALL => Container(color: GogoColors.gray600),
-        GameType.BADMINTON => GogoIcons.badmintonFullMap(),
-        GameType.LOL => Container(color: GogoColors.gray600),
-        GameType.ETC => Container(color: GogoColors.gray600),
-      };
+    final fullWidth = MediaQuery.of(context).size.width;
+    final fullHeight = (fullWidth * 2) / (1320 / 464);
 
-      final fullWidth = MediaQuery.of(context).size.width * 2;
-      final fullHeight = fullWidth / (1320 / 464);
+    final originalWidth = 1320;
+    final originalHeight = 464;
 
-      return SizedBox(
-        height: fullHeight,
-        width: MediaQuery.of(context).size.width,
-        child: OverflowBox(
-          maxWidth: fullWidth,
-          alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
-          child: SizedBox(
-            width: fullWidth,
-            height: fullHeight,
-            child: image, // FittedBox 제거
+    return Scaffold(
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (BuildContext context) => SearchMatchBloc(stageId: matchId)
+              ..add(SearchMatchRequested(matchId: matchId)),
           ),
-        ),
-      );
-    }
-
-    return BlocProvider(
-      create: (_) => PageIndicatorBloc(),
-      child: Builder(builder: (context) {
-        return Scaffold(
-          body: SafeArea(
-            child: Column(
-              spacing: 42.h,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: GogoTopBar(
-                    title: 'A팀 vs B팀',
-                    onBackTap: () => context.pop(context),
-                  ),
-                ),
-                Column(
-                  spacing: 20.h,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MatchStateWidget(matchDto: matchDto),
-                    MatchPointWidget(matchDto: matchDto),
-                  ],
-                ),
-                Column(
+          BlocProvider<PageIndicatorBloc>(
+            create: (context) => PageIndicatorBloc(),
+          ),
+        ],
+        child: BlocBuilder<SearchMatchBloc, SearchMatchState>(
+          builder: (context, state) {
+            if (state is SearchMatchLoading) {
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: GogoColors.main500,
+              ));
+            } else if (state is SearchMatchSuccess) {
+              final matchInfo = state.matchInfo;
+              return SafeArea(
+                child: Column(
+                  spacing: 28.h,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '팀 정보',
-                            style: GogoTypography.body2Extrabold
-                                .copyWith(color: GogoColors.white),
-                          ),
-                          Row(
-                            spacing: 24.w,
+                      padding: const EdgeInsets.all(15.0),
+                      child: GogoTopBar(
+                        title:
+                            '${matchInfo.aTeam.teamName} vs ${matchInfo.bTeam.teamName}',
+                        onBackTap: () => context.pop(),
+                      ),
+                    ),
+                    MatchStateWidget(matchDto: matchDto),
+                    MatchPointWidget(matchDto: matchDto),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                spacing: 8.w,
-                                children: [
-                                  Container(
-                                    width: 24.sp,
-                                    height: 24.sp,
-                                    decoration: BoxDecoration(
-                                      color: GogoColors.teamBlue,
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                  ),
-                                  Text(
-                                    '${matchDto.aTeam.teamName}팀',
-                                    style: GogoTypography.body3Extrabold
-                                        .copyWith(color: GogoColors.white),
-                                  ),
-                                ],
+                              Text(
+                                '팀 정보',
+                                style: GogoTypography.body2Extrabold
+                                    .copyWith(color: GogoColors.white),
                               ),
                               Row(
-                                spacing: 8.w,
                                 children: [
-                                  Container(
-                                    width: 24.sp,
-                                    height: 24.sp,
-                                    decoration: BoxDecoration(
-                                      color: GogoColors.teamRed,
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 24.sp,
+                                        height: 24.sp,
+                                        decoration: BoxDecoration(
+                                          color: GogoColors.teamBlue,
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
+                                        ),
+                                      ),
+                                      SizedBox(width: 8.w),
+                                      Text(
+                                        '${matchInfo.aTeam.teamName}팀',
+                                        style: GogoTypography.body3Extrabold
+                                            .copyWith(color: GogoColors.white),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    '${matchDto.bTeam.teamName}팀',
-                                    style: GogoTypography.body3Extrabold
-                                        .copyWith(color: GogoColors.white),
+                                  SizedBox(width: 24.w),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 24.sp,
+                                        height: 24.sp,
+                                        decoration: BoxDecoration(
+                                          color: GogoColors.teamRed,
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
+                                        ),
+                                      ),
+                                      SizedBox(width: 8.w),
+                                      Text(
+                                        '${matchInfo.bTeam.teamName}팀',
+                                        style: GogoTypography.body3Extrabold
+                                            .copyWith(color: GogoColors.white),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: (MediaQuery.of(context).size.width * 2) /
-                          (1320 / 464),
-                      width: double.infinity,
-                      child: PageView(
-                        controller: _pageController,
-                        onPageChanged: (index) {
-                          context
-                              .read<PageIndicatorBloc>()
-                              .add(PageChangedEvent(index));
-                        },
-                        children: [
-                          halfImage(isLeft: true), // 왼쪽 절반
-                          halfImage(isLeft: false), // 오른쪽 절반
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                BlocBuilder<PageIndicatorBloc, PageIndicatorState>(
-                  builder: (context, state) {
-                    final isLeft = state.currentIndex == 0;
-                    final Color activeColor =
-                        isLeft ? GogoColors.teamBlue : GogoColors.teamRed;
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Stack(
-                        children: [
-                          // 회색 배경 바
-                          Container(
-                            height: 8,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: GogoColors.gray700,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
+                        ),
+                        SizedBox(
+                          width: fullWidth,
+                          height: fullHeight,
+                          child: BlocBuilder<PageIndicatorBloc,
+                              PageIndicatorState>(
+                            builder: (context, pageState) {
+                              final List<Participant> aTeamParticipant =
+                                  matchInfo.aTeam.participants;
+                              final List<Participant> bTeamParticipant =
+                                  matchInfo.bTeam.participants;
+                              return PageView(
+                                onPageChanged: (index) {
+                                  context
+                                      .read<PageIndicatorBloc>()
+                                      .add(PageChangedEvent(index));
+                                },
+                                controller: PageController(
+                                    initialPage: pageState.currentIndex),
+                                children: [
+                                  Stack(
+                                    children: [
+                                      _halfImage(context, matchInfo,
+                                          isLeft: true),
+                                      ...aTeamParticipant.map((p) {
+                                        final double x =
+                                            (double.tryParse(p.positionX) ?? 0);
+                                        final double y =
+                                            (double.tryParse(p.positionY) ?? 0);
+                                        final xRatio = x / originalWidth;
+                                        final yRatio = y / originalHeight;
+                                        return MatchParticipantWidget(
+                                            x: xRatio * fullWidth,
+                                            y: yRatio * fullHeight,
+                                            redOrBlue: false,
+                                            name: p.name);
+                                      }).toList(),
+                                    ],
+                                  ),
+                                  Stack(
+                                    children: [
+                                      _halfImage(context, matchInfo,
+                                          isLeft: false),
+                                      ...bTeamParticipant.map((p) {
+                                        final double x =
+                                            (double.tryParse(p.positionX) ?? 0);
+                                        final double y =
+                                            (double.tryParse(p.positionY) ?? 0);
+                                        final xRatio = x / originalWidth;
+                                        final yRatio = y / originalHeight;
+                                        return MatchParticipantWidget(
+                                            x: xRatio * fullWidth,
+                                            y: yRatio * fullHeight,
+                                            redOrBlue: true,
+                                            name: p.name);
+                                      }).toList(),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            },
                           ),
-                          AnimatedAlign(
-                            alignment: isLeft
-                                ? Alignment.centerLeft
-                                : Alignment.centerRight,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut,
-                            child: FractionallySizedBox(
-                              widthFactor: 0.5, // 절반 너비
-                              child: Container(
+                        ),
+                      ],
+                    ),
+                    BlocBuilder<PageIndicatorBloc, PageIndicatorState>(
+                      builder: (context, pageState) {
+                        final isLeft = pageState.currentIndex == 0;
+                        final Color activeColor =
+                            isLeft ? GogoColors.teamBlue : GogoColors.teamRed;
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Stack(
+                            children: [
+                              Container(
                                 height: 8,
+                                width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: activeColor,
+                                  color: GogoColors.gray700,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                               ),
-                            ),
+                              AnimatedAlign(
+                                alignment: isLeft
+                                    ? Alignment.centerLeft
+                                    : Alignment.centerRight,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                                child: FractionallySizedBox(
+                                  widthFactor: 0.5,
+                                  child: Container(
+                                    height: 8,
+                                    decoration: BoxDecoration(
+                                      color: activeColor,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  },
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        );
-      }),
+              );
+            } else if (state is SearchMatchFailure) {
+              return Center(child: Text('에러: ${state.message}'));
+            }
+            return Container();
+          },
+        ),
+      ),
+    );
+  }
+
+  static Widget _halfImage(
+      BuildContext context, SearchMatchInfoResponse matchInfo,
+      {required bool isLeft}) {
+    final image = switch (matchInfo.category) {
+      GameType.SOCCER => GogoIcons.footballFullMap(),
+      GameType.BASKET_BALL => GogoIcons.basketballFullMap(),
+      GameType.BASE_BALL => GogoIcons.baseballFullMap(),
+      GameType.VOLLEY_BALL => Container(color: GogoColors.gray600),
+      GameType.BADMINTON => GogoIcons.badmintonFullMap(),
+      GameType.LOL => Container(color: GogoColors.gray600),
+      GameType.ETC => Container(color: GogoColors.gray600),
+    };
+    final fullWidth = MediaQuery.of(context).size.width * 2;
+    final fullHeight = fullWidth / (1320 / 464);
+    return SizedBox(
+      height: fullHeight,
+      width: fullWidth,
+      child: OverflowBox(
+        maxWidth: fullWidth,
+        alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
+        child: SizedBox(
+          width: fullWidth,
+          height: fullHeight,
+          child: image,
+        ),
+      ),
     );
   }
 }
