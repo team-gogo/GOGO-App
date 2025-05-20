@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/data/models/auth/user_info/user_info_response.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
@@ -179,7 +180,16 @@ class PageRouter {
               routes: [_customGoRoute(name: profile, screen: ProfileScreen())]),
         ],
       ),
-      _customGoRoute(name: editProfile, screen: EditProfilePage()),
+      GoRoute(
+        name: PageRouter.editProfile,
+        path: "/${PageRouter.editProfile}",
+        pageBuilder: (context, state) {
+          final userInfo = state.extra as UserInfoResponse;
+            return CupertinoPage(
+              child: EditProfilePage(userInfo: userInfo),
+            );
+          },
+        ),
       _customGoRoute(name: createStage, screen: StageCreateScreen()),
     ],
   );

@@ -181,7 +181,10 @@ class _ProfileContentState extends State<ProfileContentScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () =>
-                                      context.pushNamed(PageRouter.editProfile),
+                                      context.pushNamed(
+                                        PageRouter.editProfile,
+                                        extra: state.userInfoResponse,
+                                      ),
                                   child: Container(
                                     width: double.infinity,
                                     decoration: BoxDecoration(),

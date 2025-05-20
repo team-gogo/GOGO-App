@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/auth/additional_sign_up/additional_sign_up_response.dart';
+import 'package:gogo_app/data/models/auth/user_info/user_info_response.dart';
 import 'package:gogo_app/design_system/component/text_field/gogo_text_field.dart';
 import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
@@ -10,7 +11,11 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 import '../../../design_system/component/button/gogo_default_button.dart';
 
 class EditProfilePage extends StatefulWidget {
-  EditProfilePage({super.key});
+
+  final UserInfoResponse userInfo;
+
+
+  EditProfilePage({super.key,required this.userInfo});
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
@@ -62,19 +67,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 _editItem(
                     '이름',
                     GogoTextField(
-                        controller: _nameController, hintText: '김진원')),
+                        controller: _nameController, hintText: widget.userInfo.name)),
                 _editItem(
                     '학년',
                     GogoTextField(
-                        controller: _gradeController, hintText: '1학년')),
+                        controller: _gradeController, hintText: widget.userInfo.grade.toString())),
                 _editItem(
                     '반',
                     GogoTextField(
-                        controller: _classController, hintText: '1반')),
+                        controller: _classController, hintText: widget.userInfo.classNumber.toString())),
                 _editItem(
                     '번호',
                     GogoTextField(
-                        controller: _numberController, hintText: '1번')),
+                        controller: _numberController, hintText: widget.userInfo.studentNumber.toString())),
                 _editItem(
                   '성별',
                   Column(
