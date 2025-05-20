@@ -249,15 +249,13 @@ class MatchDetailScreen extends StatelessWidget {
       GameType.BASKET_BALL => GogoIcons.basketballFullMap(),
       GameType.BASE_BALL => GogoIcons.baseballFullMap(),
       GameType.VOLLEY_BALL =>
-        Container(color: GogoColors.gray600), // TODO: 이미지 삽입 해야합니다
+        Container(color: GogoColors.gray600), //TODO: 스테이지 삽입 요망
       GameType.BADMINTON => GogoIcons.badmintonFullMap(),
-      GameType.LOL =>
-        Container(color: GogoColors.gray600), // TODO: 이미지 삽입 해야합니다
-      GameType.ETC =>
-        Container(color: GogoColors.gray600), // TODO: 이미지 삽입 해야합니다
+      GameType.LOL => Container(color: GogoColors.gray600), //TODO: 스테이지 삽입 요망
+      GameType.ETC => Container(color: GogoColors.gray600), //TODO: 스테이지 삽입 요망
     };
     final fullWidth = MediaQuery.of(context).size.width * 2;
-    final fullHeight = fullWidth;
+    final fullHeight = fullWidth / (1320 / 464);
     return SizedBox(
       height: fullHeight,
       width: fullWidth,
