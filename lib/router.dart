@@ -8,7 +8,7 @@ import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
-import 'package:gogo_app/presentation/loading/join_stage_page.dart';
+import 'package:gogo_app/presentation/loading/screens/join_stage_page.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
 import 'package:gogo_app/presentation/match_detail/screen/match_detail_screen.dart';
 import 'package:gogo_app/presentation/match_list/screen/match_list_screen.dart';
@@ -173,7 +173,12 @@ class PageRouter {
                   name: matchTeamInfo,
                   path: '$matchTeamInfo',
                   pageBuilder: (context, state) {
-                    return CupertinoPage(child: MatchTeamInfoScreen());
+                    final stageId =
+                        int.parse(state.uri.queryParameters['stageId']!);
+                    return CupertinoPage(
+                        child: MatchTeamInfoScreen(
+                      stageId: stageId,
+                    ));
                   },
                 ),
               ],
