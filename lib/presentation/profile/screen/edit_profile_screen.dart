@@ -9,6 +9,7 @@ import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
+import 'package:gogo_app/presentation/profile/bloc/profile/profile_event.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile__bloc.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_event..dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_state.dart';
@@ -26,6 +27,13 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  Sex _currentSex = Sex.MALE;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentSex = widget.userInfo.sex;
+  }
 
   Widget _editItem(String text, Widget child) => Column(
         spacing: 16,
@@ -79,7 +87,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       child: BlocConsumer<EditProfileBloc, EditProfileState>(
         listener: (context, state) {
           if (state is EditProfileSuccess) {
-            context.pop();
+            context.pop(true);
           }
         },
         builder: (context, state) => Scaffold(
@@ -98,12 +106,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   _editItem(
                       '이름',
                       GogoTextField(
-                          controller: context.read<EditProfileBloc>().nameController, hintText: widget.userInfo.name)),
+                          controller: context.read<EditProfileBloc>().nameController, 
+                          hintText: widget.userInfo.name,
+                          validator: context.read<EditProfileBloc>().nameValidator,
+                          keyboardType: TextInputType.text,
+                          inputFormatter: [
+                            FilteringTextInputFormatter(RegExp('[a-zA-Z가-힣]'), allow: true),
+                          ],
+                          ),),
                   _editItem(
                       '학년',
                      GogoTextField(
                 controller: context.read<EditProfileBloc>().gradeController,
-                hintText: widget.userInfo.grade.toString(),
+                hintText: '${widget.userInfo.grade}학년',
                 validator: context.read<EditProfileBloc>().gradeValidator,
                 keyboardType: TextInputType.number,
                 inputFormatter: [
@@ -117,7 +132,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       '반',
                       GogoTextField(
                 controller: context.read<EditProfileBloc>().classController,
-                hintText: widget.userInfo.classNumber.toString(),
+                hintText: '${widget.userInfo.classNumber}반',
                 validator: context.read<EditProfileBloc>().classValidator,
                 keyboardType: TextInputType.number,
                 inputFormatter: [
@@ -131,7 +146,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       '번호',
                       GogoTextField(
                 controller: context.read<EditProfileBloc>().numberController,
-                hintText: widget.userInfo.studentNumber.toString(),
+                hintText: '${widget.userInfo.studentNumber}번',
                 validator: context.read<EditProfileBloc>().numberValidator,
                 keyboardType: TextInputType.number,
                 inputFormatter: [
@@ -146,26 +161,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       spacing: 12,
                       children: [
                         GogoDefaultButton(
-                          onTap: () => setState(() {
+                          onTap: () {
+                            setState(() {
+                              _currentSex = Sex.MALE;
+                            });
                             context.read<EditProfileBloc>().add(UpdateSexEvent(sex: Sex.MALE));
-                          }),
+                          },
                           text: "남성", 
-                          textColor: widget.userInfo.sex == Sex.MALE
+                          textColor: _currentSex == Sex.MALE
                               ? GogoColors.white
                               : GogoColors.gray400,
-                          color: widget.userInfo.sex == Sex.MALE
+                          color: _currentSex == Sex.MALE
                               ? GogoColors.main500
                               : GogoColors.gray700,
                         ),
                         GogoDefaultButton(
-                          onTap: () => setState(() {
+                          onTap: () {
+                            setState(() {
+                              _currentSex = Sex.FEMALE;
+                            });
                             context.read<EditProfileBloc>().add(UpdateSexEvent(sex: Sex.FEMALE));
-                          }),
+                          },
                           text: "여성",
-                          textColor: widget.userInfo.sex == Sex.FEMALE
+                          textColor: _currentSex == Sex.FEMALE
                               ? GogoColors.white
                               : GogoColors.gray400,
-                          color: widget.userInfo.sex == Sex.FEMALE
+                          color: _currentSex == Sex.FEMALE
                               ? GogoColors.main500
                               : GogoColors.gray700,
                         ),
@@ -176,8 +197,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                  GogoDefaultButton(
                 onTap: () => state is EnableUserInfoState
                     ? {
-                      context.read<EditProfileBloc>().add(UpdateProfileEvent(isFiltered: profanityFilter)),
-                      context.pop()
+                        context.read<EditProfileBloc>().add(UpdateProfileEvent(isFiltered: profanityFilter)),
                       }
                     : () {},
                 text: "확인",

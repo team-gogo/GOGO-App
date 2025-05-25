@@ -180,11 +180,15 @@ class _ProfileContentState extends State<ProfileContentScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 GestureDetector(
-                                  onTap: () =>
-                                      context.pushNamed(
+                                  onTap: ()  async {
+                                        final result = await context.pushNamed(
                                         PageRouter.editProfile,
                                         extra: state.userInfoResponse,
-                                      ),
+                                      );
+                                      if (result == true) {
+                                        context.read<ProfileBloc>().add(FetchMyProfile());
+                                      }
+                                  },
                                   child: Container(
                                     width: double.infinity,
                                     decoration: BoxDecoration(),
