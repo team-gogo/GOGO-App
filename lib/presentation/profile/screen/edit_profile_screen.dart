@@ -12,6 +12,7 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile__bloc.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_event..dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_state.dart';
+import 'package:gogo_app/presentation/profile/bloc/profile/profile_bloc.dart';
 
 import '../../../design_system/component/button/gogo_default_button.dart';
 
@@ -73,6 +74,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         TextEditingController(),
         TextEditingController(),
         widget.userInfo.sex,
+        widget.userInfo
       ),
       child: BlocConsumer<EditProfileBloc, EditProfileState>(
         listener: (context, state) {

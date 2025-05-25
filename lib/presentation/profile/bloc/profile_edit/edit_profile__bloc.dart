@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 import 'package:gogo_app/data/models/auth/user_info/user_info_request.dart';
+import 'package:gogo_app/data/models/auth/user_info/user_info_response.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_event..dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_state.dart';
@@ -16,6 +17,14 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   final TextEditingController _numberController;
   final TextEditingController _nameController;
   Sex _sexController;
+
+  // 캐싱을 위한 변수들 추가
+  final String _cachedName;
+  final int _cachedGrade;
+  final int _cachedClass;
+  final int _cachedNumber;
+  final Sex _cachedSex;
+  final bool _cachedIsFiltered;
 
   TextEditingController get nameController => _nameController;
 
@@ -31,7 +40,14 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   EditProfileBloc(
        this._nameController, this._gradeController, this._classController, this._numberController,
-      Sex initialSex) : _sexController = initialSex,
+      Sex initialSex,
+      UserInfoResponse userInfo) : _sexController = initialSex,
+      _cachedName = userInfo.name,
+      _cachedGrade = userInfo.grade,
+      _cachedClass = userInfo.classNumber,
+      _cachedNumber = userInfo.studentNumber,
+      _cachedSex = userInfo.sex,
+      _cachedIsFiltered = userInfo.isFiltered,
       super(DisableUserInfoState()) {
     on<EnterUserInfoEvent>(_handlerEnterUserInfoEvent);
     on<UpdateProfileEvent>(_handlerUpdateProfileEvent);
@@ -105,16 +121,43 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       UpdateProfileEvent event, Emitter<EditProfileState> emit) async {
     try {
       emit(EditProfileLoading());
-      await _authRepository.updateUserInfo(
-        UserInfoRequest(
-          grade: int.parse(_gradeController.text.replaceAll('학년', '')),
-          classNumber: int.parse(_classController.text.replaceAll('반', '')),
-          studentNumber: int.parse(_numberController.text.replaceAll('번', '')),
-          name: _nameController.text,
-          sex: _sexController,
-          isFiltered: event.isFiltered,
-        ),
-      );
+      
+      // 변경된 정보만 포함하는 Map 생성
+      final Map<String, dynamic> updateData = {};
+      
+      if (_nameController.text != _cachedName) {
+        updateData['name'] = _nameController.text;
+      }
+      if (_gradeController.text != _cachedGrade.toString()) {
+        updateData['grade'] = int.parse(_gradeController.text.replaceAll('학년', ''));
+      }
+      if (_classController.text != _cachedClass.toString()) {
+        updateData['classNumber'] = int.parse(_classController.text.replaceAll('반', ''));
+      }
+      if (_numberController.text != _cachedNumber.toString()) {
+        updateData['studentNumber'] = int.parse(_numberController.text.replaceAll('번', ''));
+      }
+      if (_sexController != _cachedSex) {
+        updateData['sex'] = _sexController;
+      }
+      if (event.isFiltered != _cachedIsFiltered) {
+        updateData['isFiltered'] = event.isFiltered;
+      }
+
+      // 변경된 정보가 있는 경우에만 요청
+      if (updateData.isNotEmpty) {
+        await _authRepository.updateUserInfo(
+          UserInfoRequest(
+            name: updateData['name'] ?? _cachedName,
+            grade: updateData['grade'] ?? _cachedGrade,
+            classNumber: updateData['classNumber'] ?? _cachedClass,
+            studentNumber: updateData['studentNumber'] ?? _cachedNumber,
+            sex: updateData['sex'] ?? _cachedSex,
+            isFiltered: updateData['isFiltered'] ?? _cachedIsFiltered,
+          ),
+        );
+      }
+      
       emit(EditProfileSuccess());
     } catch (e) {
       emit(EditProfileFailure(e.toString()));
