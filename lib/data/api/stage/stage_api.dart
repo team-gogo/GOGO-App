@@ -7,6 +7,7 @@ import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/join_stage_request.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/match_notice_response.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/team_apply_request.dart';
+import 'package:gogo_app/data/models/stage/search_information/search_game_format_response.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_maintainer_response.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_game_response.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_match_info_response.dart';
@@ -189,5 +190,10 @@ abstract class StageApi {
   @GET('/stage/match/me/{stage_id}')
   Future<SearchMatchResponse> getMyMatch(
     @Path('stage_id') int stageId,
+  );
+
+  @GET('/stage/game/format/{game_id}')
+  Future<SearchGameFormatResponse> getGameFormat(
+    @Path('game_id') int gameId,
   );
 }

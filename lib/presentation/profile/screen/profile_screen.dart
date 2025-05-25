@@ -5,7 +5,7 @@ import 'package:gogo_app/data/models/auth/additional_sign_up/additional_sign_up_
 import 'package:gogo_app/data/models/stage/search_stage/search_stage_response.dart';
 import 'package:gogo_app/design_system/component/stage/gogo_stage_card_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
-import 'package:gogo_app/presentation/loading/loadaing_page.dart';
+import 'package:gogo_app/presentation/loading/screens/loadaing_page.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile/profile_bloc.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile/profile_event.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile/profile_state.dart';

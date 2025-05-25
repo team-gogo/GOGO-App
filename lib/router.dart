@@ -8,10 +8,11 @@ import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
-import 'package:gogo_app/presentation/loading/join_stage_page.dart';
+import 'package:gogo_app/presentation/loading/screens/join_stage_page.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
 import 'package:gogo_app/presentation/match_detail/screen/match_detail_screen.dart';
 import 'package:gogo_app/presentation/match_list/screen/match_list_screen.dart';
+import 'package:gogo_app/presentation/match_team_info/screens/match_team_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/coin_toss_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/minigame_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/yavarwee_screen.dart';
@@ -51,6 +52,7 @@ class PageRouter {
   static const String communityWrite = "communityWrite";
   static const String matchList = "matchList";
   static const String matchDetail = "matchDetail";
+  static const String matchTeamInfo = "matchTeamInfo";
 
   static GoRoute _customGoRoute({
     required String name,
@@ -66,6 +68,9 @@ class PageRouter {
       ),
     );
   }
+
+  static Future gogoPushNamed(String name, int stageId) =>
+      router.pushNamed(name, queryParameters: {'stageId': stageId.toString()});
 
   static final router = GoRouter(
     initialLocation: "/$splash",
@@ -106,74 +111,79 @@ class PageRouter {
         branches: [
           StatefulShellBranch(routes: [
             GoRoute(
-                path: "/$home",
-                pageBuilder: (context, state) => CupertinoPage(
-                      child: JoinStagePage(),
-                    ),
-                routes: [
-                  GoRoute(
-                      name: home,
-                      path: '/:stageId',
-                      pageBuilder: (context, state) => CupertinoPage(
-                            child: HomeScreen(
-                              stageId: int.parse(
-                                state.pathParameters['stageId']!.isEmpty
-                                    ? '0'
-                                    : state.pathParameters['stageId']!,
-                              ),
-                            ),
+              name: home,
+              path: "/$home",
+              pageBuilder: (context, state) {
+                final stageIdRaw = state.uri.queryParameters['stageId'];
+                final stageId = int.tryParse(stageIdRaw ?? '');
+                return CupertinoPage(
+                  child: stageId == null
+                      ? JoinStagePage()
+                      : HomeScreen(stageId: stageId),
+                );
+              },
+              routes: [
+                GoRoute(
+                  name: ranking,
+                  path: '$ranking',
+                  pageBuilder: (context, state) {
+                    final stageId =
+                        int.parse(state.uri.queryParameters['stageId']!);
+                    return CupertinoPage(
+                        child: BlocProvider(
+                      create: (_) =>
+                          RankingBloc()..add(GetRanking(stageId: stageId)),
+                      child: RankingPage(stageId: stageId),
+                    ));
+                  },
+                ),
+                GoRoute(
+                  name: community,
+                  path: '$community',
+                  pageBuilder: (context, state) {
+                    final stageId =
+                        int.parse(state.uri.queryParameters['stageId']!);
+                    return CupertinoPage(
+                        child: CommunityMainScreen(stageId: stageId));
+                  },
+                  routes: [
+                    GoRoute(
+                      name: communityWrite,
+                      path: '$communityWrite',
+                      pageBuilder: (context, state) {
+                        final stageId =
+                            int.parse(state.uri.queryParameters['stageId']!);
+                        final List<GameType> gameTypeList =
+                            state.extra as List<GameType>;
+                        return CupertinoPage(
+                          child: CommunityWriteScreen(
+                            stageId: stageId,
+                            gameTypeList: gameTypeList,
                           ),
-                      routes: [
-                        GoRoute(
-                            name: ranking,
-                            path: ranking,
-                            pageBuilder: (context, state) {
-                              final stageId =
-                                  int.parse(state.pathParameters['stageId']!);
-                              return CupertinoPage(
-                                  child: BlocProvider(
-                                create: (_) => RankingBloc()
-                                  ..add(GetRanking(stageId: stageId)),
-                                child: RankingPage(stageId: stageId),
-                              ));
-                            }),
-                        GoRoute(
-                            name: community,
-                            path: community,
-                            pageBuilder: (context, state) {
-                              final stageId =
-                                  int.parse(state.pathParameters['stageId']!);
-                              return CupertinoPage(
-                                  child: CommunityMainScreen(stageId: stageId));
-                            },
-                            routes: [
-                              GoRoute(
-                                name: communityWrite,
-                                path: communityWrite,
-                                pageBuilder: (context, state) {
-                                  final stageId = int.parse(
-                                      state.pathParameters['stageId']!);
-                                  final List<GameType> gameTypeList =
-                                      state.extra as List<GameType>;
-                                  return CupertinoPage(
-                                      child: CommunityWriteScreen(
-                                    stageId: stageId,
-                                    gameTypeList: gameTypeList,
-                                  ));
-                                },
-                              ),
-
-                            ]),
-                        _customGoRoute(
-                            name: coinToss, screen: CoinTossScreen()),
-                        _customGoRoute(
-                            name: yavarwee, screen: YavarweeScreen()),
-                        _customGoRoute(
-                            name: matchList, screen: MatchListScreen()),
-                        _customGoRoute(
-                            name: miniGame, screen: MinigameScreen()),
-                      ]),
-                ])
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                _customGoRoute(name: coinToss, screen: CoinTossScreen()),
+                _customGoRoute(name: yavarwee, screen: YavarweeScreen()),
+                _customGoRoute(name: matchList, screen: MatchListScreen()),
+                _customGoRoute(name: miniGame, screen: MinigameScreen()),
+                GoRoute(
+                  name: matchTeamInfo,
+                  path: '$matchTeamInfo',
+                  pageBuilder: (context, state) {
+                    final stageId =
+                        int.parse(state.uri.queryParameters['stageId']!);
+                    final gameIndex = int.parse(
+                        state.uri.queryParameters['gameIndex'] ?? '0');
+                    return CupertinoPage(
+                        child: MatchTeamInfoScreen(
+                            stageId: stageId, gameIndex: gameIndex));
+                  },
+                ),
+              ],
+            )
           ]),
           StatefulShellBranch(
               routes: [_customGoRoute(name: stage, screen: StageScreen())]),

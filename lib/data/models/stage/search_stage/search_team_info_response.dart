@@ -1,20 +1,19 @@
 import 'package:json_annotation/json_annotation.dart';
+
 part 'search_team_info_response.g.dart';
 
 @JsonSerializable()
 class SearchTeamInfoResponse {
   final int teamId;
   final String teamName;
-  final int bettingPoint;
-  final int winCount;
-  final List<TeamInfoParticipant> participants;
+  final int participantCount;
+  final List<TeamInfoParticipant> participant;
 
   SearchTeamInfoResponse({
     required this.teamId,
     required this.teamName,
-    required this.bettingPoint,
-    required this.winCount,
-    required this.participants,
+    required this.participantCount,
+    required this.participant,
   });
 
   factory SearchTeamInfoResponse.fromJson(Map<String, dynamic> json) =>
