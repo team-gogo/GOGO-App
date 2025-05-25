@@ -175,10 +175,11 @@ class PageRouter {
                   pageBuilder: (context, state) {
                     final stageId =
                         int.parse(state.uri.queryParameters['stageId']!);
+                    final gameIndex = int.parse(
+                        state.uri.queryParameters['gameIndex'] ?? '0');
                     return CupertinoPage(
                         child: MatchTeamInfoScreen(
-                      stageId: stageId,
-                    ));
+                            stageId: stageId, gameIndex: gameIndex));
                   },
                 ),
               ],
