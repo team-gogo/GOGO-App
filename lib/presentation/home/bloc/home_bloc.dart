@@ -6,6 +6,7 @@ import 'package:gogo_app/data/repositories/mini_game/mini_game_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 import '../../../data/models/common/match_dto.dart';
 import '../../../data/models/stage/search_stage/search_my_point_response.dart';
+import '../../../data/models/stage/search_stage/search_team_response.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 
@@ -41,11 +42,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       final activeGameResponse =
           await _miniGameRepository.getActiveGame(stageId);
+
+      final gameResponse = await _stageRepository.getGame(stageId);
+
+
       emit(LoadedHomeState(
           communityPosts: communityPosts,
           ranking: ranking,
           points: point,
-          activeGameResponse: activeGameResponse));
+          activeGameResponse: activeGameResponse,
+          gameResponse: gameResponse));
     } catch (e) {
       log(e.toString(), name: 'HomeBloc');
       emit(ErrorHomeState());
