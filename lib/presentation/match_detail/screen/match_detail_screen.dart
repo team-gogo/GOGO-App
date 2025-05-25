@@ -7,7 +7,7 @@ import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/loading/loadaing_page.dart';
+import 'package:gogo_app/presentation/loading/screens/loadaing_page.dart';
 import 'package:gogo_app/presentation/match_detail/widget/match_participant_widget.dart';
 import 'package:gogo_app/presentation/match_detail/widget/match_point_widget.dart';
 import 'package:gogo_app/presentation/match_detail/widget/match_state_widget.dart';
@@ -30,11 +30,8 @@ class MatchDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fullWidth = MediaQuery.of(context).size.width;
-    final fullHeight = (fullWidth * 2) / (1320 / 464);
-
-    final originalWidth = 1320;
-    final originalHeight = 464;
+    final double originalWidth = 1200;
+    final double originalHeight = 448;
 
     return Scaffold(
       body: MultiBlocProvider(
@@ -54,181 +51,183 @@ class MatchDetailScreen extends StatelessWidget {
             } else if (state is SearchMatchSuccess) {
               final matchInfo = state.matchInfo;
               return SafeArea(
-                child: Column(
-                  spacing: 28.h,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: GogoTopBar(
-                        title:
-                            '${matchInfo.ateam.teamName} vs ${matchInfo.bteam.teamName}',
-                        onBackTap: () => context.pop(),
+                child: SingleChildScrollView(
+                  child: Column(
+                    spacing: 28.h,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: GogoTopBar(
+                          title:
+                              '${matchInfo.ateam.teamName} vs ${matchInfo.bteam.teamName}',
+                          onBackTap: () => context.pop(),
+                        ),
                       ),
-                    ),
-                    MatchStateWidget(matchDto: matchDto),
-                    MatchPointWidget(matchDto: matchDto),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '팀 정보',
-                                style: GogoTypography.body2Extrabold
-                                    .copyWith(color: GogoColors.white),
-                              ),
-                              Row(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: 24.sp,
-                                        height: 24.sp,
-                                        decoration: BoxDecoration(
-                                          color: GogoColors.teamBlue,
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                        ),
-                                      ),
-                                      SizedBox(width: 8.w),
-                                      Text(
-                                        '${matchInfo.ateam.teamName}팀',
-                                        style: GogoTypography.body3Extrabold
-                                            .copyWith(color: GogoColors.white),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 24.w),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: 24.sp,
-                                        height: 24.sp,
-                                        decoration: BoxDecoration(
-                                          color: GogoColors.teamRed,
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                        ),
-                                      ),
-                                      SizedBox(width: 8.w),
-                                      Text(
-                                        '${matchInfo.bteam.teamName}팀',
-                                        style: GogoTypography.body3Extrabold
-                                            .copyWith(color: GogoColors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: fullWidth,
-                          height: fullHeight,
-                          child: BlocBuilder<PageIndicatorBloc,
-                              PageIndicatorState>(
-                            builder: (context, pageState) {
-                              final List<Participant> aTeamParticipant =
-                                  matchInfo.ateam.participants;
-                              final List<Participant> bTeamParticipant =
-                                  matchInfo.bteam.participants;
-                              return PageView(
-                                onPageChanged: (index) {
-                                  context
-                                      .read<PageIndicatorBloc>()
-                                      .add(PageChangedEvent(index));
-                                },
-                                controller: PageController(
-                                    initialPage: pageState.currentIndex),
-                                children: [
-                                  Stack(
-                                    children: [
-                                      _halfImage(context, matchInfo,
-                                          isLeft: true),
-                                      ...aTeamParticipant.map((p) {
-                                        final double x =
-                                            (double.tryParse(p.positionX) ?? 0);
-                                        final double y =
-                                            (double.tryParse(p.positionY) ?? 0);
-                                        final xRatio = x / originalWidth;
-                                        final yRatio = y / originalHeight;
-                                        return MatchParticipantWidget(
-                                            x: xRatio * fullWidth,
-                                            y: yRatio * fullHeight,
-                                            redOrBlue: false,
-                                            name: p.name);
-                                      }).toList(),
-                                    ],
-                                  ),
-                                  Stack(
-                                    children: [
-                                      _halfImage(context, matchInfo,
-                                          isLeft: false),
-                                      ...bTeamParticipant.map((p) {
-                                        final double x =
-                                            (double.tryParse(p.positionX) ?? 0);
-                                        final double y =
-                                            (double.tryParse(p.positionY) ?? 0);
-                                        final xRatio = x / originalWidth;
-                                        final yRatio = y / originalHeight;
-                                        return MatchParticipantWidget(
-                                            x: xRatio * fullWidth,
-                                            y: yRatio * fullHeight,
-                                            redOrBlue: true,
-                                            name: p.name);
-                                      }).toList(),
-                                    ],
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    BlocBuilder<PageIndicatorBloc, PageIndicatorState>(
-                      builder: (context, pageState) {
-                        final isLeft = pageState.currentIndex == 0;
-                        final Color activeColor =
-                            isLeft ? GogoColors.teamBlue : GogoColors.teamRed;
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Stack(
-                            children: [
-                              Container(
-                                height: 8,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: GogoColors.gray700,
-                                  borderRadius: BorderRadius.circular(4),
+                      MatchStateWidget(matchDto: matchDto),
+                      MatchPointWidget(matchDto: matchDto),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '팀 정보',
+                                  style: GogoTypography.body2Extrabold
+                                      .copyWith(color: GogoColors.white),
                                 ),
-                              ),
-                              AnimatedAlign(
-                                alignment: isLeft
-                                    ? Alignment.centerLeft
-                                    : Alignment.centerRight,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                                child: FractionallySizedBox(
-                                  widthFactor: 0.5,
-                                  child: Container(
-                                    height: 8,
-                                    decoration: BoxDecoration(
-                                      color: activeColor,
-                                      borderRadius: BorderRadius.circular(4),
+                                Row(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          width: 24.sp,
+                                          height: 24.sp,
+                                          decoration: BoxDecoration(
+                                            color: GogoColors.teamBlue,
+                                            borderRadius:
+                                                BorderRadius.circular(8.r),
+                                          ),
+                                        ),
+                                        SizedBox(width: 8.w),
+                                        Text(
+                                          '${matchInfo.ateam.teamName}팀',
+                                          style: GogoTypography.body3Extrabold
+                                              .copyWith(color: GogoColors.white),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(width: 24.w),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          width: 24.sp,
+                                          height: 24.sp,
+                                          decoration: BoxDecoration(
+                                            color: GogoColors.teamRed,
+                                            borderRadius:
+                                                BorderRadius.circular(8.r),
+                                          ),
+                                        ),
+                                        SizedBox(width: 8.w),
+                                        Text(
+                                          '${matchInfo.bteam.teamName}팀',
+                                          style: GogoTypography.body3Extrabold
+                                              .copyWith(color: GogoColors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: originalWidth,
+                            height: originalHeight,
+                            child: BlocBuilder<PageIndicatorBloc,
+                                PageIndicatorState>(
+                              builder: (context, pageState) {
+                                final List<Participant> aTeamParticipant =
+                                    matchInfo.ateam.participants;
+                                final List<Participant> bTeamParticipant =
+                                    matchInfo.bteam.participants;
+                                return PageView(
+                                  onPageChanged: (index) {
+                                    context
+                                        .read<PageIndicatorBloc>()
+                                        .add(PageChangedEvent(index));
+                                  },
+                                  controller: PageController(
+                                      initialPage: pageState.currentIndex),
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        _halfImage(context, matchInfo,
+                                            isLeft: true),
+                                        ...aTeamParticipant.map((p) {
+                                          final double x =
+                                              (double.tryParse(p.positionX) ?? 0);
+                                          final double y =
+                                              (double.tryParse(p.positionY) ?? 0);
+                                          final xRatio = x / originalWidth;
+                                          final yRatio = y / originalHeight;
+                                          return MatchParticipantWidget(
+                                              x: xRatio * originalWidth,
+                                              y: yRatio * originalHeight,
+                                              redOrBlue: false,
+                                              name: p.name);
+                                        }),
+                                      ],
+                                    ),
+                                    Stack(
+                                      children: [
+                                        _halfImage(context, matchInfo,
+                                            isLeft: false),
+                                        ...bTeamParticipant.map((p) {
+                                          final double x =
+                                              (double.tryParse(p.positionX) ?? 0);
+                                          final double y =
+                                              (double.tryParse(p.positionY) ?? 0);
+                                          final xRatio = x / originalWidth;
+                                          final yRatio = y / originalHeight;
+                                          return MatchParticipantWidget(
+                                              x: xRatio * originalWidth,
+                                              y: yRatio * originalHeight,
+                                              redOrBlue: true,
+                                              name: p.name);
+                                        }),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      BlocBuilder<PageIndicatorBloc, PageIndicatorState>(
+                        builder: (context, pageState) {
+                          final isLeft = pageState.currentIndex == 0;
+                          final Color activeColor =
+                              isLeft ? GogoColors.teamBlue : GogoColors.teamRed;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  height: 8,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: GogoColors.gray700,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                ),
+                                AnimatedAlign(
+                                  alignment: isLeft
+                                      ? Alignment.centerLeft
+                                      : Alignment.centerRight,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                  child: FractionallySizedBox(
+                                    widthFactor: 0.5,
+                                    child: Container(
+                                      height: 8,
+                                      decoration: BoxDecoration(
+                                        color: activeColor,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               );
             } else if (state is SearchMatchFailure) {
@@ -245,29 +244,39 @@ class MatchDetailScreen extends StatelessWidget {
       BuildContext context, SearchMatchInfoResponse matchInfo,
       {required bool isLeft}) {
     final image = switch (matchInfo.category) {
-      GameType.SOCCER => GogoIcons.footballFullMap(),
-      GameType.BASKET_BALL => GogoIcons.basketballFullMap(),
-      GameType.BASE_BALL => GogoIcons.baseballFullMap(),
-      GameType.VOLLEY_BALL =>
-        Container(color: GogoColors.gray600), //TODO: 스테이지 삽입 요망
-      GameType.BADMINTON => GogoIcons.badmintonFullMap(),
+      GameType.SOCCER => isLeft
+          ? GogoIcons.footballMap()
+          : Transform.flip(
+              flipX: true,
+              child: GogoIcons.footballMap(),
+            ),
+      GameType.BASKET_BALL => isLeft
+          ? GogoIcons.basketballMap()
+          : Transform.flip(
+              flipX: true,
+              child: GogoIcons.basketballMap(),
+            ),
+      GameType.BASE_BALL => isLeft
+          ? GogoIcons.baseballMap()
+          : Transform.flip(
+              flipX: true,
+              child: GogoIcons.baseballMap(),
+            ),
+      GameType.VOLLEY_BALL => isLeft
+          ? GogoIcons.volleyballMap()
+          : Transform.flip(
+              flipX: true,
+              child: GogoIcons.volleyballMap(),
+            ),
+      GameType.BADMINTON => isLeft
+          ? GogoIcons.badmintonMap()
+          : Transform.flip(
+              flipX: true,
+              child: GogoIcons.badmintonMap(),
+            ),
       GameType.LOL => Container(color: GogoColors.gray600), //TODO: 스테이지 삽입 요망
       GameType.ETC => Container(color: GogoColors.gray600), //TODO: 스테이지 삽입 요망
     };
-    final fullWidth = MediaQuery.of(context).size.width * 2;
-    final fullHeight = fullWidth / (1320 / 464);
-    return SizedBox(
-      height: fullHeight,
-      width: fullWidth,
-      child: OverflowBox(
-        maxWidth: fullWidth,
-        alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
-        child: SizedBox(
-          width: fullWidth,
-          height: fullHeight,
-          child: image,
-        ),
-      ),
-    );
+    return image;
   }
 }

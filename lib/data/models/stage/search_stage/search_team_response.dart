@@ -7,7 +7,7 @@ class SearchTeamResponse {
   final int count;
   final List<SearchTeam> team;
 
-  SearchTeamResponse({
+  const SearchTeamResponse({
     required this.count,
     required this.team,
   });

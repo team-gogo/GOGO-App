@@ -9,7 +9,7 @@ class SearchGameResponse {
   final int count;
   final List<SearchGameItem> games;
 
-  SearchGameResponse({
+  const SearchGameResponse({
     required this.count,
     required this.games,
   });

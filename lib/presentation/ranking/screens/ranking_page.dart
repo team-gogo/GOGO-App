@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/loading/loadaing_page.dart';
+import 'package:gogo_app/presentation/loading/screens/loadaing_page.dart';
 import 'package:gogo_app/presentation/logIn/bloc/login_state.dart';
 import 'package:gogo_app/presentation/ranking/bloc/ranking_bloc.dart';
 import 'package:gogo_app/presentation/ranking/bloc/ranking_event.dart';
