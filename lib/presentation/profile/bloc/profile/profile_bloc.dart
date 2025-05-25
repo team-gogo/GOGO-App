@@ -2,8 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
-import 'package:gogo_app/presentation/profile/bloc/profile_event.dart';
-import 'package:gogo_app/presentation/profile/bloc/profile_state.dart';
+import 'package:gogo_app/presentation/profile/bloc/profile/profile_event.dart';
+import 'package:gogo_app/presentation/profile/bloc/profile/profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent,ProfileState> {
     final AuthRepository authRepository = GetIt.instance<AuthRepository>();
@@ -11,7 +11,6 @@ class ProfileBloc extends Bloc<ProfileEvent,ProfileState> {
 
     ProfileBloc() : super(ProfileLoadingState()) {
     on<FetchMyProfile>(_onFetchMyProfile);
-    on<EditProfile>(_EditProfile);
   }
 
   Future<void> _onFetchMyProfile (FetchMyProfile event, Emitter<ProfileState> emit) async {
@@ -25,13 +24,4 @@ class ProfileBloc extends Bloc<ProfileEvent,ProfileState> {
     }
   }
 
-  Future<void> _EditProfile (EditProfile event, Emitter<ProfileState> emit) async {
-    try {
-      await authRepository.updateUserInfo(
-        event.user,
-        );
-    } catch (e){
-      emit(ProfileErrorState(message: e.toString()));
-    }
-  }
 }
