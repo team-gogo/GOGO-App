@@ -633,5 +633,36 @@ class GogoIcons {
   }) =>
       _buildIcon('basketball_map.svg',
           color: color, width: width, height: height, onTap: onTap);
-
+  static Widget footballFullMap({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('football_full_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+  static Widget basketballFullMap({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('basketball_full_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+  static Widget badmintonFullMap({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('badminton_full_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+  static Widget baseballFullMap({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('baseball_full_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
 }

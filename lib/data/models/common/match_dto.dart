@@ -9,8 +9,8 @@ part 'match_dto.g.dart';
 @JsonSerializable()
 class MatchDto {
   final int matchId;
-  final MatchTeam aTeam;
-  final MatchTeam bTeam;
+  final MatchTeam ateam;
+  final MatchTeam bteam;
   final DateTime startDate;
   final DateTime endDate;
   final bool isEnd;
@@ -26,8 +26,8 @@ class MatchDto {
 
   MatchDto({
     required this.matchId,
-    required this.aTeam,
-    required this.bTeam,
+    required this.ateam,
+    required this.bteam,
     required this.startDate,
     required this.endDate,
     required this.isEnd,

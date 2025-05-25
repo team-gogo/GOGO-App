@@ -8,8 +8,8 @@ part 'search_match_info_response.g.dart';
 @JsonSerializable()
 class SearchMatchInfoResponse {
   final int matchId;
-  final Team aTeam;
-  final Team bTeam;
+  final Team ateam;
+  final Team bteam;
   final DateTime startDate;
   final DateTime endDate;
   final bool isEnd;
@@ -21,8 +21,8 @@ class SearchMatchInfoResponse {
 
   SearchMatchInfoResponse({
     required this.matchId,
-    required this.aTeam,
-    required this.bTeam,
+    required this.ateam,
+    required this.bteam,
     required this.startDate,
     required this.endDate,
     required this.isEnd,
