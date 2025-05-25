@@ -3,6 +3,7 @@ import 'package:gogo_app/data/api/stage/stage_api.dart';
 import 'package:gogo_app/data/models/stage/community/sort_type.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/join_stage_request.dart';
+import 'package:gogo_app/data/models/stage/search_information/search_game_format_response.dart';
 import 'package:gogo_app/data/util/execute_handle_api_call.dart';
 import 'package:gogo_app/data/models/stage/create_stage/api/official_stage_create_request.dart';
 import 'package:gogo_app/data/models/stage/create_stage/api/fast_stage_create_request.dart';
@@ -169,5 +170,10 @@ class StageDataSourceImpl implements StageDataSource {
   @override
   Future<SearchMatchResponse> getMyMatch(int stageId) async {
     return await executeHandleApiCall(() => _stageApi.getMyMatch(stageId));
+  }
+
+  @override
+  Future<SearchGameFormatResponse> getGameFormat(int gameId) async {
+    return await executeHandleApiCall(() => _stageApi.getGameFormat(gameId));
   }
 }

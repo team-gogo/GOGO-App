@@ -3,6 +3,7 @@ import 'package:gogo_app/data/models/stage/create_stage/api/official_stage_creat
 import 'package:gogo_app/data/models/stage/create_stage/api/fast_stage_create_request.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/stage_confirm_request.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/team_apply_request.dart';
+import 'package:gogo_app/data/models/stage/search_information/search_game_format_response.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_match_query_string.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_match_response.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_stage_response.dart';
@@ -158,5 +159,10 @@ class StageRepositoryImpl implements StageRepository {
   @override
   Future<SearchMatchResponse> getMyMatch(int stageId) async {
     return await _stageDataSource.getMyMatch(stageId);
+  }
+
+  @override
+  Future<SearchGameFormatResponse> getGameFormat(int gameId) async {
+    return await _stageDataSource.getGameFormat(gameId);
   }
 }
