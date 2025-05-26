@@ -11,7 +11,7 @@ import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile/profile_event.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile__bloc.dart';
-import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_event..dart';
+import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_event.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_state.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile/profile_bloc.dart';
 

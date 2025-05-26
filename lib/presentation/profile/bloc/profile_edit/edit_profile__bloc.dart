@@ -5,7 +5,7 @@ import 'package:gogo_app/data/models/auth/additional_sign_up/additional_sign_up_
 import 'package:gogo_app/data/models/auth/user_info/user_info_request.dart';
 import 'package:gogo_app/data/models/auth/user_info/user_info_response.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
-import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_event..dart';
+import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_event.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_state.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
