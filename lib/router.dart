@@ -1,5 +1,4 @@
 // router.dart
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,13 +10,11 @@ import 'package:gogo_app/presentation/community/screen/community_write_screen.da
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
 import 'package:gogo_app/presentation/loading/join_stage_page.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
-import 'package:gogo_app/presentation/match_detail/bloc/match_info_bloc.dart';
 import 'package:gogo_app/presentation/match_detail/screen/match_detail_screen.dart';
 import 'package:gogo_app/presentation/match_list/screen/match_list_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/coin_toss_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/minigame_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/yavarwee_screen.dart';
-import 'package:gogo_app/presentation/navigation_view/widgets/bottom_navigation_bar/gogo_bottom_navigation_bar.dart';
 import 'package:gogo_app/presentation/profile/screen/edit_profile_screen.dart';
 import 'package:gogo_app/presentation/profile/screen/profile_screen.dart';
 import 'package:gogo_app/presentation/ranking/bloc/ranking_bloc.dart';
@@ -27,13 +24,6 @@ import 'package:gogo_app/presentation/sign_up/screen/sign_up_screen.dart';
 import 'package:gogo_app/presentation/splash/screen/splash_screen.dart';
 import 'package:gogo_app/presentation/stage/screen/stage_screen.dart';
 import 'package:gogo_app/presentation/stage_create/screen/stage_create_screen.dart';
-import 'data/api/stage/stage_api.dart';
-import 'data/data_sources/stage/stage_data_source.dart';
-import 'data/data_sources/stage/stage_data_source_impl.dart';
-import 'data/repositories/stage/stage_repository.dart';
-import 'data/repositories/stage/stage_repository_impl.dart';
-import 'design_system/theme/color.dart';
-import 'package:provider/provider.dart';
 
 class PageRouter {
   static final PageRouter _pageRouter = PageRouter.init();
@@ -94,122 +84,95 @@ class PageRouter {
         },
       ),
       _customGoRoute(name: signUp, screen: SignUpScreen()),
-      StatefulShellRoute.indexedStack(
-        builder: (_, __, navigationShell) => Scaffold(
-          backgroundColor: GogoColors.black,
-          body: SafeArea(bottom: false, child: navigationShell),
-          bottomNavigationBar: GogoBottomNavigationBar(
-            currentIndex: navigationShell.currentIndex,
-            onTap: (index) {
-              if (index == navigationShell.currentIndex) {
-                if (_.canPop()) {
-                  _.pop();
-                }
-              } else {
-                navigationShell.goBranch(index);
-              }
-            },
+      _customGoRoute(name: stage, screen: StageScreen(), routes: [
+        GoRoute(
+          path: "/$home",
+          pageBuilder: (context, state) => CupertinoPage(
+            child: JoinStagePage(),
           ),
-        ),
-        branches: [
-          StatefulShellBranch(routes: [
+          routes: [
             GoRoute(
-                path: "/$home",
-                pageBuilder: (context, state) => CupertinoPage(
-                      child: JoinStagePage(),
-                    ),
-                routes: [
-                  GoRoute(
-                      name: home,
-                      path: '/:stageId',
-                      pageBuilder: (context, state) => CupertinoPage(
-                            child: HomeScreen(
-                              stageId: int.parse(
-                                state.pathParameters['stageId']!.isEmpty
-                                    ? '0'
-                                    : state.pathParameters['stageId']!,
-                              ),
-                            ),
-                          ),
-                      routes: [
-                        GoRoute(
-                            name: ranking,
-                            path: ranking,
-                            pageBuilder: (context, state) {
-                              final stageId =
-                                  int.parse(state.pathParameters['stageId']!);
-                              return CupertinoPage(
-                                  child: BlocProvider(
-                                create: (_) => RankingBloc()
-                                  ..add(GetRanking(stageId: stageId)),
-                                child: RankingPage(stageId: stageId),
-                              ));
-                            }),
-                        GoRoute(
-                            name: community,
-                            path: community,
-                            pageBuilder: (context, state) {
-                              final stageId =
-                                  int.parse(state.pathParameters['stageId']!);
-                              return CupertinoPage(
-                                  child: CommunityMainScreen(stageId: stageId));
-                            },
-                            routes: [
-                              GoRoute(
-                                name: communityWrite,
-                                path: communityWrite,
-                                pageBuilder: (context, state) {
-                                  final stageId = int.parse(
-                                      state.pathParameters['stageId']!);
-                                  final List<GameType> gameTypeList =
-                                      state.extra as List<GameType>;
-                                  return CupertinoPage(
-                                      child: CommunityWriteScreen(
-                                    stageId: stageId,
-                                    gameTypeList: gameTypeList,
-                                  ));
-                                },
-                              ),
-
-                            ]),
-                        _customGoRoute(
-                            name: coinToss, screen: CoinTossScreen()),
-                        _customGoRoute(
-                            name: yavarwee, screen: YavarweeScreen()),
-                        _customGoRoute(
-                            name: matchList, screen: MatchListScreen()),
-                        _customGoRoute(
-                            name: miniGame, screen: MinigameScreen()),
-                      ]),
-                ])
-          ]),
-          StatefulShellBranch(
-              routes: [_customGoRoute(name: stage, screen: StageScreen())]),
-          StatefulShellBranch(
-              routes: [_customGoRoute(name: alert, screen: Placeholder())]),
-          StatefulShellBranch(
-              routes: [_customGoRoute(name: profile, screen: ProfileScreen())]),
-        ],
-      ),
-      GoRoute(
-        name: matchDetail,
-        path: '/$matchDetail/:matchId',
-        pageBuilder: (context, state) {
-          final matchId = int.parse(state.pathParameters['matchId']!);
-          final MatchDto matchDto = state.extra as MatchDto;
-          return CustomTransitionPage(
-            transitionDuration: Duration(milliseconds: 300),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(opacity: animation, child: child);
-            },
-            child: MatchDetailScreen(
-              matchDto: matchDto,
-              matchId: matchId,
+              name: home,
+              path: '/:stageId',
+              pageBuilder: (context, state) => CupertinoPage(
+                child: HomeScreen(
+                  stageId: int.parse(
+                    state.pathParameters['stageId']!.isEmpty
+                        ? '0'
+                        : state.pathParameters['stageId']!,
+                  ),
+                ),
+              ),
+              routes: [
+                GoRoute(
+                    name: ranking,
+                    path: ranking,
+                    pageBuilder: (context, state) {
+                      final stageId =
+                          int.parse(state.pathParameters['stageId']!);
+                      return CupertinoPage(
+                          child: BlocProvider(
+                        create: (_) =>
+                            RankingBloc()..add(GetRanking(stageId: stageId)),
+                        child: RankingPage(stageId: stageId),
+                      ));
+                    }),
+                GoRoute(
+                    name: community,
+                    path: community,
+                    pageBuilder: (context, state) {
+                      final stageId =
+                          int.parse(state.pathParameters['stageId']!);
+                      return CupertinoPage(
+                          child: CommunityMainScreen(stageId: stageId));
+                    },
+                    routes: [
+                      GoRoute(
+                        name: communityWrite,
+                        path: communityWrite,
+                        pageBuilder: (context, state) {
+                          final stageId =
+                              int.parse(state.pathParameters['stageId']!);
+                          final List<GameType> gameTypeList =
+                              state.extra as List<GameType>;
+                          return CupertinoPage(
+                              child: CommunityWriteScreen(
+                            stageId: stageId,
+                            gameTypeList: gameTypeList,
+                          ));
+                        },
+                      ),
+                    ]),
+                _customGoRoute(name: coinToss, screen: CoinTossScreen()),
+                _customGoRoute(name: yavarwee, screen: YavarweeScreen()),
+                _customGoRoute(name: matchList, screen: MatchListScreen()),
+                _customGoRoute(name: miniGame, screen: MinigameScreen()),
+                _customGoRoute(name: alert, screen: Placeholder()),
+                _customGoRoute(name: profile, screen: ProfileScreen()),
+              ],
             ),
-          );
-        },
-      ),
+            GoRoute(
+              name: matchDetail,
+              path: '/$matchDetail/:matchId',
+              pageBuilder: (context, state) {
+                final matchId = int.parse(state.pathParameters['matchId']!);
+                final MatchDto matchDto = state.extra as MatchDto;
+                return CustomTransitionPage(
+                  transitionDuration: Duration(milliseconds: 300),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
+                  child: MatchDetailScreen(
+                    matchDto: matchDto,
+                    matchId: matchId,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ]),
       _customGoRoute(name: editProfile, screen: EditProfilePage()),
       _customGoRoute(name: createStage, screen: StageCreateScreen()),
     ],
