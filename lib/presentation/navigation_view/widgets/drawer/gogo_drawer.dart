@@ -1,6 +1,5 @@
 // gogo_drawer.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
@@ -14,7 +13,6 @@ class GogoDrawer extends StatelessWidget {
   });
 
   final int stageId;
-  static int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
