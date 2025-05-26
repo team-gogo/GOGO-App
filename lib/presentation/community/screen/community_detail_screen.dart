@@ -12,7 +12,6 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/bloc/detail/community_detail_bloc.dart';
 import 'package:gogo_app/presentation/community/bloc/detail/community_detail_event.dart';
 import 'package:gogo_app/presentation/community/bloc/detail/community_detail_state.dart';
-import 'package:gogo_app/presentation/loading/screens/loadaing_page.dart';
 
 class CommunityDetailScreen extends StatelessWidget {
   final int boardId;
@@ -130,6 +129,8 @@ class CommunityDetailScreen extends StatelessWidget {
                                         color: GogoColors.gray400,
                                       ),
                                     ),
+                                    if (state.response.imageUrl != null)
+                                      Image.network(state.response.imageUrl!),
                                     Spacer(),
                                     SizedBox(height: 12),
                                     Row(
