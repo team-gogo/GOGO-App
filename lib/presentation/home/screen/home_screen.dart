@@ -1,14 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/component/indicator/refresh_indicator.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/screen/community_detail_screen.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:gogo_app/presentation/home/bloc/home_bloc.dart';
 import 'package:gogo_app/presentation/home/widgets/appbar/home_appbar.dart';
-import 'package:gogo_app/presentation/loading/loadaing_page.dart';
+import 'package:gogo_app/presentation/home/widgets/match_game_item.dart';
+import 'package:gogo_app/presentation/loading/screens/loadaing_page.dart';
 import 'package:gogo_app/presentation/navigation_view/widgets/drawer/gogo_drawer.dart';
 import 'package:gogo_app/presentation/ranking/widgets/ranking_list_item.dart';
 import 'package:gogo_app/router.dart';
@@ -37,29 +37,25 @@ class HomeScreen extends StatelessWidget {
             return LoadingPage();
           } else if (state is LoadedHomeState) {
             return Scaffold(
-              endDrawer: GogoDrawer(),
+              endDrawer: GogoDrawer(
+                stageId: stageId!,
+              ),
               body: SafeArea(
-                bottom: false,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
-                      child: HomeAppbar(
+                child: GogoRefreshIndicator(
+                  onRefresh: () async {
+                    context.read<HomeBloc>().add(LoadHome());
+                    await Future.delayed(Duration(seconds: 1));
+                  },
+                  child: Column(
+                    children: [
+                      HomeAppbar(
                         point: state.points.point,
                         selectedDate: context.read<HomeBloc>().selectedDate,
                         setSelectedDate: (DateTime date) => {
-                          context
-                              .read<HomeBloc>()
-                              .add(LoadMatchesByDate(date))
+                          context.read<HomeBloc>().add(LoadMatchesByDate(date))
                         },
                       ),
-                    ),
-                    Expanded(
-                      child: GogoRefreshIndicator(
-                        onRefresh: () async {
-                          context.read<HomeBloc>().add(LoadHome());
-                          await Future.delayed(Duration(seconds: 1));
-                        },
+                      Expanded(
                         child: SingleChildScrollView(
                           child: Column(
                             spacing: 40,
@@ -69,19 +65,13 @@ class HomeScreen extends StatelessWidget {
                                 children: [
                                   SizedBox(height: 8),
                                   _itemTopBar(
-                                    GogoIcons.clock(color: GogoColors.white),
-                                    date:
-                                        context.read<HomeBloc>().selectedDate,
-                                    onTap: () => context.pushNamed(
-                                      PageRouter.matchList,
-                                      pathParameters: {
-                                        'stageId': stageId.toString()
-                                      },
-                                    ),
-                                  ),
+                                      GogoIcons.clock(color: GogoColors.white),
+                                      date: context.read<HomeBloc>().selectedDate,
+                                      onTap: () => PageRouter.gogoPushNamed(
+                                          PageRouter.matchList, stageId!)),
                                   SingleChildScrollView(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 16),
                                     scrollDirection: Axis.horizontal,
                                     child: Builder(
                                       builder: (context) {
@@ -90,41 +80,34 @@ class HomeScreen extends StatelessWidget {
                                         if (matches.isEmpty) {
                                           return Center(
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 30),
+                                              padding: const EdgeInsets.symmetric(
+                                                  vertical: 30),
                                               child: Stack(
                                                 children: [
                                                   Text(
                                                     "오늘\n매치가 없습니다",
                                                     style: TextStyle(
-                                                      fontFamily:
-                                                          'GmarketSans',
+                                                      fontFamily: 'GmarketSans',
                                                       fontSize: 48,
                                                       foreground: Paint()
                                                         ..style =
-                                                            PaintingStyle
-                                                                .stroke
+                                                            PaintingStyle.stroke
                                                         ..strokeWidth = 1
-                                                        ..color = GogoColors
-                                                            .main600,
+                                                        ..color =
+                                                            GogoColors.main600,
                                                     ),
-                                                    textAlign:
-                                                        TextAlign.center,
+                                                    textAlign: TextAlign.center,
                                                   ),
                                                   Transform.translate(
                                                     offset: Offset(5, -3),
                                                     child: Text(
                                                       "오늘\n매치가 없습니다",
                                                       style: TextStyle(
-                                                        fontFamily:
-                                                            'GmarketSans',
+                                                        fontFamily: 'GmarketSans',
                                                         fontSize: 48,
-                                                        color: GogoColors
-                                                            .main600,
+                                                        color: GogoColors.main600,
                                                       ),
-                                                      textAlign:
-                                                          TextAlign.center,
+                                                      textAlign: TextAlign.center,
                                                     ),
                                                   ),
                                                 ],
@@ -138,9 +121,8 @@ class HomeScreen extends StatelessWidget {
                                               (index) {
                                                 final match = matches[index];
                                                 return Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 8),
+                                                  padding: const EdgeInsets.only(
+                                                      right: 8),
                                                   child: MatchCard(
                                                     matchDto: match,
                                                     onBattingClick: () {},
@@ -159,17 +141,12 @@ class HomeScreen extends StatelessWidget {
                                 spacing: 16,
                                 children: [
                                   _itemTopBar(
-                                    GogoIcons.arcade(color: GogoColors.white),
-                                    text: '미니게임',
-                                    onTap: () => context.pushNamed(
-                                        PageRouter.miniGame,
-                                        pathParameters: {
-                                          'stageId': stageId.toString()
-                                        }),
-                                  ),
+                                      GogoIcons.arcade(color: GogoColors.white),
+                                      text: '미니게임',
+                                      onTap: () => PageRouter.gogoPushNamed(
+                                          PageRouter.miniGame, stageId!)),
                                   MinigamePlayComponent(
-                                    activeGameResponse:
-                                        state.activeGameResponse,
+                                    activeGameResponse: state.activeGameResponse,
                                   )
                                 ],
                               ),
@@ -177,18 +154,13 @@ class HomeScreen extends StatelessWidget {
                                 spacing: 16,
                                 children: [
                                   _itemTopBar(
-                                    GogoIcons.trophy(color: GogoColors.white),
-                                    text: '포인트 랭킹',
-                                    onTap: () => context.pushNamed(
-                                      PageRouter.ranking,
-                                      pathParameters: {
-                                        'stageId': stageId.toString()
-                                      },
-                                    ),
-                                  ),
+                                      GogoIcons.trophy(color: GogoColors.white),
+                                      text: '포인트 랭킹',
+                                      onTap: () => PageRouter.gogoPushNamed(
+                                          PageRouter.ranking, stageId!)),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 16),
                                     child: Column(
                                       spacing: 8,
                                       children: List.generate(
@@ -210,26 +182,19 @@ class HomeScreen extends StatelessWidget {
                                 spacing: 16,
                                 children: [
                                   _itemTopBar(
-                                      GogoIcons.community(
-                                          color: GogoColors.white),
-                                      text: '커뮤니티', onTap: () {
-                                    context.pushNamed(
-                                      PageRouter.community,
-                                      pathParameters: {
-                                        'stageId': stageId.toString()
-                                      },
-                                    );
-                                  }),
+                                      GogoIcons.community(color: GogoColors.white),
+                                      text: '커뮤니티',
+                                      onTap: () => PageRouter.gogoPushNamed(
+                                          PageRouter.community, stageId!)),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 16),
                                     child: Column(
                                       spacing: 8,
                                       children: List.generate(
                                         min(state.communityPosts.length, 5),
                                         (index) {
-                                          final board =
-                                              state.communityPosts[index];
+                                          final board = state.communityPosts[index];
                                           return CommunityItem(
                                             name: '역명',
                                             gameType: board.gameCategory,
@@ -243,8 +208,7 @@ class HomeScreen extends StatelessWidget {
                                                   builder: (context) =>
                                                       CommunityDetailScreen(
                                                           boardId: state
-                                                              .communityPosts[
-                                                                  index]
+                                                              .communityPosts[index]
                                                               .boardId),
                                                 ),
                                               );
@@ -257,12 +221,32 @@ class HomeScreen extends StatelessWidget {
                                 ],
                               ),
                               Column(
+                                spacing: 16,
                                 children: [
                                   _itemTopBar(
-                                      GogoIcons.trophy(
-                                          color: GogoColors.white),
+                                      GogoIcons.trophy(color: GogoColors.white),
                                       text: '경기',
-                                      onTap: () {}),
+                                      onTap: () => PageRouter.gogoPushNamed(
+                                          PageRouter.matchTeamInfo, stageId!)),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 16),
+                                    child: Column(
+                                      spacing: 8,
+                                      children: List.generate(
+                                        min(state.gameResponse.count, 5),
+                                        (index) => MatchGameItem(
+                                          gameItem: state.gameResponse.games[index],
+                                          onTap: () => PageRouter.router.pushNamed(
+                                            PageRouter.matchTeamInfo,
+                                            queryParameters: {
+                                              'stageId': stageId.toString(),
+                                              'gameIndex': index.toString()
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                               SizedBox(height: 20)
@@ -270,8 +254,8 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

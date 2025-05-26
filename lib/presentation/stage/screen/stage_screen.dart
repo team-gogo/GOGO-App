@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_stage_response.dart';
 import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
-import 'package:gogo_app/presentation/loading/loadaing_page.dart';
+import 'package:gogo_app/presentation/loading/screens/loadaing_page.dart';
 import 'package:gogo_app/presentation/stage/bloc/stage_bloc.dart';
 import 'package:gogo_app/router.dart';
 import '../../../design_system/component/stage/gogo_stage_card_component.dart';

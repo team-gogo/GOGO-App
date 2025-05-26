@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../design_system/theme/color.dart';
+import '../../../design_system/theme/color.dart';
 
 class JoinStagePage extends StatelessWidget {
   const JoinStagePage({super.key});

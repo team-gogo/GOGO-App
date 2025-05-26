@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class GogoIcons {
-  static Widget _buildIcon(String fileName, {
+  static Widget _buildIcon(
+    String fileName, {
     Key? key,
     Color? color,
     required double width,
@@ -10,12 +11,12 @@ class GogoIcons {
     VoidCallback? onTap,
   }) {
     return GestureDetector(
-      key:key,
+      key: key,
       onTap: onTap,
       child: SvgPicture.asset(
         'assets/drawable/$fileName',
         colorFilter:
-        color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
+            color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
         width: width,
         height: height,
       ),
@@ -373,7 +374,6 @@ class GogoIcons {
       _buildIcon('communit.svg',
           color: color, width: width, height: height, onTap: onTap);
 
-
   static Widget community({
     Color? color,
     double width = 24,
@@ -436,8 +436,7 @@ class GogoIcons {
     Key? key,
   }) =>
       _buildIcon('chevron_down.svg',
-          key: key,
-          color: color, width: width, height: height, onTap: onTap);
+          key: key, color: color, width: width, height: height, onTap: onTap);
 
   static Widget checkboxOutlined({
     Color? color,
@@ -618,6 +617,7 @@ class GogoIcons {
   }) =>
       _buildIcon('send.svg',
           color: color, width: width, height: height, onTap: onTap);
+
   static Widget shakeFinger({
     Color? color,
     double width = 24,
@@ -626,52 +626,94 @@ class GogoIcons {
   }) =>
       _buildIcon('shake_finger.svg',
           color: color, width: width, height: height, onTap: onTap);
+
   static Widget footballMap({
     Color? color,
-    double width = 24,
-    double height = 24,
+    double width = 660,
+    double height = 448,
     VoidCallback? onTap,
   }) =>
       _buildIcon('football_map.svg',
           color: color, width: width, height: height, onTap: onTap);
+
+  static Widget badmintonMap({
+    Color? color,
+    double width = 660,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('badminton_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
   static Widget basketballMap({
     Color? color,
-    double width = 24,
-    double height = 24,
+    double width = 660,
+    double height = 448,
     VoidCallback? onTap,
   }) =>
       _buildIcon('basketball_map.svg',
           color: color, width: width, height: height, onTap: onTap);
+
+  static Widget volleyballMap({
+    Color? color,
+    double width = 660,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('volleyball_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget baseballMap({
+    Color? color,
+    double width = 660,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('baseball_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
   static Widget footballFullMap({
     Color? color,
-    double width = 24,
-    double height = 24,
+    double width = 1200,
+    double height = 448,
     VoidCallback? onTap,
   }) =>
       _buildIcon('football_full_map.svg',
           color: color, width: width, height: height, onTap: onTap);
+
   static Widget basketballFullMap({
     Color? color,
-    double width = 24,
-    double height = 24,
+    double width = 1200,
+    double height = 448,
     VoidCallback? onTap,
   }) =>
       _buildIcon('basketball_full_map.svg',
           color: color, width: width, height: height, onTap: onTap);
+
   static Widget badmintonFullMap({
     Color? color,
-    double width = 24,
-    double height = 24,
+    double width = 1200,
+    double height = 448,
     VoidCallback? onTap,
   }) =>
       _buildIcon('badminton_full_map.svg',
           color: color, width: width, height: height, onTap: onTap);
+
   static Widget baseballFullMap({
     Color? color,
-    double width = 24,
-    double height = 24,
+    double width = 1200,
+    double height = 448,
     VoidCallback? onTap,
   }) =>
       _buildIcon('baseball_full_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget volleyballFullMap({
+    Color? color,
+    double width = 1200,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('volleyball_full_map.svg',
           color: color, width: width, height: height, onTap: onTap);
 }
