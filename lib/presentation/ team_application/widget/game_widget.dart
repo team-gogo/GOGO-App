@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gogo_app/design_system/component/button/gogo_default_button.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 
 import '../../../data/models/stage/create_stage/game.dart';
 import '../../../data/models/stage/enum_type/game_type.dart';
-import '../../../data/models/stage/enum_type/system_type.dart';
 import '../../../design_system/component/tag/gogo_borderless_tag_component.dart';
 import '../../../design_system/theme/icon.dart';
 
 class GameWidget extends StatelessWidget {
   final Game game;
+  final bool isManger;
 
-  const GameWidget({super.key, required this.game});
+  const GameWidget({super.key, required this.game, required this.isManger});
 
   String _getGameCategoryText(GameType type) {
     switch (type) {
@@ -54,17 +56,17 @@ class GameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: 224,
+      width: 344.w,
+      height: 224.h,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: GogoColors.gray700,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: Column(
         children: [
           Row(
-            spacing: 24,
+            spacing: 24.w,
             children: [
               GogoBorderlessTagComponent(
                 spacing: 6,
@@ -93,7 +95,7 @@ class GameWidget extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 32,
+            height: 32.h,
           ),
           Text(
             game.name,
@@ -101,7 +103,25 @@ class GameWidget extends StatelessWidget {
                 GogoTypography.body1Extrabold.copyWith(color: GogoColors.white),
           ),
           Spacer(),
-
+          isManger
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 16.w,
+                  children: [
+                    GogoDefaultButton(
+                      onTap: () {},
+                      text: "신청하기",
+                      width: 148.w,
+                    ),
+                    GogoDefaultButton(
+                      onTap: () {},
+                      text: "종료하기",
+                      color: GogoColors.error,
+                      width: 148.w,
+                    )
+                  ],
+                )
+              : GogoDefaultButton(onTap: () {}, text: "신청하기")
         ],
       ),
     );
