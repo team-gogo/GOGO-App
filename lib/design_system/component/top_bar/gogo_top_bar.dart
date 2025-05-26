@@ -21,6 +21,7 @@ class GogoTopBar extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: Row(
+          spacing: 16,
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -28,8 +29,9 @@ class GogoTopBar extends StatelessWidget {
             GogoIcons.chevronLeft(
               onTap: onBackTap,
               color: GogoColors.white,
+              width: 32,
+              height: 32
             ),
-            const SizedBox(width: 24),
             Text(
               title,
               style: GogoTypography.body2Semibold.copyWith(

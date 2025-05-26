@@ -25,6 +25,8 @@ import 'package:gogo_app/data/models/stage/community/community_comment_request.d
 import 'package:gogo_app/data/models/stage/community/sort_type.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 
+import '../../models/stage/search_information/search_game_format_response.dart';
+
 abstract class StageDataSource {
   Future<void> createFastStage(FastStageCreateRequest body);
 
@@ -75,4 +77,6 @@ abstract class StageDataSource {
   Future<SearchMyTeamResponse> getMyTeam();
 
   Future<SearchMatchResponse> getMyMatch(int stageId);
+
+  Future<SearchGameFormatResponse> getGameFormat(int gameId);
 }

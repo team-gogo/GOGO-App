@@ -43,7 +43,7 @@ class SexPage extends StatelessWidget {
               height: 40,
             ),
             Text(
-              '반과 번호를 알려주세요',
+              '성별을 알려주세요',
               style: GogoTypography.title4Extrabold
                   .copyWith(color: GogoColors.white),
             ),

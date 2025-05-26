@@ -10,7 +10,7 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/%20team_application/widget/game_widget.dart';
 
 class TeamApplicationScreen extends StatelessWidget {
-  final int stageId;
+  final int? stageId;
   final bool isManger;
   TeamApplicationScreen({super.key, required this.stageId, required this.isManger});
 
@@ -98,7 +98,7 @@ class TeamApplicationScreen extends StatelessWidget {
                             final Game game = matches[index];
                             return GameWidget(
                               game: game,
-                              isManger: true,
+                              isManger: isManger,
                             );
                           }),
                         ),
