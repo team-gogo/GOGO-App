@@ -121,8 +121,14 @@ class GogoStageCardComponent extends StatelessWidget {
               : GogoDefaultButton(
             onTap: () {
               if (!stage.isParticipating) {
-                context.read<StageBloc>().add(EnterStageEvent(
+                 context.read<StageBloc>().add(EnterStageEvent(
                     stageId: stage.stageId, body: JoinStageRequest()));
+              }
+              if (stage.status == StageStatus.RECRUITING) {
+                context.goNamed(
+                  PageRouter.teamApplication,
+                  pathParameters: {'stageId': stage.stageId.toString()},
+                );
               }
               context.goNamed(
                 PageRouter.home,
