@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gogo_app/data/models/common/match_dto.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/data/models/stage/create_stage/game.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
@@ -10,7 +10,9 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/%20team_application/widget/game_widget.dart';
 
 class TeamApplicationScreen extends StatelessWidget {
-  TeamApplicationScreen({super.key});
+  final int stageId;
+  final bool isManger;
+  TeamApplicationScreen({super.key, required this.stageId, required this.isManger});
 
   final List<Game> matches = [
     Game(
@@ -50,12 +52,12 @@ class TeamApplicationScreen extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 8.0.h),
               child: GogoTopBar(title: '돌아가기', onBackTap: () {}),
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.symmetric(horizontal: 15.0.w),
                 child: Column(
                   children: [
                     Row(
@@ -67,7 +69,7 @@ class TeamApplicationScreen extends StatelessWidget {
                               .copyWith(color: GogoColors.white),
                         ),
                         Row(
-                          spacing: 12,
+                          spacing: 12.w,
                           children: [
                             GogoTagComponent(
                               color: GogoColors.gray400,
@@ -87,14 +89,17 @@ class TeamApplicationScreen extends StatelessWidget {
                         )
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 24.h),
                     Expanded(
                       child: SingleChildScrollView(
                         child: Column(
-                          spacing: 16,
+                          spacing: 16.h,
                           children: List.generate(matches.length, (index) {
                             final Game game = matches[index];
-                            return GameWidget(game: game,);
+                            return GameWidget(
+                              game: game,
+                              isManger: true,
+                            );
                           }),
                         ),
                       ),
