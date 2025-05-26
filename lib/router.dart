@@ -155,9 +155,15 @@ class PageRouter {
                       ),
                     ],
                   ),
-                  _customGoRoute(name: coinToss, screen: CoinTossScreen()),
-                  _customGoRoute(name: yavarwee, screen: YavarweeScreen()),
-                  _customGoRoute(name: miniGame, screen: MinigameScreen()),
+                  _customGoRoute(
+                      name: miniGame,
+                      screen: MinigameScreen(),
+                      routes: [
+                        _customGoRoute(
+                            name: coinToss, screen: CoinTossScreen()),
+                        _customGoRoute(
+                            name: yavarwee, screen: YavarweeScreen()),
+                      ]),
                   _customGoRoute(name: matchList, screen: MatchListScreen()),
                   GoRoute(
                     name: matchTeamInfo,

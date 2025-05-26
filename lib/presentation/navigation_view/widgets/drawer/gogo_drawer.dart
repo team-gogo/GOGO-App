@@ -37,26 +37,23 @@ class GogoDrawer extends StatelessWidget {
                 ),
                 _buildNavItem(
                     icon: GogoIcons.home(
-                        height: 24.h, width: 24.w, color: GogoColors.main600),
+                        height: 24, width: 24, color: GogoColors.white),
                     label: "홈",
-                    isSelected: true,
                     onTap: () {
                       context.pop(context);
                       context.pop(context);
                     }),
                 _buildNavItem(
                   icon: GogoIcons.bell(
-                      height: 24.h, width: 24.w, color: GogoColors.main600),
+                      height: 24, width: 24, color: GogoColors.white),
                   label: "공지",
-                  isSelected: true,
                   onTap: () =>
                       PageRouter.gogoPushNamed(PageRouter.alert, stageId),
                 ),
                 _buildNavItem(
                   icon: GogoIcons.person(
-                      height: 24.h, width: 24.w, color: GogoColors.main600),
+                      height: 24, width: 24, color: GogoColors.white),
                   label: "프로필",
-                  isSelected: true,
                   onTap: () =>
                       PageRouter.gogoPushNamed(PageRouter.profile, stageId),
                 ),
@@ -69,7 +66,6 @@ class GogoDrawer extends StatelessWidget {
   Widget _buildNavItem({
     required Widget icon,
     required String label,
-    required bool isSelected,
     required VoidCallback onTap,
   }) {
     return GestureDetector(
@@ -81,9 +77,8 @@ class GogoDrawer extends StatelessWidget {
           children: [
             icon,
             Text(label,
-                style: GogoTypography.caption1Semibold.copyWith(
-                    color:
-                        isSelected ? GogoColors.main600 : GogoColors.gray500)),
+                style: GogoTypography.caption1Semibold
+                    .copyWith(color: GogoColors.white)),
           ],
         ),
       ),
