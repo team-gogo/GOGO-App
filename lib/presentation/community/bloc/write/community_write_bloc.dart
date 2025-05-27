@@ -21,46 +21,49 @@ class CommunityWriteBloc
           : event.title;
       emit(state.copyWith(
         title: newTitle,
-        isValid: newTitle.isNotEmpty && state.content.isNotEmpty,
+        imageUrl: state.imageUrl,
+        isValid: _validateState(newTitle, state.content),
       ));
     });
+    
     on<ContentChanged>((event, emit) {
       final newContent = event.content.length > maxLength
           ? event.content.substring(0, maxLength)
           : event.content;
       emit(state.copyWith(
         content: newContent,
-        isValid: state.title.isNotEmpty && newContent.isNotEmpty,
+        imageUrl: state.imageUrl,
+        isValid: _validateState(state.title, newContent),
       ));
     });
-    on<ImageChanged>((event, emit) async {
+
+    on<ImageChanged>((event, emit) {
+      emit(state.copyWith(
+        imageUrl: event.imageUrl,
+        isValid: _validateState(state.title, state.content),
+      ));
+    });
+
+    on<PostWrite>((event, emit) async {
       try {
-        if (event.imageUrl == null) {
-          emit(state.copyWith(imageUrl: null));
-          return;
-        }
-        final imageUrl = await repository.uploadImage(File(event.imageUrl!));
-        emit(state.copyWith(imageUrl: imageUrl));
+        await repository.createCommunityPost(
+          stageId,
+          CommunityWriteRequest(
+            title: event.title,
+            content: event.content,
+            gameCategory: event.gameType,
+            imageUrl: state.imageUrl,
+          ),
+        );
+        emit(CommunityWriteState(title: '', content: '', isValid: false));
+        emit(PostWriteSuccessState());
       } catch (e) {
         emit(PostWriteErrorState(message: e.toString()));
       }
     });
-    on<PostWrite>((event, emit) async{
-      try {
-      await repository.createCommunityPost(
-      stageId, 
-      CommunityWriteRequest(
-        title: event.title, 
-        content: event.content, 
-        gameCategory: event.gameType,
-        imageUrl: state.imageUrl,
-        ),
-      );
-      emit(CommunityWriteState(title: '', content: '', isValid: false));
-      emit(PostWriteSuccessState());
-    } catch(e) {
-      emit(PostWriteErrorState(message: e.toString()));
-    }
-    },);
+  }
+
+  bool _validateState(String title, String content) {
+    return title.isNotEmpty && content.isNotEmpty;
   }
 }
