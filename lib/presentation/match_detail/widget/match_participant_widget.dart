@@ -4,38 +4,64 @@ import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
 import '../../../design_system/theme/typography.dart';
 
+enum TeamColor { red, blue }
+
 class MatchParticipantWidget extends StatelessWidget {
   final double x;
   final double y;
-  final bool redOrBlue;
+  final TeamColor? redOrBlue;
   final String name;
 
-  const MatchParticipantWidget(
-      {super.key,
-      required this.x,
-      required this.y,
-      required this.redOrBlue,
-      required this.name});
+  const MatchParticipantWidget({
+    super.key,
+    required this.x,
+    required this.y,
+    required this.name,
+    this.redOrBlue,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: redOrBlue ? null : x,
-      right: redOrBlue ? x : null,
+      left: redOrBlue == TeamColor.red ? null : x,
+      right: redOrBlue == TeamColor.red ? x : null,
       top: y,
-      child: Column(
-        children: [
-          GogoIcons.person(
-              height: 20,
-              width: 20,
-              color: redOrBlue ? GogoColors.teamRed : GogoColors.teamBlue),
-          Text(
-            name,
-            style: GogoTypography.body3Semibold.copyWith(
-                color: redOrBlue ? GogoColors.teamRed : GogoColors.teamBlue),
-          )
-        ],
+      child: MatchParticipantItem(
+        redOrBlue: TeamColor.red,
+        name: name,
       ),
+    );
+  }
+}
+
+class MatchParticipantItem extends StatelessWidget {
+  const MatchParticipantItem({super.key, this.redOrBlue, required this.name});
+
+  final TeamColor? redOrBlue;
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GogoIcons.person(
+            height: 20,
+            width: 20,
+            color: redOrBlue == null
+                ? GogoColors.white
+                : redOrBlue == TeamColor.red
+                    ? GogoColors.teamRed
+                    : GogoColors.teamBlue),
+        Text(
+          name,
+          style: GogoTypography.body3Semibold.copyWith(
+              color: redOrBlue == null
+                  ? GogoColors.white
+                  : redOrBlue == TeamColor.red
+                      ? GogoColors.teamRed
+                      : GogoColors.teamBlue),
+        )
+      ],
     );
   }
 }

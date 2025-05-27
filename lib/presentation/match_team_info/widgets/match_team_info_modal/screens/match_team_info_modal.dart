@@ -204,7 +204,7 @@ class MatchTeamInfoModal extends StatelessWidget {
                             (e) => MatchParticipantWidget(
                                 x: double.tryParse(e.positionX) ?? 0 * 660,
                                 y: double.tryParse(e.positionY) ?? 0 * 448,
-                                redOrBlue: false,
+                                redOrBlue: TeamColor.blue,
                                 name: e.name),
                           ),
                         ],

@@ -54,7 +54,7 @@ class GogoTextField extends StatefulWidget {
       horizontal: 16,
     ),
     this.hintStyle = GogoTypography.body3Semibold,
-    this.hintColor = GogoColors.gray500,
+    this.hintColor = GogoColors.gray400,
     this.errorStyle = GogoTypography.caption2Semibold,
     this.errorColor = GogoColors.error,
     this.errorBorderSide = const BorderSide(color: GogoColors.error, width: 1),
