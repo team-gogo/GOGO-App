@@ -8,14 +8,18 @@ import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc.dart';
 import 'package:gogo_app/presentation/minigame/widgets/minigame_select_component.dart';
 
 class MinigameScreen extends StatelessWidget {
+
+  final int stageId;
+
   const MinigameScreen({
     super.key,
+    required this.stageId,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MinigameDescriptionBloc(),
+      create: (context) => MinigameDescriptionBloc(stageId: stageId),
       child: Scaffold(
         body: ListView(
           children: [
