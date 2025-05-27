@@ -28,7 +28,7 @@ class StageScreen extends StatelessWidget {
             create: (BuildContext context) => StageBloc()..add(GetStageEvent()),
             child: BlocBuilder<StageBloc, StageState>(
               builder: (context, state) {
-                if (state is StageLoading) {
+                if (state is StageLoading || state is StageInitial) {
                   return LoadingPage();
                 } else if (state is StageLoaded) {
                   List<Stage> participatedStages = [];
