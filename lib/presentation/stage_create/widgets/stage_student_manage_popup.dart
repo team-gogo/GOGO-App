@@ -13,11 +13,17 @@ import '../../../design_system/theme/color.dart';
 Future<List<Student>> stageStudentManagePopup(
   BuildContext context,
   List<Student> studentList,
+  int minimumTeamSize,
+  int maximumTeamSize,
 ) async {
   final List<Student> result = List.from(studentList);
   final dialogResult = await showDialog<Map<String, dynamic>?>(
     context: context,
-    builder: (context) => StageStudentManagePopup(studentList: result),
+    builder: (context) => StageStudentManagePopup(
+      studentList: result,
+      minimumTeamSize: minimumTeamSize,
+      maximumTeamSize: maximumTeamSize,
+    ),
   );
   if (dialogResult?['studentList'] != null) {
     return List<Student>.from(dialogResult!['studentList']);
@@ -26,9 +32,15 @@ Future<List<Student>> stageStudentManagePopup(
 }
 
 class StageStudentManagePopup extends StatefulWidget {
-  const StageStudentManagePopup({super.key, required this.studentList});
+  const StageStudentManagePopup(
+      {super.key,
+      required this.studentList,
+      required this.minimumTeamSize,
+      required this.maximumTeamSize});
 
   final List<Student> studentList;
+  final int minimumTeamSize;
+  final int maximumTeamSize;
 
   @override
   State<StageStudentManagePopup> createState() =>
@@ -58,7 +70,7 @@ class _StageStudentManagePopupState extends State<StageStudentManagePopup> {
       if (selectedStudent.contains(student)) {
         selectedStudent.remove(student);
       } else {
-        if (selectedStudent.length >= 5) {
+        if (selectedStudent.length >= widget.maximumTeamSize) {
           selectedStudent.removeAt(0); // 가장 먼저 추가된 학생 삭제
         }
         selectedStudent.add(student);

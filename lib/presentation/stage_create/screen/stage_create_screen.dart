@@ -682,7 +682,7 @@ class _StageCreateScreenState extends State<StageCreateScreen> {
                                   onTap: () async {
                                     final result =
                                         await stageStudentManagePopup(
-                                            context, _studentsManage);
+                                            context, _studentsManage, 1, 5);
                                     setState(() {
                                       _studentsManage = result;
                                     });
