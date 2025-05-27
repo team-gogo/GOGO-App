@@ -41,6 +41,7 @@ class TeamPlaceScreen extends StatefulWidget {
 class _TeamPlaceScreenState extends State<TeamPlaceScreen> {
   final GlobalKey _fieldKey = GlobalKey();
   final List<ApplyParticipant> _applyParticipants = [];
+  final ScrollController _scrollController = ScrollController();
 
   Widget _getGameCategoryText(GameType type) {
     switch (type) {
@@ -137,54 +138,64 @@ class _TeamPlaceScreenState extends State<TeamPlaceScreen> {
                       ],
                     ),
                   ),
-                  SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    scrollDirection: Axis.horizontal,
-                    child: Stack(
-                      key: _fieldKey,
-                      children: [
-                        _getGameCategoryText(widget.game),
-                        ...List.generate(_applyParticipants.length, (index) {
-                          final participant = _applyParticipants[index];
-                          return Positioned(
-                            left: double.parse(participant.positionX),
-                            top: double.parse(participant.positionY),
-                            child: Draggable(
-                              feedback: Material(
-                                color: Colors.transparent,
-                                child: MatchParticipantItem(
-                                  redOrBlue: null,
-                                  name: widget.students[index].name,
+                  RawScrollbar(
+                    thickness: 3,
+                    thumbColor: GogoColors.gray400,
+                    trackColor: GogoColors.gray600,
+                    trackVisibility: true,
+                    thumbVisibility: true,
+                    controller: _scrollController,
+                    child: SingleChildScrollView(
+                      controller: _scrollController,
+                      scrollDirection: Axis.horizontal,
+                      child: Stack(
+                        key: _fieldKey,
+                        children: [
+                          _getGameCategoryText(widget.game),
+                          ...List.generate(_applyParticipants.length, (index) {
+                            final participant = _applyParticipants[index];
+                            return Positioned(
+                              left: double.parse(participant.positionX),
+                              top: double.parse(participant.positionY),
+                              child: Draggable(
+                                feedback: Material(
+                                  color: Colors.transparent,
+                                  child: MatchParticipantItem(
+                                    redOrBlue: null,
+                                    name: widget.students[index].name,
+                                  ),
+                                ),
+                                childWhenDragging: Container(),
+                                onDraggableCanceled: (velocity, offset) {
+                                  final RenderBox box = _fieldKey
+                                      .currentContext!
+                                      .findRenderObject() as RenderBox;
+                                  final localOffset = box.globalToLocal(offset);
+                                  final clampedDx =
+                                      localOffset.dx.clamp(0.0, 1200.0 - 48);
+                                  final clampedDy =
+                                      localOffset.dy.clamp(0.0, 448.0 - 48);
+                                  setState(() {
+                                    _applyParticipants[index] =
+                                        ApplyParticipant(
+                                      studentId: participant.studentId,
+                                      positionX: clampedDx.toString(),
+                                      positionY: clampedDy.toString(),
+                                    );
+                                  });
+                                },
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: MatchParticipantItem(
+                                    redOrBlue: null,
+                                    name: widget.students[index].name,
+                                  ),
                                 ),
                               ),
-                              childWhenDragging: Container(),
-                              onDraggableCanceled: (velocity, offset) {
-                                final RenderBox box = _fieldKey.currentContext!
-                                    .findRenderObject() as RenderBox;
-                                final localOffset = box.globalToLocal(offset);
-                                final clampedDx =
-                                    localOffset.dx.clamp(0.0, 1200.0 - 48);
-                                final clampedDy =
-                                    localOffset.dy.clamp(0.0, 448.0 - 48);
-                                setState(() {
-                                  _applyParticipants[index] = ApplyParticipant(
-                                    studentId: participant.studentId,
-                                    positionX: clampedDx.toString(),
-                                    positionY: clampedDy.toString(),
-                                  );
-                                });
-                              },
-                              child: Material(
-                                color: Colors.transparent,
-                                child: MatchParticipantItem(
-                                  redOrBlue: null,
-                                  name: widget.students[index].name,
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                      ],
+                            );
+                          }),
+                        ],
+                      ),
                     ),
                   ),
                   Spacer(),
