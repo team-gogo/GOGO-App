@@ -29,7 +29,7 @@ class GogoStageCardComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: color,
@@ -42,44 +42,55 @@ class GogoStageCardComponent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                spacing: 12,
                 children: [
                   stage.type == StageType.OFFICIAL
                       ? GogoTagComponent.small(
+                          isBorder: false,
                           color: GogoColors.white,
                           text: '공식',
-                          textStyle: GogoTypography.caption3Semibold,
                           icon: GogoIcons.trophy(
-                            width: 12,
-                            height: 12,
+                            width: 16,
+                            height: 16,
                             color: GogoColors.white,
                           ),
                         )
                       : SizedBox.shrink(),
                   GogoTagComponent.small(
+                    isBorder: false,
                     color: stage.status == StageStatus.RECRUITING
                         ? GogoColors.success
                         : GogoColors.gray500,
                     text: stage.status == StageStatus.RECRUITING
                         ? '모집 중'
                         : '모집 확정',
-                    textStyle: GogoTypography.caption3Semibold,
                     icon: GogoIcons.stage(
-                      width: 12,
-                      height: 12,
+                      width: 16,
+                      height: 16,
                       color: stage.status == StageStatus.RECRUITING
                           ? GogoColors.success
                           : GogoColors.gray500,
                     ),
                   ),
+                  GogoTagComponent.small(
+                    isBorder: false,
+                    color: GogoColors.main300,
+                    text: stage.participantCount.toString(),
+                    textStyle: GogoTypography.caption3Semibold,
+                    icon: GogoIcons.person(
+                      width: 16,
+                      height: 16,
+                      color: GogoColors.main300,
+                    ),
+                  ),
                   stage.isMaintainer
                       ? GogoTagComponent.small(
+                          isBorder: false,
                           color: GogoColors.main500,
                           text: '관리자',
                           textStyle: GogoTypography.caption3Semibold,
-                          icon: GogoIcons.person(
-                            width: 12,
-                            height: 12,
+                          icon: GogoIcons.gearWheel(
+                            width: 16,
+                            height: 16,
                             color: GogoColors.main500,
                           ),
                         )
@@ -88,6 +99,7 @@ class GogoStageCardComponent extends StatelessWidget {
               ),
               broadcast
                   ? GogoTagComponent.small(
+                      isBorder: false,
                       color: GogoColors.error,
                       text: '중계 설정',
                       textStyle: GogoTypography.caption3Semibold,
