@@ -28,6 +28,7 @@ import 'package:gogo_app/data/models/stage/search_stage/search_my_point_response
 import 'package:gogo_app/data/models/stage/search_stage/search_my_team_response.dart';
 import 'package:gogo_app/data/models/stage/community/community_like_response.dart';
 import 'package:gogo_app/data/models/stage/community/community_comment_request.dart';
+import 'dart:io';
 
 import 'stage_data_source.dart';
 
@@ -112,6 +113,11 @@ class StageDataSourceImpl implements StageDataSource {
       int stageId, CommunityWriteRequest body) async {
     return await executeHandleApiCall(
         () => _stageApi.createCommunityPost(stageId, body));
+  }
+
+  @override
+  Future<String> uploadImage(File image) async {
+    return await executeHandleApiCall(() => _stageApi.uploadImage(image));
   }
 
   @override

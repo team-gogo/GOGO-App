@@ -1,8 +1,7 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:gogo_app/data/models/stage/community/community_like_response.dart';
 import 'package:gogo_app/data/models/stage/community/sort_type.dart';
-import 'package:gogo_app/data/models/stage/create_stage/api/official_stage_create_request.dart';
-import 'package:gogo_app/data/models/stage/create_stage/game.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/join_stage_request.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/match_notice_response.dart';
@@ -195,5 +194,12 @@ abstract class StageApi {
   @GET('/stage/game/format/{game_id}')
   Future<SearchGameFormatResponse> getGameFormat(
     @Path('game_id') int gameId,
+  );
+
+  // 이미지 업로드 ✅
+  @POST("/stage/image")
+  @MultiPart()
+  Future<String> uploadImage(
+    @Part(name: "image") File image,
   );
 }

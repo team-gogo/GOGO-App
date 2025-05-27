@@ -24,6 +24,7 @@ import 'package:gogo_app/data/models/stage/community/community_like_response.dar
 import 'package:gogo_app/data/models/stage/community/community_comment_request.dart';
 import 'package:gogo_app/data/models/stage/community/sort_type.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
+import 'dart:io';
 
 import '../../models/stage/search_information/search_game_format_response.dart';
 
@@ -55,6 +56,8 @@ abstract class StageDataSource {
   Future<MatchNoticeResponse> toggleMatchNotice(int matchId);
 
   Future<void> createCommunityPost(int stageId, CommunityWriteRequest body);
+
+  Future<String> uploadImage(File image);
 
   Future<SearchBoardResponse> getCommunityPosts(
       int stageId, int page, int size, GameType? gameType, SortType? sortType);

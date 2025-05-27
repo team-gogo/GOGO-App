@@ -162,15 +162,15 @@ Widget build(BuildContext context) {
                                       Text(
                                         '이미지 등록',
                                         style: GogoTypography.body3Semibold.copyWith(
-                                          color: GogoColors.gray200,
+                                          color: GogoColors.gray400,
                                         ),
                                       ),
-                                      SizedBox(width: 4),
+                                      SizedBox(width: 9),
                                       if (state.imageUrl != null)
                                         Container(
                                           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                           decoration: BoxDecoration(
-                                            color: GogoColors.gray600,
+                                            color: GogoColors.gray500,
                                             borderRadius: BorderRadius.circular(4),
                                           ),
                                           child: Text(
@@ -222,6 +222,7 @@ Widget build(BuildContext context) {
                           ),
                         ],
                       ),
+                      SizedBox(height: 24),
                       GogoTextField(
                         hintText: '제목을 입력해주세요.',
                         onChanged: (value) => context

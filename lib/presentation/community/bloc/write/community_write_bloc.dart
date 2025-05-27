@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/models/stage/community/community_write_request.dart';
@@ -32,10 +33,17 @@ class CommunityWriteBloc
         isValid: state.title.isNotEmpty && newContent.isNotEmpty,
       ));
     });
-    on<ImageChanged>((event, emit) {
-      emit(state.copyWith(
-        imageUrl: event.imageUrl,
-      ));
+    on<ImageChanged>((event, emit) async {
+      try {
+        if (event.imageUrl == null) {
+          emit(state.copyWith(imageUrl: null));
+          return;
+        }
+        final imageUrl = await repository.uploadImage(File(event.imageUrl!));
+        emit(state.copyWith(imageUrl: imageUrl));
+      } catch (e) {
+        emit(PostWriteErrorState(message: e.toString()));
+      }
     });
     on<PostWrite>((event, emit) async{
       try {
@@ -45,6 +53,7 @@ class CommunityWriteBloc
         title: event.title, 
         content: event.content, 
         gameCategory: event.gameType,
+        imageUrl: state.imageUrl,
         ),
       );
       emit(CommunityWriteState(title: '', content: '', isValid: false));
@@ -53,5 +62,5 @@ class CommunityWriteBloc
       emit(PostWriteErrorState(message: e.toString()));
     }
     },);
-}
+  }
 }

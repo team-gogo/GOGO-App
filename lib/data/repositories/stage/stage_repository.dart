@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:gogo_app/data/models/stage/create_stage/api/fast_stage_create_request.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/stage_confirm_request.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/team_apply_request.dart';
@@ -53,6 +54,8 @@ abstract class StageRepository {
   Future<MatchNoticeResponse> toggleMatchNotice(int matchId);
 
   Future<void> createCommunityPost(int stageId, CommunityWriteRequest body);
+
+  Future<String> uploadImage(File image);
 
   Future<SearchBoardResponse> getCommunityPosts(
       int stageId, int page, int size, GameType? gameType, SortType? sortType);
