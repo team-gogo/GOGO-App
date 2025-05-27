@@ -8,12 +8,11 @@ import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/%20team_application/bloc/game_bloc.dart';
-import 'package:gogo_app/presentation/%20team_application/bloc/game_event.dart';
-import 'package:gogo_app/presentation/%20team_application/widget/game_widget.dart';
-
 import '../../loading/screens/loadaing_page.dart';
+import '../bloc/game_bloc.dart';
+import '../bloc/game_event.dart';
 import '../bloc/game_state.dart';
+import '../widget/game_widget.dart';
 
 class TeamApplicationScreen extends StatelessWidget {
   final int stageId;
