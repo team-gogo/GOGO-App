@@ -9,6 +9,7 @@ import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/bloc/write/community_write_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import '../bloc/write/community_write_event.dart';
 import '../bloc/write/community_write_state.dart';
 
@@ -134,6 +135,93 @@ Widget build(BuildContext context) {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              if (state.imageUrl == null) {
+                                final ImagePicker picker = ImagePicker();
+                                final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+                                if (image != null) {
+                                  context.read<CommunityWriteBloc>().add(ImageChanged(image.path));
+                                }
+                              }
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              decoration: BoxDecoration(
+                                color: GogoColors.gray700,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        '이미지 등록',
+                                        style: GogoTypography.body3Semibold.copyWith(
+                                          color: GogoColors.gray200,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4),
+                                      if (state.imageUrl != null)
+                                        Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                          decoration: BoxDecoration(
+                                            color: GogoColors.gray600,
+                                            borderRadius: BorderRadius.circular(4),
+                                          ),
+                                          child: Text(
+                                            '1',
+                                            style: GogoTypography.caption2Semibold.copyWith(
+                                              color: GogoColors.gray300,
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                  if (state.imageUrl == null)
+                                    GogoIcons.plusCircle(
+                                      color: GogoColors.gray400,
+                                      width: 20,
+                                      height: 20,
+                                    )
+                                  else
+                                    GestureDetector(
+                                      onTap: () {
+                                        context.read<CommunityWriteBloc>().add(ImageChanged(null));
+                                      },
+                                      child: GogoIcons.trash(
+                                        color: GogoColors.gray400,
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            children: [
+                              GogoIcons.exclamationMarkCircle(
+                                color: GogoColors.gray500,
+                                width: 16,
+                                height: 16,
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                '이미지 등록시 1개만 가능합니다.',
+                                style: GogoTypography.caption2Semibold.copyWith(
+                                  color: GogoColors.gray500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                       GogoTextField(
                         hintText: '제목을 입력해주세요.',
                         onChanged: (value) => context
