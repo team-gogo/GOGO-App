@@ -156,7 +156,7 @@ class MatchDetailScreen extends StatelessWidget {
                                           return MatchParticipantWidget(
                                               x: xRatio * originalWidth,
                                               y: yRatio * originalHeight,
-                                              redOrBlue: false,
+                                              redOrBlue: TeamColor.blue,
                                               name: p.name);
                                         }),
                                       ],
@@ -175,7 +175,7 @@ class MatchDetailScreen extends StatelessWidget {
                                           return MatchParticipantWidget(
                                               x: xRatio * originalWidth,
                                               y: yRatio * originalHeight,
-                                              redOrBlue: true,
+                                              redOrBlue: TeamColor.red,
                                               name: p.name);
                                         }),
                                       ],

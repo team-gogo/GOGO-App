@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/component/button/gogo_default_button.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
+import 'package:gogo_app/presentation/team_create/screen/team_create_screen.dart';
+import 'package:gogo_app/router.dart';
 
 import '../../../data/models/stage/create_stage/game.dart';
 import '../../../data/models/stage/enum_type/game_type.dart';
@@ -111,7 +115,18 @@ class GameWidget extends StatelessWidget {
                   spacing: 16,
                   children: [
                     GogoDefaultButton(
-                      onTap: () {},
+                      onTap: () => Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (builder) => TeamCreateScreen(
+                            gameName: game.gameName,
+                            gameId: game.gameId,
+                            minimumTeamSize: game.teamMinCapacity,
+                            maximumTeamSize: game.teamMaxCapacity,
+                            game: game.category,
+                          ),
+                        ),
+                      ),
                       text: "신청하기",
                       width: 148,
                     ),
@@ -123,7 +138,20 @@ class GameWidget extends StatelessWidget {
                     )
                   ],
                 )
-              : GogoDefaultButton(onTap: () {}, text: "신청하기")
+              : GogoDefaultButton(
+                  onTap: () => Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (builder) => TeamCreateScreen(
+                            gameName: game.gameName,
+                            gameId: game.gameId,
+                            minimumTeamSize: game.teamMinCapacity,
+                            maximumTeamSize: game.teamMaxCapacity,
+                            game: game.category,
+                          ),
+                        ),
+                      ),
+                  text: "신청하기")
         ],
       ),
     );
