@@ -113,7 +113,7 @@ class _CommunityMainScreenContentState
                               ? () async {
                                   final result = await context.pushNamed(
                                       PageRouter.communityWrite,
-                                      pathParameters: {
+                                      queryParameters: {
                                         'stageId': widget.stageId.toString()
                                       },
                                       extra: state.gameTypes);
