@@ -54,6 +54,7 @@ class StageScreen extends StatelessWidget {
                         return context.read<StageBloc>().add(GetStageEvent());
                       },
                       child: SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 40,

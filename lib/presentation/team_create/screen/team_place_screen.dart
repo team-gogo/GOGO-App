@@ -48,16 +48,15 @@ class _TeamPlaceScreenState extends State<TeamPlaceScreen> {
       case GameType.SOCCER:
         return GogoIcons.footballMap(width: 1200, height: 448);
       case GameType.BASKET_BALL:
-        return GogoIcons.footballMap(width: 1200, height: 448);
-
+        return GogoIcons.basketballMap(width: 1200, height: 448);
       case GameType.BASE_BALL:
-        return GogoIcons.footballMap(width: 1200, height: 448);
+        return GogoIcons.baseballMap(width: 1200, height: 448);
 
       case GameType.VOLLEY_BALL:
-        return GogoIcons.footballMap(width: 1200, height: 448);
+        return GogoIcons.volleyballMap(width: 1200, height: 448);
 
       case GameType.BADMINTON:
-        return GogoIcons.footballMap(width: 1200, height: 448);
+        return GogoIcons.badmintonMap(width: 1200, height: 448);
       default:
         return Container(
           width: 1200,

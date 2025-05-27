@@ -70,7 +70,7 @@ class _StageStudentManagePopupState extends State<StageStudentManagePopup> {
       if (selectedStudent.contains(student)) {
         selectedStudent.remove(student);
       } else {
-        if (selectedStudent.length >= widget.minimumTeamSize) {
+        if (selectedStudent.length >= widget.maximumTeamSize) {
           selectedStudent.removeAt(0); // 가장 먼저 추가된 학생 삭제
         }
         selectedStudent.add(student);

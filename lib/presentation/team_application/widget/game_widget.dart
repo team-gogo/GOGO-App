@@ -115,7 +115,18 @@ class GameWidget extends StatelessWidget {
                   spacing: 16,
                   children: [
                     GogoDefaultButton(
-                      onTap: () {},
+                      onTap: () => Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (builder) => TeamCreateScreen(
+                            gameName: game.gameName,
+                            gameId: game.gameId,
+                            minimumTeamSize: game.teamMinCapacity,
+                            maximumTeamSize: game.teamMaxCapacity,
+                            game: game.category,
+                          ),
+                        ),
+                      ),
                       text: "신청하기",
                       width: 148,
                     ),
@@ -132,7 +143,7 @@ class GameWidget extends StatelessWidget {
                         context,
                         CupertinoPageRoute(
                           builder: (builder) => TeamCreateScreen(
-                            gameName : game.gameName,
+                            gameName: game.gameName,
                             gameId: game.gameId,
                             minimumTeamSize: game.teamMinCapacity,
                             maximumTeamSize: game.teamMaxCapacity,

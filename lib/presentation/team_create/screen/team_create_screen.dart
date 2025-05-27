@@ -8,7 +8,6 @@ import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gogo_app/presentation/team_create/screen/team_place_screen.dart';
 import '../../stage_create/widgets/stage_student_manage_popup.dart';
 
