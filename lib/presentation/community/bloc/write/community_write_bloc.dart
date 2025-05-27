@@ -55,7 +55,6 @@ class CommunityWriteBloc
             imageUrl: state.imageUrl,
           ),
         );
-        emit(CommunityWriteState(title: '', content: '', isValid: false));
         emit(PostWriteSuccessState());
       } catch (e) {
         emit(PostWriteErrorState(message: e.toString()));
