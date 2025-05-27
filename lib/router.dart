@@ -166,10 +166,16 @@ class PageRouter {
                   ),
                 ],
               ),
-              _customGoRoute(name: miniGame, screen: MinigameScreen(), routes: [
-                _customGoRoute(name: coinToss, screen: CoinTossScreen()),
-                _customGoRoute(name: yavarwee, screen: YavarweeScreen()),
-              ]),
+              GoRoute(
+                name: miniGame,
+                path: '$miniGame',
+                pageBuilder: (context, state) {
+                  final stageId = int.parse(state.uri.queryParameters['stageId']!);
+                  return CupertinoPage(
+                    child: MinigameScreen(stageId: stageId),
+                  );
+                },
+              ),
               _customGoRoute(name: matchList, screen: MatchListScreen()),
               GoRoute(
                 name: matchTeamInfo,
