@@ -9,12 +9,9 @@ import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/profile/bloc/profile/profile_event.dart';
-import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile__bloc.dart';
+import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_bloc.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_event.dart';
 import 'package:gogo_app/presentation/profile/bloc/profile_edit/edit_profile_state.dart';
-import 'package:gogo_app/presentation/profile/bloc/profile/profile_bloc.dart';
-
 import '../../../design_system/component/button/gogo_default_button.dart';
 
 class EditProfilePage extends StatefulWidget {

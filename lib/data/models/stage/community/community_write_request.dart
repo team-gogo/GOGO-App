@@ -8,11 +8,13 @@ class CommunityWriteRequest {
   final String title;
   final String content;
   final GameType gameCategory;
+  final String? imageUrl;
 
   CommunityWriteRequest({
     required this.title,
     required this.content,
     required this.gameCategory,
+    this.imageUrl,
   });
 
   factory CommunityWriteRequest.fromJson(Map<String, dynamic> json) =>

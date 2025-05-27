@@ -60,6 +60,9 @@ dependencies:
 
   stream_transform: ^2.1.1 # stream의 concurrency를 도와주는 라이브러리
 
+  image_picker: ^1.1.2 # 이미지 선택 라이브러리
+  http_parser: ^4.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
