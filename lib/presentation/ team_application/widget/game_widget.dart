@@ -6,11 +6,12 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 
 import '../../../data/models/stage/create_stage/game.dart';
 import '../../../data/models/stage/enum_type/game_type.dart';
+import '../../../data/models/stage/search_stage/search_game_response.dart';
 import '../../../design_system/component/tag/gogo_borderless_tag_component.dart';
 import '../../../design_system/theme/icon.dart';
 
 class GameWidget extends StatelessWidget {
-  final Game game;
+  final SearchGameItem game;
   final bool isManger;
 
   const GameWidget({super.key, required this.game, required this.isManger});
@@ -82,7 +83,7 @@ class GameWidget extends StatelessWidget {
               GogoBorderlessTagComponent(
                 spacing: 6,
                 color: GogoColors.main300,
-                text: '${game.teamMaxCapacity}',
+                text: '${game.teamCount}',
                 icon: GogoIcons.person(),
               ),
               GogoBorderlessTagComponent(
@@ -98,7 +99,7 @@ class GameWidget extends StatelessWidget {
             height: 32.h,
           ),
           Text(
-            game.name,
+            game.gameName,
             style:
                 GogoTypography.body1Extrabold.copyWith(color: GogoColors.white),
           ),
