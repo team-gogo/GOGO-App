@@ -347,6 +347,15 @@ class GogoIcons {
       _buildIcon('drawer.svg',
           color: color, width: width, height: height, onTap: onTap);
 
+  static Widget drawerIcon({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('drawer_icon.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
   static Widget dollorCircle({
     Color? color,
     double width = 24,

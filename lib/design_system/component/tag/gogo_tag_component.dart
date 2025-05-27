@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import '../../theme/typography.dart';
 
-enum TagState { basic, isSelected }
-
 class GogoTagComponent extends StatelessWidget {
   final Color color;
   final double borderWidth;
@@ -15,6 +13,7 @@ class GogoTagComponent extends StatelessWidget {
   final TextStyle textStyle;
   final bool tagState;
   final VoidCallback? ontap;
+  final bool isBorder;
 
   const GogoTagComponent({
     super.key,
@@ -27,6 +26,7 @@ class GogoTagComponent extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     this.spacing = 8,
     this.textStyle = GogoTypography.caption1Semibold,
+    this.isBorder = true,
     this.ontap,
   });
 
@@ -40,7 +40,8 @@ class GogoTagComponent extends StatelessWidget {
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     this.spacing = 4,
-    this.textStyle = GogoTypography.caption3Semibold,
+    this.textStyle = GogoTypography.caption2Semibold,
+    this.isBorder = true,
     this.ontap,
   });
 
@@ -51,10 +52,12 @@ class GogoTagComponent extends StatelessWidget {
       child: Container(
         padding: padding,
         decoration: BoxDecoration(
-            border: Border.all(
-              color: color,
-              width: borderWidth,
-            ),
+            border: isBorder
+                ? Border.all(
+                    color: color,
+                    width: borderWidth,
+                  )
+                : null,
             color: tagState ? color : null,
             borderRadius: borderRadius),
         child: Row(
