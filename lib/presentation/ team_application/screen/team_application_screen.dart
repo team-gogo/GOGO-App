@@ -1,6 +1,7 @@
   import 'package:flutter/material.dart';
   import 'package:flutter_bloc/flutter_bloc.dart';
   import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
   import 'package:gogo_app/data/models/stage/create_stage/game.dart';
   import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_game_response.dart';
@@ -49,7 +50,7 @@ import 'package:gogo_app/data/models/stage/search_stage/search_game_response.dar
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 8.0.w, vertical: 8.0.h),
-                      child: GogoTopBar(title: '돌아가기', onBackTap: () {}),
+                      child: GogoTopBar(title: '돌아가기', onBackTap: context.pop),
                     ),
                     Expanded(
                       child: Padding(
