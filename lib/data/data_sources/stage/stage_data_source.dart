@@ -57,8 +57,6 @@ abstract class StageDataSource {
 
   Future<void> createCommunityPost(int stageId, CommunityWriteRequest body);
 
-  Future<String> uploadImage(File image);
-
   Future<SearchBoardResponse> getCommunityPosts(
       int stageId, int page, int size, GameType? gameType, SortType? sortType);
 

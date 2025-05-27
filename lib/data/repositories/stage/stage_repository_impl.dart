@@ -23,7 +23,6 @@ import 'package:gogo_app/data/models/stage/search_stage/search_my_point_response
 import 'package:gogo_app/data/models/stage/search_stage/search_my_team_response.dart';
 import 'package:gogo_app/data/models/stage/community/community_like_response.dart';
 import 'package:gogo_app/data/models/stage/community/community_comment_request.dart';
-import 'dart:io';
 
 import '../../models/stage/community/sort_type.dart';
 import '../../models/stage/enum_type/game_type.dart';
@@ -106,11 +105,6 @@ class StageRepositoryImpl implements StageRepository {
   Future<void> createCommunityPost(
       int stageId, CommunityWriteRequest body) async {
     return await _stageDataSource.createCommunityPost(stageId, body);
-  }
-
-  @override
-  Future<String> uploadImage(File image) async {
-    return await _stageDataSource.uploadImage(image);
   }
 
   @override
