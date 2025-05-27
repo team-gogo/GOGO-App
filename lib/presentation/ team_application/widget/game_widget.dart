@@ -57,17 +57,16 @@ class GameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 344.w,
-      height: 224.h,
+      width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: GogoColors.gray700,
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         children: [
           Row(
-            spacing: 24.w,
+            spacing: 24,
             children: [
               GogoBorderlessTagComponent(
                 spacing: 6,
@@ -96,29 +95,31 @@ class GameWidget extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 32.h,
+            height: 32,
           ),
           Text(
             game.gameName,
             style:
                 GogoTypography.body1Extrabold.copyWith(color: GogoColors.white),
           ),
-          Spacer(),
+          SizedBox(
+            height: 40,
+          ),
           isManger
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 16.w,
+                  spacing: 16,
                   children: [
                     GogoDefaultButton(
                       onTap: () {},
                       text: "신청하기",
-                      width: 148.w,
+                      width: 148,
                     ),
                     GogoDefaultButton(
                       onTap: () {},
                       text: "종료하기",
                       color: GogoColors.error,
-                      width: 148.w,
+                      width: 148,
                     )
                   ],
                 )
