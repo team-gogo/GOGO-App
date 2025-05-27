@@ -9,7 +9,7 @@ class SearchGameResponse {
   final int count;
   final List<SearchGameItem> games;
 
-  SearchGameResponse({
+  const SearchGameResponse({
     required this.count,
     required this.games,
   });
@@ -25,6 +25,8 @@ class SearchGameItem {
   final int gameId;
   final String gameName;
   final int teamCount;
+  final int teamMinCapacity;
+  final int teamMaxCapacity;
   final GameType category;
   final GameSystem system;
 
@@ -32,6 +34,8 @@ class SearchGameItem {
     required this.gameId,
     required this.gameName,
     required this.teamCount,
+    required this.teamMinCapacity,
+    required this.teamMaxCapacity,
     required this.category,
     required this.system,
   });

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/data/models/stage/enum_type/match_round.dart';
 import 'package:gogo_app/data/models/stage/enum_type/system_type.dart';
@@ -9,6 +10,7 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 import '../../../../data/models/common/match_dto.dart';
 import '../../../../data/util/data_time_formatter.dart';
 import '../../../../design_system/component/tag/gogo_borderless_tag_component.dart';
+import '../../../../router.dart';
 
 class MatchCard extends StatelessWidget {
   final MatchDto matchDto;
@@ -142,7 +144,13 @@ class MatchCard extends StatelessWidget {
                 ],
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  context.pushNamed(
+                    PageRouter.matchDetail,
+                    extra: matchDto,
+                    pathParameters: {'matchId': matchDto.matchId.toString()},
+                  );
+                },
                 child: GogoIcons.chevronRight(
                   color: GogoColors.gray500,
                 ),
@@ -158,7 +166,7 @@ class MatchCard extends StatelessWidget {
                 children: [
                   GogoIcons.pointCircle(height: 20, width: 20),
                   Text(
-                    '${matchDto.aTeam.bettingPoint + matchDto.bTeam.bettingPoint}',
+                    '${matchDto.ateam.bettingPoint + matchDto.bteam.bettingPoint}',
                     style: GogoTypography.caption1Semibold.copyWith(
                       color: GogoColors.gray300,
                     ),
@@ -167,7 +175,7 @@ class MatchCard extends StatelessWidget {
               ),
               matchDto.isEnd
                   ? Text(
-                      "${matchDto.result?.victoryTeamId == matchDto.aTeam.teamId ? matchDto.aTeam.teamName : matchDto.bTeam.teamName}팀 승리",
+                      "${matchDto.result?.victoryTeamId == matchDto.ateam.teamId ? matchDto.ateam.teamName : matchDto.bteam.teamName}팀 승리",
                       style: GogoTypography.body1Extrabold
                           .copyWith(color: GogoColors.white),
                     )
@@ -176,11 +184,11 @@ class MatchCard extends StatelessWidget {
                       spacing: 16,
                       children: [
                         Text(
-                          "${matchDto.aTeam.teamName}팀",
+                          "${matchDto.ateam.teamName}팀",
                           style: GogoTypography.body1Extrabold.copyWith(
                               color: matchDto.betting.isBetting &&
                                       matchDto.betting.predictedWinTeamId ==
-                                          matchDto.aTeam.teamId
+                                          matchDto.ateam.teamId
                                   ? GogoColors.main500
                                   : GogoColors.white),
                         ),
@@ -190,11 +198,11 @@ class MatchCard extends StatelessWidget {
                               .copyWith(color: GogoColors.gray500),
                         ),
                         Text(
-                          "${matchDto.bTeam.teamName}팀",
+                          "${matchDto.bteam.teamName}팀",
                           style: GogoTypography.body1Extrabold.copyWith(
                             color: matchDto.betting.isBetting &&
                                     matchDto.betting.predictedWinTeamId ==
-                                        matchDto.bTeam.teamId
+                                        matchDto.bteam.teamId
                                 ? GogoColors.main500
                                 : GogoColors.white,
                           ),

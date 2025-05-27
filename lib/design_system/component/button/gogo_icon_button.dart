@@ -8,6 +8,7 @@ class GogoIconButton extends StatelessWidget {
   final double width;
   final EdgeInsetsGeometry padding;
   final Color color;
+  final Border? border;
   final BorderRadius borderRadius;
   final TextStyle textStyle;
   final Color textColor;
@@ -23,11 +24,31 @@ class GogoIconButton extends StatelessWidget {
       vertical: 12,
     ),
     this.color = GogoColors.main600,
+    this.border,
     this.borderRadius = const BorderRadius.all(
       Radius.circular(12),
     ),
     this.textStyle = GogoTypography.body3Semibold,
     this.textColor = GogoColors.white,
+    required this.icon,
+    this.spacing = 8,
+  });
+
+  GogoIconButton.outlined({
+    super.key,
+    required this.onTap,
+    required this.text,
+    this.width = double.infinity,
+    this.padding = const EdgeInsets.symmetric(
+      vertical: 12,
+    ),
+    this.color = Colors.transparent,
+    this.border,
+    this.borderRadius = const BorderRadius.all(
+      Radius.circular(12),
+    ),
+    this.textStyle = GogoTypography.body3Semibold,
+    this.textColor = GogoColors.main500,
     required this.icon,
     this.spacing = 8,
   });
@@ -41,16 +62,12 @@ class GogoIconButton extends StatelessWidget {
         alignment: Alignment.center,
         width: width,
         decoration: BoxDecoration(
-          color: color,
-          borderRadius: borderRadius,
-        ),
+            color: color, borderRadius: borderRadius, border: border),
         child: Row(
+          spacing: spacing,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             icon,
-            SizedBox(
-              width: spacing,
-            ),
             Text(
               text,
               style: textStyle.copyWith(

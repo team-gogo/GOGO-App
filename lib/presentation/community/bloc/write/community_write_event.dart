@@ -12,6 +12,11 @@ class ContentChanged extends CommunityWriteEvent {
   ContentChanged(this.content);
 }
 
+class ImageChanged extends CommunityWriteEvent {
+  final String? imageUrl;
+  ImageChanged(this.imageUrl);
+}
+
 class PostWrite extends CommunityWriteEvent {
   final String title;
   final String content;

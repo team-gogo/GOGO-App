@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +14,6 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/bloc/detail/community_detail_bloc.dart';
 import 'package:gogo_app/presentation/community/bloc/detail/community_detail_event.dart';
 import 'package:gogo_app/presentation/community/bloc/detail/community_detail_state.dart';
-import 'package:gogo_app/presentation/loadaing_page.dart';
 
 class CommunityDetailScreen extends StatelessWidget {
   final int boardId;
@@ -124,13 +125,21 @@ class CommunityDetailScreen extends StatelessWidget {
                                         color: GogoColors.white,
                                       ),
                                     ),
+                                    SizedBox(height: 4),
                                     Text(
                                       state.response.content,
                                       style: GogoTypography.caption2Semibold.copyWith(
                                         color: GogoColors.gray400,
                                       ),
                                     ),
-                                    Spacer(),
+                                    if (state.response.imageUrl != null)
+                                      Expanded(
+                                        child: Image.file(
+                                          File(state.response.imageUrl!.replaceFirst('file://', '')),
+                                        ),
+                                      ),
+                                    if (state.response.imageUrl == null)
+                                      Spacer(),
                                     SizedBox(height: 12),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -247,7 +256,7 @@ class CommentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isLiked = comment.isLiked ?? false;
+    final bool isLiked = comment.isLiked;
     final int likeCount = comment.likeCount;
 
     void onLikeTap() {

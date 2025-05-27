@@ -3,6 +3,7 @@ import 'package:gogo_app/data/api/stage/stage_api.dart';
 import 'package:gogo_app/data/models/stage/community/sort_type.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/data/models/stage/handle_stage/join_stage_request.dart';
+import 'package:gogo_app/data/models/stage/search_information/search_game_format_response.dart';
 import 'package:gogo_app/data/util/execute_handle_api_call.dart';
 import 'package:gogo_app/data/models/stage/create_stage/api/official_stage_create_request.dart';
 import 'package:gogo_app/data/models/stage/create_stage/api/fast_stage_create_request.dart';
@@ -27,13 +28,16 @@ import 'package:gogo_app/data/models/stage/search_stage/search_my_point_response
 import 'package:gogo_app/data/models/stage/search_stage/search_my_team_response.dart';
 import 'package:gogo_app/data/models/stage/community/community_like_response.dart';
 import 'package:gogo_app/data/models/stage/community/community_comment_request.dart';
+import 'dart:io';
+import 'package:http_parser/http_parser.dart';
 
 import 'stage_data_source.dart';
 
 class StageDataSourceImpl implements StageDataSource {
   final StageApi _stageApi;
+  final Dio _dio;
 
-  StageDataSourceImpl(Dio dio) : _stageApi = StageApi(dio);
+  StageDataSourceImpl(Dio dio) : _stageApi = StageApi(dio), _dio = dio;
 
   @override
   Future<void> createFastStage(FastStageCreateRequest body) async {
@@ -114,6 +118,46 @@ class StageDataSourceImpl implements StageDataSource {
   }
 
   @override
+  Future<String> uploadImage(File image) async {
+    try {
+      // 새로운 Dio 인스턴스 생성
+      final uploadDio = Dio(BaseOptions(
+        baseUrl: _dio.options.baseUrl,
+        headers: _dio.options.headers,
+      ));
+
+      final fileName = image.path.split('/').last;
+      final formData = FormData();
+      formData.files.add(MapEntry(
+        'image',
+        await MultipartFile.fromFile(
+          image.path,
+          filename: fileName,
+        ),
+      ));
+
+      final response = await uploadDio.post(
+        '/stage/image',
+        data: formData,
+        options: Options(
+          contentType: Headers.multipartFormDataContentType,
+          responseType: ResponseType.json,
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return response.data.toString();
+      } else {
+        throw Exception('Failed to upload image: ${response.statusCode} - ${response.data}');
+      }
+    } catch (e, stackTrace) {
+      print('Error uploading image: $e');
+      print('Stack trace: $stackTrace');
+      rethrow;
+    }
+  }
+
+  @override
   Future<SearchBoardResponse> getCommunityPosts(int stageId, int page, int size,
       GameType? gameType, SortType? sortType) async {
     return await executeHandleApiCall(() =>
@@ -169,5 +213,10 @@ class StageDataSourceImpl implements StageDataSource {
   @override
   Future<SearchMatchResponse> getMyMatch(int stageId) async {
     return await executeHandleApiCall(() => _stageApi.getMyMatch(stageId));
+  }
+
+  @override
+  Future<SearchGameFormatResponse> getGameFormat(int gameId) async {
+    return await executeHandleApiCall(() => _stageApi.getGameFormat(gameId));
   }
 }

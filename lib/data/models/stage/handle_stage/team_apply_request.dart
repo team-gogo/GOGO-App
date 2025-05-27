@@ -5,11 +5,11 @@ part 'team_apply_request.g.dart';
 @JsonSerializable()
 class TeamApplyRequest {
   final String teamName;
-  final List<ApplyParticipant> participant;
+  final List<ApplyParticipant> participants;
 
   TeamApplyRequest({
     required this.teamName,
-    required this.participant,
+    required this.participants,
   });
 
   factory TeamApplyRequest.fromJson(Map<String, dynamic> json) =>

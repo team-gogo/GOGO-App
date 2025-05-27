@@ -22,14 +22,14 @@ class GogoStageCardComponent extends StatelessWidget {
 
   const GogoStageCardComponent(
       {super.key,
-        this.color = GogoColors.gray700,
-        this.broadcast = false,
-        required this.stage});
+      this.color = GogoColors.gray700,
+      this.broadcast = false,
+      required this.stage});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: color,
@@ -42,96 +42,119 @@ class GogoStageCardComponent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                spacing: 12,
                 children: [
                   stage.type == StageType.OFFICIAL
                       ? GogoTagComponent.small(
-                    color: GogoColors.white,
-                    text: '공식',
-                    textStyle: GogoTypography.caption3Semibold,
-                    icon: GogoIcons.trophy(
-                      width: 12,
-                      height: 12,
-                      color: GogoColors.white,
-                    ),
-                  )
+                          isBorder: false,
+                          color: GogoColors.white,
+                          text: '공식',
+                          icon: GogoIcons.trophy(
+                            width: 16,
+                            height: 16,
+                            color: GogoColors.white,
+                          ),
+                        )
                       : SizedBox.shrink(),
                   GogoTagComponent.small(
+                    isBorder: false,
                     color: stage.status == StageStatus.RECRUITING
                         ? GogoColors.success
                         : GogoColors.gray500,
                     text: stage.status == StageStatus.RECRUITING
                         ? '모집 중'
                         : '모집 확정',
-                    textStyle: GogoTypography.caption3Semibold,
                     icon: GogoIcons.stage(
-                      width: 12,
-                      height: 12,
+                      width: 16,
+                      height: 16,
                       color: stage.status == StageStatus.RECRUITING
                           ? GogoColors.success
                           : GogoColors.gray500,
                     ),
                   ),
-                  stage.isMaintainer
-                      ? GogoTagComponent.small(
-                    color: GogoColors.main500,
-                    text: '관리자',
+                  GogoTagComponent.small(
+                    isBorder: false,
+                    color: GogoColors.main300,
+                    text: stage.participantCount.toString(),
                     textStyle: GogoTypography.caption3Semibold,
                     icon: GogoIcons.person(
-                      width: 12,
-                      height: 12,
-                      color: GogoColors.main500,
+                      width: 16,
+                      height: 16,
+                      color: GogoColors.main300,
                     ),
-                  )
+                  ),
+                  stage.isMaintainer
+                      ? GogoTagComponent.small(
+                          isBorder: false,
+                          color: GogoColors.main500,
+                          text: '관리자',
+                          textStyle: GogoTypography.caption3Semibold,
+                          icon: GogoIcons.gearWheel(
+                            width: 16,
+                            height: 16,
+                            color: GogoColors.main500,
+                          ),
+                        )
                       : SizedBox.shrink(),
                 ],
               ),
               broadcast
                   ? GogoTagComponent.small(
-                color: GogoColors.error,
-                text: '중계 설정',
-                textStyle: GogoTypography.caption3Semibold,
-                icon: GogoIcons.play(
-                  width: 12,
-                  height: 12,
-                  color: GogoColors.error,
-                ),
-              )
+                      isBorder: false,
+                      color: GogoColors.error,
+                      text: '중계 설정',
+                      textStyle: GogoTypography.caption3Semibold,
+                      icon: GogoIcons.play(
+                        width: 12,
+                        height: 12,
+                        color: GogoColors.error,
+                      ),
+                    )
                   : SizedBox.shrink(),
             ],
           ),
           Text(
             stage.stageName,
             style:
-            GogoTypography.body2Extrabold.copyWith(color: GogoColors.white),
+                GogoTypography.body2Extrabold.copyWith(color: GogoColors.white),
           ),
           stage.isPassCode
               ? GogoIconButton(
-              textStyle: GogoTypography.caption1Semibold,
-              icon: GogoIcons.lock(
-                height: 20.sp,
-                width: 20.sp,
-                color: GogoColors.white,
-              ),
-              onTap: () {
-                context.read<StageBloc>().add(EnterStageEvent(
-                    stageId: stage.stageId, body: JoinStageRequest()));
-              },
-              text: '인증번호로 참여하기')
+                  textStyle: GogoTypography.caption1Semibold,
+                  icon: GogoIcons.lock(
+                    height: 20.sp,
+                    width: 20.sp,
+                    color: GogoColors.white,
+                  ),
+                  onTap: () {
+                    context.read<StageBloc>().add(EnterStageEvent(
+                        stageId: stage.stageId, body: JoinStageRequest()));
+                  },
+                  text: '인증번호로 참여하기')
               : GogoDefaultButton(
-            onTap: () {
-              if (!stage.isParticipating) {
-                context.read<StageBloc>().add(EnterStageEvent(
-                    stageId: stage.stageId, body: JoinStageRequest()));
-              }
-              context.goNamed(
-                PageRouter.home,
-                pathParameters: {'stageId': stage.stageId.toString()},
-              );
-            },
-            text: '참여하기',
-            textStyle: GogoTypography.caption1Semibold,
-          ),
+                  onTap: () {
+                    if (!stage.isParticipating) {
+                      context.read<StageBloc>().add(EnterStageEvent(
+                          stageId: stage.stageId, body: JoinStageRequest()));
+                    }
+                    if (stage.status == StageStatus.RECRUITING) {
+                      context.goNamed(
+                        PageRouter.teamApplication,
+                        queryParameters: {
+                          'stageId': stage.stageId.toString(),
+                          'isMaintainer': stage.isMaintainer.toString()
+                        },
+                      );
+                    }
+                    else {
+                      context.goNamed(
+                        PageRouter.home,
+                        pathParameters: {'stageId': stage.stageId.toString()},
+                      );
+                    }
+                  },
+                  text: '참여하기',
+                  textStyle: GogoTypography.caption1Semibold,
+                ),
         ],
       ),
     );
