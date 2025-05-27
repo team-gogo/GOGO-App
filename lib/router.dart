@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/auth/user_info/user_info_response.dart';
 import 'package:gogo_app/data/models/common/match_dto.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
-import 'package:gogo_app/presentation/%20team_application/screen/team_application_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
@@ -26,7 +25,7 @@ import 'package:gogo_app/presentation/sign_up/screen/sign_up_screen.dart';
 import 'package:gogo_app/presentation/splash/screen/splash_screen.dart';
 import 'package:gogo_app/presentation/stage/screen/stage_screen.dart';
 import 'package:gogo_app/presentation/stage_create/screen/stage_create_screen.dart';
-import 'design_system/theme/color.dart';
+import 'package:gogo_app/presentation/team_application/screen/team_application_screen.dart';
 
 class PageRouter {
   static final PageRouter _pageRouter = PageRouter.init();
@@ -54,6 +53,7 @@ class PageRouter {
   static const String matchDetail = "matchDetail";
   static const String matchTeamInfo = "matchTeamInfo";
   static const String teamApplication = 'teamApplication';
+  static const String createTeam = "createTeam";
 
   static GoRoute _customGoRoute({
     required String name,
@@ -101,8 +101,8 @@ class PageRouter {
             path: '/$teamApplication',
             pageBuilder: (context, state) {
               final stageId = int.parse(state.uri.queryParameters['stageId']!);
-              final isMaintainer = bool.parse(state.uri.queryParameters['isMaintainer']!);
-
+              final isMaintainer =
+                  bool.parse(state.uri.queryParameters['isMaintainer']!);
               return CupertinoPage(
                 child: TeamApplicationScreen(
                   stageId: stageId,
