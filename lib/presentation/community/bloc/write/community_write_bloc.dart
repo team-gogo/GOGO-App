@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/models/stage/community/community_write_request.dart';
-import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 import 'community_write_event.dart';
 import 'community_write_state.dart';
@@ -31,6 +30,11 @@ class CommunityWriteBloc
       emit(state.copyWith(
         content: newContent,
         isValid: state.title.isNotEmpty && newContent.isNotEmpty,
+      ));
+    });
+    on<ImageChanged>((event, emit) {
+      emit(state.copyWith(
+        imageUrl: event.imageUrl,
       ));
     });
     on<PostWrite>((event, emit) async{
