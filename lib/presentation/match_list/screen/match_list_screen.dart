@@ -14,7 +14,17 @@ import '../../home/widgets/match_batting_status_dialog.dart';
 import '../../home/widgets/match_card/match_card_component.dart';
 
 class MatchListScreen extends StatelessWidget {
-  const MatchListScreen({super.key});
+  final int stageId;
+  final int year;
+  final int month;
+  final int day;
+
+  const MatchListScreen(
+      {super.key,
+      required this.stageId,
+      required this.year,
+      required this.month,
+      required this.day});
 
   @override
   Widget build(BuildContext context) {
