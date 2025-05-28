@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gogo_app/data/models/mini_game/betting/coin_toss_request.dart';
 import 'package:gogo_app/data/models/mini_game/betting/plinko_response.dart';
 import 'package:gogo_app/data/models/mini_game/risk_level.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
 import '../../models/mini_game/active_game_response.dart';
+import '../../models/mini_game/bet_limit_response.dart';
 import '../../models/mini_game/betting/coin_toss_response.dart';
 import '../../models/mini_game/betting/yavarwee_request.dart';
 import '../../models/mini_game/ticket_counts_response.dart';
@@ -22,10 +24,10 @@ abstract class MiniGameApi {
     @Body() RiskLevel riskLevel,
   );
 
-  @GET("/minigame/coin-toss/{stage_id}")
+  @POST("/minigame/coin-toss/{stage_id}")
   Future<CoinTossResponse> getCoinTossBetting(
     @Path("stage_id") int stageId,
-    @Body() int amount,
+    @Body() CoinTossRequest body,
   );
 
   @GET("/minigame/yavarwee/{stage_id}")
@@ -39,4 +41,7 @@ abstract class MiniGameApi {
 
   @GET("/minigame/active-game/{stage_id}")
   Future<ActiveGameResponse> getActiveGame(@Path("stage_id") int stageId);
+
+  @GET("/minigame/bet-limit/{stage_id}")
+  Future<BetLimitResponse> getBetLimit(@Path("stage_id") int stageId);
 }

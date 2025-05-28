@@ -13,7 +13,7 @@ import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
 import 'package:gogo_app/presentation/match_detail/screen/match_detail_screen.dart';
 import 'package:gogo_app/presentation/match_list/screen/match_list_screen.dart';
 import 'package:gogo_app/presentation/match_team_info/screens/match_team_screen.dart';
-import 'package:gogo_app/presentation/minigame/screen/coin_toss_screen.dart';
+import 'package:gogo_app/presentation/cointoss/screens/coin_toss_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/minigame_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/yavarwee_screen.dart';
 import 'package:gogo_app/presentation/profile/screen/edit_profile_screen.dart';
@@ -167,7 +167,16 @@ class PageRouter {
                 ],
               ),
               _customGoRoute(name: miniGame, screen: MinigameScreen(), routes: [
-                _customGoRoute(name: coinToss, screen: CoinTossScreen()),
+                GoRoute(
+                  name: coinToss,
+                  path: '$coinToss',
+                  pageBuilder: (context, state) {
+                    final stageId =
+                        int.parse(state.uri.queryParameters['stageId']!);
+                    return CupertinoPage(
+                        child: CoinTossScreen(stageId: stageId));
+                  },
+                ),
                 _customGoRoute(name: yavarwee, screen: YavarweeScreen()),
               ]),
               _customGoRoute(name: matchList, screen: MatchListScreen()),

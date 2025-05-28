@@ -1,3 +1,5 @@
+import 'package:gogo_app/data/models/mini_game/bet_limit_response.dart';
+import 'package:gogo_app/data/models/mini_game/betting/coin_toss_request.dart';
 import '../../models/mini_game/active_game_response.dart';
 import '../../models/mini_game/betting/coin_toss_response.dart';
 import '../../models/mini_game/betting/plinko_response.dart';
@@ -13,7 +15,7 @@ abstract class MiniGameRepository {
 
   Future<CoinTossResponse> getCoinTossBetting(
     int stageId,
-    int amount,
+    CoinTossRequest request,
   );
 
   Future<int> getYavarweeBetting(
@@ -24,4 +26,6 @@ abstract class MiniGameRepository {
   Future<TicketCountsResponse> getTicketCount(int stageId);
 
   Future<ActiveGameResponse> getActiveGame(int stageId);
+
+  Future<BetLimitResponse> getBetLimit(int stageId);
 }

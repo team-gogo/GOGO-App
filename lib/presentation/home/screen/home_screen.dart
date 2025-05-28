@@ -66,12 +66,13 @@ class HomeScreen extends StatelessWidget {
                                   SizedBox(height: 8),
                                   _itemTopBar(
                                       GogoIcons.clock(color: GogoColors.white),
-                                      date: context.read<HomeBloc>().selectedDate,
+                                      date:
+                                          context.read<HomeBloc>().selectedDate,
                                       onTap: () => PageRouter.gogoPushNamed(
                                           PageRouter.matchList, stageId!)),
                                   SingleChildScrollView(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     scrollDirection: Axis.horizontal,
                                     child: Builder(
                                       builder: (context) {
@@ -80,8 +81,9 @@ class HomeScreen extends StatelessWidget {
                                         if (matches.isEmpty) {
                                           return Center(
                                             child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 30),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 30),
                                               child: Stack(
                                                 children: [
                                                   Text(
@@ -103,11 +105,14 @@ class HomeScreen extends StatelessWidget {
                                                     child: Text(
                                                       "오늘\n매치가 없습니다",
                                                       style: TextStyle(
-                                                        fontFamily: 'GmarketSans',
+                                                        fontFamily:
+                                                            'GmarketSans',
                                                         fontSize: 48,
-                                                        color: GogoColors.main600,
+                                                        color:
+                                                            GogoColors.main600,
                                                       ),
-                                                      textAlign: TextAlign.center,
+                                                      textAlign:
+                                                          TextAlign.center,
                                                     ),
                                                   ),
                                                 ],
@@ -121,8 +126,9 @@ class HomeScreen extends StatelessWidget {
                                               (index) {
                                                 final match = matches[index];
                                                 return Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      right: 8),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 8),
                                                   child: MatchCard(
                                                     matchDto: match,
                                                     onBattingClick: () {},
@@ -146,7 +152,9 @@ class HomeScreen extends StatelessWidget {
                                       onTap: () => PageRouter.gogoPushNamed(
                                           PageRouter.miniGame, stageId!)),
                                   MinigamePlayComponent(
-                                    activeGameResponse: state.activeGameResponse,
+                                    activeGameResponse:
+                                        state.activeGameResponse,
+                                    stageId: stageId!,
                                   )
                                 ],
                               ),
@@ -159,8 +167,8 @@ class HomeScreen extends StatelessWidget {
                                       onTap: () => PageRouter.gogoPushNamed(
                                           PageRouter.ranking, stageId!)),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     child: Column(
                                       spacing: 8,
                                       children: List.generate(
@@ -182,19 +190,21 @@ class HomeScreen extends StatelessWidget {
                                 spacing: 16,
                                 children: [
                                   _itemTopBar(
-                                      GogoIcons.community(color: GogoColors.white),
+                                      GogoIcons.community(
+                                          color: GogoColors.white),
                                       text: '커뮤니티',
                                       onTap: () => PageRouter.gogoPushNamed(
                                           PageRouter.community, stageId!)),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     child: Column(
                                       spacing: 8,
                                       children: List.generate(
                                         min(state.communityPosts.length, 5),
                                         (index) {
-                                          final board = state.communityPosts[index];
+                                          final board =
+                                              state.communityPosts[index];
                                           return CommunityItem(
                                             name: '역명',
                                             gameType: board.gameCategory,
@@ -208,7 +218,8 @@ class HomeScreen extends StatelessWidget {
                                                   builder: (context) =>
                                                       CommunityDetailScreen(
                                                           boardId: state
-                                                              .communityPosts[index]
+                                                              .communityPosts[
+                                                                  index]
                                                               .boardId),
                                                 ),
                                               );
@@ -229,14 +240,17 @@ class HomeScreen extends StatelessWidget {
                                       onTap: () => PageRouter.gogoPushNamed(
                                           PageRouter.matchTeamInfo, stageId!)),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 16),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16),
                                     child: Column(
                                       spacing: 8,
                                       children: List.generate(
                                         min(state.gameResponse.count, 5),
                                         (index) => MatchGameItem(
-                                          gameItem: state.gameResponse.games[index],
-                                          onTap: () => PageRouter.router.pushNamed(
+                                          gameItem:
+                                              state.gameResponse.games[index],
+                                          onTap: () =>
+                                              PageRouter.router.pushNamed(
                                             PageRouter.matchTeamInfo,
                                             queryParameters: {
                                               'stageId': stageId.toString(),
