@@ -1,11 +1,12 @@
+import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
+
 abstract class MatchListEvent {}
 
-class GetMatchList extends MatchListEvent {
-  final int page;
-  final int pageSize;
+class LoadItems extends MatchListEvent {
+  final GameType? gameType;
+  final SortOrder? sortOrder;
 
-  GetMatchList({
-    required this.page,
-    required this.pageSize,
-  });
+  LoadItems({this.gameType, this.sortOrder});
 }
+
+enum SortOrder { ascending, descending }
