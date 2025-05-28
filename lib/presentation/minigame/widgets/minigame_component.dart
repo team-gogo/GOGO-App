@@ -10,23 +10,23 @@ class MinigameComponent extends StatelessWidget {
   final int point;
   final int ticketsCount;
   final String action;
+  final TextEditingController controller;
 
   const MinigameComponent({
     this.width = 343,
     required this.point,
     required this.ticketsCount,
     required this.action,
+    required this.controller,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController controller =
-        TextEditingController(); // 삭제 해야할 값
 
     return SizedBox(
       width: width.w,
-      height: 180,
+      height: 180.h,
       child: Column(
         spacing: 20,
         children: [
@@ -81,7 +81,7 @@ class MinigameComponent extends StatelessWidget {
             endIcon: GogoIcons.pointCircle(),
           ),
           Container(
-            width: width.w,
+            width: double.infinity,
             height: 56,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
