@@ -15,10 +15,15 @@ import '../../../design_system/component/tag/gogo_borderless_tag_component.dart'
 import '../../../design_system/theme/icon.dart';
 
 class GameWidget extends StatelessWidget {
+  final int stageId;
   final SearchGameItem game;
   final bool isManger;
 
-  const GameWidget({super.key, required this.game, required this.isManger});
+  const GameWidget(
+      {super.key,
+      required this.game,
+      required this.isManger,
+      required this.stageId});
 
   String _getGameCategoryText(GameType type) {
     switch (type) {
@@ -131,12 +136,11 @@ class GameWidget extends StatelessWidget {
                       width: 148,
                     ),
                     GogoDefaultButton(
-                      onTap: () => context.goNamed(
-                        queryParameters: {
-                          'gameId': game.gameId.toString(),
-                        },
-                        PageRouter.teamConfirmed,
-                      ),
+                      onTap: () => context
+                          .pushNamed(PageRouter.teamConfirmed, queryParameters: {
+                        'stageId': stageId.toString(),
+                        'gameId': game.gameId.toString(),
+                      }),
                       text: "종료하기",
                       color: GogoColors.error,
                       width: 148,
