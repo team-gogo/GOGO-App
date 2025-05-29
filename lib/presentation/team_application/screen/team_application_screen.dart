@@ -94,6 +94,7 @@ class TeamApplicationScreen extends StatelessWidget {
                                     List.generate(matches.length, (index) {
                                   final SearchGameItem game = matches[index];
                                   return GameWidget(
+                                    stageId: stageId,
                                     game: game,
                                     isManger: isManger,
                                   );
