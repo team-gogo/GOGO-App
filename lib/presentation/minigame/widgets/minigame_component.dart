@@ -11,6 +11,9 @@ class MinigameComponent extends StatelessWidget {
   final int ticketsCount;
   final String action;
   final TextEditingController controller;
+  final VoidCallback? onActionTap;
+  final bool verify;
+  final bool enabled;
 
   const MinigameComponent({
     this.width = 343,
@@ -18,6 +21,9 @@ class MinigameComponent extends StatelessWidget {
     required this.ticketsCount,
     required this.action,
     required this.controller,
+    this.onActionTap,
+    this.verify = false,
+    this.enabled = true,
     super.key,
   });
 
@@ -79,19 +85,20 @@ class MinigameComponent extends StatelessWidget {
             backgroundColor: GogoColors.gray700,
             keyboardType: TextInputType.number,
             endIcon: GogoIcons.pointCircle(),
+            isAction: enabled,
           ),
           Container(
             width: double.infinity,
             height: 56,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: GogoColors.gray400,
+              color: verify ? GogoColors.main600 : GogoColors.gray400,
             ),
             child: TextButton(
               style: TextButton.styleFrom(
                 minimumSize: Size.zero,
               ),
-              onPressed: () {},
+              onPressed: onActionTap,
               child: Text(
                 action,
                 style: GogoTypography.body3Semibold.copyWith(
