@@ -196,6 +196,11 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
   
   void _finishShuffle(ShellGameBloc bloc, List<int> currentOrder, BuildContext context) {
     final finalBallPosition = currentOrder.indexOf(0);
+    
+    // 테스트용 로그 출력
+    print('🏐 공 최종 위치: ${finalBallPosition + 1}번 컵 (인덱스: $finalBallPosition)');
+    print('📋 최종 컵 순서: $currentOrder');
+    
     bloc.add(EndShuffle(ballPosition: finalBallPosition));
     bloc.add(StartTimer());
     _startCountdown(context);
@@ -224,9 +229,20 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
   void _handleWin(BuildContext context, int betAmount, int round) {
     final earnedPoints = _GameLogic.calculateEarnedPoints(betAmount, round);
     
-    context.read<ShellGameBloc>().add(ShowSuccessModal(
-      earnedPoints: earnedPoints,
+    // 먼저 결과 알림 표시
+    context.read<ShellGameBloc>().add(NextRound(
+      isWin: true,
+      earnedScore: earnedPoints,
     ));
+    
+    // 2초 후에 성공 모달 표시
+    Future.delayed(Duration(seconds: 2), () {
+      if (context.mounted) {
+        context.read<ShellGameBloc>().add(ShowSuccessModal(
+          earnedPoints: earnedPoints,
+        ));
+      }
+    });
     
     if (_GameLogic.shouldResetBetAmount(round)) {
       _initialBetAmount = null;
@@ -371,8 +387,9 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
                                       },
                                       child: _CupWidget(
                                         isSelected: state.cupOrder.indexOf(index) == state.playSelect,
-                                        isOpen: // 섞기 전까지는 무조건 1번 컵 열림
-                                               (index == 0 && !state.isShuffling && state is! ShellgameReady) ||
+                                        isOpen: // 게임 시작 시 1번 컵 열어서 공 위치 보여주기
+                                               (state is ShellgameInitial && index == 0) ||
+                                               (state is ShellgameRound && state.playSelect == -1 && index == 0) ||
                                                // 선택 후에는 공이 있는 컵만 열림  
                                                (state is ShellgameReady && state.playSelect != -1 && state.ballPosition == state.cupOrder.indexOf(index)),
                                         hasBall: state.ballPosition == state.cupOrder.indexOf(index),
@@ -421,7 +438,7 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
                       ],
                     ),
                     // 상단 알림 오버레이
-                    if (state.resultMessage != null && state.earnedPoints != null && state is! ShellgameSuccess)
+                    if (state.resultMessage != null && state.earnedPoints != null)
                       Positioned(
                         top: 60,
                         left: 0,
