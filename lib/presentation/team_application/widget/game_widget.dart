@@ -131,7 +131,12 @@ class GameWidget extends StatelessWidget {
                       width: 148,
                     ),
                     GogoDefaultButton(
-                      onTap: () {},
+                      onTap: () => context.goNamed(
+                        queryParameters: {
+                          'gameId': game.gameId.toString(),
+                        },
+                        PageRouter.teamConfirmed,
+                      ),
                       text: "종료하기",
                       color: GogoColors.error,
                       width: 148,
