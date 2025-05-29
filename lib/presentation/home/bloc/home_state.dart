@@ -14,6 +14,7 @@ class LoadingMatchHomeState extends HomeState {}
 class LoadingHomeState extends HomeState {}
 
 class LoadedHomeState extends HomeState {
+  bool isBankruptcy = false;
   List<Board> communityPosts = [];
   List<Rank> ranking = [];
   SearchMyPointResponse points = SearchMyPointResponse(point: 0);
@@ -22,6 +23,7 @@ class LoadedHomeState extends HomeState {
   SearchGameResponse gameResponse;
 
   LoadedHomeState({
+    this.isBankruptcy = false,
     required this.communityPosts,
     required this.ranking,
     required this.points,

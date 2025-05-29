@@ -27,6 +27,7 @@ import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'dart:io';
 
 import '../../models/stage/search_information/search_game_format_response.dart';
+import '../../models/stage/search_stage/search_wasted_me_response.dart';
 
 abstract class StageDataSource {
   Future<void> createFastStage(FastStageCreateRequest body);
@@ -80,4 +81,6 @@ abstract class StageDataSource {
   Future<SearchMatchResponse> getMyMatch(int stageId);
 
   Future<SearchGameFormatResponse> getGameFormat(int gameId);
+
+  Future<SearchWastedMeResponse> getWastedMe(int stageId);
 }

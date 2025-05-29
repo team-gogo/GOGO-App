@@ -7,3 +7,9 @@ class LoadMatchesByDate extends HomeEvent {
 
   LoadMatchesByDate(this.selectedDate);
 }
+
+class CheckBankruptcy extends HomeEvent {
+  final bool isBankruptcy;
+
+  CheckBankruptcy( this.isBankruptcy);
+}
