@@ -30,17 +30,15 @@ class MatchTeamItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              flex: 2,
-              child: Text(
-                team.teamName,
-                style: GogoTypography.caption3Semibold
-                    .copyWith(color: GogoColors.white),
-              ),
+            Text(
+              team.teamName,
+              style: GogoTypography.caption3Semibold
+                  .copyWith(color: GogoColors.white),
             ),
-            Expanded(
-                flex: 1,
-                child: Row(
+            Row(
+              spacing: 10,
+              children: [
+                Row(
                   spacing: 8,
                   children: [
                     GogoIcons.trophy(color: GogoColors.white),
@@ -50,10 +48,8 @@ class MatchTeamItem extends StatelessWidget {
                           .copyWith(color: GogoColors.white),
                     )
                   ],
-                )),
-            Expanded(
-                flex: 1,
-                child: Row(
+                ),
+                Row(
                   spacing: 8,
                   children: [
                     GogoIcons.person(color: GogoColors.main300),
@@ -63,10 +59,8 @@ class MatchTeamItem extends StatelessWidget {
                           .copyWith(color: GogoColors.main300),
                     )
                   ],
-                )),
-            Expanded(
-                flex: 1,
-                child: Row(
+                ),
+                Row(
                   spacing: 8,
                   children: [
                     Text('자세히보기',
@@ -75,7 +69,9 @@ class MatchTeamItem extends StatelessWidget {
                     GogoIcons.chevronRight(
                         color: GogoColors.gray300, width: 20, height: 20)
                   ],
-                )),
+                ),
+              ],
+            ),
           ],
         ),
       ),

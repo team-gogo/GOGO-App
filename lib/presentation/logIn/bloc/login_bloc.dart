@@ -53,7 +53,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         case Authority.UNAUTHENTICATED:
           emit(UnauthorizedGogoLoginSuccess());
           break;
-        case Authority.USER:
+        case Authority.USER || Authority.STAFF:
           emit(UserGogoLoginSuccess());
           break;
         default:

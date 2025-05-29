@@ -26,6 +26,7 @@ import 'package:gogo_app/presentation/splash/screen/splash_screen.dart';
 import 'package:gogo_app/presentation/stage/screen/stage_screen.dart';
 import 'package:gogo_app/presentation/stage_create/screen/stage_create_screen.dart';
 import 'package:gogo_app/presentation/team_application/screen/team_application_screen.dart';
+import 'package:gogo_app/presentation/team_confirmed/screen/team_confirmed_screen.dart';
 
 class PageRouter {
   static final PageRouter _pageRouter = PageRouter.init();
@@ -54,6 +55,7 @@ class PageRouter {
   static const String matchTeamInfo = "matchTeamInfo";
   static const String teamApplication = 'teamApplication';
   static const String createTeam = "createTeam";
+  static const String teamConfirmed = "teamConfirmed";
 
   static GoRoute _customGoRoute({
     required String name,
@@ -97,20 +99,37 @@ class PageRouter {
         screen: StageScreen(),
         routes: [
           GoRoute(
-            name: teamApplication,
-            path: '/$teamApplication',
+            name: teamConfirmed,
+            path: '$teamConfirmed',
             pageBuilder: (context, state) {
-              final stageId = int.parse(state.uri.queryParameters['stageId']!);
-              final isMaintainer =
-                  bool.parse(state.uri.queryParameters['isMaintainer']!);
+              final stageId =
+              int.parse(state.uri.queryParameters['stageId']!);
+              final gameId =
+              int.parse(state.uri.queryParameters['gameId']!);
               return CupertinoPage(
-                child: TeamApplicationScreen(
+                child: TeamConfirmedScreen(
                   stageId: stageId,
-                  isManger: isMaintainer,
+                  gameId: gameId,
                 ),
               );
             },
           ),
+          GoRoute(
+              name: teamApplication,
+              path: '/$teamApplication',
+              pageBuilder: (context, state) {
+                final stageId =
+                    int.parse(state.uri.queryParameters['stageId']!);
+                final isMaintainer =
+                    bool.parse(state.uri.queryParameters['isMaintainer']!);
+                return CupertinoPage(
+                  child: TeamApplicationScreen(
+                    stageId: stageId,
+                    isManger: isMaintainer,
+                  ),
+                );
+              },
+              ),
           GoRoute(
             name: home,
             path: "/$home",

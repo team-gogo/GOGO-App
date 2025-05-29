@@ -18,15 +18,14 @@ class MatchStateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 56.h,
-      width: 278.w,
+      margin: EdgeInsets.symmetric(horizontal: 48),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: GogoColors.gray700,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           matchDto.isNotice
               ? GogoIcons.enabledBell(color: GogoColors.main500)
@@ -47,13 +46,13 @@ class MatchStateWidget extends StatelessWidget {
                 icon: matchDto.round == MatchRound.FINALS
                     ? GogoIcons.flame(
                         color: GogoColors.white,
-                        width: 16.sp,
-                        height: 16.sp,
+                        width: 16,
+                        height: 16,
                       )
                     : GogoIcons.trophy(
                         color: GogoColors.white,
-                        width: 16.sp,
-                        height: 16.sp,
+                        width: 16,
+                        height: 16,
                       ),
               ),
             System.FULL_LEAGUE => GogoBorderlessTagComponent(
@@ -61,8 +60,8 @@ class MatchStateWidget extends StatelessWidget {
                 text: "리그전",
                 icon: GogoIcons.trophy(
                   color: GogoColors.white,
-                  width: 12.sp,
-                  height: 12.sp,
+                  width: 12,
+                  height: 12,
                 ),
               ),
             System.SINGLE => GogoBorderlessTagComponent(
@@ -70,8 +69,8 @@ class MatchStateWidget extends StatelessWidget {
                 text: "단판",
                 icon: GogoIcons.trophy(
                   color: GogoColors.white,
-                  width: 12.sp,
-                  height: 12.sp,
+                  width: 12,
+                  height: 12,
                 ),
               ),
           },
@@ -82,8 +81,8 @@ class MatchStateWidget extends StatelessWidget {
                 : formatDateTimeToHourMinute(matchDto.startDate),
             icon: GogoIcons.alarm(
               color: GogoColors.success,
-              width: 12.sp,
-              height: 12.sp,
+              width: 12,
+              height: 12,
             ),
           ),
           GogoBorderlessTagComponent(
@@ -100,33 +99,30 @@ class MatchStateWidget extends StatelessWidget {
             },
             icon: switch (matchDto.category) {
               GameType.SOCCER => GogoIcons.football(
-                  width: 16.sp,
-                  height: 16.sp,
+                  width: 16,
+                  height: 16,
                 ),
               GameType.BASKET_BALL => GogoIcons.basketball(
-                  width: 16.sp,
-                  height: 16.sp,
+                  width: 16,
+                  height: 16,
                 ),
               GameType.BASE_BALL => GogoIcons.baseball(
-                  width: 16.sp,
-                  height: 16.sp,
+                  width: 16,
+                  height: 16,
                 ),
               GameType.VOLLEY_BALL => GogoIcons.volleyball(
-                  width: 16.sp,
-                  height: 16.sp,
+                  width: 16,
+                  height: 16,
                 ),
               GameType.BADMINTON => GogoIcons.badminton(
-                  width: 16.sp,
-                  height: 16.sp,
+                  width: 16,
+                  height: 16,
                 ),
               GameType.LOL => GogoIcons.onlineGame(
-                  width: 16.sp,
-                  height: 16.sp,
+                  width: 16,
+                  height: 16,
                 ),
-              GameType.ETC => GogoIcons.volleyball(
-                  width: 16.sp,
-                  height: 16.sp,
-                ),
+              GameType.ETC => GogoIcons.volleyball(width: 16, height: 16),
             },
           )
         ],

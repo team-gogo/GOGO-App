@@ -19,6 +19,7 @@ class StageBloc extends Bloc<StageEvent, StageState> {
       SearchStageResponse stage = await _stageRepository.getAllStages();
       emit(StageLoaded(stage: stage));
     } catch (e) {
+      print(e);
       emit(StageError(message: e.toString()));
     }
   }
@@ -28,8 +29,8 @@ class StageBloc extends Bloc<StageEvent, StageState> {
     try {
       await _stageRepository.joinStage(event.stageId, event.body);
     } catch (e) {
+      print(e);
       emit(StageError(message: e.toString()));
     }
   }
-
 }

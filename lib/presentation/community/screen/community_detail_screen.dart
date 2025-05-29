@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/data/models/stage/community/search_write_detail_response.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
@@ -24,13 +25,20 @@ class CommunityDetailScreen extends StatelessWidget {
   });
 
   Map<GameType, Widget> gameTypeIcons = {
-    GameType.SOCCER: GogoIcons.football(color: GogoColors.main500, height: 16, width: 16),
-    GameType.BASKET_BALL: GogoIcons.basketball(color: GogoColors.main500, height: 16, width: 16),
-    GameType.BASE_BALL: GogoIcons.baseball(color: GogoColors.main500, height: 16, width: 16),
-    GameType.VOLLEY_BALL: GogoIcons.volleyball(color: GogoColors.main500, height: 16, width: 16),
-    GameType.BADMINTON: GogoIcons.badminton(color: GogoColors.main500, height: 16, width: 16),
-    GameType.LOL: GogoIcons.eSports(color: GogoColors.main500, height: 16, width: 16),
-    GameType.ETC: GogoIcons.etc(color: GogoColors.main500, height: 16, width: 16),
+    GameType.SOCCER:
+        GogoIcons.football(color: GogoColors.main500, height: 16, width: 16),
+    GameType.BASKET_BALL:
+        GogoIcons.basketball(color: GogoColors.main500, height: 16, width: 16),
+    GameType.BASE_BALL:
+        GogoIcons.baseball(color: GogoColors.main500, height: 16, width: 16),
+    GameType.VOLLEY_BALL:
+        GogoIcons.volleyball(color: GogoColors.main500, height: 16, width: 16),
+    GameType.BADMINTON:
+        GogoIcons.badminton(color: GogoColors.main500, height: 16, width: 16),
+    GameType.LOL:
+        GogoIcons.eSports(color: GogoColors.main500, height: 16, width: 16),
+    GameType.ETC:
+        GogoIcons.etc(color: GogoColors.main500, height: 16, width: 16),
   };
 
   Map<GameType, String> gameTypeTexts = {
@@ -48,8 +56,8 @@ class CommunityDetailScreen extends StatelessWidget {
     final TextEditingController controller = TextEditingController();
 
     return BlocProvider<CommunityDetailBloc>(
-      create: (BuildContext context) =>
-          CommunityDetailBloc(boardId: boardId)..add(FetchCommunityDetailEvent()),
+      create: (BuildContext context) => CommunityDetailBloc(boardId: boardId)
+        ..add(FetchCommunityDetailEvent()),
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: SafeArea(
@@ -81,7 +89,6 @@ class CommunityDetailScreen extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.all(16),
                                 width: double.infinity,
-                                height: 210.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   color: GogoColors.gray700,
@@ -93,24 +100,31 @@ class CommunityDetailScreen extends StatelessWidget {
                                       children: [
                                         GogoTagComponent(
                                           color: GogoColors.main500,
-                                          text: gameTypeTexts[state.response.stage.category]!,
-                                          icon: gameTypeIcons[state.response.stage.category],
+                                          text: gameTypeTexts[
+                                              state.response.stage.category]!,
+                                          icon: gameTypeIcons[
+                                              state.response.stage.category],
                                         ),
                                         SizedBox(width: 12),
                                         Text(
                                           state.response.stage.name,
-                                          style: GogoTypography.caption2Extrabold.copyWith(
+                                          style: GogoTypography
+                                              .caption2Extrabold
+                                              .copyWith(
                                             color: GogoColors.gray300,
                                           ),
                                         ),
                                         SizedBox(width: 12),
                                         Row(
                                           children: [
-                                            GogoIcons.person(color: GogoColors.gray300),
+                                            GogoIcons.person(
+                                                color: GogoColors.gray300),
                                             SizedBox(width: 4),
                                             Text(
                                               "익명",
-                                              style: GogoTypography.caption2Semibold.copyWith(
+                                              style: GogoTypography
+                                                  .caption2Semibold
+                                                  .copyWith(
                                                 color: GogoColors.gray300,
                                               ),
                                             ),
@@ -121,65 +135,102 @@ class CommunityDetailScreen extends StatelessWidget {
                                     SizedBox(height: 18),
                                     Text(
                                       state.response.title,
-                                      style: GogoTypography.caption1Extrabold.copyWith(
+                                      style: GogoTypography.caption1Extrabold
+                                          .copyWith(
                                         color: GogoColors.white,
                                       ),
                                     ),
                                     SizedBox(height: 4),
                                     Text(
                                       state.response.content,
-                                      style: GogoTypography.caption2Semibold.copyWith(
+                                      style: GogoTypography.caption2Semibold
+                                          .copyWith(
                                         color: GogoColors.gray400,
                                       ),
                                     ),
                                     if (state.response.imageUrl != null)
-                                      Expanded(
-                                        child: Image.file(
-                                          File(state.response.imageUrl!.replaceFirst('file://', '')),
-                                        ),
+                                      Image.network(
+                                        "${(dotenv.env['BASE_URL'] ?? '')}${state.response.imageUrl!}",
+                                        height: 100,
+                                        errorBuilder: (context, _, __) {
+                                          return SizedBox(
+                                            height: 100,
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                '이미지를 불러오지 못했습니다',
+                                                style: GogoTypography
+                                                    .body3Semibold
+                                                    .copyWith(
+                                                        color:
+                                                            GogoColors.error),
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     if (state.response.imageUrl == null)
                                       Spacer(),
                                     SizedBox(height: 12),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
-                                            GogoIcons.speechBubble(color: GogoColors.gray300),
+                                            GogoIcons.speechBubble(
+                                                color: GogoColors.gray300),
                                             SizedBox(width: 4),
                                             Text(
-                                              state.response.commentCount.toString(),
-                                              style: GogoTypography.caption2Semibold.copyWith(
+                                              state.response.commentCount
+                                                  .toString(),
+                                              style: GogoTypography
+                                                  .caption2Semibold
+                                                  .copyWith(
                                                 color: GogoColors.gray300,
                                               ),
                                             ),
                                             SizedBox(width: 8),
-                                            state.response.isLiked ?
-                                            GogoIcons.heartFilled(
-                                              onTap: () {
-                                                context.read<CommunityDetailBloc>().add(CommunityPostLiked());
-                                              },
-                                              color: Colors.red,
-                                            ) :
-                                            GogoIcons.heartOutlined(
-                                              onTap: () {
-                                                context.read<CommunityDetailBloc>().add(CommunityPostLiked());
-                                              },
-                                              color:GogoColors.gray300,
-                                            ),
+                                            state.response.isLiked
+                                                ? GogoIcons.heartFilled(
+                                                    onTap: () {
+                                                      context
+                                                          .read<
+                                                              CommunityDetailBloc>()
+                                                          .add(
+                                                              CommunityPostLiked());
+                                                    },
+                                                    color: Colors.red,
+                                                  )
+                                                : GogoIcons.heartOutlined(
+                                                    onTap: () {
+                                                      context
+                                                          .read<
+                                                              CommunityDetailBloc>()
+                                                          .add(
+                                                              CommunityPostLiked());
+                                                    },
+                                                    color: GogoColors.gray300,
+                                                  ),
                                             SizedBox(width: 4),
                                             Text(
-                                              state.response.likeCount.toString(),
-                                              style: GogoTypography.caption2Semibold.copyWith(
+                                              state.response.likeCount
+                                                  .toString(),
+                                              style: GogoTypography
+                                                  .caption2Semibold
+                                                  .copyWith(
                                                 color: GogoColors.gray300,
                                               ),
                                             ),
                                           ],
                                         ),
                                         Text(
-                                          DateTime.parse(state.response.createdAt).toIso8601String().substring(0, 10),
-                                          style: GogoTypography.caption2Semibold.copyWith(
+                                          DateTime.parse(
+                                                  state.response.createdAt)
+                                              .toIso8601String()
+                                              .substring(0, 10),
+                                          style: GogoTypography.caption2Semibold
+                                              .copyWith(
                                             color: GogoColors.gray500,
                                           ),
                                         ),
@@ -204,7 +255,8 @@ class CommunityDetailScreen extends StatelessWidget {
                                   final comment = state.response.comment[index];
                                   return CommentList(comment: comment);
                                 },
-                                separatorBuilder: (BuildContext context, int index) {
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
                                   return SizedBox(height: 12);
                                 },
                               ),
@@ -213,7 +265,8 @@ class CommunityDetailScreen extends StatelessWidget {
 
                         case CommunityDetailErrorState _:
                           return Center(
-                            child: Text(state.message, style: TextStyle(color: Colors.white)),
+                            child: Text(state.message,
+                                style: TextStyle(color: Colors.white)),
                           );
 
                         default:
@@ -224,29 +277,30 @@ class CommunityDetailScreen extends StatelessWidget {
                 ),
               ),
               BlocBuilder<CommunityDetailBloc, CommunityDetailState>(
-                builder: (context,state) {
+                  builder: (context, state) {
                 return GogoTextField(
                   keyboardType: TextInputType.multiline,
                   controller: controller,
                   hintText: '댓글을 입력해주세요',
                   endIcon: GogoIcons.send(
-                  color: GogoColors.gray400,
-                  onTap: () {
-                    if (controller.value.text.isNotEmpty) {
-                      context.read<CommunityDetailBloc>().add(CommunityWriteComment(content: controller.value.text));
-                      controller.clear();
-                    }
-                  },
-                ),
-              );
-                }
-            ),
-          ],
+                    color: GogoColors.gray400,
+                    onTap: () {
+                      if (controller.value.text.isNotEmpty) {
+                        context.read<CommunityDetailBloc>().add(
+                            CommunityWriteComment(
+                                content: controller.value.text));
+                        controller.clear();
+                      }
+                    },
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
 
 class CommentList extends StatelessWidget {
@@ -260,9 +314,9 @@ class CommentList extends StatelessWidget {
     final int likeCount = comment.likeCount;
 
     void onLikeTap() {
-      context.read<CommunityDetailBloc>().add(
-        CommunityCommentLiked(commentId: comment.commentId)
-      );
+      context
+          .read<CommunityDetailBloc>()
+          .add(CommunityCommentLiked(commentId: comment.commentId));
     }
 
     return Container(
