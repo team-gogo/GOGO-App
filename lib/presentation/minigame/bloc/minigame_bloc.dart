@@ -4,7 +4,7 @@ import 'package:gogo_app/presentation/minigame/bloc/minigame_state.dart';
 
 class MinigameDescriptionBloc
     extends Bloc<MinigameDescriptionEvent, MinigameDescriptionState> {
-  MinigameDescriptionBloc() : super(MinigameDescriptionInitial()) {
+  MinigameDescriptionBloc({required int stageId}) : super(MinigameDescriptionInitial()) {
     on<ChangeCategory>(_onUpdateGameCategory);
   }
 
