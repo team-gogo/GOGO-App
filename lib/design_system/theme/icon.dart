@@ -716,4 +716,22 @@ class GogoIcons {
   }) =>
       _buildIcon('volleyball_full_map.svg',
           color: color, width: width, height: height, onTap: onTap);
+
+  static Widget shellgameCupClose({
+    Color? color,
+    double width = 280,
+    double height = 284,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('shellgame_cup_close.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget shellgameCupOpen({
+    Color? color,
+    double width = 280,
+    double height = 284,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('shellgame_cup_open.svg',
+          color: color, width: width, height: height, onTap: onTap);
 }
