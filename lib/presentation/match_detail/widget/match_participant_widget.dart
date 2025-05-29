@@ -27,7 +27,7 @@ class MatchParticipantWidget extends StatelessWidget {
       right: redOrBlue == TeamColor.red ? x : null,
       top: y,
       child: MatchParticipantItem(
-        redOrBlue: TeamColor.red,
+        redOrBlue: redOrBlue,
         name: name,
       ),
     );

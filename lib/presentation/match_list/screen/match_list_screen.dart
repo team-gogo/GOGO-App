@@ -38,60 +38,62 @@ class MatchListScreen extends StatelessWidget {
           sortOrder: SortOrder.descending,
         )),
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          child: Column(
-            children: [
-              GogoTopBar(title: "매치 목록", onBackTap: () => context.pop()),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GogoTagComponent(
-                      color: GogoColors.main500,
-                      text: "필터",
-                      icon: GogoIcons.filter(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Column(
+              children: [
+                GogoTopBar(title: "매치 목록", onBackTap: () => context.pop()),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GogoTagComponent(
                         color: GogoColors.main500,
-                        width: 16,
-                        height: 16,
+                        text: "필터",
+                        icon: GogoIcons.filter(
+                          color: GogoColors.main500,
+                          width: 16,
+                          height: 16,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 25),
-              Expanded(
-                child: BlocBuilder<MatchListBloc, MatchListState>(
-                  builder: (context, state) {
-                    if (state is LoadingMatchList) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (state is LoadedMatchList) {
-                      if (state.matchList.isEmpty) {
-                        return const Center(child: Text("매치가 없습니다"));
+                const SizedBox(height: 25),
+                Expanded(
+                  child: BlocBuilder<MatchListBloc, MatchListState>(
+                    builder: (context, state) {
+                      if (state is LoadingMatchList) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (state is LoadedMatchList) {
+                        if (state.matchList.isEmpty) {
+                          return const Center(child: Text("매치가 없습니다"));
+                        }
+                        return ListView.separated(
+                          itemCount: state.matchList.length,
+                          separatorBuilder: (_, __) => const SizedBox(height: 12),
+                          itemBuilder: (context, index) {
+                            final matchDto = state.matchList[index];
+                            return MatchCard(
+                              matchDto: matchDto,
+                              width: double.infinity,
+                              onBattingClick: () {
+                                showDialogMatchBatting(context, matchDto);
+                              },
+                            );
+                          },
+                        );
+                      } else {
+                        return const SizedBox();
                       }
-                      return ListView.separated(
-                        itemCount: state.matchList.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 12),
-                        itemBuilder: (context, index) {
-                          final matchDto = state.matchList[index];
-                          return MatchCard(
-                            matchDto: matchDto,
-                            width: double.infinity,
-                            onBattingClick: () {
-                              showDialogMatchBatting(context, matchDto);
-                            },
-                          );
-                        },
-                      );
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

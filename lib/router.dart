@@ -102,10 +102,8 @@ class PageRouter {
             name: teamConfirmed,
             path: '$teamConfirmed',
             pageBuilder: (context, state) {
-              final stageId =
-              int.parse(state.uri.queryParameters['stageId']!);
-              final gameId =
-              int.parse(state.uri.queryParameters['gameId']!);
+              final stageId = int.parse(state.uri.queryParameters['stageId']!);
+              final gameId = int.parse(state.uri.queryParameters['gameId']!);
               return CupertinoPage(
                 child: TeamConfirmedScreen(
                   stageId: stageId,
@@ -115,21 +113,20 @@ class PageRouter {
             },
           ),
           GoRoute(
-              name: teamApplication,
-              path: '/$teamApplication',
-              pageBuilder: (context, state) {
-                final stageId =
-                    int.parse(state.uri.queryParameters['stageId']!);
-                final isMaintainer =
-                    bool.parse(state.uri.queryParameters['isMaintainer']!);
-                return CupertinoPage(
-                  child: TeamApplicationScreen(
-                    stageId: stageId,
-                    isManger: isMaintainer,
-                  ),
-                );
-              },
-              ),
+            name: teamApplication,
+            path: '/$teamApplication',
+            pageBuilder: (context, state) {
+              final stageId = int.parse(state.uri.queryParameters['stageId']!);
+              final isMaintainer =
+                  bool.parse(state.uri.queryParameters['isMaintainer']!);
+              return CupertinoPage(
+                child: TeamApplicationScreen(
+                  stageId: stageId,
+                  isManger: isMaintainer,
+                ),
+              );
+            },
+          ),
           GoRoute(
             name: home,
             path: "/$home",
@@ -230,12 +227,7 @@ class PageRouter {
             pageBuilder: (context, state) {
               final matchId = int.parse(state.pathParameters['matchId']!);
               final MatchDto matchDto = state.extra as MatchDto;
-              return CustomTransitionPage(
-                transitionDuration: Duration(milliseconds: 300),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
+              return CupertinoPage(
                 child: MatchDetailScreen(
                   matchDto: matchDto,
                   matchId: matchId,
