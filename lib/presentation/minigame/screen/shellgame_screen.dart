@@ -10,6 +10,79 @@ import 'package:gogo_app/presentation/minigame/widgets/minigame_component.dart';
 import 'dart:math' as math;
 import 'dart:async';
 
+// 게임 관련 상수들
+class _GameConstants {
+  static const int maxRounds = 5;
+  static const int shuffleMoves = 15;
+  static const int timerDuration = 10;
+  static const int resultDisplayDuration = 3;
+  
+  // 컵 관련 상수
+  static const int cupCount = 3;
+  static const double cupWidth = 70.0;
+  static const double cupSpacing = 95.0;
+  static const double cupStartPosition = 10.0;
+  
+  // 애니메이션 상수
+  static const int shuffleAnimationDuration = 250;
+  static const int normalAnimationDuration = 400;
+}
+
+// 라운드별 설정
+class _RoundConfig {
+  static const Map<int, int> shuffleSpeeds = {
+    1: 500,
+    2: 400,
+    3: 350,
+    4: 300,
+    5: 200,
+  };
+  
+  static const Map<int, double> multipliers = {
+    1: 1.1,
+    2: 1.2,
+    3: 1.5,
+    4: 2.5,
+    5: 5.0,
+  };
+  
+  static int getShuffleSpeed(int round) => shuffleSpeeds[round] ?? 500;
+  static double getMultiplier(int round) => multipliers[round] ?? 1.1;
+}
+
+// 게임 로직 관리 클래스
+class _GameLogic {
+  static bool canStartGame(ShellgameState state, String betText, int userPoint, int ticketsCount) {
+    if (state.isShuffling || ticketsCount <= 0) return false;
+    if (state is ShellgameRound) return true;
+    
+    final betAmount = int.tryParse(betText);
+    return betAmount != null && betAmount > 0 && betAmount <= userPoint;
+  }
+  
+  static String? getValidationError(ShellgameState state, String betText, int userPoint, int ticketsCount) {
+    if (state.isShuffling) return '섞는 중입니다';
+    if (ticketsCount <= 0) return '티켓이 부족합니다';
+    if (betText.isEmpty) return '베팅 금액을 입력하세요';
+    
+    final betAmount = int.tryParse(betText);
+    if (betAmount == null) return '올바른 숫자를 입력하세요';
+    if (betAmount <= 0) return '0보다 큰 금액을 입력하세요';
+    if (betAmount > userPoint) return '보유 포인트를 초과했습니다';
+    
+    return null;
+  }
+  
+  static int calculateEarnedPoints(int betAmount, int round) {
+    final multiplier = _RoundConfig.getMultiplier(round);
+    return (betAmount * multiplier).round();
+  }
+  
+  static bool shouldResetBetAmount(int round) {
+    return round >= _GameConstants.maxRounds;
+  }
+}
+
 class ShellgameScreen extends StatelessWidget {
   final int point;
   final int ticketsCount;
@@ -56,90 +129,54 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
   }
   
   bool _canStartGame(ShellgameState state) {
-    // 섞는 중이면 불가
-    if (state.isShuffling) return false;
-    
-    // 티켓이 없으면 불가
-    if (widget.ticketsCount <= 0) return false;
-    
-    // 라운드 상태일 때는 베팅 금액 없이도 시작 가능 (승리 후 다음 라운드)
-    if (state is ShellgameRound) return true;
-    
-    // 베팅 금액 검증
-    final betText = _betController.text;
-    if (betText.isEmpty) return false;
-    
-    final betAmount = int.tryParse(betText);
-    if (betAmount == null) return false;
-    if (betAmount <= 0) return false;
-    if (betAmount > widget.point) return false;
-    
-    return true;
+    return _GameLogic.canStartGame(state, _betController.text, widget.point, widget.ticketsCount);
   }
   
-  String? _getValidationError(ShellgameState state) {
-    if (state.isShuffling) return '섞는 중입니다';
-    if (widget.ticketsCount <= 0) return '티켓이 부족합니다';
+  int? _getBetAmount(ShellgameState state) {
+    if (state is ShellgameRound && _initialBetAmount != null) {
+      return _initialBetAmount!;
+    }
     
-    final betText = _betController.text;
-    if (betText.isEmpty) return '베팅 금액을 입력하세요';
+    final betAmount = int.tryParse(_betController.text) ?? 0;
+    if (betAmount <= 0 || betAmount > widget.point) return null;
     
-    final betAmount = int.tryParse(betText);
-    if (betAmount == null) return '올바른 숫자를 입력하세요';
-    if (betAmount <= 0) return '0보다 큰 금액을 입력하세요';
-    if (betAmount > widget.point) return '보유 포인트를 초과했습니다';
-    
-    return null;
+    _initialBetAmount = betAmount;
+    return betAmount;
   }
   
   void _startShuffling(BuildContext context) {
     final bloc = context.read<ShellGameBloc>();
     final currentState = bloc.state;
     
-    // 베팅 금액 검증 및 저장
-    final betText = _betController.text;
-    int betAmount;
+    final betAmount = _getBetAmount(currentState);
+    if (betAmount == null) return;
     
-    if (currentState is ShellgameRound && _initialBetAmount != null) {
-      betAmount = _initialBetAmount!;
-    } else {
-      betAmount = int.tryParse(betText) ?? 0;
-      if (betAmount <= 0 || betAmount > widget.point) {
-        return;
-      }
-      _initialBetAmount = betAmount;
-    }
-    
+    _performShuffleAnimation(bloc, currentState);
+  }
+  
+  void _performShuffleAnimation(ShellGameBloc bloc, ShellgameState currentState) {
     List<int> currentOrder = [0, 1, 2];
     int ballPosition = 0;
     int actualMoves = 0;
     
-    // 라운드별 속도 설정
-    int speed = switch (currentState.round) {
-      1 => 500,
-      2 => 400,
-      3 => 300,
-      4 => 250,
-      _ => 150,
-    };
-    
+    final speed = _RoundConfig.getShuffleSpeed(currentState.round);
     bloc.add(StartShuffle());
     
     Timer.periodic(Duration(milliseconds: speed), (timer) {
-      // 두 개의 다른 위치를 무작위로 선택하여 교환
-      int index1 = math.Random().nextInt(3);
+      // 컵 교환
+      int index1 = math.Random().nextInt(_GameConstants.cupCount);
       int index2;
       
       do {
-        index2 = math.Random().nextInt(3);
+        index2 = math.Random().nextInt(_GameConstants.cupCount);
       } while (index1 == index2);
       
-      // 컵 위치 교환
+      // 위치 교환
       int temp = currentOrder[index1];
       currentOrder[index1] = currentOrder[index2];
       currentOrder[index2] = temp;
       
-      // 공 위치 업데이트
+      // 공 위치 추적
       if (currentOrder[index1] == ballPosition) {
         ballPosition = index1;
       } else if (currentOrder[index2] == ballPosition) {
@@ -149,57 +186,83 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
       bloc.add(UpdateCupOrder(cupOrder: List<int>.from(currentOrder)));
       actualMoves++;
       
-      // 15번 움직인 후 종료
-      if (actualMoves >= 15) {
+      if (actualMoves >= _GameConstants.shuffleMoves) {
         timer.cancel();
-        int finalBallPosition = currentOrder.indexOf(0);
-        bloc.add(EndShuffle(ballPosition: finalBallPosition));
-        
-        // 타이머 시작
-        bloc.add(StartTimer());
-        _startCountdown(context);
+        _finishShuffle(bloc, currentOrder, context);
       }
     });
   }
   
-  int _getShuffleSpeed(int round) {
-    // 라운드별 속도 (밀리초, 숫자가 작을수록 빠름)
-    switch (round) {
-      case 1: return 500; // 0.5초
-      case 2: return 400; // 0.4초
-      case 3: return 300; // 0.3초
-      case 4: return 200; // 0.2초
-      case 5: return 150; // 0.15초
-      default: return 500;
+  void _finishShuffle(ShellGameBloc bloc, List<int> currentOrder, BuildContext context) {
+    final finalBallPosition = currentOrder.indexOf(0);
+    bloc.add(EndShuffle(ballPosition: finalBallPosition));
+    bloc.add(StartTimer());
+    _startCountdown(context);
+  }
+  
+  void _checkResult(BuildContext context, ShellgameState state) {
+    if (!_canSelectCup(state) || state.playSelect == -1) return;
+    
+    final betAmount = _initialBetAmount ?? 0;
+    if (betAmount <= 0) return;
+    
+    final isWin = state.ballPosition == state.playSelect;
+    final currentRound = state.round;
+    
+    if (isWin) {
+      _handleWin(context, betAmount, currentRound);
+    } else {
+      _handleLoss(context, betAmount);
     }
   }
   
-  double _getRoundMultiplier(int round) {
-    // 라운드별 배수
-    switch (round) {
-      case 1: return 1.1;
-      case 2: return 1.2;
-      case 3: return 1.5;
-      case 4: return 2.5;
-      case 5: return 5.0;
-      default: return 1.1;
+  bool _canSelectCup(ShellgameState state) {
+    return state is ShellgameReady || state is ShellgameWaiting;
+  }
+  
+  void _handleWin(BuildContext context, int betAmount, int round) {
+    final earnedPoints = _GameLogic.calculateEarnedPoints(betAmount, round);
+    
+    context.read<ShellGameBloc>().add(ShowSuccessModal(
+      earnedPoints: earnedPoints,
+    ));
+    
+    if (_GameLogic.shouldResetBetAmount(round)) {
+      _initialBetAmount = null;
     }
+  }
+  
+  void _handleLoss(BuildContext context, int betAmount) {
+    context.read<ShellGameBloc>().add(NextRound(
+      isWin: false,
+      earnedScore: betAmount,
+    ));
+    
+    _initialBetAmount = null;
+    _scheduleResultClear(context);
+  }
+  
+  void _scheduleResultClear(BuildContext context) {
+    Future.delayed(Duration(seconds: _GameConstants.resultDisplayDuration), () {
+      if (context.mounted) {
+        context.read<ShellGameBloc>().add(ClearResult());
+      }
+    });
   }
   
   void _startCountdown(BuildContext context) async {
-    for (int i = 9; i >= 0; i--) {
+    for (int i = _GameConstants.timerDuration - 1; i >= 0; i--) {
       await Future.delayed(const Duration(seconds: 1));
-      if (context.mounted) {
-        final currentState = context.read<ShellGameBloc>().state;
-        if (currentState is ShellgameWaiting) {
-          context.read<ShellGameBloc>().add(UpdateTimer(seconds: i));
-        } else {
-          break; // 사용자가 이미 선택했으면 타이머 중단
-        }
+      if (!context.mounted) break;
+      
+      final currentState = context.read<ShellGameBloc>().state;
+      if (currentState is ShellgameWaiting) {
+        context.read<ShellGameBloc>().add(UpdateTimer(seconds: i));
+      } else {
+        break;
       }
     }
     
-    // 타이머 종료
     if (context.mounted) {
       final currentState = context.read<ShellGameBloc>().state;
       if (currentState is ShellgameWaiting) {
@@ -207,46 +270,13 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
       }
     }
   }
-  
-  void _checkResult(BuildContext context, ShellgameState state) {
-    if ((state is ShellgameReady || state is ShellgameWaiting) && state.playSelect != -1) {
-      final isWin = state.ballPosition == state.playSelect;
-      
-      final betAmount = _initialBetAmount ?? 0;
-      if (betAmount <= 0) {
-        return;
-      }
-      
-      final currentRound = state.round;
-      final multiplier = _getRoundMultiplier(currentRound);
-      
-      if (isWin) {
-        final earnedPoints = (betAmount * multiplier).round();
-        
-        if (currentRound >= 5) {
-          _initialBetAmount = null;
-        }
-        
-        context.read<ShellGameBloc>().add(NextRound(
-          isWin: true,
-          earnedScore: earnedPoints,
-        ));
-      } else {
-        context.read<ShellGameBloc>().add(NextRound(
-          isWin: false,
-          earnedScore: betAmount,
-        ));
-        
-        _initialBetAmount = null;
-      }
-      
-      // 3초 후 알림 제거
-      Future.delayed(const Duration(seconds: 3), () {
-        if (context.mounted) {
-          context.read<ShellGameBloc>().add(ClearResult());
-        }
-      });
-    }
+
+  void _onCupSelected(BuildContext context, int index) {
+    context.read<ShellGameBloc>().add(PlaySelect(select: index));
+    
+    Future.delayed(const Duration(milliseconds: 500), () {
+      _checkResult(context, context.read<ShellGameBloc>().state);
+    });
   }
 
   @override
@@ -268,7 +298,8 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
                        previous.ballPosition != current.ballPosition ||
                        previous.resultMessage != current.resultMessage ||
                        previous.isTimerRunning != current.isTimerRunning ||
-                       previous.timerSeconds != current.timerSeconds;
+                       previous.timerSeconds != current.timerSeconds ||
+                       previous.earnedPoints != current.earnedPoints;
               },
               builder: (context, state) {
                 return Stack(
@@ -316,6 +347,7 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
                             ),
                           ),
                         ),
+                        // 번호 선택 버튼들
                         Flexible(
                           child: SizedBox(
                             width: double.infinity,
@@ -327,11 +359,7 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
                                 (index) => GestureDetector(
                                   onTap: (state is ShellgameReady || state is ShellgameWaiting)
                                       ? () {
-                                          context.read<ShellGameBloc>().add(PlaySelect(select: index));
-                                          // 선택 후 잠시 대기하고 결과 확인
-                                          Future.delayed(const Duration(milliseconds: 500), () {
-                                            _checkResult(context, context.read<ShellGameBloc>().state);
-                                          });
+                                          _onCupSelected(context, index);
                                         }
                                       : null,
                                   child: selectNumberItem(index, index == state.playSelect, state),
@@ -356,12 +384,27 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
                       ],
                     ),
                     // 상단 알림 오버레이
-                    if (state.resultMessage != null && state.earnedPoints != null)
+                    if (state.resultMessage != null && state.earnedPoints != null && state is! ShellgameSuccess)
                       Positioned(
                         top: 60,
                         left: 0,
                         right: 0,
                         child: _buildSuccessNotification(state),
+                      ),
+                    // 성공 모달
+                    if (state is ShellgameSuccess)
+                      Positioned.fill(
+                        child: _NextRoundModal(
+                          currentRound: state.round,
+                          earnedPoints: state.earnedPoints,
+                          onYes: () {
+                            context.read<ShellGameBloc>().add(ContinueToNextRound());
+                          },
+                          onNo: () {
+                            context.read<ShellGameBloc>().add(QuitGame());
+                            context.read<ShellGameBloc>().add(ClearResult());  
+                          },
+                        ),
                       ),
                   ],
                 );
@@ -400,13 +443,12 @@ class _CupWidget extends StatelessWidget {
       builder: (context, state) {
         // 현재 이 컵이 어느 위치에 있는지 찾기
         int positionIndex = state.cupOrder.indexOf(cupIndex);
-        
-        // 컵 가운데 정렬을 위한 위치 계산
-        double leftPosition = 10.0 + positionIndex * 95.0;
+        double leftPosition = _GameConstants.cupStartPosition + positionIndex * _GameConstants.cupSpacing;
         
         // 컵 상태 결정
         bool shouldShowOpen = false;
         bool showBall = false;
+        bool isSelected = positionIndex == state.playSelect;
         
         if (state is ShellgameReady) {
           if (state.playSelect == -1) {
@@ -414,108 +456,141 @@ class _CupWidget extends StatelessWidget {
             shouldShowOpen = state.ballPosition == cupIndex;
             showBall = shouldShowOpen;
           } else {
-            // 선택 후 결과 보여주기
-            shouldShowOpen = positionIndex == state.playSelect;
-            if (shouldShowOpen) {
-              showBall = positionIndex == state.ballPosition;
-            }
+            // 선택 후 결과 보여주기 - 모든 컵 열기
+            shouldShowOpen = true;
+            showBall = state.ballPosition == cupIndex;
           }
         }
         
+        // 컵 선택 가능한지 확인
+        bool canSelectCup = state is ShellgameReady || state is ShellgameWaiting;
+        
         return AnimatedPositioned(
-          duration: Duration(milliseconds: state.isShuffling ? 250 : 400),
+          duration: Duration(milliseconds: state.isShuffling 
+            ? _GameConstants.shuffleAnimationDuration 
+            : _GameConstants.normalAnimationDuration),
           curve: state.isShuffling ? Curves.easeOut : Curves.easeInOut,
           left: leftPosition,
-          top: 0,
+          top: (284 - 80) / 2, // Stack 높이에서 컵 높이를 빼고 2로 나누어 가운데 정렬
           child: Container(
-            width: 70,
+            width: _GameConstants.cupWidth,
             height: 90,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // 컵 몸체 (공도 함께 표시)
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: 50,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: shouldShowOpen ? GogoColors.gray500 : GogoColors.gray600,
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(25),
-                        bottomRight: Radius.circular(25),
-                        topLeft: Radius.circular(5),
-                        topRight: Radius.circular(5),
-                      ),
-                      border: Border.all(
-                        color: positionIndex == state.playSelect ? GogoColors.main600 : GogoColors.white, 
-                        width: 2
-                      ),
-                      boxShadow: positionIndex == state.playSelect ? [
-                        BoxShadow(
-                          color: GogoColors.main600.withOpacity(0.3),
-                          blurRadius: 8,
-                          spreadRadius: 2,
-                        ),
-                      ] : null,
-                    ),
-                    child: showBall 
-                      ? Center(
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            width: 20,
-                            height: 20,
-                            decoration: const BoxDecoration(
-                              color: GogoColors.main600,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        )
-                      : null,
-                  ),
-                  // 컵 뚜껑 (닫힌 상태일 때만)
-                  if (!shouldShowOpen)
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      width: 55,
-                      height: 8,
-                      margin: const EdgeInsets.only(top: 2),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // 공이 있을 때 (컵 뒤에 배치)
+                if (showBall && shouldShowOpen)
+                  Positioned(
+                    bottom: 10,
+                    child: Container(
+                      width: 20,
+                      height: 20,
                       decoration: BoxDecoration(
-                        color: GogoColors.gray400,
-                        borderRadius: BorderRadius.circular(25),
-                        border: Border.all(color: GogoColors.white, width: 1),
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
                       ),
                     ),
-                ],
-              ),
+                  ),
+                
+                // 컵 아이콘 (Container로 구현)
+                Center(
+                  child: _buildCupContainer(shouldShowOpen),
+                ),
+                
+                // 선택 효과
+                if (isSelected)
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.yellow,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         );
       },
     );
   }
-}
 
-Widget roundItem(int index, bool isSelected) {
-  return Container(
-    width: 68.6,
-    height: 42,
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-      border: isSelected ? Border(
-        bottom: BorderSide(
-          color: GogoColors.white,
-          width: 1,
-        ),
-      ) : null,
-    ),
-    child: Text(
-      '$index 라운드',
-      style: GogoTypography.caption2Extrabold.copyWith(
-        color: isSelected ? GogoColors.white : GogoColors.gray500,
+  Widget _buildCupContainer(bool shouldShowOpen) {
+    return Container(
+      width: 70,
+      height: 80,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // 컵 몸체 (사다리꼴)
+          Container(
+            width: shouldShowOpen ? 65 : 60,
+            height: 70,
+            decoration: BoxDecoration(
+              color: Color(0xFF4A90E2),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+                topLeft: Radius.circular(shouldShowOpen ? 8 : 5),
+                topRight: Radius.circular(shouldShowOpen ? 8 : 5),
+              ),
+              border: Border.all(
+                color: Color(0xFF2E5C8A),
+                width: 2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 4,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+          ),
+          // 컵 입구 (열린 상태일 때만)
+          if (shouldShowOpen)
+            Positioned(
+              top: 0,
+              child: Container(
+                width: 70,
+                height: 15,
+                decoration: BoxDecoration(
+                  color: Color(0xFF6BA3E8),
+                  borderRadius: BorderRadius.circular(35),
+                  border: Border.all(
+                    color: Color(0xFF2E5C8A),
+                    width: 1,
+                  ),
+                ),
+              ),
+            ),
+          // 하이라이트 효과
+          Positioned(
+            left: 15,
+            top: shouldShowOpen ? 20 : 15,
+            child: Container(
+              width: 3,
+              height: 30,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.4),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+        ],
       ),
-    ),
-  );
+    );
+  }
 }
 
 Widget selectNumberItem(int index, bool isSelected, ShellgameState state) {
@@ -545,6 +620,28 @@ Widget selectNumberItem(int index, bool isSelected, ShellgameState state) {
   );
 }
 
+Widget roundItem(int index, bool isSelected) {
+  return Container(
+    width: 68.6,
+    height: 42,
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      border: isSelected ? Border(
+        bottom: BorderSide(
+          color: GogoColors.white,
+          width: 1,
+        ),
+      ) : null,
+    ),
+    child: Text(
+      '$index 라운드',
+      style: GogoTypography.caption2Extrabold.copyWith(
+        color: isSelected ? GogoColors.white : GogoColors.gray500,
+      ),
+    ),
+  );
+}
+
 Widget _buildSuccessNotification(ShellgameState state) {
   if (state.resultMessage != null && state.earnedPoints != null) {
     final isSuccess = state.isWin == true;
@@ -556,9 +653,9 @@ Widget _buildSuccessNotification(ShellgameState state) {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: GogoColors.gray700,
+        color: GogoColors.gray700.withOpacity(0.7),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: GogoColors.gray600),
+        border: Border.all(color: GogoColors.gray600.withOpacity(0.2)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -650,4 +747,98 @@ Widget _buildTimerBar(BuildContext context, ShellgameState state) {
     );
   }
   return const SizedBox.shrink();
+}
+
+// 성공 시 다음 라운드 진행 여부를 묻는 모달
+class _NextRoundModal extends StatelessWidget {
+  final int currentRound;
+  final int earnedPoints;
+  final VoidCallback onYes;
+  final VoidCallback onNo;
+
+  const _NextRoundModal({
+    required this.currentRound,
+    required this.earnedPoints,
+    required this.onYes,
+    required this.onNo,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black.withOpacity(0.6), // 더 투명한 배경
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // 질문 텍스트 (컵들 위에 표시)
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 32),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.8),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              '다음 라운드에 도전하겠습니까?',
+              style: GogoTypography.body1Semibold.copyWith(
+                color: GogoColors.white,
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          
+          const SizedBox(height: 200), // 컵들과 버튼 사이 간격
+          
+          // YES/NO 버튼들
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 32),
+            child: Row(
+              spacing: 24,
+              children: [
+                // YES 버튼
+                Expanded(
+                  child: GestureDetector(
+                    onTap: onYes,
+                    child: SizedBox(
+                      height: 60,
+                      child: Center(
+                        child: Text(
+                          'YES',
+                          style: GogoTypography.body1Semibold.copyWith(
+                            color: GogoColors.success,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // NO 버튼
+                Expanded(
+                  child: GestureDetector(
+                    onTap: onNo,
+                    child: SizedBox(
+                      height: 60,
+                      child: Center(
+                        child: Text(
+                          'NO',
+                          style: GogoTypography.body1Semibold.copyWith(
+                            color: GogoColors.error,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

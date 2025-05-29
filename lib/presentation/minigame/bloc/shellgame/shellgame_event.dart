@@ -49,3 +49,15 @@ class PlaySelect extends ShellgameEvent {
     required this.select,
   });
 }
+
+class ShowSuccessModal extends ShellgameEvent {
+  final int earnedPoints;
+
+  ShowSuccessModal({
+    required this.earnedPoints,
+  });
+}
+
+class ContinueToNextRound extends ShellgameEvent {}
+
+class QuitGame extends ShellgameEvent {}

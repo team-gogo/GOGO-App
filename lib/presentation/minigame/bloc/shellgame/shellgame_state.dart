@@ -120,3 +120,24 @@ class ShellgameResult extends ShellgameState {
           isWin: winResult,
         );
 }
+
+class ShellgameSuccess extends ShellgameState {
+  final int earnedPoints;
+
+  ShellgameSuccess({
+    required int round,
+    required List<int> cupOrder,
+    required int ballPosition,
+    required this.earnedPoints,
+    int playSelect = -1,
+  }) : super(
+          round: round,
+          playSelect: playSelect,
+          isShuffling: false,
+          isGameStarted: true,
+          cupOrder: List<int>.from(cupOrder),
+          ballPosition: ballPosition,
+          earnedPoints: earnedPoints,
+          isWin: true,
+        );
+}

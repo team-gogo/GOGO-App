@@ -14,6 +14,9 @@ class ShellGameBloc extends Bloc<ShellgameEvent, ShellgameState> {
     on<UpdateTimer>(_onUpdateTimer);
     on<TimeOut>(_onTimeOut);
     on<PlaySelect>(_onPlaySelect);
+    on<ShowSuccessModal>(_onShowSuccessModal);
+    on<ContinueToNextRound>(_onContinueToNextRound);
+    on<QuitGame>(_onQuitGame);
   }
 
   void _onStartShuffle(StartShuffle event, Emitter<ShellgameState> emit) {
@@ -168,6 +171,66 @@ class ShellGameBloc extends Bloc<ShellgameEvent, ShellgameState> {
         round: currentState.round,
         cupOrder: currentState.cupOrder,
         ballPosition: currentState.ballPosition,
+      ));
+    }
+  }
+
+  void _onShowSuccessModal(ShowSuccessModal event, Emitter<ShellgameState> emit) {
+    if (state is ShellgameReady) {
+      final currentState = state as ShellgameReady;
+      emit(ShellgameSuccess(
+        round: currentState.round,
+        cupOrder: currentState.cupOrder,
+        ballPosition: currentState.ballPosition,
+        earnedPoints: event.earnedPoints,
+        playSelect: currentState.playSelect,
+      ));
+    } else if (state is ShellgameRound) {
+      final currentState = state as ShellgameRound;
+      emit(ShellgameSuccess(
+        round: currentState.round,
+        cupOrder: [0, 1, 2], // 기본 순서
+        ballPosition: 0, // 기본 위치
+        earnedPoints: event.earnedPoints,
+        playSelect: -1,
+      ));
+    }
+  }
+
+  void _onContinueToNextRound(ContinueToNextRound event, Emitter<ShellgameState> emit) {
+    if (state is ShellgameSuccess) {
+      final currentState = state as ShellgameSuccess;
+      final currentRound = currentState.round;
+      
+      if (currentRound >= 5) {
+        // 5라운드 완료 시 게임 종료
+        emit(ShellgameResult(
+          isWin: true,
+          round: currentRound,
+          resultMessage: "모든 라운드를 완주했습니다!",
+          earnedPoints: currentState.earnedPoints,
+          winResult: true,
+        ));
+      } else {
+        // 다음 라운드로 진행
+        emit(ShellgameRound(
+          round: currentRound + 1,
+          playSelect: -1,
+          cupOrder: [0, 1, 2], // 기본 순서로 리셋
+        ));
+      }
+    }
+  }
+
+  void _onQuitGame(QuitGame event, Emitter<ShellgameState> emit) {
+    if (state is ShellgameSuccess) {
+      final currentState = state as ShellgameSuccess;
+      emit(ShellgameResult(
+        isWin: true,
+        round: currentState.round,
+        resultMessage: "게임을 종료했습니다.",
+        earnedPoints: currentState.earnedPoints,
+        winResult: true,
       ));
     }
   }
