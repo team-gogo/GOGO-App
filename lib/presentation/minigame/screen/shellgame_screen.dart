@@ -371,8 +371,10 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
                                       },
                                       child: _CupWidget(
                                         isSelected: state.cupOrder.indexOf(index) == state.playSelect,
-                                        isOpen: (state is ShellgameInitial && index == 0) ||  // 초기에는 1번 컵만 열림
-                                               (state is ShellgameReady && state.playSelect != -1 && state.ballPosition == state.cupOrder.indexOf(index)), // 선택 후에는 공이 있는 컵만 열림
+                                        isOpen: // 섞기 전까지는 무조건 1번 컵 열림
+                                               (index == 0 && !state.isShuffling && state is! ShellgameReady) ||
+                                               // 선택 후에는 공이 있는 컵만 열림  
+                                               (state is ShellgameReady && state.playSelect != -1 && state.ballPosition == state.cupOrder.indexOf(index)),
                                         hasBall: state.ballPosition == state.cupOrder.indexOf(index),
                                       ),
                                     ),
