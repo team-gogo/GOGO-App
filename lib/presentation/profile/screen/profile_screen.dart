@@ -85,8 +85,7 @@ class _ProfileContentState extends State<ProfileContentScreen> {
                     spacing: 24,
                     children: [
                       GogoTopBar(
-                          title: '뒤로가기',
-                          onBackTap: () => context.pop(context)),
+                          title: '뒤로가기', onBackTap: () => context.pop(context)),
                       Stack(
                         alignment: Alignment.topRight,
                         children: [
@@ -146,7 +145,8 @@ class _ProfileContentState extends State<ProfileContentScreen> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     spacing: 8,
                                     children: [
                                       GogoIcons.gearWheel(
@@ -184,12 +184,14 @@ class _ProfileContentState extends State<ProfileContentScreen> {
                                     ),
                                   ),
                                   child: Column(
-                                    spacing: 30,
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    spacing: 15,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       GestureDetector(
                                         onTap: () async {
-                                          final result = await context.pushNamed(
+                                          final result =
+                                              await context.pushNamed(
                                             PageRouter.editProfile,
                                             extra: state.userInfoResponse,
                                           );
@@ -205,8 +207,8 @@ class _ProfileContentState extends State<ProfileContentScreen> {
                                           alignment: Alignment.center,
                                           child: Text(
                                             '정보수정',
-                                            style:
-                                                GogoTypography.body3Semibold.copyWith(
+                                            style: GogoTypography.body3Semibold
+                                                .copyWith(
                                               color: GogoColors.white,
                                             ),
                                           ),
@@ -214,14 +216,45 @@ class _ProfileContentState extends State<ProfileContentScreen> {
                                       ),
                                       Divider(),
                                       GestureDetector(
+                                        onTap: () {
+                                          context
+                                              .read<ProfileBloc>()
+                                              .add(LogoutProfile());
+                                          context.goNamed(
+                                            PageRouter.login,
+                                          );
+                                        },
+                                        child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            '로그아웃',
+                                            style: GogoTypography.body3Semibold
+                                                .copyWith(
+                                              color: GogoColors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Divider(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          context
+                                              .read<ProfileBloc>()
+                                              .add(WithdrawProfile());
+                                          context.goNamed(
+                                            PageRouter.login,
+                                          );
+                                        },
                                         child: Container(
                                           width: double.infinity,
                                           decoration: BoxDecoration(),
                                           alignment: Alignment.center,
                                           child: Text(
                                             '회원 탈퇴',
-                                            style:
-                                                GogoTypography.body3Semibold.copyWith(
+                                            style: GogoTypography.body3Semibold
+                                                .copyWith(
                                               color: GogoColors.error,
                                             ),
                                           ),
