@@ -54,7 +54,7 @@ class _BankruptcyModalState extends State<BankruptcyModal> {
                           .copyWith(color: GogoColors.gray400),
                     ),
                     Text(
-                      '\n\nTeam. GOGO는 청소년 불법 도박 근절 캠페인과 함께,  한 번의 기회로 건강한 리셋을 제공합니다.\n\n2층 홈베이스에 비치되어있는 서약서를 작성하고 하고 제출함에 제출하면 한 번의 기회로 포인트를 지원받을 수 있습니다. (전체 포인트의 평균, 최소 3만, 최대 5만)\n그러나 다시는 같은 실수를 반복하지 마세요.\n',
+                      '\n\nTeam. GOGO는 청소년 불법 도박 근절 캠페인과 함께,  한 번의 기회로 건강한 리셋을 제공합니다.\n\n2층 홈베이스에 비치되어있는 서약서를 작성하고 하고 제출함에 제출하면 한 번의 기회로 포인트를 지원받을 수 있습니다. (전체 포인트의 평균, 최소 3만, 최대 5만)\n\n그러나 다시는 같은 실수를 반복하지 마세요.\n',
                       style: GogoTypography.caption1Semibold
                           .copyWith(color: GogoColors.white),
                     ),
