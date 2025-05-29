@@ -15,7 +15,7 @@ dependencies:
 
   cupertino_icons: ^1.0.8
 
-  flutter_svg: ^2.0.17  # svg 이미지를 사용하기 위란 라이브러리
+  flutter_svg: ^2.1.0  # svg 이미지를 사용하기 위란 라이브러리
 
   go_router: ^14.8.1 # 라우팅을 도와주는 라이브러리
 
