@@ -144,12 +144,8 @@ class GogoStageCardComponent extends StatelessWidget {
                           'isMaintainer': stage.isMaintainer.toString()
                         },
                       );
-                    }
-                    else {
-                      context.goNamed(
-                        PageRouter.home,
-                        pathParameters: {'stageId': stage.stageId.toString()},
-                      );
+                    } else {
+                      PageRouter.gogoPushNamed(PageRouter.home, stage.stageId);
                     }
                   },
                   text: '참여하기',

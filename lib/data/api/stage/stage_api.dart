@@ -12,6 +12,7 @@ import 'package:gogo_app/data/models/stage/search_stage/search_match_info_respon
 import 'package:gogo_app/data/models/stage/search_stage/search_ranking_response.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_team_info_response.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_team_temp_response.dart';
+import 'package:gogo_app/data/models/stage/search_stage/search_wasted_me_response.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
@@ -191,5 +192,10 @@ abstract class StageApi {
   @GET('/stage/game/format/{game_id}')
   Future<SearchGameFormatResponse> getGameFormat(
     @Path('game_id') int gameId,
+  );
+
+  @GET('/stage/wasted/me/{stage_id}')
+  Future<SearchWastedMeResponse> getWastedMe(
+    @Path('stage_id') int stageId,
   );
 }
