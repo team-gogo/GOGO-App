@@ -20,8 +20,9 @@ class _GameConstants {
   // 컵 관련 상수
   static const int cupCount = 3;
   static const double cupWidth = 70.0;
-  static const double cupSpacing = 95.0;
-  static const double cupStartPosition = 10.0;
+  static const double cupHeight = 90.0;
+  static const double cupSpacing = 85.0;
+  static const double cupStartPosition = 20.0;
   
   // 애니메이션 상수
   static const int shuffleAnimationDuration = 250;
@@ -290,6 +291,19 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
           child: Center(
             child: BlocBuilder<ShellGameBloc, ShellgameState>(
               buildWhen: (previous, current) {
+                // cupOrder 리스트 비교를 위한 깊은 비교
+                bool cupOrderChanged = false;
+                if (previous.cupOrder.length != current.cupOrder.length) {
+                  cupOrderChanged = true;
+                } else {
+                  for (int i = 0; i < previous.cupOrder.length; i++) {
+                    if (previous.cupOrder[i] != current.cupOrder[i]) {
+                      cupOrderChanged = true;
+                      break;
+                    }
+                  }
+                }
+                
                 // 필요한 상태 변경에서만 리빌드
                 return previous.runtimeType != current.runtimeType ||
                        previous.round != current.round ||
@@ -299,7 +313,8 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
                        previous.resultMessage != current.resultMessage ||
                        previous.isTimerRunning != current.isTimerRunning ||
                        previous.timerSeconds != current.timerSeconds ||
-                       previous.earnedPoints != current.earnedPoints;
+                       previous.earnedPoints != current.earnedPoints ||
+                       cupOrderChanged; // cupOrder 변경 감지 추가
               },
               builder: (context, state) {
                 return Stack(
@@ -342,7 +357,27 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
                               width: 280,
                               height: 284,
                               child: Stack(
-                                children: List.generate(3, (index) => _CupWidget(cupIndex: index)),
+                                children: List.generate(3, (index) => 
+                                  AnimatedPositioned(
+                                    duration: Duration(milliseconds: state.isShuffling ? 250 : 400),
+                                    curve: state.isShuffling ? Curves.easeOut : Curves.easeInOut,
+                                    left: _GameConstants.cupStartPosition + state.cupOrder.indexOf(index) * _GameConstants.cupSpacing,
+                                    top: (284 - _GameConstants.cupHeight) / 2,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        if (state is ShellgameReady || state is ShellgameWaiting) {
+                                          _onCupSelected(context, state.cupOrder.indexOf(index));
+                                        }
+                                      },
+                                      child: _CupWidget(
+                                        isSelected: state.cupOrder.indexOf(index) == state.playSelect,
+                                        isOpen: (state is ShellgameInitial && index == 0) ||  // 초기에는 1번 컵만 열림
+                                               (state is ShellgameReady && state.playSelect != -1 && state.ballPosition == state.cupOrder.indexOf(index)), // 선택 후에는 공이 있는 컵만 열림
+                                        hasBall: state.ballPosition == state.cupOrder.indexOf(index),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -418,175 +453,39 @@ class _ShellgameViewState extends State<_ShellgameView> with SingleTickerProvide
 }
 
 class _CupWidget extends StatelessWidget {
-  final int cupIndex;
-  
+  final bool isSelected;
+  final bool isOpen;
+  final bool hasBall;
+
   const _CupWidget({
-    required this.cupIndex,
-    super.key,
+    required this.isSelected,
+    required this.isOpen,
+    required this.hasBall,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ShellGameBloc, ShellgameState>(
-      buildWhen: (previous, current) {
-        // 효율적인 리빌드 조건: cupOrder 변경 또는 상태 타입 변경시만
-        if (previous.runtimeType != current.runtimeType) return true;
-        
-        // cupOrder에서 이 컵의 위치가 변경되었는지 확인
-        final previousPosition = previous.cupOrder.indexOf(cupIndex);
-        final currentPosition = current.cupOrder.indexOf(cupIndex);
-        
-        return previousPosition != currentPosition ||
-               previous.playSelect != current.playSelect ||
-               previous.ballPosition != current.ballPosition;
-      },
-      builder: (context, state) {
-        // 현재 이 컵이 어느 위치에 있는지 찾기
-        int positionIndex = state.cupOrder.indexOf(cupIndex);
-        double leftPosition = _GameConstants.cupStartPosition + positionIndex * _GameConstants.cupSpacing;
-        
-        // 컵 상태 결정
-        bool shouldShowOpen = false;
-        bool showBall = false;
-        bool isSelected = positionIndex == state.playSelect;
-        
-        if (state is ShellgameReady) {
-          if (state.playSelect == -1) {
-            // 섞기 전 공 보여주기
-            shouldShowOpen = state.ballPosition == cupIndex;
-            showBall = shouldShowOpen;
-          } else {
-            // 선택 후 결과 보여주기 - 모든 컵 열기
-            shouldShowOpen = true;
-            showBall = state.ballPosition == cupIndex;
-          }
-        }
-        
-        // 컵 선택 가능한지 확인
-        bool canSelectCup = state is ShellgameReady || state is ShellgameWaiting;
-        
-        return AnimatedPositioned(
-          duration: Duration(milliseconds: state.isShuffling 
-            ? _GameConstants.shuffleAnimationDuration 
-            : _GameConstants.normalAnimationDuration),
-          curve: state.isShuffling ? Curves.easeOut : Curves.easeInOut,
-          left: leftPosition,
-          top: (284 - 80) / 2, // Stack 높이에서 컵 높이를 빼고 2로 나누어 가운데 정렬
-          child: Container(
-            width: _GameConstants.cupWidth,
-            height: 90,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // 공이 있을 때 (컵 뒤에 배치)
-                if (showBall && shouldShowOpen)
-                  Positioned(
-                    bottom: 10,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                
-                // 컵 아이콘 (Container로 구현)
-                Center(
-                  child: _buildCupContainer(shouldShowOpen),
-                ),
-                
-                // 선택 효과
-                if (isSelected)
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.yellow,
-                          width: 3,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildCupContainer(bool shouldShowOpen) {
     return Container(
-      width: 70,
-      height: 80,
+      width: _GameConstants.cupWidth,
+      height: _GameConstants.cupHeight,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // 컵 몸체 (사다리꼴)
-          Container(
-            width: shouldShowOpen ? 65 : 60,
-            height: 70,
-            decoration: BoxDecoration(
-              color: Color(0xFF4A90E2),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-                topLeft: Radius.circular(shouldShowOpen ? 8 : 5),
-                topRight: Radius.circular(shouldShowOpen ? 8 : 5),
-              ),
-              border: Border.all(
-                color: Color(0xFF2E5C8A),
-                width: 2,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 4,
-                  offset: Offset(0, 2),
-                ),
-              ],
+          // 컵 이미지
+          if (isOpen)
+            Image.asset(
+              'assets/drawable/shellgame_cup_open.png',
+              width: _GameConstants.cupWidth,
+              height: _GameConstants.cupHeight,
+              fit: BoxFit.contain,
+            )
+          else
+            Image.asset(
+              'assets/drawable/shellgame_cup_close.png',
+              width: _GameConstants.cupWidth,
+              height: _GameConstants.cupHeight,
+              fit: BoxFit.contain,
             ),
-          ),
-          // 컵 입구 (열린 상태일 때만)
-          if (shouldShowOpen)
-            Positioned(
-              top: 0,
-              child: Container(
-                width: 70,
-                height: 15,
-                decoration: BoxDecoration(
-                  color: Color(0xFF6BA3E8),
-                  borderRadius: BorderRadius.circular(35),
-                  border: Border.all(
-                    color: Color(0xFF2E5C8A),
-                    width: 1,
-                  ),
-                ),
-              ),
-            ),
-          // 하이라이트 효과
-          Positioned(
-            left: 15,
-            top: shouldShowOpen ? 20 : 15,
-            child: Container(
-              width: 3,
-              height: 30,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
         ],
       ),
     );
