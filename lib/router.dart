@@ -102,29 +102,34 @@ class PageRouter {
             name: teamConfirmed,
             path: '$teamConfirmed',
             pageBuilder: (context, state) {
-              final gameId = int.parse(state.uri.queryParameters['gameId']!);
+              final stageId =
+              int.parse(state.uri.queryParameters['stageId']!);
+              final gameId =
+              int.parse(state.uri.queryParameters['gameId']!);
               return CupertinoPage(
                 child: TeamConfirmedScreen(
+                  stageId: stageId,
                   gameId: gameId,
                 ),
               );
             },
           ),
           GoRoute(
-            name: teamApplication,
-            path: '/$teamApplication',
-            pageBuilder: (context, state) {
-              final stageId = int.parse(state.uri.queryParameters['stageId']!);
-              final isMaintainer =
-                  bool.parse(state.uri.queryParameters['isMaintainer']!);
-              return CupertinoPage(
-                child: TeamApplicationScreen(
-                  stageId: stageId,
-                  isManger: isMaintainer,
-                ),
-              );
-            },
-          ),
+              name: teamApplication,
+              path: '/$teamApplication',
+              pageBuilder: (context, state) {
+                final stageId =
+                    int.parse(state.uri.queryParameters['stageId']!);
+                final isMaintainer =
+                    bool.parse(state.uri.queryParameters['isMaintainer']!);
+                return CupertinoPage(
+                  child: TeamApplicationScreen(
+                    stageId: stageId,
+                    isManger: isMaintainer,
+                  ),
+                );
+              },
+              ),
           GoRoute(
             name: home,
             path: "/$home",
