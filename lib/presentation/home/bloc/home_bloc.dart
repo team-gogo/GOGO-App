@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:gogo_app/data/models/stage/search_stage/search_wasted_me_response.dart';
 import 'package:gogo_app/data/repositories/mini_game/mini_game_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 import '../../../data/models/common/match_dto.dart';
@@ -48,14 +49,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           await _miniGameRepository.getActiveGame(stageId);
 
       final gameResponse = await _stageRepository.getGame(stageId);
+
+      final SearchWastedMeResponse bankruptcyResponse =
+          await _stageRepository.getWastedMe(stageId);
+
       bool isBankruptcy = false;
 
-      if (0 == point.point) {
+      if (bankruptcyResponse.isWasted) {
         String? storageResponse =
             await _storage.read(key: "stageBankruptcy$stageId");
-        bool bankruptcyResponse =
+        bool bankruptcyLocalResponse =
             bool.tryParse(storageResponse ?? 'false') ?? false;
-        if (!bankruptcyResponse) {
+        if (!bankruptcyLocalResponse) {
           isBankruptcy = true;
         }
       }

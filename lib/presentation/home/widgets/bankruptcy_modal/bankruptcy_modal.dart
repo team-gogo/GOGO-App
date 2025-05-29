@@ -7,7 +7,9 @@ import '../../../../design_system/theme/color.dart';
 import '../../../../design_system/theme/icon.dart';
 
 class BankruptcyModal extends StatefulWidget {
-  BankruptcyModal({super.key,});
+  BankruptcyModal({
+    super.key,
+  });
 
   @override
   State<BankruptcyModal> createState() => _BankruptcyModalState();
@@ -64,7 +66,7 @@ class _BankruptcyModalState extends State<BankruptcyModal> {
               spacing: 18,
               children: [
                 GogoDefaultButton(
-                  onTap: () => context.pop(),
+                  onTap: () => Navigator.pop(context, {'isCheck': isChecked}),
                   text: '확인',
                 ),
                 GestureDetector(

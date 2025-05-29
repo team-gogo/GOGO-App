@@ -31,14 +31,17 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeBloc(stageId: stageId!),
       child: BlocConsumer<HomeBloc, HomeState>(
-        listener: (BuildContext context, HomeState state) async{
+        listener: (BuildContext context, HomeState state) async {
           if (state is LoadedHomeState) {
             print(state.isBankruptcy);
             if (state.isBankruptcy) {
-             final response = await showDialog(
-                  context: context, builder: (builder) => BankruptcyModal());
+              final request = await showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (builder) => BankruptcyModal());
+              final bool response = request['isCheck'] ?? false;
+              context.read<HomeBloc>().add(CheckBankruptcy(response));
             }
-
           }
         },
         builder: (BuildContext context, HomeState state) {
