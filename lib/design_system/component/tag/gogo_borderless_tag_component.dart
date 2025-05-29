@@ -26,6 +26,7 @@ class GogoBorderlessTagComponent extends StatelessWidget {
       ).createShader(bounds),
       blendMode: BlendMode.srcIn,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         spacing: spacing,
         children: [
           icon,

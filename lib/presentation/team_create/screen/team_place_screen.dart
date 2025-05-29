@@ -100,113 +100,123 @@ class _TeamPlaceScreenState extends State<TeamPlaceScreen> {
           return Scaffold(
             body: SafeArea(
               child: Column(
-                spacing: 24,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.fromLTRB(16, 17, 16, 0),
                     child: GogoTopBar(
                       title: '팀 생성',
                       onBackTap: () => context.pop(context),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          widget.gameName,
-                          style: GogoTypography.body2Extrabold
-                              .copyWith(color: GogoColors.white),
-                        ),
-                        Row(
-                          spacing: 12,
-                          children: [
-                            GogoIcons.shakeFinger(
-                              width: 16,
-                              height: 16,
-                            ),
-                            Text(
-                              '인원을 배치 하세요',
-                              style: GogoTypography.caption1Semibold
-                                  .copyWith(color: Colors.white, fontSize: 14),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  RawScrollbar(
-                    thickness: 3,
-                    thumbColor: GogoColors.gray400,
-                    trackColor: GogoColors.gray600,
-                    trackVisibility: true,
-                    thumbVisibility: true,
-                    controller: _scrollController,
+                  Expanded(
                     child: SingleChildScrollView(
-                      controller: _scrollController,
-                      scrollDirection: Axis.horizontal,
-                      child: Stack(
-                        key: _fieldKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _getGameCategoryText(widget.game),
-                          ...List.generate(_applyParticipants.length, (index) {
-                            final participant = _applyParticipants[index];
-                            return Positioned(
-                              left: double.parse(participant.positionX),
-                              top: double.parse(participant.positionY),
-                              child: Draggable(
-                                feedback: Material(
-                                  color: Colors.transparent,
-                                  child: MatchParticipantItem(
-                                    redOrBlue: null,
-                                    name: widget.students[index].name,
-                                  ),
+                          SizedBox(height: 36),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  widget.gameName,
+                                  style: GogoTypography.body2Extrabold
+                                      .copyWith(color: GogoColors.white),
                                 ),
-                                childWhenDragging: Container(),
-                                onDraggableCanceled: (velocity, offset) {
-                                  final RenderBox box = _fieldKey
-                                      .currentContext!
-                                      .findRenderObject() as RenderBox;
-                                  final localOffset = box.globalToLocal(offset);
-                                  final clampedDx =
-                                      localOffset.dx.clamp(0.0, 1200.0 - 48);
-                                  final clampedDy =
-                                      localOffset.dy.clamp(0.0, 448.0 - 48);
-                                  setState(() {
-                                    _applyParticipants[index] =
-                                        ApplyParticipant(
-                                      studentId: participant.studentId,
-                                      positionX: clampedDx.toString(),
-                                      positionY: clampedDy.toString(),
+                                Row(
+                                  children: [
+                                    GogoIcons.shakeFinger(width: 16, height: 16),
+                                    SizedBox(width: 12), // spacing은 SizedBox로!
+                                    Text(
+                                      '인원을 배치 하세요',
+                                      style: GogoTypography.caption1Semibold
+                                          .copyWith(
+                                              color: Colors.white, fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 24),
+                          RawScrollbar(
+                            thickness: 3,
+                            thumbColor: GogoColors.gray400,
+                            trackColor: GogoColors.gray600,
+                            trackVisibility: true,
+                            thumbVisibility: true,
+                            controller: _scrollController,
+                            child: SingleChildScrollView(
+                              controller: _scrollController,
+                              scrollDirection: Axis.horizontal,
+                              child: Stack(
+                                key: _fieldKey,
+                                children: [
+                                  _getGameCategoryText(widget.game),
+                                  ...List.generate(_applyParticipants.length,
+                                      (index) {
+                                    final participant = _applyParticipants[index];
+                                    return Positioned(
+                                      left: double.parse(participant.positionX),
+                                      top: double.parse(participant.positionY),
+                                      child: Draggable(
+                                        feedback: Material(
+                                          color: Colors.transparent,
+                                          child: MatchParticipantItem(
+                                            redOrBlue: null,
+                                            name: widget.students[index].name,
+                                          ),
+                                        ),
+                                        childWhenDragging: Container(),
+                                        onDraggableCanceled: (velocity, offset) {
+                                          final RenderBox box = _fieldKey
+                                              .currentContext!
+                                              .findRenderObject() as RenderBox;
+                                          final localOffset =
+                                              box.globalToLocal(offset);
+                                          final clampedDx = localOffset.dx
+                                              .clamp(0.0, 1200.0 - 48);
+                                          final clampedDy = localOffset.dy
+                                              .clamp(0.0, 448.0 - 48);
+                                          setState(() {
+                                            _applyParticipants[index] =
+                                                ApplyParticipant(
+                                              studentId: participant.studentId,
+                                              positionX: clampedDx.toString(),
+                                              positionY: clampedDy.toString(),
+                                            );
+                                          });
+                                        },
+                                        child: Material(
+                                          color: Colors.transparent,
+                                          child: MatchParticipantItem(
+                                            redOrBlue: null,
+                                            name: widget.students[index].name,
+                                          ),
+                                        ),
+                                      ),
                                     );
-                                  });
-                                },
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: MatchParticipantItem(
-                                    redOrBlue: null,
-                                    name: widget.students[index].name,
-                                  ),
-                                ),
+                                  }),
+                                ],
                               ),
-                            );
-                          }),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(16, 105, 16, 50),
+                            child: GogoDefaultButton(
+                              onTap: () => context.read<TeamCreateBloc>().add(
+                                    PostTeamCreateEvent(widget.gameId,
+                                        teamApplyRequest: TeamApplyRequest(
+                                            teamName: widget.teamName,
+                                            participants: _applyParticipants)),
+                                  ),
+                              text: '확인',
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(16, 0, 15, 95),
-                    child: GogoDefaultButton(
-                        onTap: () => context.read<TeamCreateBloc>().add(
-                            PostTeamCreateEvent(widget.gameId,
-                                teamApplyRequest: TeamApplyRequest(
-                                    teamName: widget.teamName,
-                                    participants: _applyParticipants))),
-                        text: '확인'),
                   ),
                 ],
               ),

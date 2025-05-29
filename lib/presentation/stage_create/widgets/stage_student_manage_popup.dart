@@ -169,81 +169,83 @@ class _StageStudentManagePopupState extends State<StageStudentManagePopup> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             insetPadding: EdgeInsets.symmetric(horizontal: 16),
             backgroundColor: GogoColors.gray700,
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                spacing: 24,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: GogoColors.gray600),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: GogoTextField(
-                      controller: context
-                          .read<StageStudentManagePopupBloc>()
-                          .searchStudentController,
-                      hintText: '학생을 입력해주세요',
-                      onEditingComplete: () {
-                        final text = context
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  spacing: 24,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: GogoColors.gray600),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: GogoTextField(
+                        controller: context
                             .read<StageStudentManagePopupBloc>()
-                            .searchStudentController
-                            .text;
-                        context
-                            .read<StageStudentManagePopupBloc>()
-                            .add(SearchingStudentEvent(text));
-                      },
-                      endIcon: GogoIcons.search(
-                        color: context
-                                .read<StageStudentManagePopupBloc>()
-                                .searchStudentController
-                                .text
-                                .isNotEmpty
-                            ? GogoColors.white
-                            : GogoColors.gray400,
+                            .searchStudentController,
+                        hintText: '학생을 입력해주세요',
+                        onEditingComplete: () {
+                          final text = context
+                              .read<StageStudentManagePopupBloc>()
+                              .searchStudentController
+                              .text;
+                          context
+                              .read<StageStudentManagePopupBloc>()
+                              .add(SearchingStudentEvent(text));
+                        },
+                        endIcon: GogoIcons.search(
+                          color: context
+                                  .read<StageStudentManagePopupBloc>()
+                                  .searchStudentController
+                                  .text
+                                  .isNotEmpty
+                              ? GogoColors.white
+                              : GogoColors.gray400,
+                        ),
                       ),
                     ),
-                  ),
-                  _buildStudentList(state),
-                  Row(
-                    spacing: 16,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      _buildClearAllButton(),
-                      Container(
-                          width: 1, height: 20, color: GogoColors.gray600),
-                      Row(
-                        spacing: 12,
-                        children: [
-                          Text(
-                            '총 개수',
-                            style: GogoTypography.caption1Semibold.copyWith(
-                              color: GogoColors.gray500,
+                    _buildStudentList(state),
+                    Row(
+                      spacing: 16,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        _buildClearAllButton(),
+                        Container(
+                            width: 1, height: 20, color: GogoColors.gray600),
+                        Row(
+                          spacing: 12,
+                          children: [
+                            Text(
+                              '총 개수',
+                              style: GogoTypography.caption1Semibold.copyWith(
+                                color: GogoColors.gray500,
+                              ),
                             ),
-                          ),
-                          Text(
-                            selectedStudent.length.toString(),
-                            style: GogoTypography.caption1Semibold.copyWith(
-                              color: GogoColors.white,
+                            Text(
+                              selectedStudent.length.toString(),
+                              style: GogoTypography.caption1Semibold.copyWith(
+                                color: GogoColors.white,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  GogoDefaultButton(
-                    onTap: isSelectionChanged
-                        ? () => Navigator.pop(
-                            context, {'studentList': selectedStudent})
-                        : () {},
-                    color: isSelectionChanged
-                        ? GogoColors.main600
-                        : GogoColors.gray400,
-                    text: "확인",
-                  ),
-                ],
+                          ],
+                        ),
+                      ],
+                    ),
+                    GogoDefaultButton(
+                      onTap: isSelectionChanged
+                          ? () => Navigator.pop(
+                              context, {'studentList': selectedStudent})
+                          : () {},
+                      color: isSelectionChanged
+                          ? GogoColors.main600
+                          : GogoColors.gray400,
+                      text: "확인",
+                    ),
+                  ],
+                ),
               ),
             ),
           );
