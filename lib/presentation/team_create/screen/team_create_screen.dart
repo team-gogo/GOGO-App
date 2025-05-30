@@ -63,95 +63,110 @@ class _TeamCreateScreen extends State<TeamCreateScreen> {
       backgroundColor: GogoColors.black,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(16, 17, 16, 95),
+          padding: EdgeInsets.fromLTRB(16, 17, 16, 0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 36,
             children: [
-              GogoTopBar(
-                title: '팀 생성',
-                onBackTap: () => context.pop(context),
-              ),
-              Text(
-                widget.gameName,
-                style: GogoTypography.body2Extrabold
-                    .copyWith(color: GogoColors.white),
-              ),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 36,
                 children: [
-                  _editItem(
-                    '팀 이름',
-                    GogoTextField(
-                      controller: _teamNameController,
-                      hintText: '팀 이름을 입력해주세요',
-                      maxLength: 6,
-                    ),
+                  GogoTopBar(
+                    title: '팀 생성',
+                    onBackTap: () => context.pop(context),
                   ),
                   Text(
-                    '${_teamNameController.text.length}/6',
-                    style: GogoTypography.body3Semibold.copyWith(
-                      color: GogoColors.gray500,
-                    ),
+                    widget.gameName,
+                    style: GogoTypography.body2Extrabold
+                        .copyWith(color: GogoColors.white),
                   ),
-                ],
-              ),
-              _editItem(
-                '인원',
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        final result = await stageStudentManagePopup(
-                            context,
-                            _students,
-                            widget.minimumTeamSize,
-                            widget.maximumTeamSize);
-                        setState(() {
-                          _students = result;
-                        });
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: GogoColors.gray700,
-                            borderRadius: BorderRadius.circular(12)),
-                        child: _students.isNotEmpty
-                            ? Wrap(
-                                children: List.generate(
-                                  _students.length,
-                                  (index) => Text(
-                                    "${_students[index].grade}${_students[index].classNumber}${_students[index].studentNumber.toString().padLeft(2, '0')} ${_students[index].name} ${index + 1 == _students.length ? '' : ', '}",
-                                    style: GogoTypography.body3Semibold
-                                        .copyWith(color: GogoColors.white),
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                '학생을 입력해주세요',
-                                style: GogoTypography.body3Semibold
-                                    .copyWith(color: GogoColors.gray400),
-                              ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      spacing: 12,
+                  SingleChildScrollView(
+                    child: Column(
                       children: [
-                        GogoIcons.questionMarkCircle(color: GogoColors.gray500),
-                        Text(
-                          '최소 인원 : ${widget.minimumTeamSize}명   최대 인원 : ${widget.maximumTeamSize}명',
-                          style: GogoTypography.body3Semibold.copyWith(
-                            color: GogoColors.gray500,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            _editItem(
+                              '팀 이름',
+                              GogoTextField(
+                                controller: _teamNameController,
+                                hintText: '팀 이름을 입력해주세요',
+                                maxLength: 6,
+                              ),
+                            ),
+                            Text(
+                              '${_teamNameController.text.length}/6',
+                              style: GogoTypography.body3Semibold.copyWith(
+                                color: GogoColors.gray500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        _editItem(
+                          '인원',
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  final result = await stageStudentManagePopup(
+                                      context,
+                                      _students,
+                                      widget.minimumTeamSize,
+                                      widget.maximumTeamSize);
+                                  setState(() {
+                                    _students = result;
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 12),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      color: GogoColors.gray700,
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: _students.isNotEmpty
+                                      ? Wrap(
+                                          children: List.generate(
+                                            _students.length,
+                                            (index) => Text(
+                                              "${_students[index].grade}${_students[index].classNumber}${_students[index].studentNumber.toString().padLeft(2, '0')} ${_students[index].name} ${index + 1 == _students.length ? '' : ', '}",
+                                              style: GogoTypography
+                                                  .body3Semibold
+                                                  .copyWith(
+                                                      color: GogoColors.white),
+                                            ),
+                                          ),
+                                        )
+                                      : Text(
+                                          '학생을 입력해주세요',
+                                          style: GogoTypography.body3Semibold
+                                              .copyWith(
+                                                  color: GogoColors.gray400),
+                                        ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                spacing: 12,
+                                children: [
+                                  GogoIcons.questionMarkCircle(
+                                      color: GogoColors.gray500),
+                                  Text(
+                                    '최소 인원 : ${widget.minimumTeamSize}명   최대 인원 : ${widget.maximumTeamSize}명',
+                                    style:
+                                        GogoTypography.body3Semibold.copyWith(
+                                      color: GogoColors.gray500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Spacer(),
               GogoDefaultButton(
@@ -174,6 +189,9 @@ class _TeamCreateScreen extends State<TeamCreateScreen> {
                         _teamNameController.text == ""
                     ? GogoColors.gray400
                     : GogoColors.main600,
+              ),
+              SizedBox(
+                height: 50,
               )
             ],
           ),

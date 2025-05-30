@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/component/indicator/refresh_indicator.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/screen/community_detail_screen.dart';
@@ -82,8 +83,23 @@ class HomeScreen extends StatelessWidget {
                                       GogoIcons.clock(color: GogoColors.white),
                                       date:
                                           context.read<HomeBloc>().selectedDate,
-                                      onTap: () => PageRouter.gogoPushNamed(
-                                          PageRouter.matchList, stageId!)),
+                                      onTap: () => context.pushNamed(
+                                              PageRouter.matchList,
+                                              queryParameters: {
+                                                'stageId': stageId.toString(),
+                                                'year': DateFormat('yyyy')
+                                                    .format(context
+                                                        .read<HomeBloc>()
+                                                        .selectedDate),
+                                                'month': DateFormat('MM')
+                                                    .format(context
+                                                        .read<HomeBloc>()
+                                                        .selectedDate),
+                                                'day': DateFormat('dd').format(
+                                                    context
+                                                        .read<HomeBloc>()
+                                                        .selectedDate),
+                                              })),
                                   SingleChildScrollView(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16),
