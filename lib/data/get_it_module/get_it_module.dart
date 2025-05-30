@@ -3,12 +3,15 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/api/auth/auth_api.dart';
 import 'package:gogo_app/data/api/search_school/search_school_api.dart';
+import 'package:gogo_app/data/api/shop/shop_api.dart';
 import 'package:gogo_app/data/data_sources/auth/auth_data_source.dart';
 import 'package:gogo_app/data/data_sources/auth/auth_data_source_impl.dart';
 import 'package:gogo_app/data/data_sources/mini_game/mini_game_data_source.dart';
 import 'package:gogo_app/data/data_sources/mini_game/mini_game_data_source_impl.dart';
 import 'package:gogo_app/data/data_sources/search_school/search_school_data_source.dart';
 import 'package:gogo_app/data/data_sources/search_school/search_school_data_source_impl.dart';
+import 'package:gogo_app/data/data_sources/shop/shop_data_source.dart';
+import 'package:gogo_app/data/data_sources/shop/shop_data_source_impl.dart';
 import 'package:gogo_app/data/data_sources/stage/stage_data_source.dart';
 import 'package:gogo_app/data/data_sources/stage/stage_data_source_impl.dart';
 import 'package:gogo_app/data/get_it_module/setup_dio.dart';
@@ -16,6 +19,8 @@ import 'package:gogo_app/data/repositories/auth/auth_repository.dart';
 import 'package:gogo_app/data/repositories/auth/auth_repository_impl.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository.dart';
 import 'package:gogo_app/data/repositories/search_school/search_school_repository_impl.dart';
+import 'package:gogo_app/data/repositories/shop/shop_repository.dart';
+import 'package:gogo_app/data/repositories/shop/shop_repository_impl.dart';
 import 'package:gogo_app/data/api/stage/stage_api.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository_impl.dart';
@@ -45,6 +50,8 @@ void setupDataSourceLocator() {
       () => MiniGameDataSourceImpl(locator<Dio>()));
   locator.registerLazySingleton<SearchSchoolDataSource>(
       () => SearchSchoolDataSourceImpl(locator<Dio>()));
+  locator.registerLazySingleton<ShopDataSource>(
+      () => ShopDataSourceImpl(locator<Dio>()));
   locator.registerLazySingleton<TokenDataSource>(() => TokenDataSourceImpl());
 }
 
@@ -57,6 +64,8 @@ void setupRepositoryLocator() {
       () => SearchSchoolRepositoryImpl(locator<SearchSchoolDataSource>()));
   locator.registerLazySingleton<MiniGameRepository>(
       () => MiniGameRepositoryImpl(locator<MiniGameDataSource>()));
+  locator.registerLazySingleton<ShopRepository>(
+      () => ShopRepositoryImpl(locator<ShopDataSource>()));
 }
 
 void setupApiLocator() {
@@ -65,4 +74,5 @@ void setupApiLocator() {
   locator.registerLazySingleton<MiniGameApi>(() => MiniGameApi(locator<Dio>()));
   locator.registerLazySingleton<SearchSchoolApi>(
       () => SearchSchoolApi(locator<Dio>()));
+  locator.registerLazySingleton<ShopApi>(() => ShopApi(locator<Dio>()));
 }
