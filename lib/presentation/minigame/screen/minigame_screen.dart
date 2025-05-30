@@ -4,146 +4,177 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc.dart';
+import 'package:gogo_app/presentation/loading/screens/loadaing_page.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc/minigame_bloc.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc/minigame_event.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc/minigame_state.dart';
 import 'package:gogo_app/presentation/minigame/widgets/minigame_select_component.dart';
 
 class MinigameScreen extends StatelessWidget {
+
+  final int stageId;
+  final int point;
+
   const MinigameScreen({
     super.key,
+    required this.stageId,
+    required this.point,
   });
+
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MinigameDescriptionBloc(),
-      child: Scaffold(
-        body: ListView(
-          children: [
-            // 티켓 정보 및 구매
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 25),
-              child: MinigameScrollComponent(
-                icon: GogoIcons.arcade(
-                  color: GogoColors.white,
-                ),
-                info: true,
-                text: "게임",
-                component: Row(
-                  spacing: 12,
-                  children: [
-                    Text(
-                      "티켓",
-                      style: GogoTypography.caption1Semibold.copyWith(
-                        color: GogoColors.white,
-                      ),
-                    ),
-                    Container(
-                      color: GogoColors.gray600,
-                      height: 21.h,
-                      width: 1,
-                    ),
-                    SizedBox(
-                      child: Row(
-                        spacing: 10,
-                        children: [
-                          GogoIcons.shellGame(
-                            width: 20,
-                            height: 20,
-                            color: GogoColors.white,
-                          ),
-                          Text(
-                            '0',
-                            style: GogoTypography.body3Semibold.copyWith(
-                              color: GogoColors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      child: Row(
-                        spacing: 10,
-                        children: [
-                          GogoIcons.pointCoin(
-                            width: 20,
-                            height: 20,
-                            color: GogoColors.white,
-                          ),
-                          Text(
-                            '2',
-                            style: GogoTypography.body3Semibold.copyWith(
-                              color: GogoColors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      child: Row(
-                        spacing: 10,
-                        children: [
-                          GogoIcons.shellGame(
-                            width: 20,
-                            height: 20,
-                            color: GogoColors.white,
-                          ),
-                          Text(
-                            '0',
-                            style: GogoTypography.body3Semibold.copyWith(
-                              color: GogoColors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            // 포인트 정보 및 게임화면으로 이동
-            MinigameScrollComponent(
-              icon: GogoIcons.shop(
-                color: GogoColors.white,
-              ),
-              info: false,
-              text: "상점",
-              component: Row(
-                spacing: 12,
-                children: [
-                  Text(
-                    "보유 포인트",
-                    style: GogoTypography.caption1Semibold.copyWith(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => MinigameDescriptionBloc()),
+        BlocProvider(create: (context) => MinigameBloc()..add(FetchMinigameInfo(stageId: stageId))),
+      ],
+      child: BlocBuilder<MinigameBloc, MinigameState>(
+        builder: (context, state) {
+          if(state is MinigameInfoLoading) {
+            return LoadingPage();
+          }
+
+          else if(state is MinigameInfoLoaded) {
+            return Scaffold(
+            body: ListView(
+              children: [
+                // 티켓 정보 및 구매
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 25),
+                  child: MinigameScrollComponent(
+                    icon: GogoIcons.arcade(
                       color: GogoColors.white,
                     ),
+                    info: true,
+                    text: "게임",
+                    component: Row(
+                      spacing: 12,
+                      children: [
+                        Text(
+                          "티켓",
+                          style: GogoTypography.caption1Semibold.copyWith(
+                            color: GogoColors.white,
+                          ),
+                        ),
+                        Container(
+                          color: GogoColors.gray600,
+                          height: 21.h,
+                          width: 1,
+                        ),
+                        SizedBox(
+                          child: Row(
+                            spacing: 10,
+                            children: [
+                              GogoIcons.shellGame(
+                                width: 20,
+                                height: 20,
+                                color: GogoColors.white,
+                              ),
+                              Text(
+                                '${state.ticketCountsResponse.yavarwee}',
+                                style: GogoTypography.body3Semibold.copyWith(
+                                  color: GogoColors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          child: Row(
+                            spacing: 10,
+                            children: [
+                              GogoIcons.pointCoin(
+                                width: 20,
+                                height: 20,
+                                color: GogoColors.white,
+                              ),
+                              Text(
+                                '${state.ticketCountsResponse.coinToss}',
+                                style: GogoTypography.body3Semibold.copyWith(
+                                  color: GogoColors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          child: Row(
+                            spacing: 10,
+                            children: [
+                              GogoIcons.shellGame(
+                                width: 20,
+                                height: 20,
+                                color: GogoColors.white,
+                              ),
+                              Text(
+                                '${state.ticketCountsResponse.plinko}',
+                                style: GogoTypography.body3Semibold.copyWith(
+                                  color: GogoColors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    spacing: 8,
+                ),
+                // 포인트 정보 및 게임화면으로 이동
+                MinigameScrollComponent(
+                  icon: GogoIcons.shop(
+                    color: GogoColors.white,
+                  ),
+                  info: false,
+                  text: "상점",
+                  component: Row(
+                    spacing: 12,
                     children: [
                       Text(
-                        '2000',
+                        "보유 포인트",
                         style: GogoTypography.caption1Semibold.copyWith(
                           color: GogoColors.white,
                         ),
                       ),
-                      GogoIcons.pointCircle(
-                        color: GogoColors.white,
-                        width: 16,
-                        height: 16,
+                      Row(
+                        spacing: 8,
+                        children: [
+                          Text(
+                            '$point',
+                            style: GogoTypography.caption1Semibold.copyWith(
+                              color: GogoColors.white,
+                            ),
+                          ),
+                          GogoIcons.pointCircle(
+                            color: GogoColors.white,
+                            width: 16,
+                            height: 16,
+                          )
+                        ],
                       )
                     ],
-                  )
-                ],
-              ),
-              shellgameTicketscost: 1000,
-              cointTossTicketscost: 1000,
-              plinkoTicketscost: 1000,
-              shellgameTicketsCount: 5,
-              cointTossTicketsCount: 5,
-              plinkoTicketsCount: 5,
+                  ),
+                  shellgameTicketscost: state.shopTicketStatusResponse.yavarwee.ticketPrice,
+                  cointTossTicketscost: state.shopTicketStatusResponse.coinToss.ticketPrice,
+                  plinkoTicketscost: state.shopTicketStatusResponse.plinko.ticketPrice,
+                  shellgameTicketsCount: state.shopTicketStatusResponse.yavarwee.ticketQuantity,
+                  cointTossTicketsCount: state.shopTicketStatusResponse.coinToss.ticketQuantity,  
+                  plinkoTicketsCount: state.shopTicketStatusResponse.plinko.ticketQuantity,
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          );
+        }
+
+        else if(state is MinigameInfoError) {
+          return Center(
+            child: Text(state.message),
+          );
+        }
+
+        return const SizedBox.shrink();
+      }
+    ),
     );
   }
 }
