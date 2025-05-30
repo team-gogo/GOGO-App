@@ -53,10 +53,10 @@ class MatchDetailScreen extends StatelessWidget {
               return SafeArea(
                 child: SingleChildScrollView(
                   child: Column(
-                    spacing: 28.h,
+                    spacing: 28,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(15),
                         child: GogoTopBar(
                           title:
                               '${matchInfo.ateam.teamName} vs ${matchInfo.bteam.teamName}',
@@ -78,43 +78,45 @@ class MatchDetailScreen extends StatelessWidget {
                                       .copyWith(color: GogoColors.white),
                                 ),
                                 Row(
+                                  spacing: 24,
                                   children: [
                                     Row(
+                                      spacing: 8,
                                       children: [
                                         Container(
-                                          width: 24.sp,
-                                          height: 24.sp,
+                                          width: 24,
+                                          height: 24,
                                           decoration: BoxDecoration(
                                             color: GogoColors.teamBlue,
                                             borderRadius:
-                                                BorderRadius.circular(8.r),
+                                                BorderRadius.circular(8),
                                           ),
                                         ),
-                                        SizedBox(width: 8.w),
                                         Text(
                                           '${matchInfo.ateam.teamName}팀',
                                           style: GogoTypography.body3Extrabold
-                                              .copyWith(color: GogoColors.white),
+                                              .copyWith(
+                                                  color: GogoColors.white),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(width: 24.w),
                                     Row(
+                                      spacing: 8,
                                       children: [
                                         Container(
-                                          width: 24.sp,
-                                          height: 24.sp,
+                                          width: 24,
+                                          height: 24,
                                           decoration: BoxDecoration(
                                             color: GogoColors.teamRed,
                                             borderRadius:
-                                                BorderRadius.circular(8.r),
+                                                BorderRadius.circular(8),
                                           ),
                                         ),
-                                        SizedBox(width: 8.w),
                                         Text(
                                           '${matchInfo.bteam.teamName}팀',
                                           style: GogoTypography.body3Extrabold
-                                              .copyWith(color: GogoColors.white),
+                                              .copyWith(
+                                                  color: GogoColors.white),
                                         ),
                                       ],
                                     ),
@@ -148,9 +150,11 @@ class MatchDetailScreen extends StatelessWidget {
                                             isLeft: true),
                                         ...aTeamParticipant.map((p) {
                                           final double x =
-                                              (double.tryParse(p.positionX) ?? 0);
+                                              (double.tryParse(p.positionX) ??
+                                                  0);
                                           final double y =
-                                              (double.tryParse(p.positionY) ?? 0);
+                                              (double.tryParse(p.positionY) ??
+                                                  0);
                                           final xRatio = x / originalWidth;
                                           final yRatio = y / originalHeight;
                                           return MatchParticipantWidget(
@@ -167,9 +171,11 @@ class MatchDetailScreen extends StatelessWidget {
                                             isLeft: false),
                                         ...bTeamParticipant.map((p) {
                                           final double x =
-                                              (double.tryParse(p.positionX) ?? 0);
+                                              (double.tryParse(p.positionX) ??
+                                                  0);
                                           final double y =
-                                              (double.tryParse(p.positionY) ?? 0);
+                                              (double.tryParse(p.positionY) ??
+                                                  0);
                                           final xRatio = x / originalWidth;
                                           final yRatio = y / originalHeight;
                                           return MatchParticipantWidget(
@@ -193,7 +199,8 @@ class MatchDetailScreen extends StatelessWidget {
                           final Color activeColor =
                               isLeft ? GogoColors.teamBlue : GogoColors.teamRed;
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Stack(
                               children: [
                                 Container(

@@ -27,6 +27,7 @@ import 'package:gogo_app/data/models/stage/community/community_comment_request.d
 import '../../models/stage/community/sort_type.dart';
 import '../../models/stage/enum_type/game_type.dart';
 import '../../models/stage/handle_stage/join_stage_request.dart';
+import '../../models/stage/search_stage/search_wasted_me_response.dart';
 import 'stage_repository.dart';
 
 class StageRepositoryImpl implements StageRepository {
@@ -164,5 +165,10 @@ class StageRepositoryImpl implements StageRepository {
   @override
   Future<SearchGameFormatResponse> getGameFormat(int gameId) async {
     return await _stageDataSource.getGameFormat(gameId);
+  }
+
+  @override
+  Future<SearchWastedMeResponse> getWastedMe(int stageId) async {
+    return await _stageDataSource.getWastedMe(stageId);
   }
 }

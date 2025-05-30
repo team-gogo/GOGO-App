@@ -1,12 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/component/indicator/refresh_indicator.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
 import 'package:gogo_app/presentation/community/screen/community_detail_screen.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:gogo_app/presentation/home/bloc/home_bloc.dart';
 import 'package:gogo_app/presentation/home/widgets/appbar/home_appbar.dart';
+import 'package:gogo_app/presentation/home/widgets/bankruptcy_modal/bankruptcy_modal.dart';
 import 'package:gogo_app/presentation/home/widgets/match_game_item.dart';
 import 'package:gogo_app/presentation/loading/screens/loadaing_page.dart';
 import 'package:gogo_app/presentation/navigation_view/widgets/drawer/gogo_drawer.dart';
@@ -29,7 +31,20 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeBloc(stageId: stageId!),
-      child: BlocBuilder<HomeBloc, HomeState>(
+      child: BlocConsumer<HomeBloc, HomeState>(
+        listener: (BuildContext context, HomeState state) async {
+          if (state is LoadedHomeState) {
+            print(state.isBankruptcy);
+            if (state.isBankruptcy) {
+              final request = await showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (builder) => BankruptcyModal());
+              final bool response = request['isCheck'] ?? false;
+              context.read<HomeBloc>().add(CheckBankruptcy(response));
+            }
+          }
+        },
         builder: (BuildContext context, HomeState state) {
           if (state is LoadingHomeState ||
               state is InitialHomeState ||
@@ -68,8 +83,23 @@ class HomeScreen extends StatelessWidget {
                                       GogoIcons.clock(color: GogoColors.white),
                                       date:
                                           context.read<HomeBloc>().selectedDate,
-                                      onTap: () => PageRouter.gogoPushNamed(
-                                          PageRouter.matchList, stageId!)),
+                                      onTap: () => context.pushNamed(
+                                              PageRouter.matchList,
+                                              queryParameters: {
+                                                'stageId': stageId.toString(),
+                                                'year': DateFormat('yyyy')
+                                                    .format(context
+                                                        .read<HomeBloc>()
+                                                        .selectedDate),
+                                                'month': DateFormat('MM')
+                                                    .format(context
+                                                        .read<HomeBloc>()
+                                                        .selectedDate),
+                                                'day': DateFormat('dd').format(
+                                                    context
+                                                        .read<HomeBloc>()
+                                                        .selectedDate),
+                                              })),
                                   SingleChildScrollView(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16),
@@ -154,7 +184,6 @@ class HomeScreen extends StatelessWidget {
                                   MinigamePlayComponent(
                                     activeGameResponse:
                                         state.activeGameResponse,
-                                    stageId: stageId!,
                                   )
                                 ],
                               ),
