@@ -8,6 +8,7 @@ import 'package:retrofit/http.dart';
 import '../../models/mini_game/active_game_response.dart';
 import '../../models/mini_game/betting/coin_toss_response.dart';
 import '../../models/mini_game/betting/yavarwee_request.dart';
+import '../../models/mini_game/betting/yavarwee_bet_response.dart';
 import '../../models/mini_game/ticket_counts_response.dart';
 
 part 'mini_game_api.g.dart';
@@ -32,6 +33,12 @@ abstract class MiniGameApi {
   Future<int> getYavarweeBetting(
     @Path("stage_id") int stageId,
     @Body() YavarweeRequest body,
+  );
+
+  @POST("/minigame/yavarwee/bet/{stage_id}")
+  Future<YavarweeBetResponse> placeYavarweeBet(
+    @Path("stage_id") int stageId,
+    @Body() Map<String, dynamic> body,
   );
 
   @GET("/minigame/ticket/{stage_id}")

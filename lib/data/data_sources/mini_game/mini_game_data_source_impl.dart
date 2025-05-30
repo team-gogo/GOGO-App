@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:gogo_app/data/models/mini_game/betting/coin_toss_response.dart';
 import 'package:gogo_app/data/models/mini_game/betting/plinko_response.dart';
 import 'package:gogo_app/data/models/mini_game/betting/yavarwee_request.dart';
+import 'package:gogo_app/data/models/mini_game/betting/yavarwee_bet_response.dart';
 import 'package:gogo_app/data/models/mini_game/risk_level.dart';
 import '../../api/mini_game/mini_game_api.dart';
 import '../../models/mini_game/active_game_response.dart';
@@ -36,6 +37,12 @@ class MiniGameDataSourceImpl implements MiniGameDataSource {
   Future<int> getYavarweeBetting(int stageId, YavarweeRequest body) async {
     return await executeHandleApiCall(
         () => _miniGameApi.getYavarweeBetting(stageId, body));
+  }
+
+  @override
+  Future<YavarweeBetResponse> placeYavarweeBet(int stageId, Map<String, dynamic> body) async {
+    return await executeHandleApiCall(
+        () => _miniGameApi.placeYavarweeBet(stageId, body));
   }
 
   @override

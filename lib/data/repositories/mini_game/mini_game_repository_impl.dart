@@ -1,6 +1,7 @@
 import 'package:gogo_app/data/models/mini_game/betting/coin_toss_response.dart';
 import 'package:gogo_app/data/models/mini_game/betting/plinko_response.dart';
 import 'package:gogo_app/data/models/mini_game/betting/yavarwee_request.dart';
+import 'package:gogo_app/data/models/mini_game/betting/yavarwee_bet_response.dart';
 import 'package:gogo_app/data/models/mini_game/risk_level.dart';
 import '../../data_sources/mini_game/mini_game_data_source.dart';
 import '../../models/mini_game/active_game_response.dart';
@@ -25,6 +26,11 @@ class MiniGameRepositoryImpl implements MiniGameRepository {
   @override
   Future<int> getYavarweeBetting(int stageId, YavarweeRequest body) {
     return _miniGameDataSource.getYavarweeBetting(stageId, body);
+  }
+
+  @override
+  Future<YavarweeBetResponse> placeYavarweeBet(int stageId, Map<String, dynamic> body) {
+    return _miniGameDataSource.placeYavarweeBet(stageId, body);
   }
 
   @override
