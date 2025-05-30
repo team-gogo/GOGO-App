@@ -38,60 +38,62 @@ class _MatchTeamInfoScreenState extends State<MatchTeamInfoScreen>
                 TabController(length: state.gameResponse.count, vsync: this);
             _tabController?.animateTo(widget.gameIndex);
             return Scaffold(
-              body: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        GogoTopBar(
-                            title: '경기 팀 보기',
-                            onBackTap: () => context.pop(context)),
-                        SizedBox(height: 18),
-                        TabBar(
-                          dividerColor: GogoColors.black,
-                          indicatorColor: GogoColors.main600,
-                          labelColor: GogoColors.white,
-                          labelStyle: GogoTypography.caption1Extrabold,
-                          unselectedLabelStyle:
-                              GogoTypography.caption1Extrabold,
-                          overlayColor: WidgetStatePropertyAll(
-                              GogoColors.main600.withOpacity(0.2)),
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          indicatorWeight: 2,
-                          labelPadding: EdgeInsets.fromLTRB(6, 0, 6, 10),
-                          controller: _tabController,
-                          tabs: List.generate(
-                            state.gameResponse.games.length,
-                            (index) => Tab(
-                              text: state.gameResponse.games[index].gameName,
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        children: [
+                          GogoTopBar(
+                              title: '경기 팀 보기',
+                              onBackTap: () => context.pop(context)),
+                          SizedBox(height: 18),
+                          TabBar(
+                            dividerColor: GogoColors.black,
+                            indicatorColor: GogoColors.main600,
+                            labelColor: GogoColors.white,
+                            labelStyle: GogoTypography.caption1Extrabold,
+                            unselectedLabelStyle:
+                                GogoTypography.caption1Extrabold,
+                            overlayColor: WidgetStatePropertyAll(
+                                GogoColors.main600.withOpacity(0.2)),
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            indicatorWeight: 2,
+                            labelPadding: EdgeInsets.fromLTRB(6, 0, 6, 10),
+                            controller: _tabController,
+                            tabs: List.generate(
+                              state.gameResponse.games.length,
+                              (index) => Tab(
+                                text: state.gameResponse.games[index].gameName,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 24),
-                  Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: List.generate(
-                        state.gameResponse.count,
-                        (index) => MatchTeamList(
-                          teamResponse: state.teamResponse[index],
-                          game: state.gameResponse.games[index].category,
-                          isTournament:
-                              state.gameResponse.games[index].system ==
-                                  GameSystem.TOURNAMENT,
-                          gameId: state.gameResponse.games[index].gameId,
-                          onRefresh: () async => context
-                              .read<MatchTeamBloc>()
-                              .add(GetGameList(stageId: widget.stageId)),
+                    SizedBox(height: 24),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: List.generate(
+                          state.gameResponse.count,
+                          (index) => MatchTeamList(
+                            teamResponse: state.teamResponse[index],
+                            game: state.gameResponse.games[index].category,
+                            isTournament:
+                                state.gameResponse.games[index].system ==
+                                    GameSystem.TOURNAMENT,
+                            gameId: state.gameResponse.games[index].gameId,
+                            onRefresh: () async => context
+                                .read<MatchTeamBloc>()
+                                .add(GetGameList(stageId: widget.stageId)),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           } else if (state is InitMatchTeam || state is LoadingMatchTeam) {

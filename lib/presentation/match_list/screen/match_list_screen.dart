@@ -6,6 +6,7 @@ import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
+import 'package:gogo_app/presentation/loading/widgets/loading_indicator.dart';
 import '../../home/widgets/match_batting_status_dialog.dart';
 import '../../home/widgets/match_card/match_card_component.dart';
 import '../bloc/match_list_bloc.dart';
@@ -67,14 +68,45 @@ class MatchListScreen extends StatelessWidget {
                   child: BlocBuilder<MatchListBloc, MatchListState>(
                     builder: (context, state) {
                       if (state is LoadingMatchList) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(child: LoadingIndicator());
                       } else if (state is LoadedMatchList) {
                         if (state.matchList.isEmpty) {
-                          return const Center(child: Text("매치가 없습니다"));
+                          return Align(
+                            alignment: Alignment.center,
+                            child: Stack(
+                              children: [
+                                Text(
+                                  "오늘\n매치가 없습니다",
+                                  style: TextStyle(
+                                    fontFamily: 'GmarketSans',
+                                    fontSize: 48,
+                                    foreground: Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = 1
+                                      ..color = GogoColors.main600,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Transform.translate(
+                                  offset: Offset(5, -3),
+                                  child: Text(
+                                    "오늘\n매치가 없습니다",
+                                    style: TextStyle(
+                                      fontFamily: 'GmarketSans',
+                                      fontSize: 48,
+                                      color: GogoColors.main600,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                         return ListView.separated(
                           itemCount: state.matchList.length,
-                          separatorBuilder: (_, __) => const SizedBox(height: 12),
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 12),
                           itemBuilder: (context, index) {
                             final matchDto = state.matchList[index];
                             return MatchCard(
