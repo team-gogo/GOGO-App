@@ -22,12 +22,10 @@ class ShopTicketStatusResponse {
 
 @JsonSerializable()
 class CoinTossTicket {
-  final int coinTossId;
   final int ticketPrice;
   final int ticketQuantity;
 
   CoinTossTicket({
-    required this.coinTossId,
     required this.ticketPrice,
     required this.ticketQuantity,
   });
@@ -38,12 +36,10 @@ class CoinTossTicket {
 
 @JsonSerializable()
 class YavarweeTicket {
-  final int YavarweeTicketId;
   final int ticketPrice;
   final int ticketQuantity;
 
   YavarweeTicket({
-    required this.YavarweeTicketId,
     required this.ticketPrice,
     required this.ticketQuantity,
   });
@@ -54,12 +50,10 @@ class YavarweeTicket {
 
 @JsonSerializable()
 class PlinkoTicket {
-  final int PlinkoTicketId;
   final int ticketPrice;
   final int ticketQuantity;
 
   PlinkoTicket({
-    required this.PlinkoTicketId,
     required this.ticketPrice,
     required this.ticketQuantity,
   });

@@ -1,3 +1,4 @@
+import 'package:gogo_app/data/models/mini_game/betting/bet_limit_response.dart';
 import 'package:gogo_app/data/models/mini_game/betting/coin_toss_response.dart';
 import 'package:gogo_app/data/models/mini_game/betting/plinko_response.dart';
 import 'package:gogo_app/data/models/mini_game/betting/yavarwee_request.dart';
@@ -35,5 +36,10 @@ class MiniGameRepositoryImpl implements MiniGameRepository {
   @override
   Future<ActiveGameResponse> getActiveGame(int stageId) {
     return _miniGameDataSource.getActiveGame(stageId);
+  }
+
+  @override
+  Future<BetLimitResponse> getBetLimit(int stageId) {
+    return _miniGameDataSource.getBetLimit(stageId);
   }
 }

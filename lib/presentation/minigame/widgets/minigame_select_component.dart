@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc.dart';
-import 'package:gogo_app/presentation/minigame/bloc/minigame_event.dart';
+import 'package:gogo_app/data/models/shop/enum_type/ticket_type.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc/minigame_bloc.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc/minigame_event.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc/minigame_state.dart';
 import 'package:gogo_app/presentation/minigame/widgets/minigame_description_popup.dart';
 import 'package:gogo_app/presentation/minigame/widgets/minigame_topbar.dart';
 import 'package:gogo_app/router.dart';
@@ -19,8 +21,10 @@ class MinigameSelectComponent extends StatelessWidget {
   final int ticketsCost;
   final int ticketsCount;
   final VoidCallback onTap;
-
-  final bool info; // 티켓 정보이면 true, 미니게임이면 false,
+  final bool info; // 티켓 정보이면 true, 미니게임이면 false
+  final int? userPoint; // 사용자 보유 포인트
+  final int? userTicketCount; // 사용자 보유 티켓 수
+  final bool? isGameActive; // 게임 활성화 여부
 
   const MinigameSelectComponent({
     super.key,
@@ -32,7 +36,38 @@ class MinigameSelectComponent extends StatelessWidget {
     this.ticketsCount = 0,
     required this.info,
     required this.onTap,
+    this.userPoint,
+    this.userTicketCount,
+    this.isGameActive,
   });
+
+  bool get _isButtonEnabled {
+    if (info) {
+      // 게임하기 버튼: 티켓이 있고 게임이 활성화되어야 함
+      final hasTickets = (userTicketCount ?? 0) > 0;
+      final gameIsActive = isGameActive ?? true; // 기본값 true
+      return hasTickets && gameIsActive;
+    } else {
+      // 티켓 구매 버튼: 포인트가 충분하고 구매 가능한 티켓이 있어야 함
+      final hasEnoughPoints = (userPoint ?? 0) >= ticketsCost;
+      final hasAvailableTickets = ticketsCount > 0;
+      return hasEnoughPoints && hasAvailableTickets;
+    }
+  }
+
+  String get _buttonText {
+    if (info) {
+      // 게임하기 버튼
+      return "게임하기";
+    } else {
+      // 티켓 구매 버튼
+      return '${ticketsCost}P';
+    }
+  }
+
+  Color get _buttonColor {
+    return _isButtonEnabled ? GogoColors.main600 : GogoColors.gray600;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,14 +131,14 @@ class MinigameSelectComponent extends StatelessWidget {
               height: 45,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: GogoColors.main600,
+                color: _buttonColor,
               ),
               child: TextButton(
-                onPressed: onTap,
+                onPressed: _isButtonEnabled ? onTap : null,
                 child: Text(
-                  info ? "게임하기" : '${ticketsCost}P',
+                  _buttonText,
                   style: GogoTypography.caption1Semibold.copyWith(
-                    color: GogoColors.white,
+                    color: _isButtonEnabled ? GogoColors.white : GogoColors.gray400,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -128,6 +163,7 @@ class MinigameScrollComponent extends StatelessWidget {
   final Widget component;
   final Widget icon;
   final String text;
+  final int stageId;
   final int shellgameTicketscost; // 코인토스 티켓 가격
   final int cointTossTicketscost; // 플링코 티켓 가격
   final int plinkoTicketscost; // 야바위 티켓 가격
@@ -141,6 +177,7 @@ class MinigameScrollComponent extends StatelessWidget {
     required this.component,
     required this.icon,
     required this.text,
+    required this.stageId,
     this.shellgameTicketscost = 0,
     this.cointTossTicketscost = 0,
     this.plinkoTicketscost = 0,
@@ -150,73 +187,121 @@ class MinigameScrollComponent extends StatelessWidget {
     required this.info,
   });
 
+  void _purchaseTicket(BuildContext context, TicketType ticketType, int stageId) {
+    context.read<MinigameBloc>().add(
+      PurchaseTicket(
+        stageId: stageId,
+        ticketType: ticketType,
+        quantity: 1, // 기본 1개 구매
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 24,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        MinigameTopBar(
-          height: 32,
-          component: component,
-          icon: icon,
-          text: text,
-        ),
-        MinigameSelectComponent(
-          info: info,
-          gameIcon: info
-              ? GogoIcons.shellGame(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                )
-              : GogoIcons.ticket(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                ),
-          gameName: "야바위",
-          ticketsCost: shellgameTicketscost,
-          ticketsCount: shellgameTicketsCount,
-          onTap: () => context.pushNamed(PageRouter.yavarwee),
-        ),
-        MinigameSelectComponent(
-          info: info,
-          gameIcon: info
-              ? GogoIcons.pointCoin(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                )
-              : GogoIcons.ticket(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                ),
-          gameName: "코인토스",
-          ticketsCost: cointTossTicketscost,
-          ticketsCount: cointTossTicketsCount,
-          onTap: () => context.pushNamed(PageRouter.coinToss),
-        ),
-        MinigameSelectComponent(
-          info: info,
-          gameIcon: info
-              ? GogoIcons.plinko(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                )
-              : GogoIcons.ticket(
-                  width: 48,
-                  height: 48,
-                  color: GogoColors.white,
-                ),
-          gameName: "플린코",
-          ticketsCost: plinkoTicketscost,
-          ticketsCount: plinkoTicketsCount,
-          onTap: () {},
-        ),
-      ],
+    return BlocBuilder<MinigameBloc, MinigameState>(
+      builder: (context, state) {
+        // 사용자 포인트와 티켓 정보를 state에서 가져오기
+        int? userPoint;
+        int? yavarweeTickets;
+        int? coinTossTickets;
+        int? plinkoTickets;
+        bool? isYavarweeActive;
+        bool? isCoinTossActive;
+        bool? isPlinkoActive;
+
+        if (state is MinigameInfoLoaded) {
+          userPoint = state.userPointResponse.point;
+          yavarweeTickets = state.ticketCountsResponse.yavarwee;
+          coinTossTickets = state.ticketCountsResponse.coinToss;
+          plinkoTickets = state.ticketCountsResponse.plinko;
+          isYavarweeActive = state.activeGameResponse.isYavarweeActive;
+          isCoinTossActive = state.activeGameResponse.isCoinTossActive;
+          isPlinkoActive = state.activeGameResponse.isPlinkoActive;
+        }
+
+        return Column(
+          spacing: 24,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MinigameTopBar(
+              height: 32,
+              component: component,
+              icon: icon,
+              text: text,
+            ),
+            MinigameSelectComponent(
+              info: info,
+              gameIcon: info
+                  ? GogoIcons.shellGame(
+                      width: 48,
+                      height: 48,
+                      color: GogoColors.white,
+                    )
+                  : GogoIcons.ticket(
+                      width: 48,
+                      height: 48,
+                      color: GogoColors.white,
+                    ),
+              gameName: "야바위",
+              ticketsCost: shellgameTicketscost,
+              ticketsCount: shellgameTicketsCount,
+              userPoint: userPoint,
+              userTicketCount: yavarweeTickets,
+              isGameActive: isYavarweeActive,
+              onTap: info 
+                  ? () => context.pushNamed(PageRouter.yavarwee)
+                  : () => _purchaseTicket(context, TicketType.WAVARWEE, stageId),
+            ),
+            MinigameSelectComponent(
+              info: info,
+              gameIcon: info
+                  ? GogoIcons.pointCoin(
+                      width: 48,
+                      height: 48,
+                      color: GogoColors.white,
+                    )
+                  : GogoIcons.ticket(
+                      width: 48,
+                      height: 48,
+                      color: GogoColors.white,
+                    ),
+              gameName: "코인토스",
+              ticketsCost: cointTossTicketscost,
+              ticketsCount: cointTossTicketsCount,
+              userPoint: userPoint,
+              userTicketCount: coinTossTickets,
+              isGameActive: isCoinTossActive,
+              onTap: info 
+                  ? () => context.pushNamed(PageRouter.coinToss)
+                  : () => _purchaseTicket(context, TicketType.COINTOSS, stageId),
+            ),
+            MinigameSelectComponent(
+              info: info,
+              gameIcon: info
+                  ? GogoIcons.plinko(
+                      width: 48,
+                      height: 48,
+                      color: GogoColors.white,
+                    )
+                  : GogoIcons.ticket(
+                      width: 48,
+                      height: 48,
+                      color: GogoColors.white,
+                    ),
+              gameName: "플린코",
+              ticketsCost: plinkoTicketscost,
+              ticketsCount: plinkoTicketsCount,
+              userPoint: userPoint,
+              userTicketCount: plinkoTickets,
+              isGameActive: isPlinkoActive,
+              onTap: info 
+                  ? () {}
+                  : () => _purchaseTicket(context, TicketType.PLINKO, stageId),
+            ),
+          ],
+        );
+      },
     );
   }
 }
