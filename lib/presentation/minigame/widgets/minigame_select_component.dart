@@ -164,12 +164,13 @@ class MinigameScrollComponent extends StatelessWidget {
   final Widget icon;
   final String text;
   final int stageId;
-  final int shellgameTicketscost; // 코인토스 티켓 가격
-  final int cointTossTicketscost; // 플링코 티켓 가격
-  final int plinkoTicketscost; // 야바위 티켓 가격
-  final int shellgameTicketsCount; // 야바위 티켓 구매 가능한 수수
-  final int cointTossTicketsCount; // 코인토스 티켓 구매 가능한 수
-  final int plinkoTicketsCount; // 야바위 티켓 구매 가능한 수
+  final int shopId;
+  final int? shellgameTicketscost; // 코인토스 티켓 가격
+  final int? cointTossTicketscost; // 플링코 티켓 가격
+  final int? plinkoTicketscost; // 야바위 티켓 가격
+  final int? shellgameTicketsCount; // 야바위 티켓 구매 가능한 수수
+  final int? cointTossTicketsCount; // 코인토스 티켓 구매 가능한 수
+  final int? plinkoTicketsCount; // 야바위 티켓 구매 가능한 수
   final bool info; // 티켓이면 true, 포인트 정보이면 false
 
   const MinigameScrollComponent({
@@ -185,6 +186,7 @@ class MinigameScrollComponent extends StatelessWidget {
     this.cointTossTicketsCount = 0,
     this.plinkoTicketsCount = 0,
     required this.info,
+    required this.shopId,
   });
 
   void _purchaseTicket(
@@ -245,15 +247,14 @@ class MinigameScrollComponent extends StatelessWidget {
                       color: GogoColors.white,
                     ),
               gameName: "야바위",
-              ticketsCost: shellgameTicketscost,
-              ticketsCount: shellgameTicketsCount,
+              ticketsCost: shellgameTicketscost ?? 0,
+              ticketsCount: shellgameTicketsCount ?? 0,
               userPoint: userPoint,
               userTicketCount: yavarweeTickets,
               isGameActive: isYavarweeActive,
               onTap: info
                   ? () => context.pushNamed(PageRouter.yavarwee)
-                  : () =>
-                      _purchaseTicket(context, TicketType.WAVARWEE, stageId),
+                  : () => _purchaseTicket(context, TicketType.YAVARWEE, shopId),
             ),
             MinigameSelectComponent(
               info: info,
@@ -269,15 +270,14 @@ class MinigameScrollComponent extends StatelessWidget {
                       color: GogoColors.white,
                     ),
               gameName: "코인토스",
-              ticketsCost: cointTossTicketscost,
-              ticketsCount: cointTossTicketsCount,
+              ticketsCost: cointTossTicketscost ?? 0,
+              ticketsCount: cointTossTicketsCount ?? 0,
               userPoint: userPoint,
               userTicketCount: coinTossTickets,
               isGameActive: isCoinTossActive,
               onTap: info
-                  ? () => context.pushNamed(PageRouter.coinToss)
-                  : () =>
-                      _purchaseTicket(context, TicketType.COINTOSS, stageId),
+                  ? () => PageRouter.gogoPushNamed(PageRouter.coinToss, stageId)
+                  : () => _purchaseTicket(context, TicketType.COINTOSS, shopId),
             ),
             MinigameSelectComponent(
               info: info,
@@ -293,14 +293,14 @@ class MinigameScrollComponent extends StatelessWidget {
                       color: GogoColors.white,
                     ),
               gameName: "플린코",
-              ticketsCost: plinkoTicketscost,
-              ticketsCount: plinkoTicketsCount,
+              ticketsCost: plinkoTicketscost ?? 0,
+              ticketsCount: plinkoTicketsCount ?? 0,
               userPoint: userPoint,
               userTicketCount: plinkoTickets,
               isGameActive: isPlinkoActive,
               onTap: info
                   ? () {}
-                  : () => _purchaseTicket(context, TicketType.PLINKO, stageId),
+                  : () => _purchaseTicket(context, TicketType.PLINKO, shopId),
             ),
           ],
         );

@@ -13,7 +13,6 @@ import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc/minigame_state
 import 'package:gogo_app/presentation/minigame/widgets/minigame_select_component.dart';
 
 class MinigameScreen extends StatelessWidget {
-
   final int stageId;
   final int point;
 
@@ -23,13 +22,14 @@ class MinigameScreen extends StatelessWidget {
     required this.point,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => MinigameDescriptionBloc()),
-        BlocProvider(create: (context) => MinigameBloc()..add(FetchMinigameInfo(stageId: stageId))),
+        BlocProvider(
+            create: (context) => MinigameBloc()
+              ..add(FetchMinigameInfo(stageId: stageId, init: true))),
       ],
       child: BlocListener<MinigameBloc, MinigameState>(
         listener: (context, state) {
@@ -38,7 +38,8 @@ class MinigameScreen extends StatelessWidget {
               SnackBar(
                 content: Text(
                   '티켓 구매가 완료되었습니다!',
-                  style: GogoTypography.body3Semibold.copyWith(color: GogoColors.white),
+                  style: GogoTypography.body3Semibold
+                      .copyWith(color: GogoColors.white),
                 ),
                 backgroundColor: GogoColors.main600,
                 duration: Duration(seconds: 2),
@@ -49,7 +50,8 @@ class MinigameScreen extends StatelessWidget {
               SnackBar(
                 content: Text(
                   '티켓 구매에 실패했습니다: ${state.message}',
-                  style: GogoTypography.body3Semibold.copyWith(color: GogoColors.white),
+                  style: GogoTypography.body3Semibold
+                      .copyWith(color: GogoColors.white),
                 ),
                 backgroundColor: GogoColors.teamRed,
                 duration: Duration(seconds: 3),
@@ -58,157 +60,197 @@ class MinigameScreen extends StatelessWidget {
           }
         },
         child: BlocBuilder<MinigameBloc, MinigameState>(
-          buildWhen: (previous, current) {
-            // TicketPurchase 상태는 UI rebuild를 하지 않음 (Listener에서 처리)
-            return current is! TicketPurchaseSuccess && current is! TicketPurchaseError;
-          },
-          builder: (context, state) {
-            if(state is MinigameInfoLoading) {
-              return LoadingPage();
-            }
-
-            else if(state is MinigameInfoLoaded) {
-              return Scaffold(
-                body: ListView(
-                  children: [
-                    // 티켓 정보 및 구매
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 25),
-                      child: MinigameScrollComponent(
-                        stageId: stageId,
-                        icon: GogoIcons.arcade(
-                          color: GogoColors.white,
-                        ),
-                        info: true,
-                        text: "게임",
-                        component: Row(
-                          spacing: 12,
-                          children: [
-                            Text(
-                              "티켓",
-                              style: GogoTypography.caption1Semibold.copyWith(
-                                color: GogoColors.white,
-                              ),
-                            ),
-                            Container(
-                              color: GogoColors.gray600,
-                              height: 21.h,
-                              width: 1,
-                            ),
-                            SizedBox(
-                              child: Row(
-                                spacing: 10,
-                                children: [
-                                  GogoIcons.shellGame(
-                                    width: 20,
-                                    height: 20,
-                                    color: GogoColors.white,
-                                  ),
-                                  Text(
-                                    '${state.ticketCountsResponse.yavarwee}',
-                                    style: GogoTypography.body3Semibold.copyWith(
-                                      color: GogoColors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              child: Row(
-                                spacing: 10,
-                                children: [
-                                  GogoIcons.pointCoin(
-                                    width: 20,
-                                    height: 20,
-                                    color: GogoColors.white,
-                                  ),
-                                  Text(
-                                    '${state.ticketCountsResponse.coinToss}',
-                                    style: GogoTypography.body3Semibold.copyWith(
-                                      color: GogoColors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              child: Row(
-                                spacing: 10,
-                                children: [
-                                  GogoIcons.shellGame(
-                                    width: 20,
-                                    height: 20,
-                                    color: GogoColors.white,
-                                  ),
-                                  Text(
-                                    '${state.ticketCountsResponse.plinko}',
-                                    style: GogoTypography.body3Semibold.copyWith(
-                                      color: GogoColors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    // 포인트 정보 및 게임화면으로 이동
-                    MinigameScrollComponent(
-                      stageId: stageId,
-                      icon: GogoIcons.shop(
-                        color: GogoColors.white,
-                      ),
-                      info: false,
-                      text: "상점",
-                      component: Row(
-                        spacing: 12,
-                        children: [
-                          Text(
-                            "보유 포인트",
-                            style: GogoTypography.caption1Semibold.copyWith(
-                              color: GogoColors.white,
-                            ),
-                          ),
-                          Row(
-                            spacing: 8,
+            buildWhen: (previous, current) {
+          return current is! TicketPurchaseSuccess &&
+              current is! TicketPurchaseError;
+        }, builder: (context, state) {
+          if (state is MinigameInfoLoading) {
+            return LoadingPage();
+          } else if (state is MinigameInfoLoaded) {
+            return Scaffold(
+              body: SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      GogoTopBar(
+                          title: '뒤로가기', onBackTap: () => context.pop(context)),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
                             children: [
-                              Text(
-                                '$point',
-                                style: GogoTypography.caption1Semibold.copyWith(
-                                  color: GogoColors.white,
+                              // 티켓 정보 및 구매
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 25),
+                                child: MinigameScrollComponent(
+                                  shopId: state.shopTicketStatusResponse.shopId,
+                                  stageId: stageId,
+                                  icon: GogoIcons.arcade(
+                                    color: GogoColors.white,
+                                  ),
+                                  info: true,
+                                  text: "게임",
+                                  component: Row(
+                                    spacing: 12,
+                                    children: [
+                                      Text(
+                                        "티켓",
+                                        style: GogoTypography.caption1Semibold
+                                            .copyWith(
+                                          color: GogoColors.white,
+                                        ),
+                                      ),
+                                      Container(
+                                        color: GogoColors.gray600,
+                                        height: 21.h,
+                                        width: 1,
+                                      ),
+                                      SizedBox(
+                                        child: Row(
+                                          spacing: 10,
+                                          children: [
+                                            GogoIcons.shellGame(
+                                              width: 20,
+                                              height: 20,
+                                              color: GogoColors.white,
+                                            ),
+                                            Text(
+                                              '${state.ticketCountsResponse.yavarwee}',
+                                              style: GogoTypography
+                                                  .body3Semibold
+                                                  .copyWith(
+                                                color: GogoColors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: Row(
+                                          spacing: 10,
+                                          children: [
+                                            GogoIcons.pointCoin(
+                                              width: 20,
+                                              height: 20,
+                                              color: GogoColors.white,
+                                            ),
+                                            Text(
+                                              '${state.ticketCountsResponse.coinToss}',
+                                              style: GogoTypography
+                                                  .body3Semibold
+                                                  .copyWith(
+                                                color: GogoColors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: Row(
+                                          spacing: 10,
+                                          children: [
+                                            GogoIcons.plinko(
+                                              width: 20,
+                                              height: 20,
+                                              color: GogoColors.white,
+                                            ),
+                                            Text(
+                                              '${state.ticketCountsResponse.plinko}',
+                                              style: GogoTypography
+                                                  .body3Semibold
+                                                  .copyWith(
+                                                color: GogoColors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              GogoIcons.pointCircle(
-                                color: GogoColors.white,
-                                width: 16,
-                                height: 16,
-                              )
+                              // 포인트 정보 및 게임화면으로 이동
+                              MinigameScrollComponent(
+                                stageId: stageId,
+                                icon: GogoIcons.shop(
+                                  color: GogoColors.white,
+                                ),
+                                info: false,
+                                text: "상점",
+                                component: Row(
+                                  spacing: 12,
+                                  children: [
+                                    Text(
+                                      "보유 포인트",
+                                      style: GogoTypography.caption1Semibold
+                                          .copyWith(
+                                        color: GogoColors.white,
+                                      ),
+                                    ),
+                                    Row(
+                                      spacing: 8,
+                                      children: [
+                                        Text(
+                                          '$point',
+                                          style: GogoTypography.caption1Semibold
+                                              .copyWith(
+                                            color: GogoColors.white,
+                                          ),
+                                        ),
+                                        GogoIcons.pointCircle(
+                                          color: GogoColors.white,
+                                          width: 16,
+                                          height: 16,
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                shopId: state.shopTicketStatusResponse.shopId,
+                                shellgameTicketscost: state
+                                    .shopTicketStatusResponse
+                                    .yavarwee
+                                    ?.ticketPrice,
+                                cointTossTicketscost: state
+                                    .shopTicketStatusResponse
+                                    .coinToss
+                                    ?.ticketPrice,
+                                plinkoTicketscost: state
+                                    .shopTicketStatusResponse
+                                    .plinko
+                                    ?.ticketPrice,
+                                shellgameTicketsCount: state
+                                    .shopTicketStatusResponse
+                                    .yavarwee
+                                    ?.ticketQuantity,
+                                cointTossTicketsCount: state
+                                    .shopTicketStatusResponse
+                                    .coinToss
+                                    ?.ticketQuantity,
+                                plinkoTicketsCount: state
+                                    .shopTicketStatusResponse
+                                    .plinko
+                                    ?.ticketQuantity,
+                              ),
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                      shellgameTicketscost: state.shopTicketStatusResponse.yavarwee.ticketPrice,
-                      cointTossTicketscost: state.shopTicketStatusResponse.coinToss.ticketPrice,
-                      plinkoTicketscost: state.shopTicketStatusResponse.plinko.ticketPrice,
-                      shellgameTicketsCount: state.shopTicketStatusResponse.yavarwee.ticketQuantity,
-                      cointTossTicketsCount: state.shopTicketStatusResponse.coinToss.ticketQuantity,  
-                      plinkoTicketsCount: state.shopTicketStatusResponse.plinko.ticketQuantity,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              );
-            }
-
-            else if(state is MinigameInfoError) {
-              return Center(
+              ),
+            );
+          } else if (state is MinigameInfoError) {
+            return Scaffold(
+              body: Center(
                 child: Text(state.message),
-              );
-            }
-
-            return const SizedBox.shrink();
+              ),
+            );
           }
-        ),
+
+          return const SizedBox.shrink();
+        }),
       ),
     );
   }
