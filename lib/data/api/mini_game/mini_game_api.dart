@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gogo_app/data/models/mini_game/betting/bet_limit_response.dart';
 import 'package:gogo_app/data/models/mini_game/betting/plinko_response.dart';
 import 'package:gogo_app/data/models/mini_game/risk_level.dart';
 import 'package:retrofit/error_logger.dart';
@@ -39,4 +40,7 @@ abstract class MiniGameApi {
 
   @GET("/minigame/active-game/{stage_id}")
   Future<ActiveGameResponse> getActiveGame(@Path("stage_id") int stageId);
+
+  @GET("/minigame/bet-limit/{stage_id}")
+  Future<BetLimitResponse> getBetLimit(@Path("stage_id") int stageId);
 }
