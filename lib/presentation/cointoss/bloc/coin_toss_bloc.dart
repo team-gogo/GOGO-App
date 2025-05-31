@@ -19,7 +19,6 @@ class CoinTossBloc extends Bloc<CoinTossEvent, CoinTossState> {
 
   Future<void> _getCoinToss(
       GetCoinToss event, Emitter<CoinTossState> emit) async {
-    emit(CoinTossLoading());
     try {
       final ticketResponse =
           await _miniGameRepository.getTicketCount(event.stageId);
@@ -40,18 +39,21 @@ class CoinTossBloc extends Bloc<CoinTossEvent, CoinTossState> {
   Future<void> _bettingCoinToss(
       BettingCoinToss event, Emitter<CoinTossState> emit) async {
     try {
-      final response = await _miniGameRepository.getCoinTossBetting(
-        event.stageId,
-        CoinTossRequest(amount: event.amount, bet: event.bet),
-      );
-      emit(CoinTossBetting(response: response));
+      if (state is CoinTossLoaded) {
+        final result = await _miniGameRepository.getCoinTossBetting(
+            event.stageId,
+            CoinTossRequest(
+              amount: event.amount,
+              bet: event.bet,
+            ));
+        if (result.result) {
+          emit(CoinTossBettingSuccess(bet: event.bet));
+        } else {
+          emit(CoinTossBettingFailure(bet: event.bet));
+        }
+      }
     } catch (e) {
       emit(CoinTossFailure(error: e.toString()));
     }
-  }
-
-  @override
-  Future<void> close() async {
-    return super.close();
   }
 }

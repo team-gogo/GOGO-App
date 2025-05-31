@@ -184,6 +184,7 @@ class HomeScreen extends StatelessWidget {
                                   MinigamePlayComponent(
                                     activeGameResponse:
                                         state.activeGameResponse,
+                                    stageId: stageId!,
                                   )
                                 ],
                               ),
