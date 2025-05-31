@@ -1,8 +1,14 @@
-import 'package:gogo_app/data/models/stage/handle_stage/join_stage_request.dart';
+import '../../../data/models/stage/handle_stage/join_stage_request.dart';
 
 class StageEvent {}
 
 class GetStageEvent extends StageEvent {}
+
+class GetMinigameBetLimitEvent extends StageEvent {
+  final int stageId;
+
+  GetMinigameBetLimitEvent({required this.stageId});
+}
 
 class EnterStageEvent extends StageEvent {
   final int stageId;
