@@ -61,7 +61,6 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
       setState(() {
         _isVideoPlaying = false;
       });
-      _bloc.add(GetCoinToss(stageId: widget.stageId));
     }
   }
 
@@ -82,7 +81,7 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
         ? (isWin ? 'assets/media/coin_f.mp4' : 'assets/media/coin_b.mp4')
         : (isWin ? 'assets/media/coin_b.mp4' : 'assets/media/coin_f.mp4');
     await _initializeVideo(assetPath);
-    _videoPlayerController?.play();
+    await _videoPlayerController?.play();
   }
 
   @override
@@ -93,7 +92,8 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
         listener: (context, state) async {
           if (state is CoinTossBettingSuccess ||
               state is CoinTossBettingFailure) {
-            _playResultVideo(_bet!, state);
+            await _playResultVideo(_bet!, state);
+            _bloc.add(GetCoinToss(stageId: widget.stageId));
           }
         },
         builder: (context, state) {
