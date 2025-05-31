@@ -5,20 +5,21 @@ import 'package:gogo_app/design_system/theme/typography.dart';
 class RankingListItem extends StatelessWidget {
   final int index;
   final String name;
-  final double point;
+  final int point;
 
-  const RankingListItem(
-      {super.key,
-      required this.index,
-      required this.name,
-      required this.point});
+  const RankingListItem({
+    super.key,
+    required this.index,
+    required this.name,
+    required this.point,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: GogoColors.gray600,
+        color: GogoColors.gray700,
         borderRadius: BorderRadius.all(
           Radius.circular(8),
         ),

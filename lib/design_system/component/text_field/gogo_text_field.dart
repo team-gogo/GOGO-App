@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import '../../theme/color.dart';
 import '../../theme/typography.dart';
@@ -28,6 +29,10 @@ class GogoTextField extends StatefulWidget {
   final double passwordIconSize;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatter;
+  final Function(String)? onChanged;
+  final TextCapitalization textCapitalization;
+  final bool isAction;
+  final int? maxLength;
 
   const GogoTextField({
     super.key,
@@ -49,15 +54,19 @@ class GogoTextField extends StatefulWidget {
       horizontal: 16,
     ),
     this.hintStyle = GogoTypography.body3Semibold,
-    this.hintColor = GogoColors.gray500,
+    this.hintColor = GogoColors.gray400,
     this.errorStyle = GogoTypography.caption2Semibold,
     this.errorColor = GogoColors.error,
     this.errorBorderSide = const BorderSide(color: GogoColors.error, width: 1),
     this.iconPadding = const EdgeInsets.all(16),
     this.searchIconColor = GogoColors.gray400,
     this.passwordIconPadding =
-        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     this.passwordIconSize = 24,
+    this.onChanged,
+    this.textCapitalization = TextCapitalization.none,
+    this.isAction = true,
+    this.maxLength = null,
   });
 
   @override
@@ -68,11 +77,14 @@ class _GogoTextFieldState extends State<GogoTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.isAction,
+      textCapitalization: widget.textCapitalization,
       onFieldSubmitted: (_) {
         widget.onEditingComplete;
         FocusScope.of(context).unfocus();
       },
       controller: widget.controller,
+      maxLength: widget.maxLength,
       autovalidateMode: AutovalidateMode.onUnfocus,
       validator: (value) {
         if (widget.validator != null) {
@@ -80,6 +92,9 @@ class _GogoTextFieldState extends State<GogoTextField> {
         } else {
           return null;
         }
+      },
+      buildCounter: (BuildContext context, {int? currentLength, int? maxLength, bool? isFocused}) {
+        return null; // 글자 수 표시 숨김
       },
       keyboardType: widget.keyboardType,
       inputFormatters: widget.inputFormatter,
@@ -91,12 +106,12 @@ class _GogoTextFieldState extends State<GogoTextField> {
         suffixIcon: widget.endIcon == null
             ? null
             : GestureDetector(
-                onTap: widget.onEditingComplete,
-                child: Padding(
-                  padding: widget.iconPadding,
-                  child: widget.endIcon,
-                ),
-              ),
+          onTap: widget.onEditingComplete,
+          child: Padding(
+            padding: widget.iconPadding,
+            child: widget.endIcon,
+          ),
+        ),
         filled: true,
         fillColor: widget.backgroundColor,
         contentPadding: widget.contentPadding,
@@ -116,6 +131,7 @@ class _GogoTextFieldState extends State<GogoTextField> {
           borderSide: widget.errorBorderSide,
         ),
       ),
+      onChanged: widget.onChanged,
     );
   }
 }
@@ -124,8 +140,8 @@ class GradeSuffixInputFormatter extends TextInputFormatter {
   final String suffix = "학년";
 
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue,
+      TextEditingValue newValue) {
     if (newValue.text.endsWith(suffix)) {
       return newValue;
     }
@@ -142,8 +158,8 @@ class NumberSuffixInputFormatter extends TextInputFormatter {
   final String suffix = "번";
 
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue,
+      TextEditingValue newValue) {
     if (newValue.text.endsWith(suffix)) {
       return newValue;
     }
@@ -160,8 +176,8 @@ class ClassSuffixInputFormatter extends TextInputFormatter {
   final String suffix = "반";
 
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue,
+      TextEditingValue newValue) {
     if (newValue.text.endsWith(suffix)) {
       return newValue;
     }
@@ -171,5 +187,24 @@ class ClassSuffixInputFormatter extends TextInputFormatter {
         TextPosition(offset: newValue.text.length),
       ),
     );
+  }
+}
+
+class CurrencyFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue,
+      TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    } else {
+      final int parsedValue = int.parse(newValue.text);
+      final formattedValue = NumberFormat();
+      String newText = formattedValue.format(parsedValue);
+
+      return newValue.copyWith(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length),
+      );
+    }
   }
 }

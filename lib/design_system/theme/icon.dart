@@ -4,12 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 class GogoIcons {
   static Widget _buildIcon(
     String fileName, {
+    Key? key,
     Color? color,
     required double width,
     required double height,
     VoidCallback? onTap,
   }) {
     return GestureDetector(
+      key: key,
       onTap: onTap,
       child: SvgPicture.asset(
         'assets/drawable/$fileName',
@@ -345,6 +347,15 @@ class GogoIcons {
       _buildIcon('drawer.svg',
           color: color, width: width, height: height, onTap: onTap);
 
+  static Widget drawerIcon({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('drawer_icon.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
   static Widget dollorCircle({
     Color? color,
     double width = 24,
@@ -352,6 +363,24 @@ class GogoIcons {
     VoidCallback? onTap,
   }) =>
       _buildIcon('dollor_circle.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget communit({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('communit.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget community({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('community.svg',
           color: color, width: width, height: height, onTap: onTap);
 
   static Widget coin({
@@ -404,9 +433,10 @@ class GogoIcons {
     double width = 24,
     double height = 24,
     VoidCallback? onTap,
+    Key? key,
   }) =>
       _buildIcon('chevron_down.svg',
-          color: color, width: width, height: height, onTap: onTap);
+          key: key, color: color, width: width, height: height, onTap: onTap);
 
   static Widget checkboxOutlined({
     Color? color,
@@ -504,15 +534,8 @@ class GogoIcons {
     double height = 24,
     VoidCallback? onTap,
   }) =>
-      GestureDetector(
-        onTap: onTap,
-        child: Image.asset(
-          'assets/drawable/logo.png',
-          color: color,
-          width: width,
-          height: height,
-        ),
-      );
+      _buildIcon('logo.svg',
+          color: color, width: width, height: height, onTap: onTap);
 
   static Widget play({
     Color? color,
@@ -584,5 +607,113 @@ class GogoIcons {
     VoidCallback? onTap,
   }) =>
       _buildIcon('shop.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget send({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('send.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget shakeFinger({
+    Color? color,
+    double width = 24,
+    double height = 24,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('shake_finger.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget footballMap({
+    Color? color,
+    double width = 660,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('football_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget badmintonMap({
+    Color? color,
+    double width = 660,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('badminton_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget basketballMap({
+    Color? color,
+    double width = 660,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('basketball_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget volleyballMap({
+    Color? color,
+    double width = 660,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('volleyball_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget baseballMap({
+    Color? color,
+    double width = 660,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('baseball_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget footballFullMap({
+    Color? color,
+    double width = 1200,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('football_full_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget basketballFullMap({
+    Color? color,
+    double width = 1200,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('basketball_full_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget badmintonFullMap({
+    Color? color,
+    double width = 1200,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('badminton_full_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget baseballFullMap({
+    Color? color,
+    double width = 1200,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('baseball_full_map.svg',
+          color: color, width: width, height: height, onTap: onTap);
+
+  static Widget volleyballFullMap({
+    Color? color,
+    double width = 1200,
+    double height = 448,
+    VoidCallback? onTap,
+  }) =>
+      _buildIcon('volleyball_full_map.svg',
           color: color, width: width, height: height, onTap: onTap);
 }

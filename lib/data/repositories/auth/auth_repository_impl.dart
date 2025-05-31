@@ -2,9 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gogo_app/data/data_sources/token_data_source/token_data_source.dart';
 import 'package:gogo_app/data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 import 'package:gogo_app/data/models/auth/google_oauth/google_oauth_login_request.dart';
-
+import 'package:gogo_app/data/models/auth/student/student_response.dart';
+import 'package:gogo_app/data/models/auth/user_info/user_info_request.dart';
+import 'package:gogo_app/data/models/auth/user_info/user_info_response.dart';
 import '../../data_sources/auth/auth_data_source.dart';
+import '../../mapper/google_login_response_to_token_dto.dart';
 import '../../models/auth/google_oauth/token_dto.dart';
+import '../../models/auth/sign_in/login_response.dart';
 import 'auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -14,16 +18,16 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._authDatasource, this._tokenRepository);
 
   @override
-  Future<TokenDto> googleOAuthLogin(
-      GoogleOAuthLoginRequest body) async {
-    final TokenDto response = await _authDatasource.googleOAuthLogin(body);
-    _tokenRepository.saveToken(response);
-    return response;
+  Future<Authority> googleOAuthLogin(GoogleOAuthLoginRequest body) async {
+    final LoginResponse response = await _authDatasource.googleOAuthLogin(body);
+    _tokenRepository.saveToken(toTokenDto(response));
+    return response.authority;
   }
 
   @override
   Future<void> additionalSignUp(AdditionalSignUpRequest body) async {
-    return await _authDatasource.additionalSignUp(body);
+    final TokenDto response = await _authDatasource.additionalSignUp(body);
+    _tokenRepository.saveToken(response);
   }
 
   @override
@@ -32,7 +36,8 @@ class AuthRepositoryImpl implements AuthRepository {
     if (refreshToken == null) {
       throw Exception('Refresh token is null');
     } else {
-      final TokenDto response = await _authDatasource.tokenRefresh(refreshToken);
+      final TokenDto response =
+          await _authDatasource.tokenRefresh(refreshToken);
       _tokenRepository.saveToken(response);
       return response;
     }
@@ -42,5 +47,20 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logOut() async {
     await FirebaseAuth.instance.signOut();
     await _tokenRepository.deleteToken();
+  }
+
+  @override
+  Future<StudentResponse> searchStudent(String name) async {
+    return await _authDatasource.searchStudent(name);
+  }
+
+  @override
+  Future<void> updateUserInfo(UserInfoRequest body) async {
+    return await _authDatasource.updateUserInfo(body);
+  }
+
+  @override
+  Future<UserInfoResponse> getUserInfo() async {
+    return await _authDatasource.getUserInfo();
   }
 }

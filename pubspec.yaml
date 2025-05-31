@@ -57,6 +57,16 @@ dependencies:
 
   intl: ^0.18.0
 
+  equatable: ^2.0.7 # 객체 비교를 쉽게 해주는 라이브러리
+
+  bloc_concurrency: ^0.3.0 # bloc의 concurrency를 도와주는 라이브러리
+
+  stream_transform: ^2.1.1 # stream의 concurrency를 도와주는 라이브러리
+
+  image_picker: ^1.1.2 # 이미지 선택 라이브러리
+  
+  http_parser: ^4.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -81,3 +91,6 @@ flutter:
           weight: 800
         - asset: assets/typo/SUIT-SemiBold.otf
           weight: 600
+    - family: GmarketSans
+      fonts:
+        - asset: assets/typo/GmarketSansBold.otf

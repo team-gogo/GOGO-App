@@ -2,11 +2,23 @@ import 'package:gogo_app/data/models/auth/google_oauth/google_oauth_login_reques
 
 import '../../models/auth/additional_sign_up/additional_sign_up_response.dart';
 import '../../models/auth/google_oauth/token_dto.dart';
+import '../../models/auth/sign_in/login_response.dart';
+import '../../models/auth/student/student_response.dart';
+import '../../models/auth/user_info/user_info_request.dart';
+import '../../models/auth/user_info/user_info_response.dart';
 
 abstract class AuthRepository {
-  Future<TokenDto> googleOAuthLogin(
-      GoogleOAuthLoginRequest body);
+  Future<Authority> googleOAuthLogin(GoogleOAuthLoginRequest body);
+
   Future<void> additionalSignUp(AdditionalSignUpRequest body);
+
   Future<TokenDto> tokenRefresh();
+
   Future<void> logOut();
+
+  Future<StudentResponse> searchStudent(String name);
+
+  Future<void> updateUserInfo(UserInfoRequest body);
+
+  Future<UserInfoResponse> getUserInfo();
 }

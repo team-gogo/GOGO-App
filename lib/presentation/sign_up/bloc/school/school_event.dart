@@ -1,4 +1,4 @@
-import 'package:gogo_app/data/models/search_school/search_school_response.dart';
+import '../../../../data/models/auth/additional_sign_up/additional_sign_up_response.dart';
 
 abstract class SchoolEvent {}
 
@@ -9,7 +9,7 @@ class EnterSchoolEvent extends SchoolEvent {
 }
 
 class ChooseSchoolEvent extends SchoolEvent {
-  final SearchSchoolResponse searchSchoolResponse;
+  final School searchSchoolResponse;
 
   ChooseSchoolEvent(this.searchSchoolResponse);
 }

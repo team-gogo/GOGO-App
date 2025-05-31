@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../game_type.dart';
-import '../stage_type.dart';
+import '../enum_type/game_type.dart';
+import '../enum_type/stage_type.dart';
 
 part 'search_board_response.g.dart';
 
@@ -37,43 +37,23 @@ class Info {
 @JsonSerializable()
 class Board {
   final int boardId;
-  final GameType gameType;
+  final GameType gameCategory;
   final String title;
   final int likeCount;
   final DateTime createdAt;
-  final bool isFiltered;
   final StageType stageType;
-  final Author author;
+  final int commentCount;
 
   Board({
     required this.boardId,
-    required this.gameType,
+    required this.gameCategory,
     required this.title,
     required this.likeCount,
     required this.createdAt,
-    required this.isFiltered,
+    required this.commentCount,
     required this.stageType,
-    required this.author,
   });
 
   factory Board.fromJson(Map<String, dynamic> json) => _$BoardFromJson(json);
   Map<String, dynamic> toJson() => _$BoardToJson(this);
-}
-
-@JsonSerializable()
-class Author {
-  final int studentId;
-  final String name;
-  final int classNumber;
-  final int studentNumber;
-
-  Author({
-    required this.studentId,
-    required this.name,
-    required this.classNumber,
-    required this.studentNumber,
-  });
-
-  factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
-  Map<String, dynamic> toJson() => _$AuthorToJson(this);
 }

@@ -29,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.369342978309-1hg0k2a8ibdrehhch9laj5fjv1pp94m7</string>
+				<string>com.googleusercontent.apps.369342978309-3pck2skk8o0ll7h820nlik2lniu2l8r9</string>
 			</array>
 		</dict>
 	</array>
@@ -61,5 +61,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string></string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string></string>
 </dict>
 </plist>
