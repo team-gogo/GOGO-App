@@ -4,8 +4,9 @@ abstract class CoinTossEvent {}
 
 class GetCoinToss extends CoinTossEvent {
   final int stageId;
+  final bool init;
 
-  GetCoinToss({required this.stageId});
+  GetCoinToss({required this.stageId, this.init = false});
 }
 
 class BettingCoinToss extends CoinTossEvent {

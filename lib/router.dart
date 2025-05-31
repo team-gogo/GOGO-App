@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/auth/user_info/user_info_response.dart';
 import 'package:gogo_app/data/models/common/match_dto.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
+import 'package:gogo_app/presentation/cointoss/screens/coin_toss_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
@@ -13,7 +13,6 @@ import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
 import 'package:gogo_app/presentation/match_detail/screen/match_detail_screen.dart';
 import 'package:gogo_app/presentation/match_list/screen/match_list_screen.dart';
 import 'package:gogo_app/presentation/match_team_info/screens/match_team_screen.dart';
-import 'package:gogo_app/presentation/cointoss/screens/coin_toss_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/minigame_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/yavarwee_screen.dart';
 import 'package:gogo_app/presentation/profile/screen/edit_profile_screen.dart';
@@ -47,6 +46,7 @@ class PageRouter {
   static const String miniGame = "miniGame";
   static const String coinToss = "coinToss";
   static const String yavarwee = "yavarwee";
+  static const String plinko = "plinko";
   static const String ranking = "ranking";
   static const String community = "community";
   static const String communityWrite = "communityWrite";
@@ -102,10 +102,8 @@ class PageRouter {
             name: teamConfirmed,
             path: '$teamConfirmed',
             pageBuilder: (context, state) {
-              final stageId =
-              int.parse(state.uri.queryParameters['stageId']!);
-              final gameId =
-              int.parse(state.uri.queryParameters['gameId']!);
+              final stageId = int.parse(state.uri.queryParameters['stageId']!);
+              final gameId = int.parse(state.uri.queryParameters['gameId']!);
               return CupertinoPage(
                 child: TeamConfirmedScreen(
                   stageId: stageId,
@@ -115,21 +113,20 @@ class PageRouter {
             },
           ),
           GoRoute(
-              name: teamApplication,
-              path: '/$teamApplication',
-              pageBuilder: (context, state) {
-                final stageId =
-                    int.parse(state.uri.queryParameters['stageId']!);
-                final isMaintainer =
-                    bool.parse(state.uri.queryParameters['isMaintainer']!);
-                return CupertinoPage(
-                  child: TeamApplicationScreen(
-                    stageId: stageId,
-                    isManger: isMaintainer,
-                  ),
-                );
-              },
-              ),
+            name: teamApplication,
+            path: '/$teamApplication',
+            pageBuilder: (context, state) {
+              final stageId = int.parse(state.uri.queryParameters['stageId']!);
+              final isMaintainer =
+                  bool.parse(state.uri.queryParameters['isMaintainer']!);
+              return CupertinoPage(
+                child: TeamApplicationScreen(
+                  stageId: stageId,
+                  isManger: isMaintainer,
+                ),
+              );
+            },
+          ),
           GoRoute(
             name: home,
             path: "/$home",
@@ -185,19 +182,39 @@ class PageRouter {
                   ),
                 ],
               ),
-              _customGoRoute(name: miniGame, screen: MinigameScreen(), routes: [
-                GoRoute(
-                  name: coinToss,
-                  path: '$coinToss',
+              GoRoute(
+                  name: miniGame,
+                  path: '/$miniGame',
                   pageBuilder: (context, state) {
                     final stageId =
                         int.parse(state.uri.queryParameters['stageId']!);
+                    final point =
+                        int.parse(state.uri.queryParameters['point']!);
                     return CupertinoPage(
-                        child: CoinTossScreen(stageId: stageId));
+                      child: MinigameScreen(stageId: stageId, point: point),
+                    );
                   },
-                ),
-                _customGoRoute(name: yavarwee, screen: YavarweeScreen()),
-              ]),
+                  routes: [
+                    GoRoute(
+                      name: yavarwee,
+                      path: '/$yavarwee',
+                      pageBuilder: (context, state) {
+                        return CupertinoPage(
+                          child: YavarweeScreen(),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      name: coinToss,
+                      path: '$coinToss',
+                      pageBuilder: (context, state) {
+                        final stageId =
+                            int.parse(state.uri.queryParameters['stageId']!);
+                        return CupertinoPage(
+                            child: CoinTossScreen(stageId: stageId));
+                      },
+                    ),
+                  ]),
               _customGoRoute(name: matchList, screen: MatchListScreen()),
               GoRoute(
                 name: matchTeamInfo,

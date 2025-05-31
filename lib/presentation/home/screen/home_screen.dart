@@ -179,8 +179,12 @@ class HomeScreen extends StatelessWidget {
                                   _itemTopBar(
                                       GogoIcons.arcade(color: GogoColors.white),
                                       text: '미니게임',
-                                      onTap: () => PageRouter.gogoPushNamed(
-                                          PageRouter.miniGame, stageId!)),
+                                      onTap: () => PageRouter.router.pushNamed(
+                                          PageRouter.miniGame, 
+                                          queryParameters: {
+                                            'stageId': stageId.toString(),
+                                            'point': state.points.point.toString(),
+                                          })),
                                   MinigamePlayComponent(
                                     activeGameResponse:
                                         state.activeGameResponse,

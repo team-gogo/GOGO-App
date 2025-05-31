@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:gogo_app/data/models/mini_game/bet_limit_response.dart';
 import 'package:gogo_app/data/repositories/mini_game/mini_game_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 import 'package:gogo_app/presentation/cointoss/bloc/coin_toss_event.dart';
@@ -17,13 +18,16 @@ class CoinTossBloc extends Bloc<CoinTossEvent, CoinTossState> {
       GetIt.instance<MiniGameRepository>();
   final StageRepository _stageRepository = GetIt.instance<StageRepository>();
 
+  late BetLimitResponse betLimitResponse;
+
   Future<void> _getCoinToss(
       GetCoinToss event, Emitter<CoinTossState> emit) async {
     try {
+      if (event.init) {
+        betLimitResponse = await _miniGameRepository.getBetLimit(event.stageId);
+      }
       final ticketResponse =
           await _miniGameRepository.getTicketCount(event.stageId);
-      final betLimitResponse =
-          await _miniGameRepository.getBetLimit(event.stageId);
       final pointResponse = await _stageRepository.getMyPoint(event.stageId);
 
       emit(CoinTossLoaded(

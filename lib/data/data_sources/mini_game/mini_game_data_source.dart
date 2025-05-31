@@ -1,5 +1,4 @@
 import 'package:gogo_app/data/models/mini_game/betting/coin_toss_request.dart';
-
 import '../../models/mini_game/active_game_response.dart';
 import '../../models/mini_game/bet_limit_response.dart';
 import '../../models/mini_game/betting/coin_toss_response.dart';

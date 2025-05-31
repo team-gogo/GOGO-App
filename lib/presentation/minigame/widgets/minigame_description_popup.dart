@@ -5,9 +5,9 @@ import 'package:gogo_app/design_system/component/tag/gogo_tag_component.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/design_system/theme/typography.dart';
-import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc.dart';
-import 'package:gogo_app/presentation/minigame/bloc/minigame_event.dart';
-import 'package:gogo_app/presentation/minigame/bloc/minigame_state.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc/minigame_bloc.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc/minigame_event.dart';
+import 'package:gogo_app/presentation/minigame/bloc/minigame_bloc/minigame_state.dart';
 
 class MinigameDescriptionPopup extends StatelessWidget {
   final String minigameName;

@@ -29,16 +29,17 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
   late final TextEditingController _pointController;
   VideoPlayerController? _videoPlayerController;
   CoinTossStatus? _bet;
-  bool _isPlayingAnimation = false;
-
   late BetLimitResponse _betLimitResponse;
   late int _ticketsCount;
   late int _point;
+  bool _isVideoPlaying = false;
 
   @override
   void initState() {
     super.initState();
-    _bloc = CoinTossBloc()..add(GetCoinToss(stageId: widget.stageId));
+    _bloc = CoinTossBloc()
+      ..add(GetCoinToss(stageId: widget.stageId, init: true));
+    _initializeVideo('assets/media/coin_f.mp4');
     _pointController = TextEditingController()
       ..addListener(() => setState(() {}));
   }
@@ -46,39 +47,42 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
   @override
   void dispose() {
     _bloc.close();
+    _videoPlayerController?.removeListener(_onVideoEnd);
     _videoPlayerController?.dispose();
     _pointController.dispose();
     super.dispose();
   }
 
-  Future<void> _initializeVideo(String path, {bool autoPlay = true}) async {
-    final controller = VideoPlayerController.asset(path);
-    await controller.initialize();
-    controller.setLooping(false);
-    controller.setPlaybackSpeed(2.0);
-    if (autoPlay) controller.play();
-    controller.addListener(() async {
-      if (controller.value.position >= controller.value.duration &&
-          !_isPlayingAnimation) {
-        setState(() => _isPlayingAnimation = true);
-        _bloc.add(GetCoinToss(stageId: widget.stageId));
-      }
-    });
-    setState(() {
-      _videoPlayerController?.dispose();
-      _videoPlayerController = controller;
-      _isPlayingAnimation = false;
-    });
+  void _onVideoEnd() {
+    if (_videoPlayerController != null &&
+        _videoPlayerController!.value.position >=
+            _videoPlayerController!.value.duration &&
+        _isVideoPlaying) {
+      setState(() {
+        _isVideoPlaying = false;
+      });
+      _bloc.add(GetCoinToss(stageId: widget.stageId));
+    }
+  }
+
+  Future<void> _initializeVideo(String path) async {
+    _videoPlayerController?.removeListener(_onVideoEnd);
+    _videoPlayerController = VideoPlayerController.asset(path);
+    await _videoPlayerController?.initialize();
+    _videoPlayerController?.setLooping(false);
+    _videoPlayerController?.setPlaybackSpeed(2.0);
+    _videoPlayerController?.addListener(_onVideoEnd);
+    setState(() {});
   }
 
   Future<void> _playResultVideo(
       CoinTossStatus userBet, CoinTossState result) async {
-    _point = _point - int.parse(_pointController.text.replaceAll(',', ''));
     final isWin = result is CoinTossBettingSuccess;
     final assetPath = (userBet == CoinTossStatus.FRONT)
         ? (isWin ? 'assets/media/coin_f.mp4' : 'assets/media/coin_b.mp4')
         : (isWin ? 'assets/media/coin_b.mp4' : 'assets/media/coin_f.mp4');
-    await _initializeVideo(assetPath, autoPlay: true);
+    await _initializeVideo(assetPath);
+    _videoPlayerController?.play();
   }
 
   @override
@@ -89,7 +93,7 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
         listener: (context, state) async {
           if (state is CoinTossBettingSuccess ||
               state is CoinTossBettingFailure) {
-            await _playResultVideo(_bet!, state);
+            _playResultVideo(_bet!, state);
           }
         },
         builder: (context, state) {
@@ -139,7 +143,9 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
                                                 ?.value.isInitialized ??
                                             false)
                                         ? VideoPlayer(_videoPlayerController!)
-                                        : Container(color: Colors.black),
+                                        : Container(
+                                            color: GogoColors.black,
+                                          ),
                                   ),
                                 ),
                               ),
@@ -159,8 +165,11 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 12),
                                     text: '앞면',
-                                    onTap: () => setState(
-                                        () => _bet = CoinTossStatus.FRONT),
+                                    onTap: () {
+                                      if (_isVideoPlaying) return;
+                                      setState(
+                                          () => _bet = CoinTossStatus.FRONT);
+                                    },
                                   ),
                                 ),
                                 const SizedBox(width: 15),
@@ -176,8 +185,11 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 12),
                                     text: '뒷면',
-                                    onTap: () => setState(
-                                        () => _bet = CoinTossStatus.BACK),
+                                    onTap: () {
+                                      if (_isVideoPlaying) return;
+                                      setState(
+                                          () => _bet = CoinTossStatus.BACK);
+                                    },
                                   ),
                                 ),
                               ],
@@ -190,18 +202,53 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
                               action: '뒤집기',
                               controller: _pointController,
                               onTap: () {
-                                if (_bet != null) {
+                                if (_isVideoPlaying) return;
+
+                                final inputText =
+                                    _pointController.text.replaceAll(',', '');
+                                final betAmount = int.tryParse(inputText) ?? 0;
+
+                                if (betAmount <
+                                    _betLimitResponse.coinToss.minBetPoint!) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            '최소 배팅금액은 ${_betLimitResponse.coinToss.minBetPoint}원 입니다.')),
+                                  );
+                                  return;
+                                }
+
+                                if (betAmount >
+                                    _betLimitResponse.coinToss.maxBetPoint!) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            '최대 배팅금액은 ${_betLimitResponse.coinToss.maxBetPoint}원 입니다.')),
+                                  );
+                                  return;
+                                }
+
+                                if (_bet != null ||
+                                    (_videoPlayerController!
+                                            .value.isInitialized &&
+                                        _videoPlayerController!
+                                            .value.isCompleted)) {
+                                  setState(() {
+                                    _isVideoPlaying = true;
+                                  });
                                   _bloc.add(BettingCoinToss(
                                     stageId: widget.stageId,
-                                    amount: _pointController.text.isEmpty
-                                        ? 0
-                                        : int.parse(_pointController.text
-                                            .replaceAll(',', '')),
+                                    amount: betAmount,
                                     bet: _bet!,
                                   ));
                                 }
                               },
-                              isSelect: _bet != null && _isPlayingAnimation,
+                              isSelect: !_isVideoPlaying &&
+                                  (_bet != null ||
+                                      (_videoPlayerController!
+                                              .value.isInitialized &&
+                                          _videoPlayerController!
+                                              .value.isCompleted)),
                             ),
                           ],
                         ),
