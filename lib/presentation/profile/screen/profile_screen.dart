@@ -118,14 +118,18 @@ class _ProfileContentState extends State<ProfileContentScreen> {
                               SizedBox(
                                 height: 22,
                               ),
-                              Column(
-                                spacing: 22,
-                                children: List.generate(
-                                  participatedStages.length,
-                                  (index) => GogoStageCardComponent(
-                                    stage: participatedStages[index],
-                                    color: GogoColors.gray700,
-                                    broadcast: false,
+                              Align(
+                                alignment: Alignment.center,
+                                child: Wrap(
+                                  runSpacing: 22,
+                                  spacing: 22,
+                                  children: List.generate(
+                                    participatedStages.length,
+                                    (index) => GogoStageCardComponent(
+                                      stage: participatedStages[index],
+                                      color: GogoColors.gray700,
+                                      broadcast: false,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -204,7 +204,6 @@ class MinigameScrollComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MinigameBloc, MinigameState>(
       builder: (context, state) {
-        // 사용자 포인트와 티켓 정보를 state에서 가져오기
         int? userPoint;
         int? yavarweeTickets;
         int? coinTossTickets;
