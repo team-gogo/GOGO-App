@@ -1,4 +1,4 @@
-import 'package:gogo_app/data/models/stage/handle_stage/join_stage_request.dart';
+import '../../../data/models/stage/handle_stage/join_stage_request.dart';
 
 class StageEvent {}
 

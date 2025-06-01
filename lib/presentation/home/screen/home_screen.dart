@@ -184,6 +184,7 @@ class HomeScreen extends StatelessWidget {
                                           queryParameters: {
                                             'stageId': stageId.toString(),
                                             'point': state.points.point.toString(),
+                                            'betLimitResponse': state.betLimitResponse?.toJson().toString(),
                                           })),
                                   MinigamePlayComponent(
                                     activeGameResponse:

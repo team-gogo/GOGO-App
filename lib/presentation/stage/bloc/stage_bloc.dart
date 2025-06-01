@@ -1,9 +1,9 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_stage_response.dart';
 import 'package:gogo_app/presentation/stage/bloc/stage_event.dart';
 import 'package:gogo_app/presentation/stage/bloc/stage_state.dart';
-import '../../../data/repositories/stage/stage_repository.dart';
+import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 
 class StageBloc extends Bloc<StageEvent, StageState> {
   final StageRepository _stageRepository = GetIt.instance<StageRepository>();

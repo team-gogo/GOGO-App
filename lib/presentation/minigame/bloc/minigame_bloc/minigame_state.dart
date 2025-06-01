@@ -1,5 +1,4 @@
 import 'package:gogo_app/data/models/mini_game/active_game_response.dart';
-import 'package:gogo_app/data/models/mini_game/betting/bet_limit_response.dart';
 import 'package:gogo_app/data/models/mini_game/ticket_counts_response.dart';
 import 'package:gogo_app/data/models/shop/response/shop_ticket_status_response.dart';
 import 'package:gogo_app/data/models/stage/search_stage/search_my_point_response.dart';
@@ -23,14 +22,12 @@ class MinigameInfoLoading extends MinigameState {}
 class MinigameInfoLoaded extends MinigameState {  
   final ShopTicketStatusResponse shopTicketStatusResponse;
   final TicketCountsResponse ticketCountsResponse;
-  final BetLimitResponse betLimitResponse;
   final ActiveGameResponse activeGameResponse;
   final SearchMyPointResponse userPointResponse;
 
   MinigameInfoLoaded({
     required this.shopTicketStatusResponse, 
     required this.ticketCountsResponse,
-    required this.betLimitResponse,
     required this.activeGameResponse,
     required this.userPointResponse,
   });
