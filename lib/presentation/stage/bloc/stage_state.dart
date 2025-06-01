@@ -1,5 +1,4 @@
 import '../../../data/models/stage/search_stage/search_stage_response.dart';
-import '../../../data/models/mini_game/betting/bet_limit_response.dart';
 
 class StageState {}
 
@@ -9,9 +8,8 @@ class StageLoading extends StageState {}
 
 class StageLoaded extends StageState {
   final SearchStageResponse stage;
-  final BetLimitResponse? betLimitResponse;
 
-  StageLoaded({required this.stage, this.betLimitResponse});
+  StageLoaded({required this.stage});
 }
 
 class StageError extends StageState {
