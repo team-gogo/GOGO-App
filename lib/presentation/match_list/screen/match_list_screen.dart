@@ -141,6 +141,8 @@ class MatchListScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         final textController = TextEditingController();
+        int aTeamPoint = data.ateam.bettingPoint;
+        int bTeamPoint = data.bteam.bettingPoint;
 
         return MatchBattingStatusDialog(
           bettingController: textController,
@@ -148,8 +150,8 @@ class MatchListScreen extends StatelessWidget {
           system: data.system,
           gameType: data.category,
           round: data.round,
-          teamAPoint: data.ateam.bettingPoint,
-          teamBPoint: data.bteam.bettingPoint,
+          teamAPoint: aTeamPoint,
+          teamBPoint: bTeamPoint,
           teamA: data.ateam.teamName,
           teamB: data.bteam.teamName,
           enableBetting: !data.isEnd && data.startDate.isBefore(DateTime.now()),
@@ -160,7 +162,9 @@ class MatchListScreen extends StatelessWidget {
             final predictedTeamId = (team == data.ateam.teamName)
                 ? data.ateam.teamId
                 : data.bteam.teamId;
-
+            (team == data.ateam.teamName)
+                ? {aTeamPoint += textController.value.text as int}
+                : {bTeamPoint += textController.value.text as int};
             final request = BettingMatchRequest(
               predictedWinTeamId: predictedTeamId!!,
               bettingPoint: textController.value.text as int,
