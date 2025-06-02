@@ -38,14 +38,12 @@ class MinigameBloc extends Bloc<MinigameEvent, MinigameState> {
     try {
       final shopTicketStatusResponse = await shopRepository.shopTicketStatusResponse(event.stageId);
       final ticketCountsResponse = await minigameRepository.getTicketCount(event.stageId);
-      final betLimitResponse = await minigameRepository.getBetLimit(event.stageId);
       final activeGameResponse = await minigameRepository.getActiveGame(event.stageId);
       final userPointResponse = await stageRepository.getMyPoint(event.stageId);
 
       emit(MinigameInfoLoaded(
         shopTicketStatusResponse: shopTicketStatusResponse, 
         ticketCountsResponse: ticketCountsResponse,
-        betLimitResponse: betLimitResponse,
         activeGameResponse: activeGameResponse,
         userPointResponse: userPointResponse,
       ));
