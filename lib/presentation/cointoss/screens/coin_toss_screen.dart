@@ -208,31 +208,60 @@ class _CoinTossScreenState extends State<CoinTossScreen> {
                                     _pointController.text.replaceAll(',', '');
                                 final betAmount = int.tryParse(inputText) ?? 0;
 
+                                // 티켓이 없으면
+                                if (_ticketsCount <= 0) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('보유 티켓이 없습니다.')),
+                                  );
+                                  return;
+                                }
+
+                                // 포인트가 없으면
+                                if (_point <= 0) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('보유 포인트가 없습니다.')),
+                                  );
+                                  return;
+                                }
+
+                                // 최소 배팅 금액보다 작으면
                                 if (betAmount <
                                     _betLimitResponse.coinToss.minBetPoint!) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                        content: Text(
-                                            '최소 배팅금액은 ${_betLimitResponse.coinToss.minBetPoint}원 입니다.')),
+                                      content: Text(
+                                          '최소 배팅금액은 ${_betLimitResponse.coinToss.minBetPoint}원 입니다.'),
+                                    ),
                                   );
                                   return;
                                 }
 
+                                // 최대 배팅 금액보다 크면
                                 if (betAmount >
                                     _betLimitResponse.coinToss.maxBetPoint!) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                        content: Text(
-                                            '최대 배팅금액은 ${_betLimitResponse.coinToss.maxBetPoint}원 입니다.')),
+                                      content: Text(
+                                          '최대 배팅금액은 ${_betLimitResponse.coinToss.maxBetPoint}원 입니다.'),
+                                    ),
                                   );
                                   return;
                                 }
 
-                                if (_bet != null ||
-                                    (_videoPlayerController!
-                                            .value.isInitialized &&
-                                        _videoPlayerController!
-                                            .value.isCompleted)) {
+                                // 앞/뒷면 선택 안 했으면
+                                if (_bet == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('앞면 또는 뒷면을 선택해 주세요.')),
+                                  );
+                                  return;
+                                }
+
+                                if (_videoPlayerController!
+                                        .value.isInitialized &&
+                                    _videoPlayerController!.value.isCompleted) {
                                   setState(() {
                                     _isVideoPlaying = true;
                                   });

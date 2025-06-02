@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/auth/user_info/user_info_response.dart';
 import 'package:gogo_app/data/models/common/match_dto.dart';
-import 'package:gogo_app/data/models/mini_game/betting/bet_limit_response.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
 import 'package:gogo_app/presentation/cointoss/screens/coin_toss_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
@@ -190,11 +187,14 @@ class PageRouter {
                 name: miniGame,
                 path: '/$miniGame',
                 pageBuilder: (context, state) {
-                  final stageId = int.parse(state.uri.queryParameters['stageId']!);
+                  final stageId =
+                      int.parse(state.uri.queryParameters['stageId']!);
                   final point = int.parse(state.uri.queryParameters['point']!);
-                  final betLimitResponse = BetLimitResponse.fromJson(jsonDecode(state.uri.queryParameters['betLimitResponse']!));
                   return CupertinoPage(
-                    child: MinigameScreen(stageId: stageId, point: point, betLimitResponse: betLimitResponse),
+                    child: MinigameScreen(
+                      stageId: stageId,
+                      point: point,
+                    ),
                   );
                 },
               ),
@@ -211,11 +211,9 @@ class PageRouter {
                 name: coinToss,
                 path: '/$coinToss',
                 pageBuilder: (context, state) {
-                                                int.parse(state.uri.queryParameters['stageId']!);
-
-                  return CupertinoPage(
-                            child: CoinTossScreen(stageId: stageId));
-                  
+                  int stageId =
+                      int.parse(state.uri.queryParameters['stageId']!);
+                  return CupertinoPage(child: CoinTossScreen(stageId: stageId));
                 },
               ),
               _customGoRoute(name: matchList, screen: MatchListScreen()),
