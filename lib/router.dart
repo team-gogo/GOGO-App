@@ -15,6 +15,7 @@ import 'package:gogo_app/presentation/match_team_info/screens/match_team_screen.
 import 'package:gogo_app/presentation/minigame/screen/minigame_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/coin_toss_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/yavarwee_screen.dart';
+import 'package:gogo_app/presentation/plinko/screens/plinko_screen.dart';
 import 'package:gogo_app/presentation/profile/screen/edit_profile_screen.dart';
 import 'package:gogo_app/presentation/profile/screen/profile_screen.dart';
 import 'package:gogo_app/presentation/ranking/bloc/ranking_bloc.dart';
@@ -211,6 +212,15 @@ class PageRouter {
                 pageBuilder: (context, state) {
                   return CupertinoPage(
                     child: CoinTossScreen(),
+                  );
+                },
+              ),
+              GoRoute(
+                name: plinko,
+                path: '/$plinko',
+                pageBuilder: (context, state) {
+                  return CupertinoPage(
+                    child: PlinkoScreen(),
                   );
                 },
               ),

@@ -54,7 +54,7 @@ class MinigameSelectButton extends StatelessWidget {
   static final Map<String, VoidCallback> _gameOnTap = {
     '야바위': () => PageRouter.router.pushNamed(PageRouter.yavarwee),
     '코인토스': () => PageRouter.router.pushNamed(PageRouter.coinToss),
-    '플린코': () {}, // TODO: 플린코 라우팅 구현
+    '플린코': () => PageRouter.router.pushNamed(PageRouter.plinko),
   };
 
   Widget _buildIcon(String name, Color color) {
@@ -79,7 +79,7 @@ class MinigameSelectButton extends StatelessWidget {
       height: 104.sp,
       width: 104.sp,
       child: ElevatedButton(
-        onPressed: isActive ? _gameOnTap[minigameImage] : (){},
+        onPressed: isActive ? _gameOnTap[minigameImage] : () {},
         style: ElevatedButton.styleFrom(
           backgroundColor: bgColor,
           shape: RoundedRectangleBorder(
