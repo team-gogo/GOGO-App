@@ -7,6 +7,7 @@ import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/presentation/loading/widgets/loading_indicator.dart';
+import '../../../data/models/betting/request/betting_match_request.dart';
 import '../../home/widgets/match_batting_status_dialog.dart';
 import '../../home/widgets/match_card/match_card_component.dart';
 import '../bloc/match_list_bloc.dart';
@@ -139,7 +140,10 @@ class MatchListScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final textController = TextEditingController();
+
         return MatchBattingStatusDialog(
+          bettingController: textController,
           startDate: data.startDate,
           system: data.system,
           gameType: data.category,
@@ -152,7 +156,25 @@ class MatchListScreen extends StatelessWidget {
           closeDialog: () {
             Navigator.pop(context);
           },
-          onBattingClick: (String team) {},
+          onBattingClick: (String team) {
+            final predictedTeamId = (team == data.ateam.teamName)
+                ? data.ateam.teamId
+                : data.bteam.teamId;
+
+            final request = BettingMatchRequest(
+              predictedWinTeamId: predictedTeamId!!,
+              bettingPoint: textController.value.text as int,
+            );
+
+            context.read<MatchListBloc>().add(
+                  BettingMatch(
+                    matchId: data.matchId,
+                    request: request,
+                  ),
+                );
+
+            Navigator.pop(context);
+          },
         );
       },
     );
