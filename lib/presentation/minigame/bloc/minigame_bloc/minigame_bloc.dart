@@ -55,7 +55,6 @@ class MinigameBloc extends Bloc<MinigameEvent, MinigameState> {
       emit(MinigameInfoLoaded(
         shopTicketStatusResponse: shopTicketStatusResponse,
         ticketCountsResponse: ticketCountsResponse,
-        betLimitResponse: betLimitResponse,
         activeGameResponse: activeGameResponse,
         userPointResponse: userPointResponse,
       ));

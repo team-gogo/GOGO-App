@@ -24,14 +24,12 @@ class MinigameInfoLoading extends MinigameState {}
 class MinigameInfoLoaded extends MinigameState {
   final ShopTicketStatusResponse shopTicketStatusResponse;
   final TicketCountsResponse ticketCountsResponse;
-  final BetLimitResponse betLimitResponse;
   final ActiveGameResponse activeGameResponse;
   final SearchMyPointResponse userPointResponse;
 
   MinigameInfoLoaded({
     required this.shopTicketStatusResponse,
     required this.ticketCountsResponse,
-    required this.betLimitResponse,
     required this.activeGameResponse,
     required this.userPointResponse,
   });
