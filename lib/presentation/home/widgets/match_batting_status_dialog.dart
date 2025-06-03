@@ -24,8 +24,10 @@ class MatchBattingStatusDialog extends StatelessWidget {
   final GameType gameType;
   final MatchRound? round;
   final System system;
+  final String? selectedTeam;
   final VoidCallback closeDialog;
-  final void Function(String) onBattingClick;
+  final void Function() onBattingClick;
+  final void Function(String) setSelectedTeam;
 
   final TextEditingController bettingController;
 
@@ -40,17 +42,21 @@ class MatchBattingStatusDialog extends StatelessWidget {
     required this.gameType,
     required this.round,
     required this.system,
+    required this.selectedTeam,
     required this.closeDialog,
     required this.onBattingClick,
     required this.bettingController,
+    required this.setSelectedTeam,
   });
 
   @override
   Widget build(BuildContext context) {
     final int maxPoints = max(teamAPoint, teamBPoint);
     final int totalPoints = teamAPoint + teamBPoint;
-    final int aTeamPercentage = ((teamAPoint / totalPoints) * 100).toInt();
-    final int bTeamPercentage = ((teamBPoint / totalPoints) * 100).toInt();
+    final int aTeamPercentage =
+        totalPoints == 0 ? 0 : ((teamAPoint / totalPoints) * 100).toInt();
+    final int bTeamPercentage =
+        totalPoints == 0 ? 0 : ((teamBPoint / totalPoints) * 100).toInt();
 
     return Dialog(
       child: SingleChildScrollView(
@@ -203,25 +209,25 @@ class MatchBattingStatusDialog extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       buildBattingGraph(
-                        isSelected: true,
+                        isSelected: selectedTeam == teamA,
                         teamName: teamA,
                         maxBattingPoint: maxPoints,
                         currentTeamBattingPoint: teamAPoint,
                         currentBattingPercentage: aTeamPercentage,
                         enableBetting: enableBetting,
-                        onClick: (team) => onBattingClick(team),
+                        onClick: (team) => setSelectedTeam(team),
                       ),
                       SizedBox(
                         width: 62,
                       ),
                       buildBattingGraph(
-                        isSelected: false,
+                        isSelected: selectedTeam == teamB,
                         teamName: teamB,
                         maxBattingPoint: maxPoints,
                         currentTeamBattingPoint: teamBPoint,
                         currentBattingPercentage: bTeamPercentage,
                         enableBetting: enableBetting,
-                        onClick: (team) => onBattingClick(team),
+                        onClick: (team) => setSelectedTeam(team),
                       ),
                     ],
                   ),
@@ -273,7 +279,9 @@ class MatchBattingStatusDialog extends StatelessWidget {
                         enableBetting ? GogoColors.main600 : GogoColors.gray400,
                     text: "배팅",
                     onTap: () {
-                      onBattingClick("selectedTeam");
+                      if (selectedTeam != null && enableBetting) {
+                        onBattingClick();
+                      }
                     },
                   ),
                 ],
