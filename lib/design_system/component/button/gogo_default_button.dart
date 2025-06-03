@@ -11,6 +11,7 @@ class GogoDefaultButton extends StatelessWidget {
   final BorderRadius borderRadius;
   final TextStyle textStyle;
   final Color textColor;
+  final Border? border;
 
   const GogoDefaultButton({
     super.key,
@@ -26,6 +27,7 @@ class GogoDefaultButton extends StatelessWidget {
     ),
     this.textStyle = GogoTypography.body3Semibold,
     this.textColor = GogoColors.white,
+    this.border,
   });
 
   @override
@@ -39,6 +41,7 @@ class GogoDefaultButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: color,
           borderRadius: borderRadius,
+          border: border,
         ),
         child: Text(
           text,

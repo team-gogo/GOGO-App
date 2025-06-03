@@ -14,8 +14,6 @@ import 'package:gogo_app/presentation/minigame/widgets/minigame_topbar.dart';
 import 'package:gogo_app/router.dart';
 
 class MinigameSelectComponent extends StatelessWidget {
-  final double width;
-  final double height;
   final Widget gameIcon;
   final String gameName;
   final int ticketsCost;
@@ -28,8 +26,6 @@ class MinigameSelectComponent extends StatelessWidget {
 
   const MinigameSelectComponent({
     super.key,
-    this.width = 343,
-    this.height = 143,
     required this.gameIcon,
     required this.gameName,
     required this.ticketsCost,
@@ -75,8 +71,7 @@ class MinigameSelectComponent extends StatelessWidget {
       spacing: 16.h,
       children: [
         Container(
-          width: width,
-          height: height,
+          width: double.infinity,
           decoration: BoxDecoration(
             color: GogoColors.gray700,
             borderRadius: BorderRadius.circular(12),
@@ -84,18 +79,21 @@ class MinigameSelectComponent extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 16,
-                children: [
-                  gameIcon,
-                  Text(
-                    gameName,
-                    style: GogoTypography.body1Semibold.copyWith(
-                      color: GogoColors.white,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 16,
+                  children: [
+                    gameIcon,
+                    Text(
+                      gameName,
+                      style: GogoTypography.body1Semibold.copyWith(
+                        color: GogoColors.white,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Positioned(
                 right: 14,
@@ -106,16 +104,17 @@ class MinigameSelectComponent extends StatelessWidget {
                         .read<MinigameDescriptionBloc>()
                         .add(ChangeCategory(minigameName: gameName));
                     showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (dialogcontext) {
-                          return BlocProvider.value(
-                            value: BlocProvider.of<MinigameDescriptionBloc>(
-                                context),
-                            child: MinigameDescriptionPopup(
-                                minigameName: gameName),
-                          );
-                        });
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (dialogcontext) {
+                        return BlocProvider.value(
+                          value:
+                              BlocProvider.of<MinigameDescriptionBloc>(context),
+                          child:
+                              MinigameDescriptionPopup(minigameName: gameName),
+                        );
+                      },
+                    );
                   },
                   color: GogoColors.gray500,
                 ),
@@ -127,8 +126,7 @@ class MinigameSelectComponent extends StatelessWidget {
           spacing: 8,
           children: [
             Container(
-              width: width,
-              height: 45,
+              width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 color: _buttonColor,
@@ -138,7 +136,9 @@ class MinigameSelectComponent extends StatelessWidget {
                 child: Text(
                   _buttonText,
                   style: GogoTypography.caption1Semibold.copyWith(
-                    color: _isButtonEnabled ? GogoColors.white : GogoColors.gray400,
+                    color: _isButtonEnabled
+                        ? GogoColors.white
+                        : GogoColors.gray400,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -164,12 +164,13 @@ class MinigameScrollComponent extends StatelessWidget {
   final Widget icon;
   final String text;
   final int stageId;
-  final int shellgameTicketscost; // 코인토스 티켓 가격
-  final int cointTossTicketscost; // 플링코 티켓 가격
-  final int plinkoTicketscost; // 야바위 티켓 가격
-  final int shellgameTicketsCount; // 야바위 티켓 구매 가능한 수수
-  final int cointTossTicketsCount; // 코인토스 티켓 구매 가능한 수
-  final int plinkoTicketsCount; // 야바위 티켓 구매 가능한 수
+  final int shopId;
+  final int? shellgameTicketscost; // 코인토스 티켓 가격
+  final int? cointTossTicketscost; // 플링코 티켓 가격
+  final int? plinkoTicketscost; // 야바위 티켓 가격
+  final int? shellgameTicketsCount; // 야바위 티켓 구매 가능한 수수
+  final int? cointTossTicketsCount; // 코인토스 티켓 구매 가능한 수
+  final int? plinkoTicketsCount; // 야바위 티켓 구매 가능한 수
   final bool info; // 티켓이면 true, 포인트 정보이면 false
 
   const MinigameScrollComponent({
@@ -185,23 +186,24 @@ class MinigameScrollComponent extends StatelessWidget {
     this.cointTossTicketsCount = 0,
     this.plinkoTicketsCount = 0,
     required this.info,
+    required this.shopId,
   });
 
-  void _purchaseTicket(BuildContext context, TicketType ticketType, int stageId) {
+  void _purchaseTicket(
+      BuildContext context, TicketType ticketType, int stageId) {
     context.read<MinigameBloc>().add(
-      PurchaseTicket(
-        stageId: stageId,
-        ticketType: ticketType,
-        quantity: 1, // 기본 1개 구매
-      ),
-    );
+          PurchaseTicket(
+            stageId: stageId,
+            ticketType: ticketType,
+            quantity: 1, // 기본 1개 구매
+          ),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MinigameBloc, MinigameState>(
       builder: (context, state) {
-        // 사용자 포인트와 티켓 정보를 state에서 가져오기
         int? userPoint;
         int? yavarweeTickets;
         int? coinTossTickets;
@@ -244,14 +246,14 @@ class MinigameScrollComponent extends StatelessWidget {
                       color: GogoColors.white,
                     ),
               gameName: "야바위",
-              ticketsCost: shellgameTicketscost,
-              ticketsCount: shellgameTicketsCount,
+              ticketsCost: shellgameTicketscost ?? 0,
+              ticketsCount: shellgameTicketsCount ?? 0,
               userPoint: userPoint,
               userTicketCount: yavarweeTickets,
               isGameActive: isYavarweeActive,
-              onTap: info 
+              onTap: info
                   ? () => context.pushNamed(PageRouter.yavarwee)
-                  : () => _purchaseTicket(context, TicketType.WAVARWEE, stageId),
+                  : () => _purchaseTicket(context, TicketType.YAVARWEE, shopId),
             ),
             MinigameSelectComponent(
               info: info,
@@ -267,14 +269,14 @@ class MinigameScrollComponent extends StatelessWidget {
                       color: GogoColors.white,
                     ),
               gameName: "코인토스",
-              ticketsCost: cointTossTicketscost,
-              ticketsCount: cointTossTicketsCount,
+              ticketsCost: cointTossTicketscost ?? 0,
+              ticketsCount: cointTossTicketsCount ?? 0,
               userPoint: userPoint,
               userTicketCount: coinTossTickets,
               isGameActive: isCoinTossActive,
-              onTap: info 
-                  ? () => context.pushNamed(PageRouter.coinToss)
-                  : () => _purchaseTicket(context, TicketType.COINTOSS, stageId),
+              onTap: info
+                  ? () => PageRouter.gogoPushNamed(PageRouter.coinToss, stageId)
+                  : () => _purchaseTicket(context, TicketType.COINTOSS, shopId),
             ),
             MinigameSelectComponent(
               info: info,
@@ -290,14 +292,14 @@ class MinigameScrollComponent extends StatelessWidget {
                       color: GogoColors.white,
                     ),
               gameName: "플린코",
-              ticketsCost: plinkoTicketscost,
-              ticketsCount: plinkoTicketsCount,
+              ticketsCost: plinkoTicketscost ?? 0,
+              ticketsCount: plinkoTicketsCount ?? 0,
               userPoint: userPoint,
               userTicketCount: plinkoTickets,
               isGameActive: isPlinkoActive,
-              onTap: info 
+              onTap: info
                   ? () {}
-                  : () => _purchaseTicket(context, TicketType.PLINKO, stageId),
+                  : () => _purchaseTicket(context, TicketType.PLINKO, shopId),
             ),
           ],
         );

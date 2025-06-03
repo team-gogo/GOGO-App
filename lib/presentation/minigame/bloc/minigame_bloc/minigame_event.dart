@@ -12,8 +12,9 @@ abstract class MinigameEvent {}
 
 class FetchMinigameInfo extends MinigameEvent {
   final int stageId;
+  final bool init;
 
-  FetchMinigameInfo({required this.stageId});
+  FetchMinigameInfo({required this.stageId, this.init = false});
 }
 
 class PurchaseTicket extends MinigameEvent {

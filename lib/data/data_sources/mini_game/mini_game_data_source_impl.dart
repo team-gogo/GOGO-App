@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:gogo_app/data/models/mini_game/betting/bet_limit_response.dart';
+import 'package:gogo_app/data/models/mini_game/betting/coin_toss_request.dart';
 import 'package:gogo_app/data/models/mini_game/betting/coin_toss_response.dart';
 import 'package:gogo_app/data/models/mini_game/betting/plinko_response.dart';
 import 'package:gogo_app/data/models/mini_game/betting/yavarwee_request.dart';
 import 'package:gogo_app/data/models/mini_game/risk_level.dart';
 import '../../api/mini_game/mini_game_api.dart';
 import '../../models/mini_game/active_game_response.dart';
+import '../../models/mini_game/bet_limit_response.dart';
 import '../../models/mini_game/ticket_counts_response.dart';
 import '../../util/execute_handle_api_call.dart';
 import 'mini_game_data_source.dart';
@@ -18,10 +19,10 @@ class MiniGameDataSourceImpl implements MiniGameDataSource {
   @override
   Future<CoinTossResponse> getCoinTossBetting(
     int stageId,
-    int amount,
+    CoinTossRequest request,
   ) async {
     return await executeHandleApiCall(
-        () => _miniGameApi.getCoinTossBetting(stageId, amount));
+        () => _miniGameApi.getCoinTossBetting(stageId, request));
   }
 
   @override
