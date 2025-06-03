@@ -134,50 +134,85 @@ class MatchListScreen extends StatelessWidget {
   }
 
   void showDialogMatchBatting(
-    BuildContext context,
-    MatchDto data,
-  ) {
+      BuildContext context,
+      MatchDto data,
+      ) {
+    final matchListBloc = context.read<MatchListBloc>(); // ✅ 여기에서 read
+
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         final textController = TextEditingController();
         int aTeamPoint = data.ateam.bettingPoint;
         int bTeamPoint = data.bteam.bettingPoint;
+        String? selectedTeam;
 
-        return MatchBattingStatusDialog(
-          bettingController: textController,
-          startDate: data.startDate,
-          system: data.system,
-          gameType: data.category,
-          round: data.round,
-          teamAPoint: aTeamPoint,
-          teamBPoint: bTeamPoint,
-          teamA: data.ateam.teamName,
-          teamB: data.bteam.teamName,
-          enableBetting: !data.isEnd && data.startDate.isBefore(DateTime.now()),
-          closeDialog: () {
-            Navigator.pop(context);
-          },
-          onBattingClick: (String team) {
-            final predictedTeamId = (team == data.ateam.teamName)
-                ? data.ateam.teamId
-                : data.bteam.teamId;
-            (team == data.ateam.teamName)
-                ? {aTeamPoint += textController.value.text as int}
-                : {bTeamPoint += textController.value.text as int};
-            final request = BettingMatchRequest(
-              predictedWinTeamId: predictedTeamId!!,
-              bettingPoint: textController.value.text as int,
-            );
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return MatchBattingStatusDialog(
+              bettingController: textController,
+              startDate: data.startDate,
+              system: data.system,
+              gameType: data.category,
+              round: data.round,
+              selectedTeam: selectedTeam,
+              setSelectedTeam: (team) {
+                setState(() {
+                  selectedTeam = team;
+                });
+              },
+              teamAPoint: aTeamPoint,
+              teamBPoint: bTeamPoint,
+              teamA: data.ateam.teamName,
+              teamB: data.bteam.teamName,
+              enableBetting: !data.isEnd && data.startDate.isBefore(DateTime.now()),
+              closeDialog: () {
+                Navigator.pop(dialogContext);
+              },
+              onBattingClick: () {
+                final inputText = textController.text.trim();
 
-            context.read<MatchListBloc>().add(
+                if (inputText.isEmpty) {
+                  return;
+                }
+
+                final bettingPoint = int.tryParse(inputText);
+                if (bettingPoint == null || bettingPoint <= 0) {
+                  return;
+                }
+
+                if (selectedTeam == null) {
+                  return;
+                }
+
+                final predictedTeamId = (selectedTeam == data.ateam.teamName)
+                    ? data.ateam.teamId
+                    : data.bteam.teamId;
+
+                if (selectedTeam == data.ateam.teamName) {
+                  setState(() {
+                    aTeamPoint += bettingPoint;
+                  });
+                } else {
+                  setState(() {
+                    bTeamPoint += bettingPoint;
+                  });
+                }
+
+                final request = BettingMatchRequest(
+                  predictedWinTeamId: predictedTeamId!,
+                  bettingPoint: bettingPoint,
+                );
+
+                matchListBloc.add(
                   BettingMatch(
                     matchId: data.matchId,
                     request: request,
                   ),
                 );
-
-            Navigator.pop(context);
+                Navigator.pop(dialogContext);
+              },
+            );
           },
         );
       },
