@@ -27,6 +27,8 @@ class MatchBattingStatusDialog extends StatelessWidget {
   final VoidCallback closeDialog;
   final void Function(String) onBattingClick;
 
+  final TextEditingController bettingController;
+
   const MatchBattingStatusDialog({
     super.key,
     required this.teamAPoint,
@@ -40,6 +42,7 @@ class MatchBattingStatusDialog extends StatelessWidget {
     required this.system,
     required this.closeDialog,
     required this.onBattingClick,
+    required this.bettingController,
   });
 
   @override
@@ -259,7 +262,7 @@ class MatchBattingStatusDialog extends StatelessWidget {
                 spacing: 12,
                 children: [
                   GogoTextField(
-                    controller: TextEditingController(),
+                    controller: bettingController,
                     hintText: "배팅할 금액을 입력해주세요",
                     endIcon: GogoIcons.pointCircle(
                       color: true ? GogoColors.white : GogoColors.gray400,

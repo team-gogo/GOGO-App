@@ -25,6 +25,7 @@ class MatchListBloc extends Bloc<MatchListEvent, MatchListState> {
     required this.day,
   }) : super(InitMatchList()) {
     on<LoadItems>(_onLoadItems);
+    on<BettingMatch>(_onBettingMatch);
   }
 
   Future<void> _onLoadItems(

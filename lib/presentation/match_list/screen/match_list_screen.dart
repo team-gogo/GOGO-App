@@ -7,6 +7,7 @@ import 'package:gogo_app/design_system/component/top_bar/gogo_top_bar.dart';
 import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/design_system/theme/icon.dart';
 import 'package:gogo_app/presentation/loading/widgets/loading_indicator.dart';
+import '../../../data/models/betting/request/betting_match_request.dart';
 import '../../home/widgets/match_batting_status_dialog.dart';
 import '../../home/widgets/match_card/match_card_component.dart';
 import '../bloc/match_list_bloc.dart';
@@ -139,20 +140,45 @@ class MatchListScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final textController = TextEditingController();
+        int aTeamPoint = data.ateam.bettingPoint;
+        int bTeamPoint = data.bteam.bettingPoint;
+
         return MatchBattingStatusDialog(
+          bettingController: textController,
           startDate: data.startDate,
           system: data.system,
           gameType: data.category,
           round: data.round,
-          teamAPoint: data.ateam.bettingPoint,
-          teamBPoint: data.bteam.bettingPoint,
+          teamAPoint: aTeamPoint,
+          teamBPoint: bTeamPoint,
           teamA: data.ateam.teamName,
           teamB: data.bteam.teamName,
           enableBetting: !data.isEnd && data.startDate.isBefore(DateTime.now()),
           closeDialog: () {
             Navigator.pop(context);
           },
-          onBattingClick: (String team) {},
+          onBattingClick: (String team) {
+            final predictedTeamId = (team == data.ateam.teamName)
+                ? data.ateam.teamId
+                : data.bteam.teamId;
+            (team == data.ateam.teamName)
+                ? {aTeamPoint += textController.value.text as int}
+                : {bTeamPoint += textController.value.text as int};
+            final request = BettingMatchRequest(
+              predictedWinTeamId: predictedTeamId!!,
+              bettingPoint: textController.value.text as int,
+            );
+
+            context.read<MatchListBloc>().add(
+                  BettingMatch(
+                    matchId: data.matchId,
+                    request: request,
+                  ),
+                );
+
+            Navigator.pop(context);
+          },
         );
       },
     );
