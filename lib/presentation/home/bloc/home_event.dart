@@ -13,3 +13,9 @@ class CheckBankruptcy extends HomeEvent {
 
   CheckBankruptcy( this.isBankruptcy);
 }
+
+class GetMinigameBetLimit extends HomeEvent {
+  final int stageId;
+
+  GetMinigameBetLimit({required this.stageId});
+}

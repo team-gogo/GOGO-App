@@ -39,6 +39,7 @@ class _MatchTeamInfoScreenState extends State<MatchTeamInfoScreen>
             _tabController?.animateTo(widget.gameIndex);
             return Scaffold(
               body: SafeArea(
+                bottom: false,
                 child: Column(
                   children: [
                     Padding(

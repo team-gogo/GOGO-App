@@ -34,7 +34,7 @@ class GogoStageCardComponent extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         color: color,
       ),
-      width: 343.w,
+      width: 343,
       child: Column(
         spacing: 28,
         children: [

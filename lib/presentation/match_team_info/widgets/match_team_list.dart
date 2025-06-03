@@ -31,7 +31,7 @@ class MatchTeamList extends StatelessWidget {
       child: ListView.separated(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         physics: AlwaysScrollableScrollPhysics(),
-        itemCount: teamResponse.count + 1,
+        itemCount: teamResponse.count,
         separatorBuilder: (_, __) => SizedBox(height: 12),
         itemBuilder: (context, index) {
           if (index == 0 && isTournament) {
@@ -46,7 +46,7 @@ class MatchTeamList extends StatelessWidget {
               border: Border.all(color: GogoColors.main500, width: 1),
             );
           }
-          return MatchTeamItem(team: teamResponse.team[index - 1], game: game);
+          return MatchTeamItem(team: teamResponse.team[index], game: game);
         },
       ),
     );
