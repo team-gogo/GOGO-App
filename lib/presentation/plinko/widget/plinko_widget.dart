@@ -40,18 +40,7 @@ class PlinkoWidget extends FlameGame with HasCollisionDetection {
         // 마지막 장애물의 Y 위치 저장
         lastObstacleY = y;
       }
-    }
-
-    // 공 추가
-    world.add(
-      PlinkoBall(
-        velocity: Vector2(0, 0),
-        position: Vector2(width / 2, 10),
-        radius: 5,
-      ),
-    );
-
-    // 하단 점수 박스 추가 (장애물 아래 36픽셀 위치)
+    } // 하단 점수 박스 추가 (장애물 아래 36픽셀 위치)
     final scores = [
       110,
       41,
@@ -91,6 +80,15 @@ class PlinkoWidget extends FlameGame with HasCollisionDetection {
         ),
       );
     }
+
+    // 공 추가
+    world.add(
+      PlinkoBall(
+        velocity: Vector2(0, 0),
+        position: Vector2(width / 2, 10),
+        radius: 5,
+      ),
+    );
 
     super.onLoad();
   }
