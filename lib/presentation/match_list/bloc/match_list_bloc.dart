@@ -9,8 +9,7 @@ import '../../../data/models/common/match_dto.dart';
 
 class MatchListBloc extends Bloc<MatchListEvent, MatchListState> {
   final StageRepository _stageRepository = GetIt.instance<StageRepository>();
-  final BettingRepository _bettingRepository =
-      GetIt.instance<BettingRepository>();
+  final BettingRepository _bettingRepository = GetIt.instance<BettingRepository>();
 
   final int stageId;
   final int year;

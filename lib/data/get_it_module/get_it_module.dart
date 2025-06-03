@@ -25,8 +25,11 @@ import 'package:gogo_app/data/api/stage/stage_api.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository_impl.dart';
 import '../api/mini_game/mini_game_api.dart';
+import '../data_sources/betting/betting_data_source.dart';
 import '../data_sources/token_data_source/token_data_source.dart';
 import '../data_sources/token_data_source/token_data_source_impl.dart';
+import '../repositories/betting/betting_repository.dart';
+import '../repositories/betting/betting_repository_impl.dart';
 import '../repositories/mini_game/mini_game_repository.dart';
 import '../repositories/mini_game/mini_game_repository_impl.dart';
 
@@ -66,6 +69,8 @@ void setupRepositoryLocator() {
       () => MiniGameRepositoryImpl(locator<MiniGameDataSource>()));
   locator.registerLazySingleton<ShopRepository>(
       () => ShopRepositoryImpl(locator<ShopDataSource>()));
+  locator.registerLazySingleton<BettingRepository>(
+      () => BettingRepositoryImpl(locator<BettingDataSource>()));
 }
 
 void setupApiLocator() {
