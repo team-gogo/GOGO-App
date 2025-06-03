@@ -6,6 +6,7 @@ import 'package:gogo_app/data/api/search_school/search_school_api.dart';
 import 'package:gogo_app/data/api/shop/shop_api.dart';
 import 'package:gogo_app/data/data_sources/auth/auth_data_source.dart';
 import 'package:gogo_app/data/data_sources/auth/auth_data_source_impl.dart';
+import 'package:gogo_app/data/data_sources/betting/betting_data_source_impl.dart';
 import 'package:gogo_app/data/data_sources/mini_game/mini_game_data_source.dart';
 import 'package:gogo_app/data/data_sources/mini_game/mini_game_data_source_impl.dart';
 import 'package:gogo_app/data/data_sources/search_school/search_school_data_source.dart';
@@ -56,6 +57,8 @@ void setupDataSourceLocator() {
   locator.registerLazySingleton<ShopDataSource>(
       () => ShopDataSourceImpl(locator<Dio>()));
   locator.registerLazySingleton<TokenDataSource>(() => TokenDataSourceImpl());
+  locator.registerLazySingleton<BettingDataSource>(
+          () => BettingDataSourceImpl(locator<Dio>()));
 }
 
 void setupRepositoryLocator() {
