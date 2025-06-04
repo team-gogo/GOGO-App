@@ -170,19 +170,38 @@ class MatchListScreen extends StatelessWidget {
               teamBPoint: bTeamPoint,
               teamA: data.ateam.teamName,
               teamB: data.bteam.teamName,
-              enableBetting: !data.isEnd && data.startDate.isBefore(DateTime.now()),
+              enableBetting:
+                  !data.isEnd && data.startDate.isBefore(DateTime.now()),
               closeDialog: () {
                 Navigator.pop(dialogContext);
               },
               onBattingClick: () {
                 final inputText = textController.text.trim();
-
                 final bettingPoint = int.tryParse(inputText);
-                if (bettingPoint == null || bettingPoint <= 0) {
+
+                // === 유효성 검사 ===
+                if (selectedTeam == null) {
+                  _showError(dialogContext, '배팅할 팀을 선택해주세요.');
+                  return;
+                }
+
+                if (bettingPoint == null) {
+                  _showError(dialogContext, '배팅할 포인트를 입력해주세요.');
+                  return;
+                }
+
+                if (bettingPoint < 1000) {
+                  _showError(dialogContext, '배팅 포인트는 최소 1000 이상이어야 합니다.');
+                  return;
+                }
+
+                if (bettingPoint > 5000) {
+                  _showError(dialogContext, '배팅 포인트는 최대 5000 이하로 입력해주세요.');
                   return;
                 }
 
                 if (bettingPoint > point) {
+                  _showError(dialogContext, '보유 포인트를 초과할 수 없습니다.');
                   return;
                 }
 
@@ -190,19 +209,18 @@ class MatchListScreen extends StatelessWidget {
                     ? data.ateam.teamId
                     : data.bteam.teamId;
 
-                if (selectedTeam == data.ateam.teamName) {
-                  setState(() {
-                    aTeamPoint += bettingPoint;
-                  });
-                } else {
-                  setState(() {
-                    bTeamPoint += bettingPoint;
-                  });
-                }
-
                 if (predictedTeamId == null) {
+                  _showError(dialogContext, '선택한 팀의 ID를 찾을 수 없습니다.');
                   return;
                 }
+
+                setState(() {
+                  if (selectedTeam == data.ateam.teamName) {
+                    aTeamPoint += bettingPoint;
+                  } else {
+                    bTeamPoint += bettingPoint;
+                  }
+                });
 
                 final request = BettingMatchRequest(
                   predictedWinTeamId: predictedTeamId,
@@ -220,11 +238,23 @@ class MatchListScreen extends StatelessWidget {
                   gameType: data.category,
                   sortOrder: SortOrder.ascending,
                 ));
+
+                Navigator.pop(dialogContext); // 성공 후 다이얼로그 닫기
               },
             );
           },
         );
       },
+    );
+  }
+
+  void _showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 2),
+      ),
     );
   }
 }

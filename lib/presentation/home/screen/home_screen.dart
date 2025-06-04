@@ -400,7 +400,11 @@ class HomeScreen extends StatelessWidget {
     int point,
   ) {
     final matchListBloc = MatchListBloc(
-        stageId: stageId, year: date.year, month: date.month, day: date.day);
+      stageId: stageId,
+      year: date.year,
+      month: date.month,
+      day: date.day,
+    );
 
     showDialog(
       context: context,
@@ -435,13 +439,31 @@ class HomeScreen extends StatelessWidget {
               },
               onBattingClick: () {
                 final inputText = textController.text.trim();
-
                 final bettingPoint = int.tryParse(inputText);
-                if (bettingPoint == null || bettingPoint <= 0) {
+
+                // === 유효성 검사 ===
+                if (selectedTeam == null) {
+                  _showError(dialogContext, '배팅할 팀을 선택해주세요.');
+                  return;
+                }
+
+                if (bettingPoint == null) {
+                  _showError(dialogContext, '숫자로 된 배팅 포인트를 입력해주세요.');
+                  return;
+                }
+
+                if (bettingPoint < 1000) {
+                  _showError(dialogContext, '배팅 포인트는 최소 1000 이상이어야 합니다.');
+                  return;
+                }
+
+                if (bettingPoint > 5000) {
+                  _showError(dialogContext, '배팅 포인트는 최대 5000 이하로 입력해주세요.');
                   return;
                 }
 
                 if (bettingPoint > point) {
+                  _showError(dialogContext, '보유한 포인트보다 많이 입력할 수 없습니다.');
                   return;
                 }
 
@@ -450,6 +472,7 @@ class HomeScreen extends StatelessWidget {
                     : data.bteam.teamId;
 
                 if (predictedTeamId == null) {
+                  _showError(dialogContext, '선택된 팀의 ID를 찾을 수 없습니다.');
                   return;
                 }
 
@@ -458,22 +481,32 @@ class HomeScreen extends StatelessWidget {
                   bettingPoint: bettingPoint,
                 );
 
-                matchListBloc.add(
-                  BettingMatch(
-                    matchId: data.matchId,
-                    request: request,
-                  ),
-                );
+                matchListBloc.add(BettingMatch(
+                  matchId: data.matchId,
+                  request: request,
+                ));
 
                 matchListBloc.add(LoadItems(
                   gameType: data.category,
                   sortOrder: SortOrder.ascending,
                 ));
+
+                Navigator.pop(dialogContext); // 성공 후 모달 닫기
               },
             );
           },
         );
       },
+    );
+  }
+
+  void _showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 2),
+      ),
     );
   }
 }
