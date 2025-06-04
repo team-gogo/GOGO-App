@@ -137,7 +137,7 @@ class MatchListScreen extends StatelessWidget {
       BuildContext context,
       MatchDto data,
       ) {
-    final matchListBloc = context.read<MatchListBloc>(); // ✅ 여기에서 read
+    final matchListBloc = context.read<MatchListBloc>();
 
     showDialog(
       context: context,
@@ -189,6 +189,10 @@ class MatchListScreen extends StatelessWidget {
                     ? data.ateam.teamId
                     : data.bteam.teamId;
 
+                if (predictedTeamId == null) {
+                  return;
+                }
+
                 if (selectedTeam == data.ateam.teamName) {
                   setState(() {
                     aTeamPoint += bettingPoint;
@@ -200,7 +204,7 @@ class MatchListScreen extends StatelessWidget {
                 }
 
                 final request = BettingMatchRequest(
-                  predictedWinTeamId: predictedTeamId!,
+                  predictedWinTeamId: predictedTeamId,
                   bettingPoint: bettingPoint,
                 );
 
@@ -210,7 +214,6 @@ class MatchListScreen extends StatelessWidget {
                     request: request,
                   ),
                 );
-                Navigator.pop(dialogContext);
               },
             );
           },
