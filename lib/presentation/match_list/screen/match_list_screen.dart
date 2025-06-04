@@ -16,6 +16,7 @@ import '../bloc/match_list_state.dart';
 
 class MatchListScreen extends StatelessWidget {
   final int stageId;
+  final int point;
   final int year;
   final int month;
   final int day;
@@ -23,6 +24,7 @@ class MatchListScreen extends StatelessWidget {
   const MatchListScreen(
       {super.key,
       required this.stageId,
+      required this.point,
       required this.year,
       required this.month,
       required this.day});
@@ -114,7 +116,8 @@ class MatchListScreen extends StatelessWidget {
                               matchDto: matchDto,
                               width: double.infinity,
                               onBattingClick: () {
-                                showDialogMatchBatting(context, matchDto);
+                                showDialogMatchBatting(
+                                    context, matchDto, point);
                               },
                             );
                           },
@@ -134,10 +137,12 @@ class MatchListScreen extends StatelessWidget {
   }
 
   void showDialogMatchBatting(
-      BuildContext context,
-      MatchDto data,
-      ) {
-    final matchListBloc = context.read<MatchListBloc>();
+    BuildContext context,
+    MatchDto data,
+    int point,
+  ) {
+    final matchListBloc =
+        MatchListBloc(stageId: stageId, year: year, month: month, day: day);
 
     showDialog(
       context: context,
@@ -165,23 +170,20 @@ class MatchListScreen extends StatelessWidget {
               teamBPoint: bTeamPoint,
               teamA: data.ateam.teamName,
               teamB: data.bteam.teamName,
-              enableBetting: !data.isEnd && data.startDate.isBefore(DateTime.now()),
+              enableBetting:
+                  !data.isEnd && data.startDate.isBefore(DateTime.now()),
               closeDialog: () {
                 Navigator.pop(dialogContext);
               },
               onBattingClick: () {
                 final inputText = textController.text.trim();
 
-                if (inputText.isEmpty) {
-                  return;
-                }
-
                 final bettingPoint = int.tryParse(inputText);
                 if (bettingPoint == null || bettingPoint <= 0) {
                   return;
                 }
 
-                if (selectedTeam == null) {
+                if (bettingPoint > point) {
                   return;
                 }
 
@@ -191,16 +193,6 @@ class MatchListScreen extends StatelessWidget {
 
                 if (predictedTeamId == null) {
                   return;
-                }
-
-                if (selectedTeam == data.ateam.teamName) {
-                  setState(() {
-                    aTeamPoint += bettingPoint;
-                  });
-                } else {
-                  setState(() {
-                    bTeamPoint += bettingPoint;
-                  });
                 }
 
                 final request = BettingMatchRequest(
@@ -214,6 +206,11 @@ class MatchListScreen extends StatelessWidget {
                     request: request,
                   ),
                 );
+
+                matchListBloc.add(LoadItems(
+                  gameType: data.category,
+                  sortOrder: SortOrder.ascending,
+                ));
               },
             );
           },

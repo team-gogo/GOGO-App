@@ -186,6 +186,7 @@ class MatchCard extends StatelessWidget {
                         Expanded(
                           child: Text(
                             "${matchDto.ateam.teamName}팀",
+                            textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             style: GogoTypography.body1Extrabold.copyWith(
                                 color: matchDto.betting.isBetting &&
@@ -203,6 +204,7 @@ class MatchCard extends StatelessWidget {
                         Expanded(
                           child: Text(
                             "${matchDto.bteam.teamName}팀",
+                            textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             style: GogoTypography.body1Extrabold.copyWith(
                               color: matchDto.betting.isBetting &&

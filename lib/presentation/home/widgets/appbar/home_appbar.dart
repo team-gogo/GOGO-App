@@ -23,7 +23,7 @@ class HomeAppbar extends StatefulWidget {
 }
 
 class _HomeAppbarState extends State<HomeAppbar> {
-  final now = DateTime.now();
+  final now = DateTime(2025,04,22);
   final ScrollController scrollController = ScrollController();
 
   @override

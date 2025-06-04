@@ -92,6 +92,8 @@ class HomeScreen extends StatelessWidget {
                                               PageRouter.matchList,
                                               queryParameters: {
                                                 'stageId': stageId.toString(),
+                                                'point': state.points.point
+                                                    .toString(),
                                                 'year': DateFormat('yyyy')
                                                     .format(context
                                                         .read<HomeBloc>()
@@ -169,13 +171,13 @@ class HomeScreen extends StatelessWidget {
                                                     matchDto: match,
                                                     onBattingClick: () {
                                                       showDialogMatchBatting(
-                                                        context,
-                                                        match,
-                                                        stageId!,
+                                                          context,
+                                                          match,
+                                                          stageId!,
                                                           context
                                                               .read<HomeBloc>()
-                                                              .selectedDate
-                                                      );
+                                                              .selectedDate,
+                                                          state.points.point);
                                                     },
                                                   ),
                                                 );
@@ -195,12 +197,16 @@ class HomeScreen extends StatelessWidget {
                                       GogoIcons.arcade(color: GogoColors.white),
                                       text: '미니게임',
                                       onTap: () => PageRouter.router.pushNamed(
-                                          PageRouter.miniGame, 
-                                          queryParameters: {
-                                            'stageId': stageId.toString(),
-                                            'point': state.points.point.toString(),
-                                            'betLimitResponse': state.betLimitResponse?.toJson().toString(),
-                                          })),
+                                              PageRouter.miniGame,
+                                              queryParameters: {
+                                                'stageId': stageId.toString(),
+                                                'point': state.points.point
+                                                    .toString(),
+                                                'betLimitResponse': state
+                                                    .betLimitResponse
+                                                    ?.toJson()
+                                                    .toString(),
+                                              })),
                                   MinigamePlayComponent(
                                     activeGameResponse:
                                         state.activeGameResponse,
@@ -391,12 +397,10 @@ class HomeScreen extends StatelessWidget {
     MatchDto data,
     int stageId,
     DateTime date,
+    int point,
   ) {
     final matchListBloc = MatchListBloc(
-        stageId: stageId,
-        year: date.year,
-        month: date.month,
-        day: date.day);
+        stageId: stageId, year: date.year, month: date.month, day: date.day);
 
     showDialog(
       context: context,
@@ -432,16 +436,12 @@ class HomeScreen extends StatelessWidget {
               onBattingClick: () {
                 final inputText = textController.text.trim();
 
-                if (inputText.isEmpty) {
-                  return;
-                }
-
                 final bettingPoint = int.tryParse(inputText);
                 if (bettingPoint == null || bettingPoint <= 0) {
                   return;
                 }
 
-                if (selectedTeam == null) {
+                if (bettingPoint > point) {
                   return;
                 }
 
@@ -451,16 +451,6 @@ class HomeScreen extends StatelessWidget {
 
                 if (predictedTeamId == null) {
                   return;
-                }
-
-                if (selectedTeam == data.ateam.teamName) {
-                  setState(() {
-                    aTeamPoint += bettingPoint;
-                  });
-                } else {
-                  setState(() {
-                    bTeamPoint += bettingPoint;
-                  });
                 }
 
                 final request = BettingMatchRequest(
@@ -474,6 +464,11 @@ class HomeScreen extends StatelessWidget {
                     request: request,
                   ),
                 );
+
+                matchListBloc.add(LoadItems(
+                  gameType: data.category,
+                  sortOrder: SortOrder.ascending,
+                ));
               },
             );
           },

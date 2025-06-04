@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gogo_app/design_system/component/button/gogo_default_button.dart';
 import 'package:gogo_app/design_system/component/text_field/gogo_text_field.dart';
 
@@ -14,7 +15,7 @@ import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
 import '../../../design_system/theme/typography.dart';
 
-class MatchBattingStatusDialog extends StatelessWidget {
+class MatchBattingStatusDialog extends StatefulWidget {
   final int teamAPoint;
   final int teamBPoint;
   final String teamA;
@@ -28,7 +29,6 @@ class MatchBattingStatusDialog extends StatelessWidget {
   final VoidCallback closeDialog;
   final void Function() onBattingClick;
   final void Function(String) setSelectedTeam;
-
   final TextEditingController bettingController;
 
   const MatchBattingStatusDialog({
@@ -50,13 +50,28 @@ class MatchBattingStatusDialog extends StatelessWidget {
   });
 
   @override
+  State<MatchBattingStatusDialog> createState() =>
+      _MatchBattingStatusDialogState();
+}
+
+class _MatchBattingStatusDialogState extends State<MatchBattingStatusDialog> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.bettingController.addListener(() => setState(() {}));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final int maxPoints = max(teamAPoint, teamBPoint);
-    final int totalPoints = teamAPoint + teamBPoint;
-    final int aTeamPercentage =
-        totalPoints == 0 ? 0 : ((teamAPoint / totalPoints) * 100).toInt();
-    final int bTeamPercentage =
-        totalPoints == 0 ? 0 : ((teamBPoint / totalPoints) * 100).toInt();
+    final int maxPoints = max(widget.teamAPoint, widget.teamBPoint);
+    final int totalPoints = widget.teamAPoint + widget.teamBPoint;
+    final int aTeamPercentage = totalPoints == 0
+        ? 0
+        : ((widget.teamAPoint / totalPoints) * 100).toInt();
+    final int bTeamPercentage = totalPoints == 0
+        ? 0
+        : ((widget.teamBPoint / totalPoints) * 100).toInt();
 
     return Dialog(
       child: SingleChildScrollView(
@@ -64,7 +79,7 @@ class MatchBattingStatusDialog extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 24, horizontal: 15),
           width: double.infinity,
           decoration: BoxDecoration(
-            color: GogoColors.black,
+            color: GogoColors.gray700,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -79,15 +94,17 @@ class MatchBattingStatusDialog extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                        '$teamA팀 VS $teamB팀',
+                        '${widget.teamA}팀 VS ${widget.teamB}팀',
                         style: GogoTypography.body1Extrabold.copyWith(
                           color: GogoColors.white,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                       GogoIcons.x(
                         width: 32,
                         height: 32,
-                        onTap: closeDialog,
+                        onTap: widget.closeDialog,
                         color: GogoColors.white,
                       )
                     ],
@@ -95,19 +112,18 @@ class MatchBattingStatusDialog extends StatelessWidget {
                   Row(
                     spacing: 20,
                     children: [
-                      GogoTagComponent.small(
-                        color: GogoColors.success,
-                        text: formatDateTimeToHourMinute(startDate),
-                        icon: GogoIcons.alarm(
-                          color: GogoColors.success,
-                          width: 12,
-                          height: 12,
-                        ),
-                      ),
-                      switch (system) {
+                      switch (widget.system) {
                         System.TOURNAMENT => GogoTagComponent.small(
-                            color: GogoColors.white,
-                            text: switch (round) {
+                            isBorder: false,
+                            color: switch (widget.round) {
+                              MatchRound.ROUND_OF_32 => GogoColors.white,
+                              MatchRound.ROUND_OF_16 => GogoColors.white,
+                              MatchRound.QUARTER_FINALS => GogoColors.white,
+                              MatchRound.SEMI_FINALS => GogoColors.white,
+                              MatchRound.FINALS => GogoColors.main300,
+                              null => GogoColors.white,
+                            },
+                            text: switch (widget.round) {
                               MatchRound.ROUND_OF_32 => "32",
                               MatchRound.ROUND_OF_16 => "16",
                               MatchRound.QUARTER_FINALS => "4",
@@ -115,9 +131,20 @@ class MatchBattingStatusDialog extends StatelessWidget {
                               MatchRound.FINALS => "결승전",
                               null => "",
                             },
-                            icon: round == MatchRound.FINALS
+                            icon: widget.round == MatchRound.FINALS
                                 ? GogoIcons.flame(
-                                    color: GogoColors.white,
+                                    color: switch (widget.round) {
+                                      MatchRound.ROUND_OF_32 =>
+                                        GogoColors.white,
+                                      MatchRound.ROUND_OF_16 =>
+                                        GogoColors.white,
+                                      MatchRound.QUARTER_FINALS =>
+                                        GogoColors.white,
+                                      MatchRound.SEMI_FINALS =>
+                                        GogoColors.white,
+                                      MatchRound.FINALS => GogoColors.main300,
+                                      null => GogoColors.white,
+                                    },
                                     width: 12,
                                     height: 12,
                                   )
@@ -147,10 +174,21 @@ class MatchBattingStatusDialog extends StatelessWidget {
                           ),
                       },
                       GogoTagComponent.small(
+                        isBorder: false,
+                        color: GogoColors.white,
+                        text: formatDateTimeToHourMinute(widget.startDate),
+                        icon: GogoIcons.alarm(
+                          color: GogoColors.white,
+                          width: 12,
+                          height: 12,
+                        ),
+                      ),
+                      GogoTagComponent.small(
+                        isBorder: false,
                         padding:
                             EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         color: GogoColors.main500,
-                        text: switch (gameType) {
+                        text: switch (widget.gameType) {
                           GameType.SOCCER => "축구",
                           GameType.BASKET_BALL => "농구",
                           GameType.BASE_BALL => "야구",
@@ -159,7 +197,7 @@ class MatchBattingStatusDialog extends StatelessWidget {
                           GameType.LOL => "리그오브레전드",
                           GameType.ETC => "기타",
                         },
-                        icon: switch (gameType) {
+                        icon: switch (widget.gameType) {
                           GameType.SOCCER => GogoIcons.football(
                               color: GogoColors.main500,
                               width: 12,
@@ -205,50 +243,48 @@ class MatchBattingStatusDialog extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      buildBattingGraph(
-                        isSelected: selectedTeam == teamA,
-                        teamName: teamA,
-                        maxBattingPoint: maxPoints,
-                        currentTeamBattingPoint: teamAPoint,
-                        currentBattingPercentage: aTeamPercentage,
-                        enableBetting: enableBetting,
-                        onClick: (team) => setSelectedTeam(team),
+                      Expanded(
+                        child: buildBattingGraph(
+                          isSelected: widget.selectedTeam == widget.teamA,
+                          teamName: widget.teamA,
+                          maxBattingPoint: maxPoints,
+                          currentTeamBattingPoint: widget.teamAPoint,
+                          currentBattingPercentage: aTeamPercentage,
+                          enableBetting: widget.enableBetting,
+                          onClick: (team) => widget.setSelectedTeam(team),
+                        ),
                       ),
-                      SizedBox(
-                        width: 62,
-                      ),
-                      buildBattingGraph(
-                        isSelected: selectedTeam == teamB,
-                        teamName: teamB,
-                        maxBattingPoint: maxPoints,
-                        currentTeamBattingPoint: teamBPoint,
-                        currentBattingPercentage: bTeamPercentage,
-                        enableBetting: enableBetting,
-                        onClick: (team) => setSelectedTeam(team),
+                      SizedBox(width: 80), // 가운데 공간 확보용
+                      Expanded(
+                        child: buildBattingGraph(
+                          isSelected: widget.selectedTeam == widget.teamB,
+                          teamName: widget.teamB,
+                          maxBattingPoint: maxPoints,
+                          currentTeamBattingPoint: widget.teamBPoint,
+                          currentBattingPercentage: bTeamPercentage,
+                          enableBetting: widget.enableBetting,
+                          onClick: (team) => widget.setSelectedTeam(team),
+                        ),
                       ),
                     ],
                   ),
                   Column(
-                    spacing: 12,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: 4,
                         children: [
                           GogoIcons.pointCircle(height: 20, width: 20),
                           AnimatedInt(
-                            currentInt: teamAPoint + teamBPoint,
+                            currentInt: widget.teamAPoint + widget.teamBPoint,
                             builder: (int value) => Text(
                               "$value",
                               style: GogoTypography.caption1Semibold.copyWith(
                                 color: GogoColors.gray300,
                               ),
-                              textAlign: TextAlign.center,
                             ),
                           )
                         ],
@@ -258,7 +294,6 @@ class MatchBattingStatusDialog extends StatelessWidget {
                         style: GogoTypography.body1Extrabold.copyWith(
                           color: GogoColors.gray500,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
@@ -268,19 +303,28 @@ class MatchBattingStatusDialog extends StatelessWidget {
                 spacing: 12,
                 children: [
                   GogoTextField(
-                    controller: bettingController,
+                    inputFormatter: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    backgroundColor: GogoColors.gray600,
+                    controller: widget.bettingController,
                     hintText: "배팅할 금액을 입력해주세요",
                     endIcon: GogoIcons.pointCircle(
                       color: true ? GogoColors.white : GogoColors.gray400,
                     ),
                   ),
                   GogoDefaultButton(
-                    color:
-                        enableBetting ? GogoColors.main600 : GogoColors.gray400,
+                    color: widget.selectedTeam != null &&
+                            widget.enableBetting &&
+                            widget.bettingController.text.isEmpty == false
+                        ? GogoColors.main600
+                        : GogoColors.gray400,
                     text: "배팅",
                     onTap: () {
-                      if (selectedTeam != null && enableBetting) {
-                        onBattingClick();
+                      if (widget.selectedTeam != null &&
+                          widget.enableBetting &&
+                          widget.bettingController.text.isEmpty == false) {
+                        widget.onBattingClick();
                       }
                     },
                   ),
@@ -323,6 +367,8 @@ class MatchBattingStatusDialog extends StatelessWidget {
                     color: GogoColors.gray300,
                   ),
                   textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
               Text(
@@ -331,11 +377,14 @@ class MatchBattingStatusDialog extends StatelessWidget {
                   color: GogoColors.white,
                 ),
                 textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
             ],
           ),
           AnimatedContainer(
-            height: 30 + 131 * (currentBattingPercentage / 100),
+            height:
+                max(30, min(161, 30 + 131 * (currentBattingPercentage / 100))),
             decoration: ShapeDecoration(
               color: isSelected ? GogoColors.main600 : GogoColors.gray500,
               shape: RoundedRectangleBorder(
@@ -353,7 +402,9 @@ class MatchBattingStatusDialog extends StatelessWidget {
                     style: GogoTypography.body3Extrabold.copyWith(
                       color: GogoColors.white,
                     ),
+                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
+                    maxLines: 1,
                   ),
                 ),
               ),

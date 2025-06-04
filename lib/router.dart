@@ -222,6 +222,7 @@ class PageRouter {
                 pageBuilder: (context, state) {
                   final stageId =
                   int.parse(state.uri.queryParameters['stageId']!);
+                  final point = int.parse(state.uri.queryParameters['point']!);
                   final year = int.parse(state.uri.queryParameters['year']!);
                   final month = int.parse(state.uri.queryParameters['month']!);
                   final day = int.parse(state.uri.queryParameters['day']!);
@@ -229,6 +230,7 @@ class PageRouter {
                   return CupertinoPage(
                     child: MatchListScreen(
                       stageId: stageId,
+                      point: point,
                       year: year,
                       month: month,
                       day: day,
