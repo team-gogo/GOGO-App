@@ -26,7 +26,6 @@ class PlinkoBox extends PositionComponent with HasGameReference<PlinkoWidget> {
       ),
       Paint()..color = GogoColors.main100,
     );
-
     super.render(canvas);
   }
 

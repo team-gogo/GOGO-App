@@ -1,22 +1,20 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gogo_app/data/models/auth/user_info/user_info_response.dart';
 import 'package:gogo_app/data/models/common/match_dto.dart';
-import 'package:gogo_app/data/models/mini_game/betting/bet_limit_response.dart';
 import 'package:gogo_app/data/models/stage/enum_type/game_type.dart';
+import 'package:gogo_app/presentation/cointoss/screens/coin_toss_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_main_screen.dart';
 import 'package:gogo_app/presentation/community/screen/community_write_screen.dart';
 import 'package:gogo_app/presentation/home/screen/home_screen.dart';
 import 'package:gogo_app/presentation/loading/screens/join_stage_page.dart';
+import 'package:gogo_app/presentation/loading/screens/un_developed_screen.dart';
 import 'package:gogo_app/presentation/logIn/screen/login_screen.dart';
 import 'package:gogo_app/presentation/match_detail/screen/match_detail_screen.dart';
 import 'package:gogo_app/presentation/match_list/screen/match_list_screen.dart';
 import 'package:gogo_app/presentation/match_team_info/screens/match_team_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/minigame_screen.dart';
-import 'package:gogo_app/presentation/minigame/screen/coin_toss_screen.dart';
 import 'package:gogo_app/presentation/minigame/screen/yavarwee_screen.dart';
 import 'package:gogo_app/presentation/plinko/screens/plinko_screen.dart';
 import 'package:gogo_app/presentation/profile/screen/edit_profile_screen.dart';
@@ -211,9 +209,9 @@ class PageRouter {
                 name: coinToss,
                 path: '/$coinToss',
                 pageBuilder: (context, state) {
-                  return CupertinoPage(
-                    child: CoinTossScreen(),
-                  );
+                  int stageId =
+                      int.parse(state.uri.queryParameters['stageId']!);
+                  return CupertinoPage(child: CoinTossScreen(stageId: stageId));
                 },
               ),
               GoRoute(
@@ -262,7 +260,7 @@ class PageRouter {
           ),
         ],
       ),
-      _customGoRoute(name: PageRouter.alert, screen: Placeholder()),
+      _customGoRoute(name: PageRouter.alert, screen: UnDevelopedScreen()),
       _customGoRoute(
           name: PageRouter.profile,
           screen: ProfileScreen(),

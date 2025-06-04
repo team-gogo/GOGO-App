@@ -84,7 +84,6 @@ class PlinkoWidget extends FlameGame with HasCollisionDetection {
     // 공 추가
     world.add(
       PlinkoBall(
-        velocity: Vector2(0, 0),
         position: Vector2(width / 2, 10),
         radius: 5,
       ),

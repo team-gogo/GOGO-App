@@ -7,8 +7,10 @@ import 'package:gogo_app/design_system/theme/color.dart';
 import 'package:gogo_app/router.dart';
 
 class MinigamePlayComponent extends StatelessWidget {
-  const MinigamePlayComponent({super.key, required this.activeGameResponse});
+  const MinigamePlayComponent(
+      {super.key, required this.activeGameResponse, required this.stageId});
 
+  final int stageId;
   final ActiveGameResponse activeGameResponse;
 
   @override
@@ -22,16 +24,19 @@ class MinigamePlayComponent extends StatelessWidget {
             gameName: '야바위',
             minigameImage: '야바위',
             isActive: activeGameResponse.isYavarweeActive,
+            stageId: stageId,
           ),
           MinigameSelectButton(
             gameName: '코인토스',
             minigameImage: '코인토스',
             isActive: activeGameResponse.isCoinTossActive,
+            stageId: stageId,
           ),
           MinigameSelectButton(
             gameName: '플린코',
             minigameImage: '플린코',
             isActive: activeGameResponse.isPlinkoActive,
+            stageId: stageId,
           ),
         ],
       ),
@@ -43,12 +48,14 @@ class MinigameSelectButton extends StatelessWidget {
   final String gameName;
   final String minigameImage;
   final bool isActive;
+  final int stageId;
 
-  const MinigameSelectButton({
+  MinigameSelectButton({
     super.key,
     required this.gameName,
     required this.minigameImage,
     required this.isActive,
+    required this.stageId,
   });
 
   static final Map<String, VoidCallback> _gameOnTap = {

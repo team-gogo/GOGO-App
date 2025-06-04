@@ -4,11 +4,11 @@ part 'bet_limit_response.g.dart';
 
 @JsonSerializable()
 class BetLimitResponse {
-  final GameBetLimit plinko;
-  final GameBetLimit yavarwee;
-  final GameBetLimit coinToss;
+  final GameBetSetting plinko;
+  final GameBetSetting yavarwee;
+  final GameBetSetting coinToss;
 
-  BetLimitResponse({
+  const BetLimitResponse({
     required this.plinko,
     required this.yavarwee,
     required this.coinToss,
@@ -16,22 +16,17 @@ class BetLimitResponse {
 
   factory BetLimitResponse.fromJson(Map<String, dynamic> json) =>
       _$BetLimitResponseFromJson(json);
-
   Map<String, dynamic> toJson() => _$BetLimitResponseToJson(this);
 }
 
 @JsonSerializable()
-class GameBetLimit {
+class GameBetSetting {
   final int? minBetPoint;
   final int? maxBetPoint;
 
-  GameBetLimit({
-    this.minBetPoint,
-    this.maxBetPoint,
-  });
+  const GameBetSetting({this.minBetPoint, this.maxBetPoint});
 
-  factory GameBetLimit.fromJson(Map<String, dynamic> json) =>
-      _$GameBetLimitFromJson(json);
-
-  Map<String, dynamic> toJson() => _$GameBetLimitToJson(this);
-} 
+  factory GameBetSetting.fromJson(Map<String, dynamic> json) =>
+      _$GameBetSettingFromJson(json);
+  Map<String, dynamic> toJson() => _$GameBetSettingToJson(this);
+}

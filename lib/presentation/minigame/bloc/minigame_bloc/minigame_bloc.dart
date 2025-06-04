@@ -1,8 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:gogo_app/data/models/mini_game/active_game_response.dart';
+import 'package:gogo_app/data/models/mini_game/bet_limit_response.dart';
 import 'package:gogo_app/data/models/mini_game/ticket_counts_response.dart';
 import 'package:gogo_app/data/models/shop/request/buy_shop_item_request.dart';
 import 'package:gogo_app/data/models/shop/response/shop_ticket_status_response.dart';
+import 'package:gogo_app/data/models/stage/search_stage/search_my_point_response.dart';
 import 'package:gogo_app/data/repositories/mini_game/mini_game_repository.dart';
 import 'package:gogo_app/data/repositories/shop/shop_repository.dart';
 import 'package:gogo_app/data/repositories/stage/stage_repository.dart';
@@ -22,8 +25,8 @@ class MinigameDescriptionBloc
 }
 
 class MinigameBloc extends Bloc<MinigameEvent, MinigameState> {
-
-  final MiniGameRepository minigameRepository = GetIt.instance<MiniGameRepository>();
+  final MiniGameRepository minigameRepository =
+      GetIt.instance<MiniGameRepository>();
   final ShopRepository shopRepository = GetIt.instance<ShopRepository>();
   final StageRepository stageRepository = GetIt.instance<StageRepository>();
 
@@ -34,15 +37,23 @@ class MinigameBloc extends Bloc<MinigameEvent, MinigameState> {
 
   void _onFetchMinigameInfo(
       FetchMinigameInfo event, Emitter<MinigameState> emit) async {
-    emit(MinigameInfoLoading());
+    if (event.init) {
+      emit(MinigameInfoLoading());
+    }
     try {
-      final shopTicketStatusResponse = await shopRepository.shopTicketStatusResponse(event.stageId);
-      final ticketCountsResponse = await minigameRepository.getTicketCount(event.stageId);
-      final activeGameResponse = await minigameRepository.getActiveGame(event.stageId);
-      final userPointResponse = await stageRepository.getMyPoint(event.stageId);
+      final ShopTicketStatusResponse shopTicketStatusResponse =
+          await shopRepository.shopTicketStatusResponse(event.stageId);
+      final TicketCountsResponse ticketCountsResponse =
+          await minigameRepository.getTicketCount(event.stageId);
+      final BetLimitResponse betLimitResponse =
+          await minigameRepository.getBetLimit(event.stageId);
+      final ActiveGameResponse activeGameResponse =
+          await minigameRepository.getActiveGame(event.stageId);
+      final SearchMyPointResponse userPointResponse =
+          await stageRepository.getMyPoint(event.stageId);
 
       emit(MinigameInfoLoaded(
-        shopTicketStatusResponse: shopTicketStatusResponse, 
+        shopTicketStatusResponse: shopTicketStatusResponse,
         ticketCountsResponse: ticketCountsResponse,
         activeGameResponse: activeGameResponse,
         userPointResponse: userPointResponse,
@@ -59,21 +70,20 @@ class MinigameBloc extends Bloc<MinigameEvent, MinigameState> {
 
     try {
       // 티켓 구매 요청
-      final shopId = currentState.shopTicketStatusResponse.shopId;
+      final shopId = currentState.shopTicketStatusResponse?.shopId;
       final buyRequest = BuyShopItemRequest(
         miniGameId: event.stageId, // 또는 다른 ID 사용
         ticketQuantity: event.quantity,
         ticketType: event.ticketType,
       );
 
-      await shopRepository.buyShopItemRequest(shopId, buyRequest);
+      await shopRepository.buyShopItemRequest(shopId!, buyRequest);
 
       // 구매 성공 상태 emit
       emit(TicketPurchaseSuccess());
-
       // 구매 후 정보 갱신
-      add(FetchMinigameInfo(stageId: event.stageId));
 
+      add(FetchMinigameInfo(stageId: event.stageId));
     } catch (e) {
       emit(TicketPurchaseError(message: e.toString()));
     }
