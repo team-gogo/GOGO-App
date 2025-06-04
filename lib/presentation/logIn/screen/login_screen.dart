@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/presentation/logIn/widgets/apple_login_button.dart';
 import 'package:gogo_app/router.dart';
 import '../../../design_system/theme/icon.dart';
 import '../../logIn/widgets/google_login_button.dart';
@@ -28,6 +29,18 @@ class LogInScreen extends StatelessWidget {
             children: [
               Center(
                 child: GogoIcons.logo(width: double.infinity, height: 60),
+              ),
+              Positioned(
+                bottom: 170,
+                left: 16,
+                right: 16,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: AppleLoginButton(
+                    onPressed: () =>
+                        context.read<LoginBloc>().add(AppleLoginEvent()),
+                  ),
+                ),
               ),
               Positioned(
                 bottom: 111,
