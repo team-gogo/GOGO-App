@@ -28,6 +28,14 @@ void main() async {
   // 가로모드 방지
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light, // Android용 아이콘 밝기
+      statusBarBrightness: Brightness.dark, // iOS에서 아이콘을 밝게 보이게 하려면 dark로 설정
+    ),
+  );
+
   runApp(const MyApp());
 }
 
@@ -37,22 +45,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (_, child) => MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          scaffoldBackgroundColor: GogoColors.black,
-        ),
-        routerDelegate: PageRouter.router.routerDelegate,
-        routeInformationParser: PageRouter.router.routeInformationParser,
-        routeInformationProvider: PageRouter.router.routeInformationProvider,
-      ),
-    );
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (_, child) => MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                scaffoldBackgroundColor: GogoColors.black,
+              ),
+              routerDelegate: PageRouter.router.routerDelegate,
+              routeInformationParser: PageRouter.router.routeInformationParser,
+              routeInformationProvider:
+                  PageRouter.router.routeInformationProvider,
+              builder: (context, child) {
+                return AnnotatedRegion<SystemUiOverlayStyle>(
+                  value: SystemUiOverlayStyle.light,
+                  child: child!,
+                );
+              },
+            ));
   }
 }
 
