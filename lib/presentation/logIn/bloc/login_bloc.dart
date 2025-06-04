@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../data/models/auth/google_oauth/google_oauth_login_request.dart';
 import '../../../data/models/auth/sign_in/login_response.dart';
 import '../../../data/repositories/auth/auth_repository.dart';
@@ -16,6 +18,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginBloc() : super(Init()) {
     on<GoogleLogInEvent>(_googleSignInHandler);
+    on<AppleLoginEvent>(_appleSignInHandler);
   }
 
   void _googleSignInHandler(LoginEvent event, Emitter<LoginState> emit) async {
@@ -23,7 +26,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await _googleSignIn.signOut();
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
-        emit(GoogleLoginFail(message: "구글 로그인을 취소 했습니다."));
+        emit(AuthLoginFailure(message: "구글 로그인을 취소 했습니다."));
         return;
       }
 
@@ -38,7 +41,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       final userCredential = await _auth.signInWithCredential(credential);
 
       if (userCredential.user == null) {
-        emit(GoogleLoginFail(message: "유저 정보를 가져오지 못했습니다."));
+        emit(AuthLoginFailure(message: "유저 정보를 가져오지 못했습니다."));
         return;
       }
 
@@ -60,8 +63,36 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(GogoLoginFail());
       }
     } catch (e) {
-      emit(GoogleLoginFail(message: "구글 로그인에 실패 했습니다: $e"));
+      emit(AuthLoginFailure(message: "구글 로그인에 실패 했습니다: $e"));
     }
+  }
+
+  void _appleSignInHandler(LoginEvent event, Emitter<LoginState> emit) async {
+    SignInWithApple.getAppleIDCredential(scopes: [
+      AppleIDAuthorizationScopes.email,
+    ]).then((AuthorizationCredentialAppleID user) async {
+      String? deviceToken = await getDeviceToken();
+
+      final result = await authRepository.googleOAuthLogin(
+        GoogleOAuthLoginRequest(
+          deviceToken: deviceToken,
+          oauthToken: user.identityToken ?? "",
+        ),
+      );
+      switch (result) {
+        case Authority.UNAUTHENTICATED:
+          emit(UnauthorizedGogoLoginSuccess());
+          break;
+        case Authority.USER || Authority.STAFF:
+          emit(UserGogoLoginSuccess());
+          break;
+        default:
+          emit(GogoLoginFail());
+      }
+    }).onError((error, stackTrace) {
+      if (error is PlatformException) return;
+      emit(AuthLoginFailure(message: "Apple 로그인은 아직 구현되지 않았습니다."));
+    });
   }
 
   Future<String?> getDeviceToken() async {
