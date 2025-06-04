@@ -15,10 +15,15 @@ import 'package:gogo_app/presentation/navigation_view/widgets/drawer/gogo_drawer
 import 'package:gogo_app/presentation/ranking/widgets/ranking_list_item.dart';
 import 'package:gogo_app/router.dart';
 import 'package:intl/intl.dart';
+import '../../../data/models/betting/request/betting_match_request.dart';
+import '../../../data/models/common/match_dto.dart';
 import '../../../design_system/theme/color.dart';
 import '../../../design_system/theme/icon.dart';
+import '../../match_list/bloc/match_list_bloc.dart';
+import '../../match_list/bloc/match_list_event.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
+import '../widgets/match_batting_status_dialog.dart';
 import '../widgets/match_card/match_card_component.dart';
 import '../widgets/minigame/minigame_play_component.dart';
 
@@ -105,9 +110,10 @@ class HomeScreen extends StatelessWidget {
                                         horizontal: 16),
                                     scrollDirection: Axis.horizontal,
                                     child: Builder(
-                                      builder: (context) {
-                                        final matches =
-                                            context.read<HomeBloc>().matches;
+                                      builder: (localContext) {
+                                        final matches = localContext
+                                            .read<HomeBloc>()
+                                            .matches;
                                         if (matches.isEmpty) {
                                           return Center(
                                             child: Padding(
@@ -161,7 +167,16 @@ class HomeScreen extends StatelessWidget {
                                                           right: 8),
                                                   child: MatchCard(
                                                     matchDto: match,
-                                                    onBattingClick: () {},
+                                                    onBattingClick: () {
+                                                      showDialogMatchBatting(
+                                                        context,
+                                                        match,
+                                                        stageId!,
+                                                          context
+                                                              .read<HomeBloc>()
+                                                              .selectedDate
+                                                      );
+                                                    },
                                                   ),
                                                 );
                                               },
@@ -370,4 +385,100 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       );
+
+  void showDialogMatchBatting(
+    BuildContext context,
+    MatchDto data,
+    int stageId,
+    DateTime date,
+  ) {
+    final matchListBloc = MatchListBloc(
+        stageId: stageId,
+        year: date.year,
+        month: date.month,
+        day: date.day);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        final textController = TextEditingController();
+        int aTeamPoint = data.ateam.bettingPoint;
+        int bTeamPoint = data.bteam.bettingPoint;
+        String? selectedTeam;
+
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return MatchBattingStatusDialog(
+              bettingController: textController,
+              startDate: data.startDate,
+              system: data.system,
+              gameType: data.category,
+              round: data.round,
+              selectedTeam: selectedTeam,
+              setSelectedTeam: (team) {
+                setState(() {
+                  selectedTeam = team;
+                });
+              },
+              teamAPoint: aTeamPoint,
+              teamBPoint: bTeamPoint,
+              teamA: data.ateam.teamName,
+              teamB: data.bteam.teamName,
+              enableBetting:
+                  !data.isEnd && data.startDate.isBefore(DateTime.now()),
+              closeDialog: () {
+                Navigator.pop(dialogContext);
+              },
+              onBattingClick: () {
+                final inputText = textController.text.trim();
+
+                if (inputText.isEmpty) {
+                  return;
+                }
+
+                final bettingPoint = int.tryParse(inputText);
+                if (bettingPoint == null || bettingPoint <= 0) {
+                  return;
+                }
+
+                if (selectedTeam == null) {
+                  return;
+                }
+
+                final predictedTeamId = (selectedTeam == data.ateam.teamName)
+                    ? data.ateam.teamId
+                    : data.bteam.teamId;
+
+                if (predictedTeamId == null) {
+                  return;
+                }
+
+                if (selectedTeam == data.ateam.teamName) {
+                  setState(() {
+                    aTeamPoint += bettingPoint;
+                  });
+                } else {
+                  setState(() {
+                    bTeamPoint += bettingPoint;
+                  });
+                }
+
+                final request = BettingMatchRequest(
+                  predictedWinTeamId: predictedTeamId,
+                  bettingPoint: bettingPoint,
+                );
+
+                matchListBloc.add(
+                  BettingMatch(
+                    matchId: data.matchId,
+                    request: request,
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
 }
