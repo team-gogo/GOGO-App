@@ -170,8 +170,7 @@ class MatchListScreen extends StatelessWidget {
               teamBPoint: bTeamPoint,
               teamA: data.ateam.teamName,
               teamB: data.bteam.teamName,
-              enableBetting:
-                  !data.isEnd && data.startDate.isBefore(DateTime.now()),
+              enableBetting: !data.isEnd && data.startDate.isBefore(DateTime.now()),
               closeDialog: () {
                 Navigator.pop(dialogContext);
               },
@@ -190,6 +189,16 @@ class MatchListScreen extends StatelessWidget {
                 final predictedTeamId = (selectedTeam == data.ateam.teamName)
                     ? data.ateam.teamId
                     : data.bteam.teamId;
+
+                if (selectedTeam == data.ateam.teamName) {
+                  setState(() {
+                    aTeamPoint += bettingPoint;
+                  });
+                } else {
+                  setState(() {
+                    bTeamPoint += bettingPoint;
+                  });
+                }
 
                 if (predictedTeamId == null) {
                   return;
