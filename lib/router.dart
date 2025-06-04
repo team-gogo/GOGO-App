@@ -216,7 +216,28 @@ class PageRouter {
                   return CupertinoPage(child: CoinTossScreen(stageId: stageId));
                 },
               ),
-              _customGoRoute(name: matchList, screen: MatchListScreen()),
+              GoRoute(
+                name: matchList,
+                path: matchList,
+                pageBuilder: (context, state) {
+                  final stageId =
+                  int.parse(state.uri.queryParameters['stageId']!);
+                  final point = int.parse(state.uri.queryParameters['point']!);
+                  final year = int.parse(state.uri.queryParameters['year']!);
+                  final month = int.parse(state.uri.queryParameters['month']!);
+                  final day = int.parse(state.uri.queryParameters['day']!);
+
+                  return CupertinoPage(
+                    child: MatchListScreen(
+                      stageId: stageId,
+                      point: point,
+                      year: year,
+                      month: month,
+                      day: day,
+                    ),
+                  );
+                },
+              ),
               GoRoute(
                 name: matchTeamInfo,
                 path: '$matchTeamInfo',

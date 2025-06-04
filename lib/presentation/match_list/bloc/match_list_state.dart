@@ -15,3 +15,10 @@ class LoadedMatchList extends MatchListState {
     required this.hasReachedMax,
   });
 }
+
+class BettingSuccess extends MatchListState {}
+
+class BettingFailure extends MatchListState {
+  final String message;
+  BettingFailure(this.message);
+}

@@ -183,28 +183,36 @@ class MatchCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 16,
                       children: [
-                        Text(
-                          "${matchDto.ateam.teamName}팀",
-                          style: GogoTypography.body1Extrabold.copyWith(
-                              color: matchDto.betting.isBetting &&
-                                      matchDto.betting.predictedWinTeamId ==
-                                          matchDto.ateam.teamId
-                                  ? GogoColors.main500
-                                  : GogoColors.white),
+                        Expanded(
+                          child: Text(
+                            "${matchDto.ateam.teamName}팀",
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            style: GogoTypography.body1Extrabold.copyWith(
+                                color: matchDto.betting.isBetting &&
+                                        matchDto.betting.predictedWinTeamId ==
+                                            matchDto.ateam.teamId
+                                    ? GogoColors.main500
+                                    : GogoColors.white),
+                          ),
                         ),
                         Text(
                           "VS",
                           style: GogoTypography.body2Extrabold
                               .copyWith(color: GogoColors.gray500),
                         ),
-                        Text(
-                          "${matchDto.bteam.teamName}팀",
-                          style: GogoTypography.body1Extrabold.copyWith(
-                            color: matchDto.betting.isBetting &&
-                                    matchDto.betting.predictedWinTeamId ==
-                                        matchDto.bteam.teamId
-                                ? GogoColors.main500
-                                : GogoColors.white,
+                        Expanded(
+                          child: Text(
+                            "${matchDto.bteam.teamName}팀",
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            style: GogoTypography.body1Extrabold.copyWith(
+                              color: matchDto.betting.isBetting &&
+                                      matchDto.betting.predictedWinTeamId ==
+                                          matchDto.bteam.teamId
+                                  ? GogoColors.main500
+                                  : GogoColors.white,
+                            ),
                           ),
                         ),
                       ],

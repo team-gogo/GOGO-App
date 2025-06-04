@@ -13,6 +13,7 @@ import 'package:gogo_app/presentation/community/screen/community_detail_screen.d
 import 'package:gogo_app/presentation/community/widgets/community_filter_popup.dart';
 import 'package:gogo_app/presentation/community/widgets/community_item.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gogo_app/presentation/loading/widgets/loading_indicator.dart';
 import 'dart:math';
 import '../../../design_system/component/tag/gogo_tag_component.dart';
 import '../../../design_system/component/top_bar/gogo_top_bar.dart';
@@ -130,23 +131,25 @@ class _CommunityMainScreenContentState
                         ),
                         const SizedBox(width: 12),
                         GestureDetector(
-                          onTap: state is CommunityLoadedState ? () async {
-                            final result = await filterDialog(
-                              context,
-                              gameType,
-                              sortType,
-                              state is CommunityLoadedState
-                                  ? state.gameTypes
-                                  : [],
-                            );
-                            if (gameType == result['gameType'] &&
-                                sortType == result['sortType']) {
-                              return;
-                            }
-                            gameType = result['gameType'];
-                            sortType = result['sortType'];
-                            _fetchCommunity();
-                          } : null,
+                          onTap: state is CommunityLoadedState
+                              ? () async {
+                                  final result = await filterDialog(
+                                    context,
+                                    gameType,
+                                    sortType,
+                                    state is CommunityLoadedState
+                                        ? state.gameTypes
+                                        : [],
+                                  );
+                                  if (gameType == result['gameType'] &&
+                                      sortType == result['sortType']) {
+                                    return;
+                                  }
+                                  gameType = result['gameType'];
+                                  sortType = result['sortType'];
+                                  _fetchCommunity();
+                                }
+                              : null,
                           child: GogoTagComponent(
                             color: GogoColors.main500,
                             text: '필터',
@@ -217,11 +220,7 @@ class _CommunityMainScreenContentState
                 builder: (context, state) {
                   if (state is CommunityLoadingState) {
                     return Expanded(
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: GogoColors.main500,
-                        ),
-                      ),
+                      child: Center(child: LoadingIndicator()),
                     );
                   } else if (state is CommunityLoadedState) {
                     final totalPage = state.response.info.totalPage;
