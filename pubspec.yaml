@@ -63,6 +63,7 @@ dependencies:
   image_picker: ^1.1.2 # 이미지 선택 라이브러리
   
   http_parser: ^4.1.2
+  sign_in_with_apple: ^7.0.1
 
 dev_dependencies:
   flutter_test:
